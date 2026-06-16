@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="app_title">Mis Vacaciones</string>
+    <!--Botones de navegación-->
+    <string name="dashboard">Inicio</string>
+    <string name="trips">Viajes</string>
+    <string name="statistics">Estadísticas</string>
+    <string name="settings">Ajustes</string>
+    <!-- Titulos de pantalla -->
+    <string name="trips_title">Mis Viajes</string>
+
+    <!--Dashboard-->
+    <string name="greetings_morning">Buenos días %1$s 👋</string>
+    <string name="greetings_afternoon">Buenas tardes %1$s 👋</string>
+    <string name="greetings_evening">Buenas tardes %1$s 👋</string>
+    <string name="greetings_night">Buenas noches %1$s 👋</string>
+    <string name="actual_trip_title">viajando actualmente</string>
+
+</resources>
