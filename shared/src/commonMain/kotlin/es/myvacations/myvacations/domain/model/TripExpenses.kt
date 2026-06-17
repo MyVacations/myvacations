@@ -6,6 +6,3 @@ data class TripExpenses(
     val icon: ExpenseIcon,
     val amount: Double
 )
-{
-
-}

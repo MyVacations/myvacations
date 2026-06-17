@@ -21,6 +21,7 @@ sqldelight = "2.3.2"
 datetime = "0.8.0-0.6.x-compat"
 uuid = "0.8.4"
 napier = "2.7.1"
+foundation = "1.11.2"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -61,6 +62,7 @@ datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "d
 uuid = { module = "com.benasher44:uuid", version.ref = "uuid" }
 #CommonLogs Nappier
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
+androidx-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

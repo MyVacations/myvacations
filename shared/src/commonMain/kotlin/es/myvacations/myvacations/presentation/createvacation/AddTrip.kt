@@ -21,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import es.myvacations.myvacations.core.navigation.SystemBackHandler
 import es.myvacations.myvacations.presentation.utils.AlertDialogIcons
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,6 +34,11 @@ fun AddTripScreen(onDismiss: () -> Unit) {
     var showPicker by remember {
         mutableStateOf(false)
     }
+
+    SystemBackHandler {
+        onDismiss()
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(

@@ -1,5 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <!-- Countries -->
+    <string name="spain">España</string>
+    <string name="france">Francia</string>
+    <string name="italy">Italia</string>
+    <string name="portugal">Portugal</string>
+    <string name="united_kingdom">Reino Unido</string>
+    <string name="germany">Alemania</string>
+    <string name="greece">Grecia</string>
+    <string name="croatia">Croacia</string>
+    <string name="netherlands">Países Bajos</string>
+    <string name="switzerland">Suiza</string>
+    <string name="austria">Austria</string>
+    <string name="iceland">Islandia</string>
+    <string name="norway">Noruega</string>
+    <string name="ireland">Irlanda</string>
+    <string name="united_states">Estados Unidos</string>
+    <string name="canada">Canadá</string>
+    <string name="mexico">México</string>
+    <string name="brazil">Brasil</string>
+    <string name="argentina">Argentina</string>
+    <string name="peru">Perú</string>
+    <string name="japan">Japón</string>
+    <string name="thailand">Tailandia</string>
+    <string name="indonesia">Indonesia</string>
+    <string name="vietnam">Vietnam</string>
+    <string name="singapore">Singapur</string>
+    <string name="south_korea">Corea del Sur</string>
+    <string name="china">China</string>
+    <string name="india">India</string>
+    <string name="maldives">Maldivas</string>
+    <string name="sri_lanka">Sri Lanka</string>
+    <string name="australia">Australia</string>
+    <string name="new_zealand">Nueva Zelanda</string>
+    <string name="egypt">Egipto</string>
+    <string name="morocco">Marruecos</string>
+    <string name="south_africa">Sudáfrica</string>
+    <string name="united_arab_emirates">Emiratos Árabes Unidos</string>
+    <string name="jordan">Jordania</string>
+    <string name="tunisia">Túnez</string>
+    <string name="kenya">Kenia</string>
+    <string name="tanzania">Tanzania</string>
+
+    <!--Title-->
     <string name="app_title">Mis Vacaciones</string>
     <!--Botones de navegación-->
     <string name="dashboard">Inicio</string>
@@ -14,6 +57,15 @@
     <string name="greetings_afternoon">Buenas tardes %1$s 👋</string>
     <string name="greetings_evening">Buenas tardes %1$s 👋</string>
     <string name="greetings_night">Buenas noches %1$s 👋</string>
+    <string name="total_trips">Viajes Totales</string>
+    <string name="total_spent">Gastado Total</string>
+    <string name="average_spent">Med. Gastado</string>
+    <string name="upcoming">Próximos Viajes</string>
+    <string name="average_saves_from_budget">Media de ahorros según presupuesto</string>
     <string name="actual_trip_title">viajando actualmente</string>
-
+    <string name="upcoming_trips">Próximos Viajes</string>
+    <string name="past_trips">Viajes Pasados</string>
+    <string name="subtitle_dashboard">%1$s · %2$dd · %3$d pas</string>
+    <string name="in_x_days">en %1$dd</string>
+    <string name="x_days_ago">hace %1$dd</string>
 </resources>

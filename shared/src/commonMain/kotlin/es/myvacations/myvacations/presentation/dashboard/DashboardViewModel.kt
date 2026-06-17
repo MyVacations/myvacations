@@ -38,26 +38,32 @@ class DashboardViewModel(
     }
 
     private suspend fun waitUntilNextPeriodChange() {
+        val zone = TimeZone.currentSystemDefault()
         val now = Clock.System.now()
-            .toLocalDateTime(TimeZone.currentSystemDefault())
+            .toLocalDateTime(zone)
 
-        val nextHour = when {
-            now.hour <= 4 -> 5
-            now.hour <= 11 -> 12
-            now.hour <= 17 -> 18
-            now.hour <= 21 -> 22
-            else -> 5 // 05:00 del día siguiente
-        }
+        val nextChange = when {
+            now.hour <= 4 ->
+                now.date.atTime(5, 0)
 
-        val nextChange = if (nextHour < 24) {
-            now.date.atTime(nextHour, 0)
-        } else {
-            now.date.plus(DatePeriod(days = 1)).atTime(5, 0)
+            now.hour <= 11 ->
+                now.date.atTime(12, 0)
+
+            now.hour <= 17 ->
+                now.date.atTime(18, 0)
+
+            now.hour <= 21 ->
+                now.date.atTime(22, 0)
+
+            else ->
+                now.date
+                    .plus(DatePeriod(days = 1))
+                    .atTime(5, 0)
         }
 
         val millis = nextChange
-            .toInstant(TimeZone.currentSystemDefault())
-            .minus(now.toInstant(TimeZone.currentSystemDefault()))
+            .toInstant(zone)
+            .minus(now.toInstant(zone))
             .inWholeMilliseconds
 
         delay(millis.milliseconds)
