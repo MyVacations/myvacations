@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.coreLibraryDesugaring
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -18,6 +19,7 @@ dependencies {
     implementation(libs.compose.uiToolingPreview)
     implementation(libs.compose.navigation)
     debugImplementation(libs.compose.uiTooling)
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
 
 android {
@@ -29,6 +31,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+        multiDexEnabled = true
     }
     packaging {
         resources {
@@ -51,5 +54,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
+        isCoreLibraryDesugaringEnabled = true
     }
 }

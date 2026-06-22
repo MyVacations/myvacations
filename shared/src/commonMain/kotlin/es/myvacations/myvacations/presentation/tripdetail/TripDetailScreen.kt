@@ -36,7 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import es.myvacations.myvacations.core.navigation.SystemBackHandler
 import es.myvacations.myvacations.core.utils.DateFormatter
-import es.myvacations.myvacations.domain.model.Trip
+import es.myvacations.myvacations.domain.model.TripDomain
 import es.myvacations.myvacations.presentation.utils.DefaultTrip
 import es.myvacations.myvacations.presentation.utils.StatusChip
 import es.myvacations.myvacations.presentation.utils.painter
@@ -66,7 +66,7 @@ fun TripDetailScreen(onDismiss: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun TripHeader(
-    trip: Trip = DefaultTrip.tripActual,
+    trip: TripDomain = DefaultTrip.tripActual,
     onBackClick: () -> Unit = {},
     onEditClick: () -> Unit = {},
     onDeleteClick: () -> Unit = {}

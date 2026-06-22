@@ -34,7 +34,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -43,13 +42,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import es.myvacations.myvacations.core.utils.DateFormatter
-import es.myvacations.myvacations.domain.model.Greetings
 import es.myvacations.myvacations.domain.model.TripStatus
 import es.myvacations.myvacations.presentation.utils.DefaultDashboardTrip
-import es.myvacations.myvacations.presentation.utils.DefaultTrip
 import es.myvacations.myvacations.presentation.utils.StatusChip
 import es.myvacations.myvacations.presentation.utils.painter
 import myvacations.shared.generated.resources.Res
+import myvacations.shared.generated.resources.actual_trip_addone
 import myvacations.shared.generated.resources.app_title
 import myvacations.shared.generated.resources.average_saves_from_budget
 import myvacations.shared.generated.resources.average_spent
@@ -64,6 +62,20 @@ import myvacations.shared.generated.resources.upcoming
 import myvacations.shared.generated.resources.upcoming_trips
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+
+@Composable
+fun DashboardScreen(
+    viewModel: DashboardViewModel = koinViewModel(),
+    onEditTripClick: (tripId: String) -> Unit,
+    onStatisticsClick: () -> Unit
+) {
+    val uiState by viewModel.uiState.collectAsState()
+    LifecycleResumeEffect(Unit) {
+        viewModel.refreshGreetings()
+        onPauseOrDispose { }
+    }
+    DashboardContent(uiState, onEditTripClick, onStatisticsClick)
+}
 
 @Preview(showBackground = true)
 @Composable
@@ -132,7 +144,10 @@ fun DashboardHeader(uiState: DashboardUiState) {
 
 @Preview(showBackground = true)
 @Composable
-private fun DashboardStatSection(onStatisticsClick: () -> Unit = {}) {
+private fun DashboardStatSection(
+    uiState: DashboardUiState = DashboardUiState(),
+    onStatisticsClick: () -> Unit = {}
+) {
     Spacer(modifier = Modifier.height(16.dp))
     Column(
         verticalArrangement = Arrangement.spacedBy(6.dp)
@@ -144,7 +159,7 @@ private fun DashboardStatSection(onStatisticsClick: () -> Unit = {}) {
             StatCard(
                 onStatisticsClick = onStatisticsClick,
                 modifier = Modifier.weight(1f),
-                value = 1.toString(),//stats.totalTrips.toString(),
+                value = uiState.stats.totalTrips.toString(),
                 label = stringResource(Res.string.total_trips),
                 icon = Icons.AutoMirrored.Filled.DirectionsWalk,
                 color = Color(0xFF2B80FF),
@@ -152,8 +167,8 @@ private fun DashboardStatSection(onStatisticsClick: () -> Unit = {}) {
 
             StatCard(
                 onStatisticsClick = onStatisticsClick,
-                modifier = Modifier.weight(1f),//stats.totalTrips.toString(),
-                value = 1.toString(),
+                modifier = Modifier.weight(1f),
+                value = uiState.stats.totalSpent.toString(),
                 label = stringResource(Res.string.total_spent),
                 icon = Icons.Default.Wallet,
                 color = Color(0xFFFF6060),
@@ -165,16 +180,16 @@ private fun DashboardStatSection(onStatisticsClick: () -> Unit = {}) {
         ) {
             StatCard(
                 onStatisticsClick = onStatisticsClick,
-                modifier = Modifier.weight(1f),//stats.totalTrips.toString(),
-                value = 1.toString(),
+                modifier = Modifier.weight(1f),
+                value = uiState.stats.averageTripCost.toString(),
                 label = stringResource(Res.string.average_spent),
                 icon = Icons.AutoMirrored.Filled.TrendingUp,
                 color = Color(0xFFFFBE42),
             )
             StatCard(
                 onStatisticsClick,
-                modifier = Modifier.weight(1f),//value = stats.totalTrips.toString(),
-                1.toString(),
+                modifier = Modifier.weight(1f),
+                uiState.stats.upcomingTrips.toString(),
                 label = stringResource(Res.string.upcoming),
                 icon = Icons.Default.CalendarToday,
                 color = Color(0xFF9C42FF),
@@ -184,8 +199,8 @@ private fun DashboardStatSection(onStatisticsClick: () -> Unit = {}) {
         StatCard(
             onStatisticsClick = onStatisticsClick,
             modifier = Modifier.fillMaxWidth()
-                .height(120.dp),//stats.averageSavesFromBudget.toString(),
-            value = 1.toString(),
+                .height(120.dp),
+            value = uiState.stats.averageSavesFromBudget.toString(),
             label = stringResource(Res.string.average_saves_from_budget),
             icon = Icons.Default.AttachMoney,
             color = Color(0xFF4CAF50),
@@ -217,7 +232,10 @@ private fun StatCard(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             if (averageBudgetCard) {
-                Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Box(
                         modifier = Modifier
                             .size(48.dp)
@@ -273,35 +291,22 @@ private fun StatCard(
     }
 }
 
-@Composable
-fun DashboardScreen(
-    viewModel: DashboardViewModel = koinViewModel(),
-    onEditTripClick: (tripId: String) -> Unit,
-    onStatisticsClick: () -> Unit
-) {
-    val uiState by viewModel.uiState.collectAsState()
-    LifecycleResumeEffect(Unit) {
-        viewModel.refreshGreetings()
-        onPauseOrDispose { }
-    }
-    DashboardContent(uiState, onEditTripClick, onStatisticsClick)
-}
-
+@Preview(showBackground = true)
 @Composable
 fun DashboardContent(
-    uiState: DashboardUiState,
-    onEditTripClick: (tripId: String) -> Unit,
-    onStatisticsClick: () -> Unit
+    uiState: DashboardUiState = DashboardUiState(),
+    onEditTripClick: (tripId: String) -> Unit = {},
+    onStatisticsClick: () -> Unit = {}
 ) {
     LazyColumn(modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp, vertical = 16.dp)) {
         item {
             DashboardHeader(uiState)
         }
         item {
-            ActualTripCard(onEditTripClick)
+            ActualTripCard(uiState, onEditTripClick)
         }
         item {
-            DashboardStatSection(onStatisticsClick)
+            DashboardStatSection(uiState, onStatisticsClick)
         }
         item {
             if (uiState.upcomingTrips.isNotEmpty()) {
@@ -341,63 +346,82 @@ fun DashboardContent(
 
 @Preview(showBackground = true)
 @Composable
-fun ActualTripCard(onEditTripClick: (tripId: String) -> Unit = {}) {
-    val trip = DefaultTrip.tripActual
-    //TODO usar el id del trip
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(180.dp)
-            .clip(RoundedCornerShape(24.dp))
-            .clickable(onClick = {
-                onEditTripClick(trip.id)
-            })
-    ) {
-        Image(
-            painter = trip.cover.painter(),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
+fun ActualTripCard(
+    uiState: DashboardUiState = DashboardUiState(),
 
+    onEditTripClick: (tripId: String) -> Unit = {}
+) {
+    val trip = uiState.currentTrip
+    if (uiState.currentTrip != null) {
+        //TODO usar el id del trip
         Box(
             modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(
-                            Color.Transparent,
-                            Color.Black.copy(alpha = 0.65f)
-                        )
-                    )
-                )
-        )
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    bottom = 24.dp
-                )
+                .fillMaxWidth()
+                .height(180.dp)
+                .clip(RoundedCornerShape(24.dp))
+                .clickable(onClick = {
+                    onEditTripClick(trip.id)
+                })
         ) {
-            StatusChip(trip.tripStatus, trip.tripStatus == TripStatus.ACTIVE)
-            Spacer(Modifier.height(8.dp))
-            Text(
-                text = trip.title,
-                color = Color.White,
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold
+            Image(
+                painter = trip.cover.painter(),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
             )
-            Text(
-                text = "${
-                    DateFormatter.formatTripDate(trip.startDate)
-                } - ${
-                    DateFormatter.formatTripDate(trip.endDate)
-                }",
-                color = Color.White.copy(alpha = 0.9f),
-                style = MaterialTheme.typography.bodyMedium
-            )
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        bottom = 24.dp
+                    )
+            ) {
+                StatusChip(trip.tripStatus)
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    text = trip.title,
+                    color = Color.White,
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "${
+                        DateFormatter.formatTripDate(trip.startDate)
+                    } - ${
+                        DateFormatter.formatTripDate(trip.endDate)
+                    }",
+                    color = Color.White.copy(alpha = 0.9f),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        }
+    } else {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(180.dp)
+                .clip(RoundedCornerShape(24.dp))
+        ) {
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        bottom = 24.dp
+                    )
+            ) {
+                StatusChip(TripStatus.NONE)
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    text = stringResource(Res.string.actual_trip_addone),
+                    color = Color.White,
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
 }

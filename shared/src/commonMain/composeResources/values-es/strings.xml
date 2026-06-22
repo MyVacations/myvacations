@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <!--DaysOfWeek-->
+    <string name="monday">Lu</string>
+    <string name="tuesday">Ma</string>
+    <string name="wednesday">Mi</string>
+    <string name="thursday">Ju</string>
+    <string name="friday">Vi</string>
+    <string name="saturday">Sa</string>
+    <string name="sunday">Do</string>
     <!-- Countries -->
     <string name="spain">España</string>
     <string name="france">Francia</string>
@@ -51,7 +59,8 @@
     <string name="settings">Ajustes</string>
     <!-- Titulos de pantalla -->
     <string name="trips_title">Mis Viajes</string>
-
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
     <!--Dashboard-->
     <string name="greetings_morning">Buenos días %1$s 👋</string>
     <string name="greetings_afternoon">Buenas tardes %1$s 👋</string>
@@ -63,9 +72,56 @@
     <string name="upcoming">Próximos Viajes</string>
     <string name="average_saves_from_budget">Media de ahorros según presupuesto</string>
     <string name="actual_trip_title">viajando actualmente</string>
+    <string name="actual_trip_past">viaje pasado</string>
+    <string name="actual_trip_predict">viaje previsto</string>
+    <string name="actual_trip_noone">sin viajes aún</string>
+    <string name="actual_trip_addone">Agrega un viaje para empezar</string>
     <string name="upcoming_trips">Próximos Viajes</string>
     <string name="past_trips">Viajes Pasados</string>
     <string name="subtitle_dashboard">%1$s · %2$dd · %3$d pas</string>
     <string name="in_x_days">en %1$dd</string>
     <string name="x_days_ago">hace %1$dd</string>
+
+    <!--NewTrip-->
+    <string name="new_trip_clear_formulary">¿Limpiar formulario?</string>
+    <string name="new_trip_complete_formulary">Completa el formulario para crear un nuevo viaje</string>
+    <string name="new_trip_title">Nuevo viaje</string>
+    <string name="new_trip_clear">Borrar</string>
+    <string name="new_trip_error">Error</string>
+    <string name="new_trip_save_trip">Guardar</string>
+    <string name="new_trip_destination">DESTINO</string>
+    <string name="new_trip_dates">FECHAS</string>
+    <string name="new_trip_D_G">DURACIÓN Y GRUPO</string>
+    <string name="new_trip_cost_budget">PRESUPUESTO Y COSTE</string>
+    <string name="new_trip_optional_expenses">COSTES OPCIONALES</string>
+    <string name="new_trip_trip_title">Titulo del viaje</string>
+    <string name="new_trip_trip_title_example">e.g. Viaje a España</string>
+    <string name="new_trip_trip_country">País</string>
+    <string name="new_trip_trip_cover">País</string>
+    <string name="new_trip_start_date">Fecha de inicio</string>
+    <string name="new_trip_end_date">Fecha de fin</string>
+    <string name="new_trip_duration">Duración</string>
+    <string name="new_trip_travelers">Viajeros</string>
+    <string name="new_trip_traveling_days">Dias viajando</string>
+    <string name="new_trip_cost">Precio de viaje</string>
+    <string name="new_trip_budget">Presupuesto (%1$s)</string>
+    <string name="new_trip_optional_expenses_example">Vuelos</string>
+    <string name="new_trip_optional_expenses_none">Ningún coste opcional</string>
+    <string name="new_trip_estimated_total">Total Estimado</string>
+    <string name="new_trip_notes">NOTAS</string>
+    <string name="new_trip_days">dias</string>
+    <string name="new_trip_add_expense">+ Añadir coste</string>
+    <string name="new_trip_flight">Vuelo</string>
+    <string name="new_trip_expense">Gasto</string>
+    <string name="new_trip_optional_delete">Borrar</string>
+    <string name="new_trip_optional_name">Nombre</string>
+    <string name="new_trip_optional_icon">Icono</string>
+    <string name="new_trip_optional_amount">Cantidad (%1$s)</string>
+    <string name="new_trip_optional_name_error">Se requiere un nombre</string>
+    <string name="new_trip_optional_value_error">Se requiere un valor</string>
+    <string name="new_trip_title_require">Se requiere un titulo</string>
+    <string name="new_trip_start_date_require">Se requiere una fecha de inicio</string>
+    <string name="new_trip_end_date_require">Se requiere una fecha de fin</string>
+    <string name="new_trip_cost_require">Se requiere un coste</string>
+    <string name="new_trip_cover_dialog_title">Selecciona una portada</string>
 </resources>

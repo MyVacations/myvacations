@@ -1,9 +1,7 @@
 package es.myvacations.myvacations.presentation.trips
 
 import androidx.lifecycle.ViewModel
-import es.myvacations.myvacations.domain.model.Trip
-import es.myvacations.myvacations.domain.model.TripsFilterStatus
-import es.myvacations.myvacations.domain.model.TripsUiState
+import es.myvacations.myvacations.domain.model.TripDomain
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -13,7 +11,7 @@ class TripViewModel : ViewModel() {
     )
     val filter: StateFlow<TripsUiState> = _filterTrip
 
-    fun addTrip(trip: Trip) {
+    fun addTrip(trip: TripDomain) {
 
     }
 

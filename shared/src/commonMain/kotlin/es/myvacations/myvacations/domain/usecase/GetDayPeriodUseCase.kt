@@ -1,6 +1,6 @@
 package es.myvacations.myvacations.domain.usecase
 
-import es.myvacations.myvacations.domain.model.Greetings
+import es.myvacations.myvacations.presentation.dashboard.Greetings
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock

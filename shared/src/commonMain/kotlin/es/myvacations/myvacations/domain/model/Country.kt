@@ -1,4 +1,4 @@
-package es.myvacations.myvacations.presentation.utils
+package es.myvacations.myvacations.domain.model
 
 import androidx.compose.runtime.Composable
 import myvacations.shared.generated.resources.Res

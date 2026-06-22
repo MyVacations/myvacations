@@ -1,10 +1,13 @@
-package es.myvacations.myvacations.domain.model
+package es.myvacations.myvacations.presentation.trips
+
+import es.myvacations.myvacations.domain.model.TripDomain
+import es.myvacations.myvacations.domain.model.TripStatus
 
 data class TripsUiState(
-    val trips: List<Trip> = emptyList(),
+    val trips: List<TripDomain> = emptyList(),
     val filter: TripsFilterStatus = TripsFilterStatus()
 ) {
-    fun getFilteredTrips(): List<Trip> =
+    fun getFilteredTrips(): List<TripDomain> =
         when (filter.status) {
 
             TripStatus.PLANNED ->

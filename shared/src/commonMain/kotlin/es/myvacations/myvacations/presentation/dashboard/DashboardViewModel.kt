@@ -2,7 +2,10 @@ package es.myvacations.myvacations.presentation.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import es.myvacations.myvacations.domain.model.TripStatus
 import es.myvacations.myvacations.domain.usecase.GetDayPeriodUseCase
+import es.myvacations.myvacations.domain.usecase.tripusecase.GetTripsUseCase
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +22,8 @@ import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
 
 class DashboardViewModel(
-    private val getDayPeriod: GetDayPeriodUseCase
+    private val getDayPeriod: GetDayPeriodUseCase,
+    private val getTripsUseCase: GetTripsUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(
@@ -35,6 +39,8 @@ class DashboardViewModel(
                 refreshGreetings()
             }
         }
+
+        getTotalTrips()
     }
 
     private suspend fun waitUntilNextPeriodChange() {
@@ -76,5 +82,44 @@ class DashboardViewModel(
                 userName = "Jesus" // El nombre tambien por si se cambia de ajustes
             )
         }
+    }
+
+    fun getTotalTrips() {
+        viewModelScope.launch {
+            val trips = getTripsUseCase.invoke()
+            _uiState.update {
+                it.copy(
+                    upcomingTrips = trips.filter { tripDomain ->
+                        tripDomain.tripStatus == TripStatus.PLANNED
+                    },
+                    pastTrips = trips.filter { tripDomain ->
+                        tripDomain.tripStatus == TripStatus.COMPLETE
+                    },
+                    stats = it.stats.copy(
+                        totalTrips = trips.size,
+                        totalSpent = trips.sumOf { trip -> trip.totalCost },
+                        averageTripCost = trips.map { trip -> trip.totalCost }
+                            .average().takeIf { trip -> !trip.isNaN() }
+                            ?: 0.0,
+                        upcomingTrips = trips.filter { tripDomain ->
+                            tripDomain.tripStatus == TripStatus.PLANNED
+                        }.size,
+                        averageSavesFromBudget = trips.map { trip ->
+                            trip.remainingBudget
+                        }.average().takeIf { trip -> !trip.isNaN() }
+                            ?: 0.0
+                    )
+                )
+            }
+
+            Napier.d(tag = "DashboardViewModel", message = "Total Trips: ${_uiState.value.stats.totalTrips}" +
+                    "Total Spent: ${_uiState.value.stats.totalSpent}" +
+                    "Average: ${_uiState.value.stats.averageTripCost}" +
+                    "Upcoming: ${_uiState.value.stats.upcomingTrips}" +
+                    "Average Saves: ${_uiState.value.stats.averageSavesFromBudget}" +
+                    "Upcoming Trips: ${_uiState.value.upcomingTrips.size}" +
+                    "Past Trips: ${_uiState.value.pastTrips.size}")
+        }
+
     }
 }

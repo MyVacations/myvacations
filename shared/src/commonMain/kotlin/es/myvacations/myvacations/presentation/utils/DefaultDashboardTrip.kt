@@ -17,13 +17,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import es.myvacations.myvacations.domain.model.Trip
+import es.myvacations.myvacations.domain.model.TripDomain
 import es.myvacations.myvacations.domain.model.TripStatus
+import es.myvacations.myvacations.domain.model.displayName
+import es.myvacations.myvacations.domain.model.flag
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.in_x_days
 import myvacations.shared.generated.resources.subtitle_dashboard
@@ -33,7 +34,7 @@ import org.jetbrains.compose.resources.stringResource
 @Preview(showBackground = true)
 @Composable
 fun DefaultDashboardTrip(
-    trip: Trip = DefaultTrip.tripActual,
+    trip: TripDomain = DefaultTrip.tripActual,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {

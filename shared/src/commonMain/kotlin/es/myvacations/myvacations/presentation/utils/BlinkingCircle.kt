@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 
 @Preview(showBackground = true)
 @Composable
-fun BlinkingCircle() {
+fun BlinkingCircle(color: Color = Color(0xFF00E676)) {
     val infiniteTransition = rememberInfiniteTransition()
     val alpha by infiniteTransition.animateFloat(
         initialValue = 0.3f,
@@ -39,7 +39,7 @@ fun BlinkingCircle() {
             .size(8.dp)
             .alpha(alpha)
             .background(
-                color = Color(0xFF00E676),
+                color = color,
                 shape = CircleShape
             )
     )

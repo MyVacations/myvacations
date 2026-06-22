@@ -1,0 +1,93 @@
+CREATE TABLE TripData (
+    id TEXT NOT NULL PRIMARY KEY,
+    title TEXT NOT NULL,
+    place TEXT NOT NULL,
+    startDate TEXT NOT NULL,
+    endDate TEXT NOT NULL,
+    travelers INTEGER NOT NULL,
+    daysTraveling INTEGER NOT NULL,
+    mainCost REAL NOT NULL,
+    mainBudget REAL NOT NULL,
+    cover TEXT NOT NULL
+);
+
+CREATE TABLE TripExpenseData (
+    id TEXT NOT NULL PRIMARY KEY,
+    tripId TEXT NOT NULL,
+    nameExpense TEXT NOT NULL,
+    icon TEXT NOT NULL,
+    amount REAL NOT NULL,
+    FOREIGN KEY (tripId)
+    REFERENCES TripData(id)
+    ON DELETE CASCADE
+);
+
+CREATE INDEX expense_tripId_idx ON TripExpenseData(tripId);
+
+selectAll:
+SELECT * FROM TripData;
+
+selectById:
+SELECT * FROM TripData
+WHERE id = ?;
+
+selectExpenseByTripId:
+SELECT * FROM TripExpenseData
+WHERE tripId = ?;
+
+insertTrip:
+INSERT INTO TripData(
+    id,
+    title,
+    place,
+    startDate,
+    endDate,
+    travelers,
+    daysTraveling,
+    mainCost,
+    mainBudget,
+    cover
+)
+
+VALUES (?,?,?,?,?,?,?,?,?,?);
+
+insertExpense:
+INSERT INTO TripExpenseData(
+    id,
+    tripId,
+    nameExpense,
+    icon,
+    amount
+)
+
+VALUES (?,?,?,?,?);
+
+updateTrip:
+UPDATE TripData
+SET
+    title = ?,
+    place = ?,
+    startDate = ?,
+    endDate = ?,
+    travelers = ?,
+    daysTraveling = ?,
+    mainCost = ?,
+    mainBudget = ?,
+    cover = ?
+WHERE id = ?;
+
+updateExpense:
+UPDATE TripExpenseData
+SET
+   nameExpense = ?,
+   icon = ?,
+   amount = ?
+WHERE id = ? AND tripId = ?;
+
+deleteTrip:
+DELETE FROM TripData
+WHERE id = ?;
+
+deleteExpense:
+DELETE FROM TripExpenseData
+WHERE id = ? AND tripId = ?;

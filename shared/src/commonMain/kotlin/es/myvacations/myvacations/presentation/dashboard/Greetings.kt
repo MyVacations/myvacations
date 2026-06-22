@@ -1,4 +1,4 @@
-package es.myvacations.myvacations.domain.model
+package es.myvacations.myvacations.presentation.dashboard
 
 enum class Greetings {
     MORNING,

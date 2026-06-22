@@ -18,7 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import es.myvacations.myvacations.presentation.createvacation.AddTripScreen
+import androidx.compose.ui.tooling.preview.Preview
+import es.myvacations.myvacations.presentation.createtrip.AddTripScreen
 import es.myvacations.myvacations.presentation.dashboard.DashboardScreen
 import es.myvacations.myvacations.presentation.settings.SettingsScreen
 import es.myvacations.myvacations.presentation.statistics.StatisticsScreen
@@ -31,75 +32,32 @@ import myvacations.shared.generated.resources.statistics
 import myvacations.shared.generated.resources.trips
 import org.jetbrains.compose.resources.stringResource
 
+@Preview(showBackground = true)
 @Composable
 fun NavigationRoot() {
     val navigationState = remember {
         NavigationState()
     }
+
     with(navigationState) {
         Scaffold(
             bottomBar = {
-                NavigationBar {
-                    NavigationBarItem(
-                        selected = currentScreen == ScreenDestination.Dashboard,
-                        onClick = {
-                            navigateBottomBar(ScreenDestination.Dashboard)
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = Icons.Default.Dashboard,
-                                contentDescription = null
-                            )
-                        },
-                        label = { Text(stringResource(Res.string.dashboard)) }
-                    )
-                    NavigationBarItem(
-                        selected = currentScreen == ScreenDestination.Trips,
-                        onClick = {
-                            navigateBottomBar(ScreenDestination.Trips)
-                        },
-                        icon = { Icon(imageVector = Icons.Default.Map, contentDescription = null) },
-                        label = { Text(stringResource(Res.string.trips)) }
-                    )
-                    NavigationBarItem(
-                        selected = currentScreen == ScreenDestination.Statistics,
-                        onClick = {
-                            navigateBottomBar(ScreenDestination.Statistics)
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = Icons.Default.Analytics,
-                                contentDescription = null
-                            )
-                        },
-                        label = { Text(stringResource(Res.string.statistics)) }
-                    )
-                    NavigationBarItem(
-                        selected = currentScreen == ScreenDestination.Settings,
-                        onClick = {
-                            navigateBottomBar(ScreenDestination.Settings)
-                        },
-                        icon = {
-                            Icon(
-                                imageVector = Icons.Default.Settings,
-                                contentDescription = null
-                            )
-                        },
-                        label = { Text(stringResource(Res.string.settings)) }
-                    )
-                }
+                if (navigationState.currentScreen.showNav) BottomBarUi(this)
+
             },
             floatingActionButton = {
-                FloatingActionButton(
-                    containerColor = Color(0xFF00A884),
-                    onClick = {
-                        navigate(ScreenDestination.TripAdd)
+                if (navigationState.currentScreen.showNav) {
+                    FloatingActionButton(
+                        containerColor = Color(0xFF00A884),
+                        onClick = {
+                            navigate(ScreenDestination.AddTrip)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Add Trip"
+                        )
                     }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = "Add Trip"
-                    )
                 }
             }
         ) { paddingValues ->
@@ -121,7 +79,7 @@ fun NavigationRoot() {
 
                     ScreenDestination.Statistics -> StatisticsScreen()
                     ScreenDestination.Settings -> SettingsScreen()
-                    ScreenDestination.TripAdd -> AddTripScreen(onDismiss = {
+                    ScreenDestination.AddTrip -> AddTripScreen(onDismiss = {
                         popBackStack()
                     })
 
@@ -132,6 +90,62 @@ fun NavigationRoot() {
             }
         }
 
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun BottomBarUi(state: NavigationState = NavigationState()) {
+    with(state) {
+        NavigationBar {
+            NavigationBarItem(
+                selected = currentScreen == ScreenDestination.Dashboard,
+                onClick = {
+                    navigateBottomBar(ScreenDestination.Dashboard)
+                },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Dashboard,
+                        contentDescription = null
+                    )
+                },
+                label = { Text(stringResource(Res.string.dashboard)) }
+            )
+            NavigationBarItem(
+                selected = currentScreen == ScreenDestination.Trips,
+                onClick = {
+                    navigateBottomBar(ScreenDestination.Trips)
+                },
+                icon = { Icon(imageVector = Icons.Default.Map, contentDescription = null) },
+                label = { Text(stringResource(Res.string.trips)) }
+            )
+            NavigationBarItem(
+                selected = currentScreen == ScreenDestination.Statistics,
+                onClick = {
+                    navigateBottomBar(ScreenDestination.Statistics)
+                },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Analytics,
+                        contentDescription = null
+                    )
+                },
+                label = { Text(stringResource(Res.string.statistics)) }
+            )
+            NavigationBarItem(
+                selected = currentScreen == ScreenDestination.Settings,
+                onClick = {
+                    navigateBottomBar(ScreenDestination.Settings)
+                },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = null
+                    )
+                },
+                label = { Text(stringResource(Res.string.settings)) }
+            )
+        }
     }
 }
 

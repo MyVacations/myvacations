@@ -1,24 +1,22 @@
 package es.myvacations.myvacations.domain.model
 
-import es.myvacations.myvacations.presentation.utils.Country
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.daysUntil
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 
-data class Trip(
+data class TripDomain(
     val id: String,
     val title: String,
     val place: Country,
-    val tripStatus: TripStatus,
     val startDate: LocalDate,
     val endDate: LocalDate,
     val travelers: Int,
+    val daysTraveling: Int,
     val mainCost: Double,
     val mainBudget: Double,
-    val optionalExpenses: List<TripExpenses>,
-    val notes: String? = null,
+    val optionalExpenses: List<TripExpensesDomain>,
     val cover: TripCover
 ) {
     val today = Clock.System.now()
@@ -48,4 +46,11 @@ data class Trip(
 
     val totalDays: Int
         get() = startDate.daysUntil(endDate)
+
+    val tripStatus: TripStatus
+        get() = when {
+            today < startDate -> TripStatus.PLANNED
+            today > endDate -> TripStatus.COMPLETE
+            else -> TripStatus.ACTIVE
+        }
 }
