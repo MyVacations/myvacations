@@ -1,4 +1,4 @@
-package es.myvacations.myvacations.presentation.trips
+package es.myvacations.myvacations.domain.model
 
 enum class TripStatus {
     PLANNED,
