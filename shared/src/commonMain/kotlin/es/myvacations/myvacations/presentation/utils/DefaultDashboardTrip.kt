@@ -21,10 +21,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import es.myvacations.myvacations.domain.model.TripDomain
 import es.myvacations.myvacations.domain.model.TripStatus
 import es.myvacations.myvacations.domain.model.displayName
 import es.myvacations.myvacations.domain.model.flag
+import es.myvacations.myvacations.presentation.createtrip.TripUiState
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.in_x_days
 import myvacations.shared.generated.resources.subtitle_dashboard
@@ -34,7 +34,7 @@ import org.jetbrains.compose.resources.stringResource
 @Preview(showBackground = true)
 @Composable
 fun DefaultDashboardTrip(
-    trip: TripDomain = DefaultTrip.tripActual,
+    trip: TripUiState = TripUiState(),
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
@@ -71,7 +71,7 @@ fun DefaultDashboardTrip(
                 ) {
 
                     Text(
-                        text = trip.place.flag,
+                        text = trip.placeTrip.flag,
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold
                     )
@@ -79,14 +79,15 @@ fun DefaultDashboardTrip(
                     Spacer(modifier = Modifier.width(6.dp))
 
                     Text(
-                        text = trip.title,
+                        text = trip.titleTrip,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
                 }
                 Text(
-                    text = stringResource(Res.string.subtitle_dashboard,
-                        trip.place.displayName(),
+                    text = stringResource(
+                        Res.string.subtitle_dashboard,
+                        trip.placeTrip.displayName(),
                         trip.totalDays,
                         trip.travelers
                     ),
@@ -98,27 +99,28 @@ fun DefaultDashboardTrip(
             Column(
                 horizontalAlignment = Alignment.End
             ) {
-                //TODO agregar moneda a futuro
+
                 Text(
                     text = "${trip.totalCost}${"€"}",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
                 )
-                if(trip.tripStatus == TripStatus.PLANNED)
-                {
+                if (trip.tripStatus == TripStatus.PLANNED) {
                     Text(
-                        text = stringResource(Res.string.in_x_days,
-                            trip.remainingDays),
+                        text = stringResource(
+                            Res.string.in_x_days,
+                            trip.remainingDays
+                        ),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                }
-                else
-                {
+                } else {
                     Text(
-                        text = stringResource(Res.string.x_days_ago,
-                            trip.daysPassed),
+                        text = stringResource(
+                            Res.string.x_days_ago,
+                            trip.daysPassed
+                        ),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

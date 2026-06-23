@@ -62,6 +62,7 @@
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
     <!--Dashboard-->
+    <string name="guest_user">Guest</string>
     <string name="greetings_morning">Good morning %1$s 👋</string>
     <string name="greetings_afternoon">Good afternoon %1$s 👋</string>
     <string name="greetings_evening">Good evening %1$s 👋</string>
@@ -75,7 +76,7 @@
     <string name="actual_trip_past">past trip</string>
     <string name="actual_trip_predict">upcoming trip</string>
     <string name="actual_trip_noone">no trips yet</string>
-    <string name="actual_trip_addone">Add a trip to start</string>
+    <string name="actual_trip_addone">Write your own adventure 😉</string>
     <string name="upcoming_trips">Upcoming Trips</string>
     <string name="past_trips">Past Trips</string>
     <string name="subtitle_dashboard">%1$s · %1$dd · %2$d pax</string>
@@ -85,7 +86,8 @@
     <!--NewTrip-->
     <string name="new_trip_clear_formulary">Clear Formulary?</string>
     <string name="new_trip_complete_formulary">Complete the form to create a new trip</string>
-    <string name="new_trip_title">New Trip</string>
+    <string name="new_trip_title">New trip</string>
+    <string name="edt_trip">Edit trip</string>
     <string name="new_trip_save_trip">Save</string>
     <string name="new_trip_clear">Clear</string>
     <string name="new_trip_error">Error</string>
@@ -124,4 +126,11 @@
     <string name="new_trip_end_date_require">End date is required</string>
     <string name="new_trip_cost_require">Cost is required</string>
     <string name="new_trip_cover_dialog_title">Select a cover</string>
+
+    <!--TripDetail-->
+    <string name="trip_detail_active">Active</string>
+    <string name="trip_detail_upcoming">Upcoming</string>
+    <string name="trip_detail_past">Past</string>
+    <string name="trip_detail_delete">¿Delete trip?</string>
+    <string name="trip_detail_delete_details">This trip will be deleted with all its data</string>
 </resources>

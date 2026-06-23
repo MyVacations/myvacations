@@ -19,7 +19,7 @@ sealed interface ScreenDestination {
         override val showNav = true
     }
 
-    data object AddTrip : ScreenDestination {
+    data class AddEdit(val tripId: String = "") : ScreenDestination {
         override val showNav = false
     }
 

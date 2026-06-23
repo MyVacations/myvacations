@@ -5,20 +5,32 @@ import es.myvacations.myvacations.domain.mapper.toDomainModel
 import es.myvacations.myvacations.domain.model.TripDomain
 import es.myvacations.myvacations.domain.repository.TripRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlin.collections.map
 
 class TripsRepositoryImpl(
     private val localDataSource: TripLocalDataSource
 ) : TripRepository {
-    override suspend fun getTrips(): Flow<List<TripDomain>> = localDataSource.getAllTrips()
-            
+    override fun getTrips(): Flow<List<TripDomain>> {
+        return localDataSource.getAllTrips().map { entities ->
+            entities.map { entity ->
+                entity.toDomainModel().copy(
+                    optionalExpenses = localDataSource.getExpensesByTripId(entity.id)
+                        .map { expense ->
+                            expense.toDomainModel()
+                        }
+                )
+            }
+        }
+    }
 
-
-    override suspend fun getSpecificTrip(id: String): Flow<TripDomain>? {
-        return localDataSource.getById(id)?.let { entity ->
-            entity.toDomainModel().copy(
-                optionalExpenses = localDataSource
-                    .getExpensesByTripId(entity.id)
-                    .map { it.toDomainModel() },
+    override fun getSpecificTrip(id: String): Flow<TripDomain?> {
+        return localDataSource.getById(id).map { entity ->
+            entity?.toDomainModel()?.copy(
+                optionalExpenses = localDataSource.getExpensesByTripId(entity.id)
+                    .map { expense ->
+                        expense.toDomainModel()
+                    }
             )
         }
     }

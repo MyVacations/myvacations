@@ -2,10 +2,18 @@ package es.myvacations.myvacations.presentation.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import es.myvacations.myvacations.core.extensions.roundTo2Decimals
+import es.myvacations.myvacations.core.extensions.transformInInitials
+import es.myvacations.myvacations.domain.mapper.calculateStatus
 import es.myvacations.myvacations.domain.model.TripStatus
 import es.myvacations.myvacations.domain.usecase.GetDayPeriodUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.GetTripsUseCase
-import io.github.aakira.napier.Napier
+import es.myvacations.myvacations.domain.usecase.userusecase.GetUserUseCase
+import es.myvacations.myvacations.presentation.mapper.toUiCurrentTripState
+import es.myvacations.myvacations.presentation.mapper.toUiPastTripState
+import es.myvacations.myvacations.presentation.mapper.toUiState
+import es.myvacations.myvacations.presentation.mapper.toUiStatsState
+import es.myvacations.myvacations.presentation.mapper.toUiUpcomingTripState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +31,8 @@ import kotlin.time.Duration.Companion.milliseconds
 
 class DashboardViewModel(
     private val getDayPeriod: GetDayPeriodUseCase,
-    private val getTripsUseCase: GetTripsUseCase
+    private val getTripsUseCase: GetTripsUseCase,
+    private val getUserUseCase: GetUserUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(
@@ -40,7 +49,7 @@ class DashboardViewModel(
             }
         }
 
-        getTotalTrips()
+        observeTrips()
     }
 
     private suspend fun waitUntilNextPeriodChange() {
@@ -76,50 +85,32 @@ class DashboardViewModel(
     }
 
     fun refreshGreetings() {
-        _uiState.update {
-            it.copy(
-                greetings = getDayPeriod(),
-                userName = "Jesus" // El nombre tambien por si se cambia de ajustes
-            )
+        viewModelScope.launch {
+            getUserUseCase().collect { userDomain ->
+                _uiState.update {
+                    it.copy(
+                        greetings = getDayPeriod(),
+                        userName = userDomain?.name
+                    )
+                }
+            }
         }
     }
 
-    fun getTotalTrips() {
+    fun initials(userName: String) = userName.transformInInitials()
+
+    fun observeTrips() {
         viewModelScope.launch {
-            val trips = getTripsUseCase.invoke()
-            _uiState.update {
-                it.copy(
-                    upcomingTrips = trips.filter { tripDomain ->
-                        tripDomain.tripStatus == TripStatus.PLANNED
-                    },
-                    pastTrips = trips.filter { tripDomain ->
-                        tripDomain.tripStatus == TripStatus.COMPLETE
-                    },
-                    stats = it.stats.copy(
-                        totalTrips = trips.size,
-                        totalSpent = trips.sumOf { trip -> trip.totalCost },
-                        averageTripCost = trips.map { trip -> trip.totalCost }
-                            .average().takeIf { trip -> !trip.isNaN() }
-                            ?: 0.0,
-                        upcomingTrips = trips.filter { tripDomain ->
-                            tripDomain.tripStatus == TripStatus.PLANNED
-                        }.size,
-                        averageSavesFromBudget = trips.map { trip ->
-                            trip.remainingBudget
-                        }.average().takeIf { trip -> !trip.isNaN() }
-                            ?: 0.0
+            getTripsUseCase.invoke().collect { tripsDomain ->
+                _uiState.update {
+                    it.copy(
+                        currentTrip = tripsDomain.toUiCurrentTripState(),
+                        upcomingTrips = tripsDomain.toUiUpcomingTripState(),
+                        pastTrips = tripsDomain.toUiPastTripState(),
+                        stats = tripsDomain.toUiStatsState()
                     )
-                )
+                }
             }
-
-            Napier.d(tag = "DashboardViewModel", message = "Total Trips: ${_uiState.value.stats.totalTrips}" +
-                    "Total Spent: ${_uiState.value.stats.totalSpent}" +
-                    "Average: ${_uiState.value.stats.averageTripCost}" +
-                    "Upcoming: ${_uiState.value.stats.upcomingTrips}" +
-                    "Average Saves: ${_uiState.value.stats.averageSavesFromBudget}" +
-                    "Upcoming Trips: ${_uiState.value.upcomingTrips.size}" +
-                    "Past Trips: ${_uiState.value.pastTrips.size}")
         }
-
     }
 }

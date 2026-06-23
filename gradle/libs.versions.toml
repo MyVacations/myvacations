@@ -66,8 +66,6 @@ sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", ver
 sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 #DateTime
 datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
-#IDsTravel
-uuid = { module = "com.benasher44:uuid", version.ref = "uuid" }
 #CommonLogs Nappier
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 androidx-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }

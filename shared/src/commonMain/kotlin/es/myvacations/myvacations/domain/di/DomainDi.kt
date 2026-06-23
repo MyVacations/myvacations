@@ -1,10 +1,16 @@
 package es.myvacations.myvacations.domain.di
 
+import es.myvacations.myvacations.domain.usecase.GetDayPeriodUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.*
 import es.myvacations.myvacations.domain.usecase.expenseusecase.*
+import es.myvacations.myvacations.domain.usecase.userusecase.GetUserUseCase
+import es.myvacations.myvacations.domain.usecase.userusecase.SaveUserUseCase
+import es.myvacations.myvacations.domain.usecase.userusecase.UpdateUserUseCase
 import org.koin.dsl.module
 
 val domainModule = module {
+    // UseCases
+    factory { GetDayPeriodUseCase() }
     factory { GetTripsUseCase(get()) }
     factory { GetTripByIdUseCase(get()) }
     factory { SaveTripUseCase(get()) }
@@ -12,4 +18,7 @@ val domainModule = module {
     factory { DeleteTripUseCase(get()) }
     factory { UpdateExpenseUseCase(get()) }
     factory { DeleteExpenseUseCase(get()) }
+    factory { GetUserUseCase(get()) }
+    factory { SaveUserUseCase(get()) }
+    factory { UpdateUserUseCase(get()) }
 }

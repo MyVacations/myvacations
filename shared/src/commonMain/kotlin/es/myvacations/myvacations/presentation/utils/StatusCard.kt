@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,60 +16,67 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import es.myvacations.myvacations.domain.model.TripStatus
 import myvacations.shared.generated.resources.Res
-import myvacations.shared.generated.resources.actual_trip_noone
 import myvacations.shared.generated.resources.actual_trip_past
 import myvacations.shared.generated.resources.actual_trip_predict
 import myvacations.shared.generated.resources.actual_trip_title
+import myvacations.shared.generated.resources.trip_detail_active
+import myvacations.shared.generated.resources.trip_detail_past
+import myvacations.shared.generated.resources.trip_detail_upcoming
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun StatusChip(
+fun StatusCard(
     status: TripStatus,
 ) {
     when (status) {
         TripStatus.PLANNED ->{
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+            Surface(
+                shape = RoundedCornerShape(50),
+                color = Color(0xFF7C4DFF)
             ) {
-                BlinkingCircle(Color(0xFF7C4DFF))
-                Spacer(Modifier.width(6.dp))
                 Text(
-                    text = stringResource(Res.string.actual_trip_predict),
+                    text = stringResource(Res.string.trip_detail_upcoming).uppercase(),
+                    modifier = Modifier.padding(
+                        horizontal = 12.dp,
+                        vertical = 4.dp
+                    ),
                     color = Color.White,
                     fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 1.sp
+                    fontWeight = FontWeight.Bold
                 )
             }
         }
         TripStatus.ACTIVE -> {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+            Surface(
+                shape = RoundedCornerShape(50),
+                color = Color(0xFF00E676)
             ) {
-                BlinkingCircle(Color(0xFF00E676))
-                Spacer(Modifier.width(6.dp))
                 Text(
-                    text = stringResource(Res.string.actual_trip_title),
+                    text = stringResource(Res.string.trip_detail_active).uppercase(),
+                    modifier = Modifier.padding(
+                        horizontal = 12.dp,
+                        vertical = 4.dp
+                    ),
                     color = Color.White,
                     fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 1.sp
+                    fontWeight = FontWeight.Bold
                 )
             }
-
         }
         TripStatus.COMPLETE -> {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+            Surface(
+                shape = RoundedCornerShape(50),
+                color = Color(0xFFEEFF80)
             ) {
-                BlinkingCircle(Color(0xFFEEFF80))
-                Spacer(Modifier.width(6.dp))
                 Text(
-                    text = stringResource(Res.string.actual_trip_past),
+                    text = stringResource(Res.string.trip_detail_past).uppercase(),
+                    modifier = Modifier.padding(
+                        horizontal = 12.dp,
+                        vertical = 4.dp
+                    ),
                     color = Color.White,
                     fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 1.sp
+                    fontWeight = FontWeight.Bold
                 )
             }
         }

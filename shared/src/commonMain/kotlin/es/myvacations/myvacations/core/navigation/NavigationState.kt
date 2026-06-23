@@ -4,12 +4,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
-class NavigationState {
-    private val backStack = mutableListOf<ScreenDestination>()
+class NavigationState(
+    initialScreen: ScreenDestination = ScreenDestination.Dashboard,
+    initialBackStack: List<ScreenDestination> = emptyList()
+) {
+    private val backStack = initialBackStack.toMutableList()
 
-    var currentScreen by mutableStateOf<ScreenDestination>(
-        ScreenDestination.Dashboard
-    )
+    var currentScreen by mutableStateOf(initialScreen)
         private set
 
     fun navigateBottomBar(
@@ -32,5 +33,9 @@ class NavigationState {
         if (backStack.isNotEmpty()) {
             currentScreen = backStack.removeLast()
         }
+    }
+
+    fun getBackStack(): List<ScreenDestination> {
+        return backStack.toList()
     }
 }

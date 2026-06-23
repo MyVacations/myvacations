@@ -18,39 +18,4 @@ data class TripDomain(
     val mainBudget: Double,
     val optionalExpenses: List<TripExpensesDomain>,
     val cover: TripCover
-) {
-    val today = Clock.System.now()
-        .toLocalDateTime(TimeZone.currentSystemDefault())
-        .date
-
-    val remainingDays: Int
-        get() = today.daysUntil(startDate)
-
-    val daysPassed: Int
-        get() = endDate.daysUntil(today)
-
-    val totalCost: Double
-        get() = mainCost + optionalExpenses.sumOf { it.amount }
-
-    val remainingBudget: Double
-        get() = mainBudget - totalCost
-
-    val costPerPerson: Double
-        get() = if (travelers > 0) totalCost / travelers else 0.0
-
-    val costPerDay: Double
-        get() = if (totalDays > 0) totalCost / totalDays else 0.0
-
-    val costPerDayEachPerson: Double
-        get() = if (travelers > 0) costPerDay / travelers else 0.0
-
-    val totalDays: Int
-        get() = startDate.daysUntil(endDate)
-
-    val tripStatus: TripStatus
-        get() = when {
-            today < startDate -> TripStatus.PLANNED
-            today > endDate -> TripStatus.COMPLETE
-            else -> TripStatus.ACTIVE
-        }
-}
+)

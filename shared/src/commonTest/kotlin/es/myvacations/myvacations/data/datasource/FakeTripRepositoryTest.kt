@@ -4,6 +4,9 @@ import es.myvacations.myvacations.domain.model.TripDomain
 import es.myvacations.myvacations.domain.repository.TripRepository
 import es.myvacations.myvacations.domain.usecase.tripusecase.SaveTripUseCase
 import es.myvacations.myvacations.presentation.utils.DefaultTrip
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.count
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -11,15 +14,13 @@ import kotlin.test.assertEquals
 class FakeTripRepository : TripRepository {
     private val trips = mutableListOf<TripDomain>()
 
-    override suspend fun getTrips(): List<TripDomain> {
-        return trips
-    }
+    override fun getTrips(): Flow<List<TripDomain>> = flowOf(trips)
 
     override suspend fun addTrip(trip: TripDomain) {
         trips.add(trip)
     }
 
-    override suspend fun getSpecificTrip(id: String): TripDomain? {
+    override fun getSpecificTrip(id: String): Flow<TripDomain> {
         TODO("Not yet implemented")
     }
 
@@ -47,7 +48,7 @@ class FakeTripRepository : TripRepository {
         useCase(DefaultTrip.tripActual)
         assertEquals(
             1,
-            repository.getTrips().size
+            repository.getTrips().count()
         )
     }
 }

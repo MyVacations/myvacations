@@ -15,11 +15,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import es.myvacations.myvacations.presentation.createtrip.AddTripScreen
+import es.myvacations.myvacations.presentation.createtrip.AddEditTripScreen
 import es.myvacations.myvacations.presentation.dashboard.DashboardScreen
 import es.myvacations.myvacations.presentation.settings.SettingsScreen
 import es.myvacations.myvacations.presentation.statistics.StatisticsScreen
@@ -34,8 +34,10 @@ import org.jetbrains.compose.resources.stringResource
 
 @Preview(showBackground = true)
 @Composable
-fun NavigationRoot() {
-    val navigationState = remember {
+fun NavigationRoot(isLandscape: Boolean = false) {
+    val navigationState = rememberSaveable(
+        saver = NavigationStateSaver
+    ) {
         NavigationState()
     }
 
@@ -50,7 +52,7 @@ fun NavigationRoot() {
                     FloatingActionButton(
                         containerColor = Color(0xFF00A884),
                         onClick = {
-                            navigate(ScreenDestination.AddTrip)
+                            navigate(ScreenDestination.AddEdit())
                         }
                     ) {
                         Icon(
@@ -79,13 +81,22 @@ fun NavigationRoot() {
 
                     ScreenDestination.Statistics -> StatisticsScreen()
                     ScreenDestination.Settings -> SettingsScreen()
-                    ScreenDestination.AddTrip -> AddTripScreen(onDismiss = {
-                        popBackStack()
-                    })
+                    is ScreenDestination.AddEdit -> {
+                        val tripid = (currentScreen as ScreenDestination.AddEdit).tripId
+                        AddEditTripScreen(tripid, onDismiss = {
+                            popBackStack()
+                        })
+                    }
 
-                    is ScreenDestination.TripDetail -> TripDetailScreen(onDismiss = {
-                        popBackStack()
-                    })
+                    is ScreenDestination.TripDetail -> {
+                        val tripid = (currentScreen as ScreenDestination.TripDetail).tripId
+                        TripDetailScreen(
+                            tripId = tripid, onDismiss = {
+                                popBackStack()
+                            }, onEditTripClick = {
+                                navigate(ScreenDestination.AddEdit(tripid))
+                            })
+                    }
                 }
             }
         }
@@ -93,7 +104,6 @@ fun NavigationRoot() {
     }
 }
 
-@Preview(showBackground = true)
 @Composable
 private fun BottomBarUi(state: NavigationState = NavigationState()) {
     with(state) {

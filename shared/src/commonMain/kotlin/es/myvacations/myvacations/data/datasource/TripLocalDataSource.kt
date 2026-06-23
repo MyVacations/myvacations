@@ -10,16 +10,14 @@ class TripLocalDataSource(
     private val database: MyVacationsDatabase
 ) {
 
-    private val queries = database.tripEntityQueries
+    private val queries = database.vacationsEntityQueries
 
     fun getAllTrips() =
-        queries.selectAll().asFlow().mapToList(Dispatchers.Default)
+        queries.selectAllTrips().asFlow().mapToList(Dispatchers.Default)
 
-    fun getById(id: String) =
-        queries.selectById(id).asFlow()
-            .mapToOneOrNull(Dispatchers.Default)
+    fun getById(id: String) = queries.selectTripById(id).asFlow().mapToOneOrNull(Dispatchers.Default)
 
-    fun getExpensesByTripId(tripId: String) = queries.selectExpenseByTripId(tripId).asFlow().mapToList(Dispatchers.Default)
+    fun getExpensesByTripId(tripId: String) = queries.selectExpenseByTripId(tripId).executeAsList()
 
     fun insertTrip(
         id: String,

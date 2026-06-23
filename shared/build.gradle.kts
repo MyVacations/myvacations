@@ -63,7 +63,6 @@ kotlin {
             implementation(libs.sqldelight.runtime)
             implementation(libs.sqldelight.coroutines)
             implementation(libs.datetime)
-            implementation(libs.uuid)
             implementation(libs.napier)
             implementation(libs.calendar)
         }

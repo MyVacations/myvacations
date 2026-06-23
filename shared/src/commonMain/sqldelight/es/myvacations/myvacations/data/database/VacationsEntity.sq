@@ -24,10 +24,15 @@ CREATE TABLE TripExpenseData (
 
 CREATE INDEX expense_tripId_idx ON TripExpenseData(tripId);
 
-selectAll:
+CREATE TABLE UserData (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL
+);
+
+selectAllTrips:
 SELECT * FROM TripData;
 
-selectById:
+selectTripById:
 SELECT * FROM TripData
 WHERE id = ?;
 
@@ -91,3 +96,20 @@ WHERE id = ?;
 deleteExpense:
 DELETE FROM TripExpenseData
 WHERE id = ? AND tripId = ?;
+
+selectUser:
+SELECT * FROM UserData;
+
+insertUser:
+INSERT INTO UserData(
+    id,
+    name
+)
+
+VALUES (?,?);
+
+updateUser:
+UPDATE UserData
+SET
+    name = ?
+WHERE id = ?;

@@ -36,6 +36,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -70,6 +71,7 @@ import kotlinx.datetime.number
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.accept
 import myvacations.shared.generated.resources.cancel
+import myvacations.shared.generated.resources.edt_trip
 import myvacations.shared.generated.resources.new_trip_D_G
 import myvacations.shared.generated.resources.new_trip_add_expense
 import myvacations.shared.generated.resources.new_trip_budget
@@ -103,8 +105,16 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun AddTripScreen(onDismiss: () -> Unit, viewModel: CreateTripsViewModel = koinViewModel()) {
+fun AddEditTripScreen(
+    tripId: String,
+    onDismiss: () -> Unit,
+    viewModel: CreateEditTripsViewModel = koinViewModel()
+) {
     val uiState by viewModel.uiState.collectAsState()
+    LaunchedEffect(tripId) {
+        viewModel.updateEditMode(tripId)
+        viewModel.getTripById(tripId)
+    }
     AddTripScreenFormulary(
         onDismiss,
         uiState,
@@ -133,7 +143,7 @@ fun AddTripScreen(onDismiss: () -> Unit, viewModel: CreateTripsViewModel = koinV
 @Composable
 private fun AddTripScreenFormulary(
     onDismiss: () -> Unit = {},
-    uiState: AddTripUiState = AddTripUiState(),
+    uiState: TripUiState = TripUiState(),
     onTitleTripChange: (String) -> Unit = {},
     onCountrySelected: (Country) -> Unit = {},
     onCoverSelected: (TripCover) -> Unit = {},
@@ -161,7 +171,7 @@ private fun AddTripScreenFormulary(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(Res.string.new_trip_title)) },
+                title = { Text(stringResource(if (uiState.editMode) Res.string.edt_trip else Res.string.new_trip_title)) },
                 navigationIcon = {
                     IconButton(onClick = onDismiss) {
                         Icon(Icons.Default.Close, null)
@@ -176,11 +186,10 @@ private fun AddTripScreenFormulary(
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     TextButton(onClick = {
-                        if ((uiState.titleTrip.isEmpty() || uiState.startDate == null || uiState.endDate == null || uiState.mainCost == 0.0).not()) {
+                        if ((uiState.titleTrip.isEmpty() || uiState.startDate == null || uiState.endDate == null || uiState.mainCost == 0.0 || (uiState.startDate > uiState.endDate)).not()) {
                             onSave()
                             onDismiss()
-                        }
-                        else {
+                        } else {
                             dialogSaveNotReady.value = true
                         }
                     }) {
@@ -271,7 +280,7 @@ private fun AddTripScreenFormulary(
 @Preview(showBackground = true)
 @Composable
 fun DestinationView(
-    uiState: AddTripUiState = AddTripUiState(),
+    uiState: TripUiState = TripUiState(),
     onTitleTripChange: (String) -> Unit = {},
     onCountrySelected: (Country) -> Unit = {},
     onCoverSelected: (TripCover) -> Unit = {}
@@ -413,7 +422,7 @@ fun DestinationView(
 @Preview(showBackground = true)
 @Composable
 fun DatesView(
-    uiState: AddTripUiState = AddTripUiState(),
+    uiState: TripUiState = TripUiState(),
     onStartDateChange: (LocalDate) -> Unit = {},
     onEndDateChange: (LocalDate) -> Unit = {},
 ) {
@@ -466,7 +475,7 @@ fun DatesView(
                     )
                 }
             }
-            if (uiState.startDate == null) {
+            if (uiState.startDate == null || (uiState.startDate != null && uiState.endDate != null && uiState.startDate > uiState.endDate)) {
                 Text(
                     text = stringResource(Res.string.new_trip_start_date_require),
                     color = MaterialTheme.colorScheme.error,
@@ -512,7 +521,7 @@ fun DatesView(
                     )
                 }
             }
-            if (uiState.endDate == null) {
+            if (uiState.endDate == null || (uiState.startDate != null && uiState.endDate != null && uiState.startDate > uiState.endDate)) {
                 Text(
                     text = stringResource(Res.string.new_trip_end_date_require),
                     color = MaterialTheme.colorScheme.error,
@@ -535,7 +544,7 @@ fun DatesView(
 @Preview(showBackground = true)
 @Composable
 fun DurationAndGroupView(
-    uiState: AddTripUiState = AddTripUiState(),
+    uiState: TripUiState = TripUiState(),
     onDaysTravelingChange: (Int) -> Unit = {},
     onTravelersChange: (Int) -> Unit = {}
 ) {
@@ -612,7 +621,7 @@ fun DurationAndGroupView(
 @Preview(showBackground = true)
 @Composable
 fun CostAndBudgetView(
-    uiState: AddTripUiState = AddTripUiState(),
+    uiState: TripUiState = TripUiState(),
     onMainCostChange: (Double) -> Unit = {},
     onMainBudgetChange: (Double) -> Unit = {}
 ) {
@@ -721,7 +730,7 @@ fun CostAndBudgetView(
 @Preview(showBackground = true)
 @Composable
 fun ExtraExpensesView(
-    uiState: AddTripUiState = AddTripUiState(),
+    uiState: TripUiState = TripUiState(),
     onUpdateExpenseIcon: (String, TravelIcon) -> Unit = { _, _ -> },
     onToggleExpanded: () -> Unit = {},
     onAddExpense: () -> Unit = {},
@@ -783,7 +792,7 @@ fun ExtraExpensesView(
 }
 
 @Composable
-fun TotalEstimatedCostView(uiState: AddTripUiState) {
+fun TotalEstimatedCostView(uiState: TripUiState) {
     SummaryCard(
         title = stringResource(Res.string.new_trip_estimated_total),
         value = uiState.totalCost.toString()
