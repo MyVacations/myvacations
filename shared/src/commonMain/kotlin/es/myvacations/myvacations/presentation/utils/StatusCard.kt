@@ -66,7 +66,7 @@ fun StatusCard(
         TripStatus.COMPLETE -> {
             Surface(
                 shape = RoundedCornerShape(50),
-                color = Color(0xFFEEFF80)
+                color = Color(0xFFB0B630)
             ) {
                 Text(
                     text = stringResource(Res.string.trip_detail_past).uppercase(),

@@ -19,7 +19,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import es.myvacations.myvacations.presentation.createtrip.AddEditTripScreen
+import es.myvacations.myvacations.presentation.createedittrip.AddEditTripScreen
 import es.myvacations.myvacations.presentation.dashboard.DashboardScreen
 import es.myvacations.myvacations.presentation.settings.SettingsScreen
 import es.myvacations.myvacations.presentation.statistics.StatisticsScreen
@@ -158,4 +158,3 @@ private fun BottomBarUi(state: NavigationState = NavigationState()) {
         }
     }
 }
-

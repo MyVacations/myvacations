@@ -2,10 +2,16 @@ package es.myvacations.myvacations.presentation.mapper
 
 import es.myvacations.myvacations.core.extensions.roundTo2Decimals
 import es.myvacations.myvacations.domain.mapper.calculateStatus
+import es.myvacations.myvacations.domain.model.SettingsDomain
+import es.myvacations.myvacations.domain.model.TravelersDomain
 import es.myvacations.myvacations.domain.model.TripDomain
+import es.myvacations.myvacations.domain.model.TripExpensesDomain
 import es.myvacations.myvacations.domain.model.TripStatus
-import es.myvacations.myvacations.presentation.createtrip.TripUiState
+import es.myvacations.myvacations.presentation.createedittrip.TripUiState
 import es.myvacations.myvacations.presentation.dashboard.DashboardStats
+import es.myvacations.myvacations.presentation.settings.SettingsUiState
+import es.myvacations.myvacations.presentation.tripdetail.TravelerUiState
+import es.myvacations.myvacations.presentation.utils.TripExpenseUiState
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -23,7 +29,7 @@ fun TripUiState.toDomainModel() = TripDomain(
     daysTraveling = daysTraveling,
     mainCost = mainCost,
     mainBudget = mainBudget,
-    optionalExpenses = optionalExpenses,
+    optionalExpenses = optionalExpenses.map { expensesDomain -> expensesDomain.toDomainModel() },
     cover = cover
 )
 
@@ -38,7 +44,7 @@ fun TripDomain.toUiState() = TripUiState(
     mainCost = mainCost,
     mainBudget = mainBudget,
     cover = cover,
-    optionalExpenses = optionalExpenses,
+    optionalExpenses = optionalExpenses.map { expensesDomain -> expensesDomain.toUiState() },
 )
 
 fun List<TripDomain>.toUiStatsState() = DashboardStats(
@@ -75,3 +81,43 @@ fun List<TripDomain>.toUiUpcomingTripState() = filter { tripDomain ->
 fun List<TripDomain>.toUiPastTripState() = filter { tripDomain ->
     tripDomain.calculateStatus() == TripStatus.COMPLETE
 }.map { tripDomain -> tripDomain.toUiState() }
+
+fun SettingsDomain.toUiSettingsState() = SettingsUiState(
+
+    userName = username,
+    currency = preferredCurrency
+)
+
+fun SettingsUiState.toDomainSettingsState() = SettingsDomain(
+
+    username = userName,
+    preferredCurrency = currency
+)
+
+fun TripExpensesDomain.toUiState() = TripExpenseUiState(
+    id = id,
+    name = name,
+    icon = icon,
+    amount = amount
+)
+
+fun TripExpenseUiState.toDomainModel() = TripExpensesDomain(
+    id = id,
+    name = name,
+    icon = icon,
+    amount = amount
+)
+
+fun TravelersDomain.toUiState() = TravelerUiState(
+    id = id,
+    tripId = tripId,
+    travelerName = travelerName,
+    isMainTraveler = isMainTraveler
+)
+
+fun TravelerUiState.toDomainModel() = TravelersDomain(
+    id = id,
+    tripId = tripId,
+    travelerName = travelerName,
+    isMainTraveler = isMainTraveler
+)

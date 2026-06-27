@@ -3,77 +3,51 @@ package es.myvacations.myvacations.presentation.utils
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.DirectionsBike
 import androidx.compose.material.icons.automirrored.filled.DirectionsWalk
-import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.AccountBalanceWallet
-import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Attractions
 import androidx.compose.material.icons.filled.BeachAccess
-import androidx.compose.material.icons.filled.CreditCard
 import androidx.compose.material.icons.filled.DirectionsBoat
 import androidx.compose.material.icons.filled.DirectionsBus
 import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material.icons.filled.DirectionsTransit
 import androidx.compose.material.icons.filled.Event
 import androidx.compose.material.icons.filled.Explore
-import androidx.compose.material.icons.filled.Fastfood
-import androidx.compose.material.icons.filled.Flight
-import androidx.compose.material.icons.filled.FlightLand
-import androidx.compose.material.icons.filled.FlightTakeoff
-import androidx.compose.material.icons.filled.Hotel
 import androidx.compose.material.icons.filled.Landscape
-import androidx.compose.material.icons.filled.LocalBar
-import androidx.compose.material.icons.filled.LocalCafe
 import androidx.compose.material.icons.filled.LocalTaxi
-import androidx.compose.material.icons.filled.Map
-import androidx.compose.material.icons.filled.Navigation
 import androidx.compose.material.icons.filled.Park
-import androidx.compose.material.icons.filled.Payments
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material.icons.filled.Place
-import androidx.compose.material.icons.filled.Public
-import androidx.compose.material.icons.filled.Receipt
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.Train
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import myvacations.shared.generated.resources.Res
+import myvacations.shared.generated.resources.activity_ATTRACTIONS
+import myvacations.shared.generated.resources.activity_BEACH_ACCESS
+import myvacations.shared.generated.resources.activity_DIRECTIONS
+import myvacations.shared.generated.resources.activity_EVENT
+import myvacations.shared.generated.resources.activity_EXPLORE
+import myvacations.shared.generated.resources.activity_LANDSCAPE
+import myvacations.shared.generated.resources.activity_PARK
+import myvacations.shared.generated.resources.activity_PHOTO_CAMERA
+import myvacations.shared.generated.resources.activity_PLACE
+import myvacations.shared.generated.resources.activity_RESTAURANT
+import org.jetbrains.compose.resources.stringResource
 
 enum class TravelIcon {
-    FLIGHT,
-    FLIGHT_TAKEOFF,
-    FLIGHT_LAND,
-
     PLACE,
-    MAP,
-    PUBLIC,
     EXPLORE,
-    NAVIGATION,
-
-    HOTEL,
-
     DIRECTIONS_CAR,
     DIRECTIONS_BUS,
     DIRECTIONS_BOAT,
     DIRECTIONS_BIKE,
     DIRECTIONS_WALK,
     DIRECTIONS_TRANSIT,
-    TRAIN,
-    LOCAL_TAXI,
-
+    DIRECTIONS_TRAIN,
+    DIRECTIONS_TAXI,
     RESTAURANT,
-    LOCAL_CAFE,
-    LOCAL_BAR,
-    FASTFOOD,
-
-    ATTACH_MONEY,
-    ACCOUNT_BALANCE_WALLET,
-    CREDIT_CARD,
-    PAYMENTS,
-    RECEIPT,
-
     EVENT,
-    ACCESS_TIME,
     BEACH_ACCESS,
     PARK,
     LANDSCAPE,
@@ -84,17 +58,8 @@ enum class TravelIcon {
 @Composable
 fun TravelIcon.toImageVector(): ImageVector =
     when (this) {
-        TravelIcon.FLIGHT -> Icons.Default.Flight
-        TravelIcon.FLIGHT_TAKEOFF -> Icons.Default.FlightTakeoff
-        TravelIcon.FLIGHT_LAND -> Icons.Default.FlightLand
-
         TravelIcon.PLACE -> Icons.Default.Place
-        TravelIcon.MAP -> Icons.Default.Map
-        TravelIcon.PUBLIC -> Icons.Default.Public
         TravelIcon.EXPLORE -> Icons.Default.Explore
-        TravelIcon.NAVIGATION -> Icons.Default.Navigation
-
-        TravelIcon.HOTEL -> Icons.Default.Hotel
 
         TravelIcon.DIRECTIONS_CAR -> Icons.Default.DirectionsCar
         TravelIcon.DIRECTIONS_BUS -> Icons.Default.DirectionsBus
@@ -102,22 +67,12 @@ fun TravelIcon.toImageVector(): ImageVector =
         TravelIcon.DIRECTIONS_BIKE -> Icons.AutoMirrored.Filled.DirectionsBike
         TravelIcon.DIRECTIONS_WALK -> Icons.AutoMirrored.Filled.DirectionsWalk
         TravelIcon.DIRECTIONS_TRANSIT -> Icons.Default.DirectionsTransit
-        TravelIcon.TRAIN -> Icons.Default.Train
-        TravelIcon.LOCAL_TAXI -> Icons.Default.LocalTaxi
+        TravelIcon.DIRECTIONS_TRAIN -> Icons.Default.Train
+        TravelIcon.DIRECTIONS_TAXI,
+            -> Icons.Default.LocalTaxi
 
         TravelIcon.RESTAURANT -> Icons.Default.Restaurant
-        TravelIcon.LOCAL_CAFE -> Icons.Default.LocalCafe
-        TravelIcon.LOCAL_BAR -> Icons.Default.LocalBar
-        TravelIcon.FASTFOOD -> Icons.Default.Fastfood
-
-        TravelIcon.ATTACH_MONEY -> Icons.Default.AttachMoney
-        TravelIcon.ACCOUNT_BALANCE_WALLET -> Icons.Default.AccountBalanceWallet
-        TravelIcon.CREDIT_CARD -> Icons.Default.CreditCard
-        TravelIcon.PAYMENTS -> Icons.Default.Payments
-        TravelIcon.RECEIPT -> Icons.Default.Receipt
-
         TravelIcon.EVENT -> Icons.Default.Event
-        TravelIcon.ACCESS_TIME -> Icons.Default.AccessTime
         TravelIcon.BEACH_ACCESS -> Icons.Default.BeachAccess
         TravelIcon.PARK -> Icons.Default.Park
         TravelIcon.LANDSCAPE -> Icons.Default.Landscape
@@ -128,24 +83,9 @@ fun TravelIcon.toImageVector(): ImageVector =
 @Composable
 fun ImageVector.iconColor(): Color =
     when (this) {
-
-        // Transporte aéreo
-        Icons.Default.Flight,
-        Icons.Default.FlightTakeoff,
-        Icons.Default.FlightLand ->
-            Color(0xFF60A5FA)
-
         // Ubicación
         Icons.Default.Place,
-        Icons.Default.Map,
-        Icons.Default.Public,
-        Icons.Default.Explore,
-        Icons.Default.Navigation ->
-            Color(0xFF09D794)
-
-        // Alojamiento
-        Icons.Default.Hotel ->
-            Color(0xFF8B5CF6)
+        Icons.Default.Explore -> Color(0xFF09D794)
 
         // Transporte terrestre
         Icons.Default.DirectionsCar,
@@ -159,23 +99,11 @@ fun ImageVector.iconColor(): Color =
             Color(0xFF06B6D4)
 
         // Comida
-        Icons.Default.Restaurant,
-        Icons.Default.LocalCafe,
-        Icons.Default.LocalBar,
-        Icons.Default.Fastfood ->
+        Icons.Default.Restaurant ->
             Color(0xFFF59E0B)
-
-        // Dinero
-        Icons.Default.AttachMoney,
-        Icons.Default.AccountBalanceWallet,
-        Icons.Default.CreditCard,
-        Icons.Default.Payments,
-        Icons.Default.Receipt ->
-            Color(0xFF54FA93)
 
         // Actividades
         Icons.Default.Event,
-        Icons.Default.AccessTime,
         Icons.Default.BeachAccess,
         Icons.Default.Park,
         Icons.Default.Landscape,
@@ -186,3 +114,42 @@ fun ImageVector.iconColor(): Color =
         else ->
             MaterialTheme.colorScheme.primary
     }
+
+fun TravelIcon.iconColor(): Color =
+    when (this) {
+        TravelIcon.PLACE, TravelIcon.EXPLORE -> Color(0xFF09D794)
+        TravelIcon.DIRECTIONS_CAR,
+        TravelIcon.DIRECTIONS_BUS,
+        TravelIcon.DIRECTIONS_BOAT,
+        TravelIcon.DIRECTIONS_BIKE,
+        TravelIcon.DIRECTIONS_WALK,
+        TravelIcon.DIRECTIONS_TRANSIT,
+        TravelIcon.DIRECTIONS_TRAIN,
+        TravelIcon.DIRECTIONS_TAXI -> Color(0xFF06B6D4)
+
+        TravelIcon.RESTAURANT -> Color(0xFFF59E0B)
+        TravelIcon.EVENT, TravelIcon.BEACH_ACCESS, TravelIcon.PARK, TravelIcon.LANDSCAPE, TravelIcon.PHOTO_CAMERA, TravelIcon.ATTRACTIONS -> Color(
+            0xFF93FF86
+        )
+    }
+
+@Composable
+fun TravelIcon.toName(): String = when (this) {
+    TravelIcon.PLACE -> stringResource(Res.string.activity_PLACE)
+    TravelIcon.EXPLORE -> stringResource(Res.string.activity_EXPLORE)
+    TravelIcon.DIRECTIONS_CAR,
+    TravelIcon.DIRECTIONS_BUS,
+    TravelIcon.DIRECTIONS_BOAT,
+    TravelIcon.DIRECTIONS_BIKE,
+    TravelIcon.DIRECTIONS_WALK,
+    TravelIcon.DIRECTIONS_TRANSIT,
+    TravelIcon.DIRECTIONS_TRAIN,
+    TravelIcon.DIRECTIONS_TAXI -> stringResource(Res.string.activity_DIRECTIONS)
+    TravelIcon.RESTAURANT -> stringResource(Res.string.activity_RESTAURANT)
+    TravelIcon.EVENT -> stringResource(Res.string.activity_EVENT)
+    TravelIcon.BEACH_ACCESS -> stringResource(Res.string.activity_BEACH_ACCESS)
+    TravelIcon.PARK -> stringResource(Res.string.activity_PARK)
+    TravelIcon.LANDSCAPE -> stringResource(Res.string.activity_LANDSCAPE)
+    TravelIcon.PHOTO_CAMERA -> stringResource(Res.string.activity_PHOTO_CAMERA)
+    TravelIcon.ATTRACTIONS -> stringResource(Res.string.activity_ATTRACTIONS)
+}

@@ -65,6 +65,7 @@ kotlin {
             implementation(libs.datetime)
             implementation(libs.napier)
             implementation(libs.calendar)
+            implementation(libs.koalaplot)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

@@ -8,6 +8,23 @@
     <string name="friday">Fr</string>
     <string name="saturday">Sa</string>
     <string name="sunday">Su</string>
+    <!--Currency-->
+    <string name="dollar">$</string>
+    <string name="euro">€</string>
+    <string name="yen">¥</string>
+    <string name="yuan">元</string>
+    <string name="peso">₱</string>
+    <!--Activities-->
+    <string name="activity_PLACE">Places</string>
+    <string name="activity_EXPLORE">Exploration</string>,
+    <string name="activity_DIRECTIONS">Transports</string>,
+    <string name="activity_RESTAURANT">Restaurants</string>,
+    <string name="activity_EVENT">Events</string>,
+    <string name="activity_BEACH_ACCESS">Beach access</string>,
+    <string name="activity_PARK">Parks</string>,
+    <string name="activity_LANDSCAPE">Landscapes</string>,
+    <string name="activity_PHOTO_CAMERA">Photography</string>,
+    <string name="activity_ATTRACTIONS">Attractions</string>
     <!--Countries-->
     <string name="spain">Spain</string>
     <string name="france">France</string>
@@ -61,6 +78,7 @@
     <string name="trips_title">My Trips</string>
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
     <!--Dashboard-->
     <string name="guest_user">Guest</string>
     <string name="greetings_morning">Good morning %1$s 👋</string>
@@ -113,7 +131,7 @@
     <string name="new_trip_notes">NOTES</string>
     <string name="new_trip_days">days</string>
     <string name="new_trip_add_expense">+ Add expense</string>
-    <string name="new_trip_flight">Flight</string>
+    <string name="new_trip_food">Food</string>
     <string name="new_trip_expense">Expense</string>
     <string name="new_trip_optional_delete">Delete</string>
     <string name="new_trip_optional_name">Name</string>
@@ -133,4 +151,50 @@
     <string name="trip_detail_past">Past</string>
     <string name="trip_detail_delete">¿Delete trip?</string>
     <string name="trip_detail_delete_details">This trip will be deleted with all its data</string>
+    <string name="trip_detail_header_totalcost">Total Cost</string>
+    <string name="trip_detail_header_costperperson">person</string>
+    <string name="trip_detail_header_costperday">day</string>
+    <string name="trip_detail_overview">Overview</string>
+    <string name="trip_detail_expenses">Expenses</string>
+    <string name="trip_detail_budget">Budget</string>
+    <string name="trip_detail_travelers">Travelers</string>
+    <string name="trip_detail_overview_total">TOTAL DAYS</string>
+    <string name="trip_detail_overview_traveldays">TRAVEL DAYS</string>
+    <string name="trip_detail_overview_stayday">STAY DAYS</string>
+    <string name="trip_detail_overview_travelers">TRAVELERS</string>
+    <string name="trip_detail_overview_person">person/s</string>
+    <string name="trip_detail_overview_day">day/s</string>
+    <string name="trip_detail_overview_tripcost">Trip cost</string>
+    <string name="trip_detail_overview_aditionalexpenses">Additional expenses</string>
+    <string name="trip_detail_overview_total_low">Total</string>
+    <string name="trip_detail_overview_perperson">Per person</string>
+    <string name="trip_detail_overview_perday">Per day</string>
+    <string name="trip_detail_expenses_maincost">Flights and hotel</string>
+    <string name="trip_detail_expenses_distribution">Distribution</string>
+    <string name="trip_detail_expenses_budgetused">Budget Used</string>
+    <string name="trip_detail_expenses_budgetnotused">Budget Left</string>
+    <string name="trip_detail_expenses_budget_complete">Budget Exhausted</string>
+    <string name="trip_detail_expenses_budget_exceed">Budget Exceeded</string>
+    <string name="trip_detail_expenses_legend">Legend</string>
+    <string name="trip_detail_expenses_principal_cost">Principal Cost</string>
+    <string name="trip_detail_expenses_ubication">Ubications</string>
+    <string name="trip_detail_expenses_transports">Transports</string>
+    <string name="trip_detail_expenses_food">Food</string>
+    <string name="trip_detail_expenses_entertainment">Entertainment</string>
+    <string name="trip_detail_legend_remaining">Remaining budget vs. extra expenses</string>
+    <string name="trip_detail_legend_used">Budget used vs. extra expenses</string>
+    <string name="trip_detail_legend_exceed">Extra expenses exceeded the budget</string>
+    <string name="trip_detail_legend_maincost">Main cost (flights and accommodation)</string>
+    <string name="trip_detail_legend_ubications">Locations (parks, beaches, landmarks...)</string>
+    <string name="trip_detail_legend_transports">Transport (taxi, metro, bus...)</string>
+    <string name="trip_detail_legend_food">Food (restaurants, cafés...)</string>
+    <string name="trip_detail_legend_activities">Activities (museums, tours, shows...)</string>
+    <string name="trip_detail_traveler_name_placeholder">Traveler %1$d</string>
+    <string name="trip_detail_traveler_delete">Delete %1$s?</string>
+    <string name="trip_detail_traveler_summay">Group Summary</string>
+    <string name="trip_detail_traveler_travelers">%1$d travelers</string>
+    <string name="trip_detail_traveler_totalcost">Total cost</string>
+    <string name="trip_detail_traveler_costperperson">Cost per person</string>
+    <string name="trip_detail_traveler_perpersondays">Per person / stay day</string>
+    <string name="trip_detail_traveler_newtraveler">+ Add Traveler</string>
 </resources>

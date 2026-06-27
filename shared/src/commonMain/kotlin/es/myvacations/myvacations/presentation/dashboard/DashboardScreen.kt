@@ -41,10 +41,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
+import es.myvacations.myvacations.core.extensions.shortCurrencyWhen100000
 import es.myvacations.myvacations.core.utils.DateFormatter
+import es.myvacations.myvacations.presentation.settings.SettingsUiState
 import es.myvacations.myvacations.presentation.utils.DefaultDashboardTrip
 import es.myvacations.myvacations.presentation.utils.StatusChip
 import es.myvacations.myvacations.presentation.utils.painter
+import es.myvacations.myvacations.presentation.utils.toCurrencyName
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.actual_trip_addone
 import myvacations.shared.generated.resources.app_title
@@ -138,22 +141,26 @@ fun DashboardHeader(uiState: DashboardUiState, initials: (userName: String) -> S
     val greetingText = when (uiState.greetings) {
         Greetings.MORNING -> stringResource(
             Res.string.greetings_morning,
-            uiState.userName ?: stringResource(Res.string.guest_user)
+            uiState.settings.userName.takeIf { it.isNotBlank() }
+                ?: stringResource(Res.string.guest_user)
         )
 
         Greetings.AFTERNOON -> stringResource(
             Res.string.greetings_afternoon,
-            uiState.userName ?: stringResource(Res.string.guest_user)
+            uiState.settings.userName.takeIf { it.isNotBlank() }
+                ?: stringResource(Res.string.guest_user)
         )
 
         Greetings.EVENING -> stringResource(
             Res.string.greetings_evening,
-            uiState.userName ?: stringResource(Res.string.guest_user)
+            uiState.settings.userName.takeIf { it.isNotBlank() }
+                ?: stringResource(Res.string.guest_user)
         )
 
         Greetings.NIGHT -> stringResource(
             Res.string.greetings_night,
-            uiState.userName ?: stringResource(Res.string.guest_user)
+            uiState.settings.userName.takeIf { it.isNotBlank() }
+                ?: stringResource(Res.string.guest_user)
         )
     }
     Row(
@@ -194,7 +201,8 @@ fun UserAvatar(
         Box(
             contentAlignment = Alignment.Center
         ) {
-            Text(initials(uiState.userName ?: stringResource(Res.string.guest_user)))
+            Text(initials(uiState.settings.userName.takeIf { it.isNotBlank() }
+                ?: stringResource(Res.string.guest_user)))
         }
     }
 }
@@ -304,7 +312,7 @@ private fun DashboardStatSection(
                 StatCard(
                     onStatisticsClick = onStatisticsClick,
                     modifier = Modifier.weight(1f),
-                    value = uiState.stats.totalSpent.toString(),
+                    value = uiState.stats.totalSpent.shortCurrencyWhen100000() +" "+ uiState.settings.currency.toCurrencyName(),
                     label = stringResource(Res.string.total_spent),
                     icon = Icons.Default.Wallet,
                     color = Color(0xFFFF6060),
@@ -317,7 +325,7 @@ private fun DashboardStatSection(
                 StatCard(
                     onStatisticsClick = onStatisticsClick,
                     modifier = Modifier.weight(1f),
-                    value = uiState.stats.averageTripCost.toString(),
+                    value = uiState.stats.averageTripCost.shortCurrencyWhen100000() +" "+ uiState.settings.currency.toCurrencyName(),
                     label = stringResource(Res.string.average_spent),
                     icon = Icons.AutoMirrored.Filled.TrendingUp,
                     color = Color(0xFFFFBE42),
@@ -336,7 +344,7 @@ private fun DashboardStatSection(
                 onStatisticsClick = onStatisticsClick,
                 modifier = Modifier.fillMaxWidth()
                     .height(120.dp),
-                value = uiState.stats.averageSavesFromBudget.toString(),
+                value = uiState.stats.averageSavesFromBudget.shortCurrencyWhen100000() +" "+ uiState.settings.currency.toCurrencyName(),
                 label = stringResource(Res.string.average_saves_from_budget),
                 icon = Icons.Default.AttachMoney,
                 color = Color(0xFF4CAF50),
@@ -448,7 +456,7 @@ private fun DashboardContentPreview() {
     DashboardContent(
         uiState = DashboardUiState(
             greetings = Greetings.MORNING,
-            userName = "Jesus"
+            settings = SettingsUiState("Jesus")
         ),
         initials = { "" }
     )

@@ -21,10 +21,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import es.myvacations.myvacations.core.extensions.shortCurrencyWhen1000
 import es.myvacations.myvacations.domain.model.TripStatus
 import es.myvacations.myvacations.domain.model.displayName
 import es.myvacations.myvacations.domain.model.flag
-import es.myvacations.myvacations.presentation.createtrip.TripUiState
+import es.myvacations.myvacations.presentation.createedittrip.TripUiState
+import es.myvacations.myvacations.presentation.dashboard.DashboardUiState
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.in_x_days
 import myvacations.shared.generated.resources.subtitle_dashboard
@@ -101,7 +103,7 @@ fun DefaultDashboardTrip(
             ) {
 
                 Text(
-                    text = "${trip.totalCost}${"€"}",
+                    text = trip.totalCost.shortCurrencyWhen1000() +" "+ trip.currency.toCurrencyName(),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary

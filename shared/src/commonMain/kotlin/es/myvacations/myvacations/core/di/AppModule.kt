@@ -1,7 +1,8 @@
 package es.myvacations.myvacations.core.di
 
-import es.myvacations.myvacations.presentation.createtrip.CreateEditTripsViewModel
+import es.myvacations.myvacations.presentation.createedittrip.CreateEditTripsViewModel
 import es.myvacations.myvacations.presentation.dashboard.DashboardViewModel
+import es.myvacations.myvacations.presentation.settings.SettingsViewModel
 import es.myvacations.myvacations.presentation.tripdetail.TripDetailsViewModel
 import es.myvacations.myvacations.presentation.trips.TripViewModel
 import org.koin.core.module.dsl.viewModel
@@ -11,18 +12,26 @@ val appModule = module {
     // ViewModels
     viewModel {
         DashboardViewModel(
+            initializeDatabaseSettingsUseCase = get(),
+            getSettingsUseCase = get(),
             getDayPeriod = get(),
             getTripsUseCase = get(),
-            getUserUseCase = get()
         )
     }
     viewModel { TripViewModel(getTripsUseCase = get()) }
-    viewModel { TripDetailsViewModel(getTripByIdUseCase = get(), deleteTripUseCase = get()) }
+    viewModel { TripDetailsViewModel(getTripByIdUseCase = get(), getSettingUseCase = get(), deleteTripUseCase = get(), editTrip = get(), selectedTravelers = get(), updateTravelers = get(), deleteTravelerUseCase = get(), insertTravelerUseCase = get(),updateMainTravelerUseCase = get()) }
     viewModel {
         CreateEditTripsViewModel(
             saveTrip = get(),
             getTripIdUseCase = get(),
-            editTrip = get()
+            editTrip = get(),
+            getSettingsUseCase = get()
+        )
+    }
+    viewModel {
+        SettingsViewModel(
+            getSettingsUseCase = get(),
+            updateSettingsUseCase = get()
         )
     }
 }
