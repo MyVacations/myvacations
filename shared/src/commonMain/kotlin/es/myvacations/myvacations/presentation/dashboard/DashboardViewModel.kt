@@ -2,18 +2,19 @@ package es.myvacations.myvacations.presentation.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import es.myvacations.myvacations.core.extensions.roundTo2Decimals
 import es.myvacations.myvacations.core.extensions.transformInInitials
-import es.myvacations.myvacations.domain.mapper.calculateStatus
-import es.myvacations.myvacations.domain.model.TripStatus
+import es.myvacations.myvacations.domain.model.SettingsDomain
 import es.myvacations.myvacations.domain.usecase.GetDayPeriodUseCase
+import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseCase
+import es.myvacations.myvacations.domain.usecase.settingsusecase.InitializeDatabaseSettingsUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.GetTripsUseCase
-import es.myvacations.myvacations.domain.usecase.userusecase.GetUserUseCase
 import es.myvacations.myvacations.presentation.mapper.toUiCurrentTripState
 import es.myvacations.myvacations.presentation.mapper.toUiPastTripState
-import es.myvacations.myvacations.presentation.mapper.toUiState
+import es.myvacations.myvacations.presentation.mapper.toUiSettingsState
 import es.myvacations.myvacations.presentation.mapper.toUiStatsState
 import es.myvacations.myvacations.presentation.mapper.toUiUpcomingTripState
+import es.myvacations.myvacations.presentation.settings.SettingsUiState
+import es.myvacations.myvacations.presentation.utils.Currency
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,9 +31,10 @@ import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
 
 class DashboardViewModel(
+    private val initializeDatabaseSettingsUseCase: InitializeDatabaseSettingsUseCase,
+    private val getSettingsUseCase: GetSettingsUseCase,
     private val getDayPeriod: GetDayPeriodUseCase,
     private val getTripsUseCase: GetTripsUseCase,
-    private val getUserUseCase: GetUserUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(
@@ -43,6 +45,12 @@ class DashboardViewModel(
 
     init {
         viewModelScope.launch {
+            initializeDatabaseSettingsUseCase.invoke(
+                SettingsDomain(
+                    username = "",
+                    preferredCurrency = Currency.EURO
+                )
+            )
             while (isActive) {
                 waitUntilNextPeriodChange()
                 refreshGreetings()
@@ -50,6 +58,7 @@ class DashboardViewModel(
         }
 
         observeTrips()
+        observeSettings()
     }
 
     private suspend fun waitUntilNextPeriodChange() {
@@ -86,11 +95,11 @@ class DashboardViewModel(
 
     fun refreshGreetings() {
         viewModelScope.launch {
-            getUserUseCase().collect { userDomain ->
+            getSettingsUseCase().collect { settingsDomain ->
                 _uiState.update {
                     it.copy(
                         greetings = getDayPeriod(),
-                        userName = userDomain?.name
+                        settings = settingsDomain?.toUiSettingsState() ?: SettingsUiState()
                     )
                 }
             }
@@ -108,6 +117,28 @@ class DashboardViewModel(
                         upcomingTrips = tripsDomain.toUiUpcomingTripState(),
                         pastTrips = tripsDomain.toUiPastTripState(),
                         stats = tripsDomain.toUiStatsState()
+                    )
+                }
+            }
+        }
+    }
+
+    private fun observeSettings() {
+        viewModelScope.launch {
+            getSettingsUseCase.invoke().collect { settingsDomain ->
+                _uiState.update {
+                    it.copy(
+                        settings = settingsDomain?.toUiSettingsState() ?: SettingsUiState(),
+                        upcomingTrips = _uiState.value.upcomingTrips.map { trip ->
+                            trip.copy(
+                                currency = settingsDomain?.preferredCurrency ?: Currency.EURO
+                            )
+                        },
+                        pastTrips = _uiState.value.pastTrips.map { trip ->
+                            trip.copy(
+                                currency = settingsDomain?.preferredCurrency ?: Currency.EURO
+                            )
+                        },
                     )
                 }
             }

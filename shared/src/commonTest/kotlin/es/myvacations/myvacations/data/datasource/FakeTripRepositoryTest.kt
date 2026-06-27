@@ -1,5 +1,6 @@
 package es.myvacations.myvacations.data.datasource
 
+import es.myvacations.myvacations.domain.model.TravelersDomain
 import es.myvacations.myvacations.domain.model.TripDomain
 import es.myvacations.myvacations.domain.repository.TripRepository
 import es.myvacations.myvacations.domain.usecase.tripusecase.SaveTripUseCase
@@ -38,6 +39,26 @@ class FakeTripRepository : TripRepository {
     }
 
     override suspend fun deleteExpense(idExpense: String, idTrip: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getTravelers(tripId: String): Flow<List<TravelersDomain>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateTraveler(traveler: TravelersDomain) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateMainTraveler(traveler: TravelersDomain) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteTraveler(id: String, tripId: String) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun insertTraveler(traveler: TravelersDomain) {
         TODO("Not yet implemented")
     }
 

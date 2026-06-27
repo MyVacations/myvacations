@@ -25,7 +25,7 @@ uuid = "0.8.4"
 napier = "2.7.1"
 foundation = "1.11.3"
 calendar-jvm = "2.10.1"
-coreKtx = "1.7.0"
+koalaplot = "0.11.2"
 
 [libraries]
 androidx-core = { module = "androidx.test:core", version.ref = "core" }
@@ -71,7 +71,8 @@ napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 androidx-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 #Calendar
 calendar = { module = "com.kizitonwose.calendar:compose-multiplatform", version.ref = "calendar-jvm" }
-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtx" }
+#Donut
+koalaplot = { module = "io.github.koalaplot:koalaplot-core", version.ref = "koalaplot" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

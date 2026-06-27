@@ -1,32 +1,47 @@
-package es.myvacations.myvacations.presentation.createtrip
+package es.myvacations.myvacations.presentation.createedittrip
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import es.myvacations.myvacations.domain.model.Country
 import es.myvacations.myvacations.domain.model.TripCover
-import es.myvacations.myvacations.domain.model.TripExpensesDomain
+import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.GetTripByIdUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.SaveTripUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.UpdateTripUseCase
 import es.myvacations.myvacations.presentation.mapper.toDomainModel
+import es.myvacations.myvacations.presentation.mapper.toUiState
+import es.myvacations.myvacations.presentation.utils.Currency
 import es.myvacations.myvacations.presentation.utils.TravelIcon
+import es.myvacations.myvacations.presentation.utils.TripExpenseUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlin.random.Random
+import kotlin.uuid.Uuid
 
 class CreateEditTripsViewModel(
     private val saveTrip: SaveTripUseCase,
     private val getTripIdUseCase: GetTripByIdUseCase,
-    private val editTrip: UpdateTripUseCase
+    private val editTrip: UpdateTripUseCase,
+    private val getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(
         TripUiState()
     )
     val uiState = _uiState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            getSettingsUseCase().collect { settings ->
+                _uiState.update {
+                    it.copy(currency = settings?.preferredCurrency ?: Currency.EURO)
+                }
+            }
+        }
+    }
 
     fun getTripById(id: String) {
         viewModelScope.launch {
@@ -44,7 +59,8 @@ class CreateEditTripsViewModel(
                         mainBudget = tripDomain?.mainBudget ?: 0.0,
                         cover = tripDomain?.cover ?: TripCover.BARCELONA,
                         optionalExpensesExpanded = false,
-                        optionalExpenses = tripDomain?.optionalExpenses ?: emptyList()
+                        optionalExpenses = tripDomain?.optionalExpenses?.map { expenseDomain -> expenseDomain.toUiState() }
+                            ?: emptyList()
                     )
                 }
             }
@@ -146,11 +162,11 @@ class CreateEditTripsViewModel(
 
     fun addExpense() {
         _uiState.value = _uiState.value.copy(
-            optionalExpenses = _uiState.value.optionalExpenses + TripExpensesDomain(
+            optionalExpenses = _uiState.value.optionalExpenses + TripExpenseUiState(
                 id = Random.nextInt().toString(),
                 name = "",
-                icon = TravelIcon.FLIGHT,
-                amount = 400.0
+                icon = TravelIcon.RESTAURANT,
+                amount = 100.0
             )
         )
     }
@@ -183,7 +199,7 @@ class CreateEditTripsViewModel(
     fun saveTrip() {
         viewModelScope.launch {
             if (_uiState.value.editMode) editTrip.invoke(uiState.value.toDomainModel()) else saveTrip.invoke(
-                uiState.value.toDomainModel()
+                uiState.value.toDomainModel().copy(id = Uuid.random().toHexString())
             )
             clearUi()
         }

@@ -63,7 +63,7 @@ fun StatusChip(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                BlinkingCircle(Color(0xFFEEFF80))
+                BlinkingCircle(Color(0xFFB0B630))
                 Spacer(Modifier.width(6.dp))
                 Text(
                     text = stringResource(Res.string.actual_trip_past),

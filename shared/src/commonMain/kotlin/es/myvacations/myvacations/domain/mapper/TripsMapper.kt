@@ -2,13 +2,13 @@ package es.myvacations.myvacations.domain.mapper
 
 import es.myvacations.myvacations.data.database.TripData
 import es.myvacations.myvacations.data.database.TripExpenseData
-import es.myvacations.myvacations.data.database.UserData
+import es.myvacations.myvacations.data.database.TripTravelersData
 import es.myvacations.myvacations.domain.model.Country
+import es.myvacations.myvacations.domain.model.TravelersDomain
 import es.myvacations.myvacations.domain.model.TripCover
 import es.myvacations.myvacations.domain.model.TripDomain
 import es.myvacations.myvacations.domain.model.TripExpensesDomain
 import es.myvacations.myvacations.domain.model.TripStatus
-import es.myvacations.myvacations.domain.model.UserDomain
 import es.myvacations.myvacations.presentation.utils.TravelIcon
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -37,11 +37,6 @@ fun TripExpenseData.toDomainModel() = TripExpensesDomain(
     amount = amount
 )
 
-fun UserData.toDomainModel() = UserDomain(
-    id = id,
-    name = name
-)
-
 fun TripDomain.calculateStatus(): TripStatus {
     val today = Clock.System.now()
         .toLocalDateTime(TimeZone.currentSystemDefault())
@@ -53,3 +48,10 @@ fun TripDomain.calculateStatus(): TripStatus {
         else -> TripStatus.ACTIVE
     }
 }
+
+fun TripTravelersData.toDomainModel() = TravelersDomain(
+    id = id,
+    tripId = tripId,
+    travelerName = travelerName,
+    isMainTraveler = mainUser
+)

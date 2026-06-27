@@ -1,9 +1,11 @@
-package es.myvacations.myvacations.presentation.createtrip
+package es.myvacations.myvacations.presentation.createedittrip
 
+import es.myvacations.myvacations.core.extensions.roundTo2Decimals
 import es.myvacations.myvacations.domain.model.Country
 import es.myvacations.myvacations.domain.model.TripCover
-import es.myvacations.myvacations.domain.model.TripExpensesDomain
 import es.myvacations.myvacations.domain.model.TripStatus
+import es.myvacations.myvacations.presentation.utils.Currency
+import es.myvacations.myvacations.presentation.utils.TripExpenseUiState
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.daysUntil
@@ -11,7 +13,7 @@ import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 
 data class TripUiState(
-    val id : String = "",
+    val id: String = "",
     val titleTrip: String = "",
     val placeTrip: Country = Country.SPAIN,
     val startDate: LocalDate? = null,
@@ -22,8 +24,9 @@ data class TripUiState(
     val mainBudget: Double = 0.0,
     val cover: TripCover = TripCover.BARCELONA,
     val optionalExpensesExpanded: Boolean = false,
-    val optionalExpenses: List<TripExpensesDomain> = emptyList(),
-    val editMode: Boolean = false
+    val optionalExpenses: List<TripExpenseUiState> = emptyList(),
+    val editMode: Boolean = false,
+    val currency: Currency = Currency.EURO
 ) {
     val today = Clock.System.now()
         .toLocalDateTime(TimeZone.currentSystemDefault())
@@ -35,23 +38,26 @@ data class TripUiState(
     val daysPassed: Int
         get() = endDate?.daysUntil(today) ?: 0
 
+    val totalOptionalExpenses: Double
+        get() = optionalExpenses.sumOf { it.amount }
+
     val totalCost: Double
-        get() = mainCost + optionalExpenses.sumOf { it.amount }
+        get() = (mainCost + totalOptionalExpenses).roundTo2Decimals()
 
     val remainingBudget: Double
-        get() = mainBudget - totalCost
+        get() = (mainBudget - totalOptionalExpenses)
 
     val costPerPerson: Double
-        get() = if (travelers > 0) totalCost / travelers else 0.0
+        get() = (if (travelers > 0) totalCost / travelers else 0.0).roundTo2Decimals()
 
     val costPerDay: Double
-        get() = if (totalDays > 0) totalCost / totalDays else 0.0
-
-    val costPerDayEachPerson: Double
-        get() = if (travelers > 0) costPerDay / travelers else 0.0
+        get() = (if (totalDays > 0) totalCost / totalDays else 0.0).roundTo2Decimals()
 
     val totalDays: Int
         get() = startDate?.daysUntil(endDate ?: today) ?: 0
+
+    val totalDaysStaying: Int
+        get() = (totalDays - daysTraveling)
 
     val tripStatus: TripStatus
         get() = when {

@@ -22,11 +22,23 @@ CREATE TABLE TripExpenseData (
     ON DELETE CASCADE
 );
 
-CREATE INDEX expense_tripId_idx ON TripExpenseData(tripId);
-
-CREATE TABLE UserData (
+CREATE TABLE TripTravelersData (
     id TEXT NOT NULL PRIMARY KEY,
-    name TEXT NOT NULL
+    tripId TEXT NOT NULL,
+    travelerName TEXT NOT NULL,
+    mainUser INTEGER AS kotlin.Boolean NOT NULL,
+    FOREIGN KEY (tripId)
+    REFERENCES TripData(id)
+    ON DELETE CASCADE
+);
+
+CREATE INDEX expense_tripId_idx ON TripExpenseData(tripId);
+CREATE INDEX traveler_tripId_idx ON TripTravelersData(tripId);
+
+CREATE TABLE SettingsData (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    currency TEXT NOT NULL
 );
 
 selectAllTrips:
@@ -39,6 +51,18 @@ WHERE id = ?;
 selectExpenseByTripId:
 SELECT * FROM TripExpenseData
 WHERE tripId = ?;
+
+selectExpenseByTripIdAndExpenseId:
+SELECT EXISTS(
+    SELECT 1
+    FROM TripExpenseData
+    WHERE tripId = ?
+    AND id = ?
+);
+
+selectTravelersAccountByTripId:
+SELECT travelers FROM TripData
+WHERE id = ?;
 
 insertTrip:
 INSERT INTO TripData(
@@ -81,6 +105,12 @@ SET
     cover = ?
 WHERE id = ?;
 
+updateTravelersAccount:
+UPDATE TripData
+SET
+    travelers = ?
+WHERE id = ?;
+
 updateExpense:
 UPDATE TripExpenseData
 SET
@@ -97,19 +127,64 @@ deleteExpense:
 DELETE FROM TripExpenseData
 WHERE id = ? AND tripId = ?;
 
-selectUser:
-SELECT * FROM UserData;
+selectSettings:
+SELECT * FROM SettingsData;
 
-insertUser:
-INSERT INTO UserData(
+insertDefaultUser:
+INSERT OR IGNORE INTO SettingsData(
     id,
-    name
+    name,
+    currency
 )
+VALUES (
+    "settings",
+    ?,
+    ?
+);
 
-VALUES (?,?);
+updateSettings:
+UPDATE SettingsData
+SET
+    name = ?,
+    currency = ?
+WHERE id = "settings";
 
-updateUser:
-UPDATE UserData
+updateNameSettings:
+UPDATE SettingsData
 SET
     name = ?
-WHERE id = ?;
+WHERE id = "settings";
+
+selectTravelers:
+SELECT * FROM TripTravelersData
+WHERE tripId = ?;
+
+insertTravelers:
+INSERT INTO TripTravelersData(
+    id,
+    tripId,
+    travelerName,
+    mainUser
+)
+VALUES (
+    ?,
+    ?,
+    ?,
+    ?
+);
+
+updateTraveler:
+UPDATE TripTravelersData
+SET
+    travelerName = ?
+WHERE id = ? AND tripId = ?;
+
+updateMainUser:
+UPDATE TripTravelersData
+SET
+    travelerName = ?
+WHERE mainUser = 1;
+
+deleteTraveler:
+DELETE FROM TripTravelersData
+WHERE id = ? AND tripId = ?;

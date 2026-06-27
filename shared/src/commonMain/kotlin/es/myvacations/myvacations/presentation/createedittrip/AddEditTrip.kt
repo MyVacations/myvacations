@@ -1,4 +1,4 @@
-package es.myvacations.myvacations.presentation.createtrip
+package es.myvacations.myvacations.presentation.createedittrip
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -66,6 +66,7 @@ import es.myvacations.myvacations.presentation.utils.NumberPicker
 import es.myvacations.myvacations.presentation.utils.SummaryCard
 import es.myvacations.myvacations.presentation.utils.TravelIcon
 import es.myvacations.myvacations.presentation.utils.painter
+import es.myvacations.myvacations.presentation.utils.toCurrencyName
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.number
 import myvacations.shared.generated.resources.Res
@@ -667,7 +668,7 @@ fun CostAndBudgetView(
                 ) {
                     if (uiState.mainCost <= 0.0) {
                         Text(
-                            text = "0.00",
+                            text = "0.0",
                             style = MaterialTheme.typography.bodyLarge
                         )
                     }
@@ -686,7 +687,7 @@ fun CostAndBudgetView(
 
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = stringResource(Res.string.new_trip_budget, "€"),
+            text = stringResource(Res.string.new_trip_budget, uiState.currency.toCurrencyName()),
             style = MaterialTheme.typography.bodyMedium
         )
 
@@ -715,7 +716,7 @@ fun CostAndBudgetView(
                 ) {
                     if (uiState.mainBudget <= 0.0) {
                         Text(
-                            text = "0.00",
+                            text = "0.0",
                             style = MaterialTheme.typography.bodyLarge
                         )
                     }
@@ -795,6 +796,6 @@ fun ExtraExpensesView(
 fun TotalEstimatedCostView(uiState: TripUiState) {
     SummaryCard(
         title = stringResource(Res.string.new_trip_estimated_total),
-        value = uiState.totalCost.toString()
+        value = uiState.totalCost.toString() + " " + uiState.currency.toCurrencyName()
     )
 }

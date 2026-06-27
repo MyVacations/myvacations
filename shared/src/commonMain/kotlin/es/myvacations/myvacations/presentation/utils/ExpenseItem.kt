@@ -33,11 +33,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import es.myvacations.myvacations.domain.model.TripExpensesDomain
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.cancel
 import myvacations.shared.generated.resources.new_trip_expense
-import myvacations.shared.generated.resources.new_trip_flight
+import myvacations.shared.generated.resources.new_trip_food
 import myvacations.shared.generated.resources.new_trip_optional_amount
 import myvacations.shared.generated.resources.new_trip_optional_delete
 import myvacations.shared.generated.resources.new_trip_optional_name
@@ -49,13 +48,13 @@ import org.jetbrains.compose.resources.stringResource
 @Preview(showBackground = true)
 @Composable
 fun ExpenseItem(
-    expense: TripExpensesDomain = TripExpensesDomain("1", "Hotel", TravelIcon.HOTEL, 100.0),
+    expense: TripExpenseUiState = TripExpenseUiState(),
     onDelete: () -> Unit = {},
     onUpdateExpenseName: (String, String) -> Unit = { _, _ -> },
     onUpdateExpenseIcon: (String, TravelIcon) -> Unit = { _, _ -> },
     onUpdateExpenseAmount: (String, Double) -> Unit = { _, _ -> },
 ) {
-    val name = expense.name.ifBlank { stringResource(Res.string.new_trip_flight) }
+    val name = expense.name.ifBlank { stringResource(Res.string.new_trip_food) }
     val onExpenseName = remember { mutableStateOf(name) }
     val onExpenseAmount = remember { mutableStateOf(expense.amount) }
     val onExpenseIcon = remember { mutableStateOf(expense.icon) }
@@ -92,7 +91,7 @@ fun ExpenseItem(
         ) {
 
             Text(
-                text = expense.name.ifBlank { stringResource(Res.string.new_trip_flight) },
+                text = expense.name.ifBlank { stringResource(Res.string.new_trip_food) },
                 style = MaterialTheme.typography.titleMedium
             )
 
