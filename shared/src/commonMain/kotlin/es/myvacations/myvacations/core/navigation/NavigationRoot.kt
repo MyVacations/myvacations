@@ -75,7 +75,7 @@ fun NavigationRoot(isLandscape: Boolean = false) {
                             navigate(ScreenDestination.Statistics)
                         })
 
-                    ScreenDestination.Trips -> TripsScreen(onEditTripClick = {
+                    ScreenDestination.Trips -> TripsScreen(openTripDetail = {
                         navigate(ScreenDestination.TripDetail(it))
                     })
 

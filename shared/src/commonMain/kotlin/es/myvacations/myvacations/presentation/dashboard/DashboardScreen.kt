@@ -312,10 +312,10 @@ private fun DashboardStatSection(
                 StatCard(
                     onStatisticsClick = onStatisticsClick,
                     modifier = Modifier.weight(1f),
-                    value = uiState.stats.totalSpent.shortCurrencyWhen100000() +" "+ uiState.settings.currency.toCurrencyName(),
+                    value = uiState.stats.totalSpent.shortCurrencyWhen100000() + " " + uiState.settings.currency.toCurrencyName(),
                     label = stringResource(Res.string.total_spent),
                     icon = Icons.Default.Wallet,
-                    color = Color(0xFFFF6060),
+                    color = Color(0xFFFF6060)
                 )
             }
             Row(
@@ -325,7 +325,7 @@ private fun DashboardStatSection(
                 StatCard(
                     onStatisticsClick = onStatisticsClick,
                     modifier = Modifier.weight(1f),
-                    value = uiState.stats.averageTripCost.shortCurrencyWhen100000() +" "+ uiState.settings.currency.toCurrencyName(),
+                    value = uiState.stats.averageTripCost.shortCurrencyWhen100000() + " " + uiState.settings.currency.toCurrencyName(),
                     label = stringResource(Res.string.average_spent),
                     icon = Icons.AutoMirrored.Filled.TrendingUp,
                     color = Color(0xFFFFBE42),
@@ -344,7 +344,7 @@ private fun DashboardStatSection(
                 onStatisticsClick = onStatisticsClick,
                 modifier = Modifier.fillMaxWidth()
                     .height(120.dp),
-                value = uiState.stats.averageSavesFromBudget.shortCurrencyWhen100000() +" "+ uiState.settings.currency.toCurrencyName(),
+                value = uiState.stats.averageSavesFromBudget.shortCurrencyWhen100000() + " " + uiState.settings.currency.toCurrencyName(),
                 label = stringResource(Res.string.average_saves_from_budget),
                 icon = Icons.Default.AttachMoney,
                 color = Color(0xFF4CAF50),

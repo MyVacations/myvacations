@@ -38,7 +38,9 @@ import org.jetbrains.compose.resources.stringResource
 fun DefaultDashboardTrip(
     trip: TripUiState = TripUiState(),
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    withoutImage: Boolean = false,
+    futureTrip: Boolean = false
 ) {
     ElevatedCard(
         modifier = modifier
@@ -52,26 +54,24 @@ fun DefaultDashboardTrip(
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            if(!withoutImage) {
+                Image(
+                    painter = trip.cover.painter(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(56.dp)
+                        .clip(CircleShape)
+                )
 
-            Image(
-                painter = trip.cover.painter(),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(56.dp)
-                    .clip(CircleShape)
-            )
-
-            Spacer(modifier = Modifier.width(12.dp))
-
+                Spacer(modifier = Modifier.width(12.dp))
+            }
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-
                     Text(
                         text = trip.placeTrip.flag,
                         style = MaterialTheme.typography.labelSmall,
@@ -101,33 +101,33 @@ fun DefaultDashboardTrip(
             Column(
                 horizontalAlignment = Alignment.End
             ) {
-
                 Text(
                     text = trip.totalCost.shortCurrencyWhen1000() +" "+ trip.currency.toCurrencyName(),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
                 )
-                if (trip.tripStatus == TripStatus.PLANNED) {
-                    Text(
-                        text = stringResource(
-                            Res.string.in_x_days,
-                            trip.remainingDays
-                        ),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                } else {
-                    Text(
-                        text = stringResource(
-                            Res.string.x_days_ago,
-                            trip.daysPassed
-                        ),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                if(!futureTrip) {
+                    if (trip.tripStatus == TripStatus.PLANNED) {
+                        Text(
+                            text = stringResource(
+                                Res.string.in_x_days,
+                                trip.remainingDays
+                            ),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    } else {
+                        Text(
+                            text = stringResource(
+                                Res.string.x_days_ago,
+                                trip.daysPassed
+                            ),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
-
             }
         }
     }

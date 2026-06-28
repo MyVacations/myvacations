@@ -146,6 +146,7 @@
     <string name="new_trip_cover_dialog_title">Selecciona una portada</string>
 
     <!--TripDetail-->
+    <string name="trip_detail_all">Todos</string>
     <string name="trip_detail_active">Activo</string>
     <string name="trip_detail_upcoming">Planeado</string>
     <string name="trip_detail_past">Pasado</string>
@@ -153,6 +154,7 @@
     <string name="trip_detail_delete_details">Se eliminará el viaje con todos sus datos</string>
     <string name="trip_detail_header_totalcost">Coste Total</string>
     <string name="trip_detail_header_costperperson">persona</string>
+    <string name="trip_detail_header_costperperson_">pas</string>
     <string name="trip_detail_header_costperday">dia</string>
     <string name="trip_detail_overview">Resumen</string>
     <string name="trip_detail_budget">Presupuesto</string>
@@ -197,4 +199,5 @@
     <string name="trip_detail_traveler_costperperson">Coste por persona</string>
     <string name="trip_detail_traveler_perpersondays">Por persona / dias</string>
     <string name="trip_detail_traveler_newtraveler">+ Añadir viajero</string>
+    <string name="trip_detail_search_default_value">Buscar destinos...</string>
 </resources>

@@ -74,5 +74,7 @@ fun StatusChip(
                 )
             }
         }
+
+        else -> Unit
     }
 }
