@@ -96,7 +96,7 @@ Categorías personalizadas:
 * Kotlin Serialization
 * kotlinx-datetime
 * Napier
-
+* koalaplot
 ---
 
 ## Estructura del proyecto
@@ -206,21 +206,21 @@ Custom categories:
 * Kotlin Serialization
 * kotlinx-datetime
 * Napier
-
+* koalaplot
 ---
 
 ## Roadmap
 
 ### Version 1.0
 
-* [ ] Dashboard
-* [ ] Trips list
-* [ ] Create vacation
-* [ ] Vacation details
-* [ ] Expense management
-* [ ] Budget management
-* [ ] Local persistence
-* [ ] Android support
+* [✅] Dashboard
+* [✅] Trips list
+* [✅] Create vacation
+* [✅] Vacation details
+* [✅] Expense management
+* [✅] Budget management
+* [✅] Local persistence
+* [✅] Android support
 * [ ] iOS support
 
 ### Future Versions
