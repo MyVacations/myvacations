@@ -71,6 +71,7 @@ fun List<TripDomain>.toUiCurrentTripState() = minByOrNull { trip ->
         TripStatus.ACTIVE -> 0
         TripStatus.PLANNED -> 1
         TripStatus.COMPLETE -> 2
+        else -> 3
     }
 }?.toUiState()
 

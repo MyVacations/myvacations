@@ -146,6 +146,7 @@
     <string name="new_trip_cover_dialog_title">Select a cover</string>
 
     <!--TripDetail-->
+    <string name="trip_detail_all">All</string>
     <string name="trip_detail_active">Active</string>
     <string name="trip_detail_upcoming">Upcoming</string>
     <string name="trip_detail_past">Past</string>
@@ -153,6 +154,7 @@
     <string name="trip_detail_delete_details">This trip will be deleted with all its data</string>
     <string name="trip_detail_header_totalcost">Total Cost</string>
     <string name="trip_detail_header_costperperson">person</string>
+    <string name="trip_detail_header_costperperson_">pax</string>
     <string name="trip_detail_header_costperday">day</string>
     <string name="trip_detail_overview">Overview</string>
     <string name="trip_detail_expenses">Expenses</string>
@@ -197,4 +199,5 @@
     <string name="trip_detail_traveler_costperperson">Cost per person</string>
     <string name="trip_detail_traveler_perpersondays">Per person / stay day</string>
     <string name="trip_detail_traveler_newtraveler">+ Add Traveler</string>
+    <string name="trip_detail_search_default_value">Search destinations...</string>
 </resources>

@@ -15,5 +15,4 @@ object DateFormatter {
             date.format(englishDateFormat)
         }
     }
-
 }
