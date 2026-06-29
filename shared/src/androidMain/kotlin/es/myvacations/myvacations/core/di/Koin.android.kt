@@ -1,7 +1,6 @@
 package es.myvacations.myvacations.core.di
 
-import android.content.Context
-import androidx.lifecycle.ViewModelProvider.NewInstanceFactory.Companion.instance
+import es.myvacations.myvacations.core.utils.AndroidContextHolder
 import es.myvacations.myvacations.data.di.dataModule
 import es.myvacations.myvacations.domain.di.domainModule
 import io.github.aakira.napier.DebugAntilog
@@ -13,17 +12,11 @@ fun initLogger() {
     Napier.base(DebugAntilog())
 }
 
-private lateinit var appContext: Context
-
-fun initializeKoinContext(context: Context) {
-    appContext = context
-}
-
 actual fun initKoin() {
     initLogger()
 
     startKoin {
-        androidContext(appContext)
+        androidContext(AndroidContextHolder.context)
         modules(
             buildList {
                 add(appModule)

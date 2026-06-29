@@ -67,11 +67,7 @@ import es.myvacations.myvacations.presentation.utils.NumberPicker
 import es.myvacations.myvacations.presentation.utils.SummaryCard
 import es.myvacations.myvacations.presentation.utils.TravelIcon
 import es.myvacations.myvacations.presentation.utils.painter
-import es.myvacations.myvacations.presentation.utils.toCurrencyName
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
+import es.myvacations.myvacations.presentation.utils.toCurrencySymbol
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.number
 import myvacations.shared.generated.resources.Res
@@ -109,8 +105,6 @@ import myvacations.shared.generated.resources.new_trip_trip_title
 import myvacations.shared.generated.resources.new_trip_trip_title_example
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import kotlin.time.Clock
-import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun AddEditTripScreen(
@@ -707,7 +701,7 @@ fun CostAndBudgetView(
 
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = stringResource(Res.string.new_trip_budget, uiState.currency.toCurrencyName()),
+            text = stringResource(Res.string.new_trip_budget, uiState.currency.toCurrencySymbol()),
             style = MaterialTheme.typography.bodyMedium
         )
 
@@ -816,6 +810,6 @@ fun ExtraExpensesView(
 fun TotalEstimatedCostView(uiState: TripUiState) {
     SummaryCard(
         title = stringResource(Res.string.new_trip_estimated_total),
-        value = uiState.totalCost.toString() + " " + uiState.currency.toCurrencyName()
+        value = uiState.totalCost.toString() + " " + uiState.currency.toCurrencySymbol()
     )
 }

@@ -52,7 +52,7 @@ import es.myvacations.myvacations.core.navigation.SystemBackHandler
 import es.myvacations.myvacations.core.utils.DateFormatter
 import es.myvacations.myvacations.presentation.utils.StatusCard
 import es.myvacations.myvacations.presentation.utils.painter
-import es.myvacations.myvacations.presentation.utils.toCurrencyName
+import es.myvacations.myvacations.presentation.utils.toCurrencySymbol
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.accept
 import myvacations.shared.generated.resources.cancel
@@ -318,7 +318,7 @@ fun TripCostCard(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = uiState.tripUiState.totalCost.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencyName(),
+                    text = uiState.tripUiState.totalCost.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencySymbol(),
                     color = Color.White,
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.Bold
@@ -329,7 +329,7 @@ fun TripCostCard(
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    text = uiState.tripUiState.costPerPerson.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencyName() + " /" + stringResource(
+                    text = uiState.tripUiState.costPerPerson.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencySymbol() + " /" + stringResource(
                         Res.string.trip_detail_header_costperperson
                     ),
                     color = Color.White,
@@ -340,7 +340,7 @@ fun TripCostCard(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = uiState.tripUiState.costPerDay.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencyName() + " /" + stringResource(
+                    text = uiState.tripUiState.costPerDay.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencySymbol() + " /" + stringResource(
                         Res.string.trip_detail_header_costperday
                     ),
                     color = Color.White,

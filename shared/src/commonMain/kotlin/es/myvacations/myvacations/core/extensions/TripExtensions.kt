@@ -8,5 +8,7 @@ fun Double.roundTo1Decimals(): Double =
 
 fun String.transformInInitials(): String = trim()
     .split("\\s+".toRegex())
-    .filter { it.isNotBlank() }
-    .take(2).joinToString("") { it.first().uppercase() }
+    .filter(String::isNotBlank)
+    .take(2)
+    .map { it.first().uppercaseChar() }
+    .joinToString("")

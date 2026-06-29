@@ -41,12 +41,11 @@ import androidx.compose.ui.unit.dp
 import es.myvacations.myvacations.core.extensions.shortCurrencyWhen1000
 import es.myvacations.myvacations.core.extensions.shortCurrencyWhen100000
 import es.myvacations.myvacations.core.extensions.transformInInitials
-import es.myvacations.myvacations.presentation.utils.toCurrencyName
+import es.myvacations.myvacations.presentation.utils.toCurrencySymbol
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.accept
 import myvacations.shared.generated.resources.cancel
 import myvacations.shared.generated.resources.guest_user
-import myvacations.shared.generated.resources.new_trip_add_expense
 import myvacations.shared.generated.resources.trip_detail_traveler_costperperson
 import myvacations.shared.generated.resources.trip_detail_traveler_delete
 import myvacations.shared.generated.resources.trip_detail_traveler_name_placeholder
@@ -99,14 +98,14 @@ fun TravelersScreen(
 
             SummaryRow(
                 title = stringResource(Res.string.trip_detail_traveler_totalcost),
-                value = uiState.tripUiState.totalCost.shortCurrencyWhen100000() + " " + uiState.currency.toCurrencyName(),
+                value = uiState.tripUiState.totalCost.shortCurrencyWhen100000() + " " + uiState.currency.toCurrencySymbol(),
             )
 
             Spacer(Modifier.height(12.dp))
 
             SummaryRow(
                 title = stringResource(Res.string.trip_detail_traveler_costperperson),
-                value = uiState.tripUiState.costPerPerson.shortCurrencyWhen100000() + " " + uiState.currency.toCurrencyName(),
+                value = uiState.tripUiState.costPerPerson.shortCurrencyWhen100000() + " " + uiState.currency.toCurrencySymbol(),
                 valueColor = MaterialTheme.colorScheme.primary
             )
 
@@ -114,7 +113,7 @@ fun TravelersScreen(
 
             SummaryRow(
                 title = stringResource(Res.string.trip_detail_traveler_perpersondays),
-                value = uiState.tripUiState.costPerDay.shortCurrencyWhen100000() + " " + uiState.currency.toCurrencyName()
+                value = uiState.tripUiState.costPerDay.shortCurrencyWhen100000() + " " + uiState.currency.toCurrencySymbol()
             )
         }
     }
@@ -208,7 +207,7 @@ fun TravelersScreen(
                     ) {
 
                         Text(
-                            text = uiState.tripUiState.costPerPerson.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencyName(),
+                            text = uiState.tripUiState.costPerPerson.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencySymbol(),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary
