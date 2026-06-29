@@ -76,6 +76,8 @@
     <string name="settings">Ajustes</string>
     <!-- Titulos de pantalla -->
     <string name="trips_title">Mis Viajes</string>
+    <string name="statistics_title">Estadisticas</string>
+    <!--Elementos utiles-->
     <string name="accept">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="close">Cerrar</string>
@@ -200,4 +202,15 @@
     <string name="trip_detail_traveler_perpersondays">Por persona / dias</string>
     <string name="trip_detail_traveler_newtraveler">+ Añadir viajero</string>
     <string name="trip_detail_search_default_value">Buscar destinos...</string>
+    <!--Statistics-->
+    <string name="statistics_notrips">Sin viajes encontrados</string>
+    <string name="statistics_notrips_description">No hay viajes que coincidan con el filtro seleccionado</string>
+    <string name="statistics_tripstaken">Viajes Realizados</string>
+    <string name="statistics_totalspent">Total Gastado</string>
+    <string name="statistics_totaldays">Total de días</string>
+    <string name="statistics_countries">Paises</string>
+    <string name="statistics_costpertrip">Coste por viaje</string>
+    <string name="statistics_bycategory">Gasto por categoría</string>
+    <string name="statistics_priciestrip">Viaje más caro</string>
+
 </resources>

@@ -16,10 +16,13 @@ import es.myvacations.myvacations.presentation.createedittrip.TripUiState
 import es.myvacations.myvacations.presentation.mapper.toDomainModel
 import es.myvacations.myvacations.presentation.mapper.toUiState
 import es.myvacations.myvacations.presentation.utils.Currency
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.time.Clock
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.uuid.Uuid
 
 class TripDetailsViewModel(
@@ -37,6 +40,7 @@ class TripDetailsViewModel(
         TripDetailUiState()
     )
     val uiState = _uiState.asStateFlow()
+    fun setLoading(loading: Boolean) = _uiState.update { it.copy(isLoading = loading) }
 
     fun getTravelers(tripId: String) {
         viewModelScope.launch {
@@ -53,10 +57,17 @@ class TripDetailsViewModel(
 
     fun getTripById(id: String) {
         viewModelScope.launch {
+            val startTime = Clock.System.now().toEpochMilliseconds()
             getTripByIdUseCase(id).collect { tripDomain ->
+                val elapsed = Clock.System.now().toEpochMilliseconds() - startTime
+                val remaining = 1000 - elapsed
+                if (remaining > 0) {
+                    delay(remaining.milliseconds)
+                }
                 _uiState.update {
                     it.copy(
-                        tripUiState = tripDomain?.toUiState() ?: TripUiState()
+                        tripUiState = tripDomain?.toUiState() ?: TripUiState(),
+                        isLoading = false
                     )
                 }
             }

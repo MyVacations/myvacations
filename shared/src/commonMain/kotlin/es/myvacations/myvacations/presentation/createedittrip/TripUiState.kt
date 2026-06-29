@@ -26,7 +26,8 @@ data class TripUiState(
     val optionalExpensesExpanded: Boolean = false,
     val optionalExpenses: List<TripExpenseUiState> = emptyList(),
     val editMode: Boolean = false,
-    val currency: Currency = Currency.EURO
+    val currency: Currency = Currency.EURO,
+    val isLoading: Boolean = false
 ) {
     val today = Clock.System.now()
         .toLocalDateTime(TimeZone.currentSystemDefault())

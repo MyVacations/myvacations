@@ -13,12 +13,15 @@ import es.myvacations.myvacations.presentation.mapper.toUiState
 import es.myvacations.myvacations.presentation.utils.Currency
 import es.myvacations.myvacations.presentation.utils.TravelIcon
 import es.myvacations.myvacations.presentation.utils.TripExpenseUiState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlin.random.Random
+import kotlin.time.Clock
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.uuid.Uuid
 
 class CreateEditTripsViewModel(
@@ -43,9 +46,17 @@ class CreateEditTripsViewModel(
         }
     }
 
+    fun setLoading(loading: Boolean) = _uiState.update { it.copy(isLoading = loading) }
+
     fun getTripById(id: String) {
         viewModelScope.launch {
+            val startTime = Clock.System.now().toEpochMilliseconds()
             getTripIdUseCase(id).collect { tripDomain ->
+                val elapsed = Clock.System.now().toEpochMilliseconds() - startTime
+                val remaining = 1000 - elapsed
+                if (remaining > 0) {
+                    delay(remaining.milliseconds)
+                }
                 _uiState.update {
                     it.copy(
                         id = tripDomain?.id ?: "",
@@ -60,7 +71,8 @@ class CreateEditTripsViewModel(
                         cover = tripDomain?.cover ?: TripCover.BARCELONA,
                         optionalExpensesExpanded = false,
                         optionalExpenses = tripDomain?.optionalExpenses?.map { expenseDomain -> expenseDomain.toUiState() }
-                            ?: emptyList()
+                            ?: emptyList(),
+                        isLoading = false
                     )
                 }
             }
