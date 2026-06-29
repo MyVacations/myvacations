@@ -1,7 +1,6 @@
 package es.myvacations.myvacations.presentation.dashboard
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,8 +21,7 @@ import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.Wallet
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.Icon
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -35,7 +32,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,6 +41,7 @@ import es.myvacations.myvacations.core.extensions.shortCurrencyWhen100000
 import es.myvacations.myvacations.core.utils.DateFormatter
 import es.myvacations.myvacations.presentation.settings.SettingsUiState
 import es.myvacations.myvacations.presentation.utils.DefaultDashboardTrip
+import es.myvacations.myvacations.presentation.utils.StatCard
 import es.myvacations.myvacations.presentation.utils.StatusChip
 import es.myvacations.myvacations.presentation.utils.painter
 import es.myvacations.myvacations.presentation.utils.toCurrencyName
@@ -90,49 +87,59 @@ fun DashboardContent(
     onStatisticsClick: () -> Unit = {},
     initials: (userName: String) -> String = { "" }
 ) {
-    LazyColumn(modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp, vertical = 16.dp)) {
-        item {
-            DashboardHeader(uiState, initials)
+    if (uiState.isLoading) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center)
+        {
+            CircularProgressIndicator()
         }
-        item {
-            ActualTripCard(uiState, onEditTripClick)
-        }
-        item {
-            DashboardStatSection(uiState, onStatisticsClick)
-        }
-        item {
-            if (uiState.upcomingTrips.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = stringResource(Res.string.upcoming_trips),
-                    style = MaterialTheme.typography.labelLarge,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                uiState.upcomingTrips.forEach { trip ->
-                    DefaultDashboardTrip(trip = trip, onClick = {
-                        onEditTripClick(trip.id)
-                    })
+    } else {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp, vertical = 16.dp)
+        ) {
+            item {
+                DashboardHeader(uiState, initials)
+            }
+            item {
+                ActualTripCard(uiState, onEditTripClick)
+            }
+            item {
+                DashboardStatSection(uiState, onStatisticsClick)
+            }
+            item {
+                if (uiState.upcomingTrips.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = stringResource(Res.string.upcoming_trips),
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    uiState.upcomingTrips.forEach { trip ->
+                        DefaultDashboardTrip(trip = trip, onClick = {
+                            onEditTripClick(trip.id)
+                        })
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
             }
-        }
-        item {
-            if (uiState.pastTrips.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = stringResource(Res.string.past_trips),
-                    style = MaterialTheme.typography.labelLarge,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                uiState.pastTrips.forEach { trip ->
-                    DefaultDashboardTrip(trip = trip, onClick = {
-                        onEditTripClick(trip.id)
-                    })
+            item {
+                if (uiState.pastTrips.isNotEmpty()) {
+                    Text(
+                        text = stringResource(Res.string.past_trips),
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    uiState.pastTrips.forEach { trip ->
+                        DefaultDashboardTrip(trip = trip, onClick = {
+                            onEditTripClick(trip.id)
+                        })
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
             }
+            item { Spacer(modifier = Modifier.height(65.dp)) }
         }
-        item { Spacer(modifier = Modifier.height(65.dp)) }
     }
 }
 
@@ -363,88 +370,6 @@ private fun DashboardStatSection(
                 contentDescription = null,
                 contentScale = ContentScale.FillHeight,
                 modifier = Modifier.fillMaxSize()
-            )
-        }
-    }
-}
-
-@Composable
-private fun StatCard(
-    onStatisticsClick: () -> Unit,
-    modifier: Modifier,
-    value: String,
-    label: String,
-    icon: ImageVector,
-    color: Color,
-    averageBudgetCard: Boolean = false
-) {
-    ElevatedCard(
-        modifier = modifier.clickable(onClick = {
-            onStatisticsClick()
-        }),
-        shape = RoundedCornerShape(20.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            if (averageBudgetCard) {
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .background(
-                                color = color.copy(alpha = 0.1f),
-                                shape = CircleShape
-                            ),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = icon,
-                            contentDescription = null,
-                            tint = color
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text(
-                        text = value,
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            } else {
-                Box(
-                    modifier = Modifier
-                        .size(48.dp)
-                        .background(
-                            color = color.copy(alpha = 0.1f),
-                            shape = CircleShape
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = null,
-                        tint = color
-                    )
-                }
-
-                Text(
-                    text = value,
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-
-            Text(
-                text = label,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

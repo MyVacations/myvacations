@@ -13,7 +13,7 @@ fun Double.shortCurrencyWhen1000(): String {
             val thousands = (this / 1000).toInt()
             "${thousands}K"
         }
-        this >= 100_0 -> {
+        this >= 1_000-> {
             val thousand = this / 1000
             if (thousand < 10) {
                 "${(thousand * 10).roundToInt() / 10.0}K"

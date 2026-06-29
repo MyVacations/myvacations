@@ -3,6 +3,7 @@ package es.myvacations.myvacations.core.di
 import es.myvacations.myvacations.presentation.createedittrip.CreateEditTripsViewModel
 import es.myvacations.myvacations.presentation.dashboard.DashboardViewModel
 import es.myvacations.myvacations.presentation.settings.SettingsViewModel
+import es.myvacations.myvacations.presentation.statistics.StatisticsViewModel
 import es.myvacations.myvacations.presentation.tripdetail.TripDetailsViewModel
 import es.myvacations.myvacations.presentation.trips.TripViewModel
 import org.koin.core.module.dsl.viewModel
@@ -19,7 +20,19 @@ val appModule = module {
         )
     }
     viewModel { TripViewModel(getTripsUseCase = get()) }
-    viewModel { TripDetailsViewModel(getTripByIdUseCase = get(), getSettingUseCase = get(), deleteTripUseCase = get(), editTrip = get(), selectedTravelers = get(), updateTravelers = get(), deleteTravelerUseCase = get(), insertTravelerUseCase = get(),updateMainTravelerUseCase = get()) }
+    viewModel {
+        TripDetailsViewModel(
+            getTripByIdUseCase = get(),
+            getSettingUseCase = get(),
+            deleteTripUseCase = get(),
+            editTrip = get(),
+            selectedTravelers = get(),
+            updateTravelers = get(),
+            deleteTravelerUseCase = get(),
+            insertTravelerUseCase = get(),
+            updateMainTravelerUseCase = get()
+        )
+    }
     viewModel {
         CreateEditTripsViewModel(
             saveTrip = get(),
@@ -34,4 +47,5 @@ val appModule = module {
             updateSettingsUseCase = get()
         )
     }
+    viewModel { StatisticsViewModel(getTripsUseCase = get()) }
 }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -26,7 +28,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -51,10 +52,8 @@ import es.myvacations.myvacations.presentation.utils.StatusCard
 import es.myvacations.myvacations.presentation.utils.painter
 import es.myvacations.myvacations.presentation.utils.toCurrencyName
 import myvacations.shared.generated.resources.Res
-import myvacations.shared.generated.resources.app_title
 import myvacations.shared.generated.resources.in_x_days
 import myvacations.shared.generated.resources.subtitle_dashboard
-import myvacations.shared.generated.resources.trip_detail_header_costperperson
 import myvacations.shared.generated.resources.trip_detail_header_costperperson_
 import myvacations.shared.generated.resources.trip_detail_search_default_value
 import myvacations.shared.generated.resources.trips_title
@@ -70,77 +69,80 @@ fun TripsScreen(
     var searchValue by remember { mutableStateOf("") }
     var selectedFilterStatus by remember { mutableStateOf(TripStatus.ALL) }
 
-    LaunchedEffect(Unit) {
-        viewModel.loadTrips()
-    }
-
     Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp))
     {
         Text(
             text = stringResource(Res.string.trips_title),
             style = MaterialTheme.typography.headlineSmall
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        OutlinedTextField(
-            value = searchValue,
-            onValueChange = { searchValue = it },
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(stringResource(Res.string.trip_detail_search_default_value))
-            },
-            leadingIcon = {
-                Icon(
-                    Icons.Default.Search,
-                    null
-                )
-            },
-            singleLine = true,
-            shape = RoundedCornerShape(20.dp)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(TripStatus.entries.toTypedArray()) { filter ->
-                Surface(
-                    modifier = Modifier.clickable {
-                        selectedFilterStatus = filter
-                    },
-                    shape = RoundedCornerShape(50),
-                    color = if (filter == selectedFilterStatus)
-                        Color(0xFF006D77)
-                    else
-                        Color(0xFFF2F5F7)
-                ) {
-                    Text(
-                        filter.toName(),
-                        modifier = Modifier.padding(
-                            horizontal = 18.dp,
-                            vertical = 10.dp
-                        ),
-                        color = if (filter == selectedFilterStatus)
-                            Color.White
-                        else
-                            Color.Gray,
-                        fontWeight = FontWeight.SemiBold
+        if (uiState.isLoading) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center)
+            {
+                CircularProgressIndicator()
+            }
+        } else {
+            Spacer(modifier = Modifier.height(8.dp))
+            OutlinedTextField(
+                value = searchValue,
+                onValueChange = { searchValue = it },
+                modifier = Modifier.fillMaxWidth(),
+                placeholder = {
+                    Text(stringResource(Res.string.trip_detail_search_default_value))
+                },
+                leadingIcon = {
+                    Icon(
+                        Icons.Default.Search,
+                        null
                     )
+                },
+                singleLine = true,
+                shape = RoundedCornerShape(20.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(TripStatus.entries.toTypedArray()) { filter ->
+                    Surface(
+                        modifier = Modifier.clickable {
+                            selectedFilterStatus = filter
+                        },
+                        shape = RoundedCornerShape(50),
+                        color = if (filter == selectedFilterStatus)
+                            MaterialTheme.colorScheme.primary
+                        else
+                            Color(0xFFF2F5F7)
+                    ) {
+                        Text(
+                            filter.toName(),
+                            modifier = Modifier.padding(
+                                horizontal = 18.dp,
+                                vertical = 10.dp
+                            ),
+                            color = if (filter == selectedFilterStatus)
+                                Color.Black
+                            else
+                                Color.Gray,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
                 }
             }
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        LazyColumn {
-            items(
-                uiState.trips.filter {
-                it.titleTrip.contains(searchValue, ignoreCase = true)
-                        && if (selectedFilterStatus != TripStatus.ALL) it.tripStatus == selectedFilterStatus else true
-            }.sortedWith(
-                    compareBy(
-                    { !it.titleTrip.startsWith(searchValue, ignoreCase = true) },
-                    { it.titleTrip.length }
-                )
-            )) { trip ->
-                TripCard(trip, onClick = { openTripDetail(trip.id) })
-                Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+            LazyColumn {
+                items(
+                    uiState.trips.filter {
+                        it.titleTrip.contains(searchValue, ignoreCase = true)
+                                && if (selectedFilterStatus != TripStatus.ALL) it.tripStatus == selectedFilterStatus else true
+                    }.sortedWith(
+                        compareBy(
+                            { !it.titleTrip.startsWith(searchValue, ignoreCase = true) },
+                            { it.titleTrip.length }
+                        )
+                    )) { trip ->
+                    TripCard(trip, onClick = { openTripDetail(trip.id) })
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
             }
         }
     }
@@ -158,7 +160,8 @@ fun TripCard(
             .fillMaxWidth()
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(24.dp),
-        elevation = CardDefaults.cardElevation(4.dp)
+        elevation = CardDefaults.cardElevation(4.dp),
+        colors = CardDefaults.elevatedCardColors()
     ) {
         Column {
             Box {

@@ -76,6 +76,8 @@
     <string name="settings">Settings</string>
     <!-- Titulos de pantalla -->
     <string name="trips_title">My Trips</string>
+    <string name="statistics_title">Statistics</string>
+    <!--Elementos utiles-->
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
@@ -200,4 +202,14 @@
     <string name="trip_detail_traveler_perpersondays">Per person / stay day</string>
     <string name="trip_detail_traveler_newtraveler">+ Add Traveler</string>
     <string name="trip_detail_search_default_value">Search destinations...</string>
+    <!--Statistics-->
+    <string name="statistics_notrips">No trips found</string>
+    <string name="statistics_notrips_description">There are no trips matching the selected filter.</string>
+    <string name="statistics_tripstaken">Trips Taken</string>
+    <string name="statistics_totalspent">Total Spent</string>
+    <string name="statistics_totaldays">Total Days</string>
+    <string name="statistics_countries">Countries</string>
+    <string name="statistics_costpertrip">Cost per Trip</string>
+    <string name="statistics_bycategory">Spending by category</string>
+    <string name="statistics_priciestrip">Most Expensive Trip</string>
 </resources>

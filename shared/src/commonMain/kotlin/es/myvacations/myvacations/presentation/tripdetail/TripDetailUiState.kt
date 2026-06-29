@@ -7,5 +7,6 @@ data class TripDetailUiState(
     val selectedTab: TripDetailsTab = TripDetailsTab.OVERVIEW,
     val tripUiState: TripUiState = TripUiState(),
     val travelers: List<TravelerUiState> = emptyList(),
-    val currency: Currency = Currency.EURO
+    val currency: Currency = Currency.EURO,
+    val isLoading: Boolean = true
 )

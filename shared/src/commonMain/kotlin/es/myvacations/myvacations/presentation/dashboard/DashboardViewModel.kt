@@ -45,6 +45,9 @@ class DashboardViewModel(
 
     init {
         viewModelScope.launch {
+            _uiState.update {
+                it.copy(isLoading = true)
+            }
             initializeDatabaseSettingsUseCase.invoke(
                 SettingsDomain(
                     username = "",
@@ -125,7 +128,17 @@ class DashboardViewModel(
 
     private fun observeSettings() {
         viewModelScope.launch {
+            val startTime = Clock.System.now().toEpochMilliseconds()
+
             getSettingsUseCase.invoke().collect { settingsDomain ->
+                val elapsed = Clock.System.now().toEpochMilliseconds() - startTime
+
+                val remaining = 1000 - elapsed
+
+                if (remaining > 0) {
+                    delay(remaining.milliseconds)
+                }
+
                 _uiState.update {
                     it.copy(
                         settings = settingsDomain?.toUiSettingsState() ?: SettingsUiState(),
@@ -139,6 +152,7 @@ class DashboardViewModel(
                                 currency = settingsDomain?.preferredCurrency ?: Currency.EURO
                             )
                         },
+                        isLoading = false
                     )
                 }
             }

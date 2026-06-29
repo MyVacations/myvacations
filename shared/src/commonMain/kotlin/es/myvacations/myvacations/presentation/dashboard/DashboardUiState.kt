@@ -9,5 +9,6 @@ data class DashboardUiState(
     val currentTrip: TripUiState? = null,
     val stats: DashboardStats = DashboardStats(),
     val upcomingTrips: List<TripUiState> = listOf(),
-    val pastTrips: List<TripUiState> = listOf()
+    val pastTrips: List<TripUiState> = listOf(),
+    val isLoading: Boolean = true
 )

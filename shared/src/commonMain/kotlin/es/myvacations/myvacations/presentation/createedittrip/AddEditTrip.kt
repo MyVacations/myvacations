@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -67,6 +68,10 @@ import es.myvacations.myvacations.presentation.utils.SummaryCard
 import es.myvacations.myvacations.presentation.utils.TravelIcon
 import es.myvacations.myvacations.presentation.utils.painter
 import es.myvacations.myvacations.presentation.utils.toCurrencyName
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.number
 import myvacations.shared.generated.resources.Res
@@ -104,6 +109,8 @@ import myvacations.shared.generated.resources.new_trip_trip_title
 import myvacations.shared.generated.resources.new_trip_trip_title_example
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.time.Clock
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun AddEditTripScreen(
@@ -112,31 +119,44 @@ fun AddEditTripScreen(
     viewModel: CreateEditTripsViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
     LaunchedEffect(tripId) {
+        if (tripId.isEmpty()) return@LaunchedEffect
+
+        viewModel.setLoading(true)
+
         viewModel.updateEditMode(tripId)
         viewModel.getTripById(tripId)
     }
-    AddTripScreenFormulary(
-        onDismiss,
-        uiState,
-        onTitleTripChange = viewModel::updateTripTitle,
-        onCountrySelected = viewModel::updateCountry,
-        onCoverSelected = viewModel::updateCover,
-        onStartDateChange = viewModel::updateStartDate,
-        onEndDateChange = viewModel::updateEndDate,
-        onDaysTravelingChange = viewModel::updateDaysTraveling,
-        onTravelersChange = viewModel::updateTravelers,
-        onMainCostChange = viewModel::updateMainCost,
-        onMainBudgetChange = viewModel::updateMainBudget,
-        toggleOptionalExpenses = viewModel::toggleOptionalExpenses,
-        addExpense = viewModel::addExpense,
-        onDeleteExpense = viewModel::deleteExpense,
-        updateExpenseName = viewModel::updateExpenseName,
-        updateExpenseAmount = viewModel::updateExpenseAmount,
-        updateExpenseIcon = viewModel::updateExpenseIcon,
-        onSave = viewModel::saveTrip,
-        clearUI = viewModel::clearUi
-    )
+
+    if (uiState.isLoading) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center)
+        {
+            CircularProgressIndicator()
+        }
+    } else {
+        AddTripScreenFormulary(
+            onDismiss,
+            uiState,
+            onTitleTripChange = viewModel::updateTripTitle,
+            onCountrySelected = viewModel::updateCountry,
+            onCoverSelected = viewModel::updateCover,
+            onStartDateChange = viewModel::updateStartDate,
+            onEndDateChange = viewModel::updateEndDate,
+            onDaysTravelingChange = viewModel::updateDaysTraveling,
+            onTravelersChange = viewModel::updateTravelers,
+            onMainCostChange = viewModel::updateMainCost,
+            onMainBudgetChange = viewModel::updateMainBudget,
+            toggleOptionalExpenses = viewModel::toggleOptionalExpenses,
+            addExpense = viewModel::addExpense,
+            onDeleteExpense = viewModel::deleteExpense,
+            updateExpenseName = viewModel::updateExpenseName,
+            updateExpenseAmount = viewModel::updateExpenseAmount,
+            updateExpenseIcon = viewModel::updateExpenseIcon,
+            onSave = viewModel::saveTrip,
+            clearUI = viewModel::clearUi
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
