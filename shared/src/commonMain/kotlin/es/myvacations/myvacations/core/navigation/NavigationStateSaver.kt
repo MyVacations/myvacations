@@ -8,6 +8,8 @@ fun ScreenDestination.toSavedValue(): String =
         ScreenDestination.Trips -> "trips"
         ScreenDestination.Statistics -> "statistics"
         ScreenDestination.Settings -> "settings"
+        ScreenDestination.ShowPrivacyPolitic -> "showPrivacyPolitic"
+        ScreenDestination.ShowHelpAndSupport -> "showHelpAndSupport"
         is ScreenDestination.AddEdit -> "addEditTrip:$tripId"
         is ScreenDestination.TripDetail -> "tripDetail:$tripId"
     }
@@ -18,6 +20,8 @@ fun String.toScreenDestination(): ScreenDestination =
         this == "trips" -> ScreenDestination.Trips
         this == "statistics" -> ScreenDestination.Statistics
         this == "settings" -> ScreenDestination.Settings
+        this == "showPrivacyPolitic" -> ScreenDestination.ShowPrivacyPolitic
+        this == "showHelpAndSupport" -> ScreenDestination.ShowHelpAndSupport
         startsWith("addEditTrip:") -> ScreenDestination.AddEdit(
             removePrefix("addEditTrip:")
         )

@@ -30,7 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import es.myvacations.myvacations.presentation.utils.SummaryRow
-import es.myvacations.myvacations.presentation.utils.toCurrencyName
+import es.myvacations.myvacations.presentation.utils.toCurrencySymbol
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.trip_detail_overview_aditionalexpenses
 import myvacations.shared.generated.resources.trip_detail_overview_day
@@ -165,14 +165,14 @@ private fun CostSummaryCard(
 
             SummaryRow(
                 title = stringResource(Res.string.trip_detail_overview_tripcost),
-                value = uiState.tripUiState.mainCost.toString() + " " + uiState.currency.toCurrencyName()
+                value = uiState.tripUiState.mainCost.toString() + " " + uiState.currency.toCurrencySymbol()
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
             SummaryRow(
                 title = stringResource(Res.string.trip_detail_overview_aditionalexpenses),
-                value = uiState.tripUiState.totalOptionalExpenses.toString() + " " + uiState.currency.toCurrencyName()
+                value = uiState.tripUiState.totalOptionalExpenses.toString() + " " + uiState.currency.toCurrencySymbol()
             )
 
             HorizontalDivider(
@@ -181,7 +181,7 @@ private fun CostSummaryCard(
 
             SummaryRow(
                 title = stringResource(Res.string.trip_detail_overview_total_low),
-                value = uiState.tripUiState.totalCost.toString() + " " + uiState.currency.toCurrencyName(),
+                value = uiState.tripUiState.totalCost.toString() + " " + uiState.currency.toCurrencySymbol(),
                 highlight = true,
                 bold = true
             )
@@ -190,14 +190,14 @@ private fun CostSummaryCard(
 
             SummaryRow(
                 title = stringResource(Res.string.trip_detail_overview_perperson),
-                value = uiState.tripUiState.costPerPerson.toString() + " " + uiState.currency.toCurrencyName()
+                value = uiState.tripUiState.costPerPerson.toString() + " " + uiState.currency.toCurrencySymbol()
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
             SummaryRow(
                 title = stringResource(Res.string.trip_detail_overview_perday),
-                value = uiState.tripUiState.costPerDay.toString() + " " + uiState.currency.toCurrencyName()
+                value = uiState.tripUiState.costPerDay.toString() + " " + uiState.currency.toCurrencySymbol()
             )
         }
     }

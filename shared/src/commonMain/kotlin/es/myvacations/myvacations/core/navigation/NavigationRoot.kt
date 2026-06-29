@@ -21,6 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import es.myvacations.myvacations.presentation.createedittrip.AddEditTripScreen
 import es.myvacations.myvacations.presentation.dashboard.DashboardScreen
+import es.myvacations.myvacations.presentation.privacyandfaq.HelpSupportScreen
+import es.myvacations.myvacations.presentation.privacyandfaq.PolicyScreen
 import es.myvacations.myvacations.presentation.settings.SettingsScreen
 import es.myvacations.myvacations.presentation.statistics.StatisticsScreen
 import es.myvacations.myvacations.presentation.tripdetail.TripDetailScreen
@@ -44,11 +46,10 @@ fun NavigationRoot(isLandscape: Boolean = false) {
     with(navigationState) {
         Scaffold(
             bottomBar = {
-                if (navigationState.currentScreen.showNav) BottomBarUi(this)
-
+                if (navigationState.currentScreen.showBottomBarUi) BottomBarUi(this)
             },
             floatingActionButton = {
-                if (navigationState.currentScreen.showNav) {
+                if (navigationState.currentScreen.showFloatingButton) {
                     FloatingActionButton(
                         containerColor = Color(0xFF00A884),
                         onClick = {
@@ -80,7 +81,26 @@ fun NavigationRoot(isLandscape: Boolean = false) {
                     })
 
                     ScreenDestination.Statistics -> StatisticsScreen()
-                    ScreenDestination.Settings -> SettingsScreen()
+                    ScreenDestination.Settings -> SettingsScreen(
+                        onPolicyScreen = {
+                            navigate(ScreenDestination.ShowPrivacyPolitic)
+                        },
+                        onHelpAndSupport = {
+                            navigate(ScreenDestination.ShowHelpAndSupport)
+                        })
+
+                    ScreenDestination.ShowPrivacyPolitic -> {
+                        PolicyScreen(onDismiss = {
+                            popBackStack()
+                        })
+                    }
+
+                    ScreenDestination.ShowHelpAndSupport -> {
+                        HelpSupportScreen(onDismiss = {
+                            popBackStack()
+                        })
+                    }
+
                     is ScreenDestination.AddEdit -> {
                         val tripid = (currentScreen as ScreenDestination.AddEdit).tripId
                         AddEditTripScreen(tripid, onDismiss = {

@@ -50,7 +50,7 @@ import es.myvacations.myvacations.domain.model.toName
 import es.myvacations.myvacations.presentation.createedittrip.TripUiState
 import es.myvacations.myvacations.presentation.utils.StatusCard
 import es.myvacations.myvacations.presentation.utils.painter
-import es.myvacations.myvacations.presentation.utils.toCurrencyName
+import es.myvacations.myvacations.presentation.utils.toCurrencySymbol
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.in_x_days
 import myvacations.shared.generated.resources.subtitle_dashboard
@@ -141,8 +141,8 @@ fun TripsScreen(
                         )
                     )) { trip ->
                     TripCard(trip, onClick = { openTripDetail(trip.id) })
-                    Spacer(modifier = Modifier.height(8.dp))
                 }
+                item { Spacer(modifier = Modifier.height(65.dp)) }
             }
         }
     }
@@ -223,7 +223,7 @@ fun TripCard(
                     horizontalAlignment = Alignment.End
                 ) {
                     Text(
-                        text = trip.totalCost.shortCurrencyWhen100000() + " " + trip.currency.toCurrencyName(),
+                        text = trip.totalCost.shortCurrencyWhen100000() + " " + trip.currency.toCurrencySymbol(),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary
@@ -261,7 +261,7 @@ fun TripCard(
             )
             Spacer(modifier.width(8.dp))
             Text(
-                text = trip.costPerPerson.shortCurrencyWhen1000() + " " + trip.currency.toCurrencyName() + " /" + stringResource(
+                text = trip.costPerPerson.shortCurrencyWhen1000() + " " + trip.currency.toCurrencySymbol() + " /" + stringResource(
                     Res.string.trip_detail_header_costperperson_
                 ),
                 color = Color.White.copy(alpha = 0.9f),

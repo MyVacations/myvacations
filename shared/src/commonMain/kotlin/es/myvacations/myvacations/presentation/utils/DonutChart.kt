@@ -124,7 +124,7 @@ fun DonutChart(
                                         text = item.name, color = item.color
                                     )
                                     Spacer(Modifier.height(4.dp))
-                                    Text(item.value.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencyName() + " / " + percentage.roundTo1Decimals() + "%")
+                                    Text(item.value.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencySymbol() + " / " + percentage.roundTo1Decimals() + "%")
 
                                 }
                             }
@@ -152,7 +152,7 @@ fun DonutChart(
                                         text = item.name, color = item.color
                                     )
                                     Spacer(Modifier.height(4.dp))
-                                    Text(item.value.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencyName() + " / " + percentage.roundTo1Decimals() + "%")
+                                    Text(item.value.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencySymbol() + " / " + percentage.roundTo1Decimals() + "%")
                                 }
                             }
                         }

@@ -9,11 +9,17 @@
     <string name="saturday">Sa</string>
     <string name="sunday">Su</string>
     <!--Currency-->
+    <string name="currency">Moneda</string>
     <string name="dollar">$</string>
     <string name="euro">€</string>
     <string name="yen">¥</string>
     <string name="yuan">元</string>
     <string name="peso">₱</string>
+    <string name="dollar_name">Dollar</string>
+    <string name="euro_name">Euro</string>
+    <string name="yen_name">Yen</string>
+    <string name="yuan_name">Yuan</string>
+    <string name="peso_name">Peso</string>
     <!--Activities-->
     <string name="activity_PLACE">Places</string>
     <string name="activity_EXPLORE">Exploration</string>,
@@ -212,4 +218,88 @@
     <string name="statistics_costpertrip">Cost per Trip</string>
     <string name="statistics_bycategory">Spending by category</string>
     <string name="statistics_priciestrip">Most Expensive Trip</string>
+    <!--Settings-->
+    <string name="settings_preferences">Preferences</string>
+    <string name="settings_about">About</string>
+    <string name="settings_version">Version</string>
+    <string name="settings_privacy">Privacy Policy</string>
+    <string name="settings_support">Help &amp; Support</string>
+    <!--Privacity-->
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_last_update">Last updated: June 29, 2026</string>
+
+    <string name="privacy_intro_title">Introduction</string>
+    <string name="privacy_intro_body">
+Thank you for using %1$s.
+
+Your privacy is important to us. This policy explains what information the application stores and how it is used.
+</string>
+    <string name="privacy_information_title">Information Stored</string>
+    <string name="privacy_information_body">
+%1$s allows you to store travel information such as trip name, destination, travel dates, budget, expenses, selected currency and basic profile information.
+</string>
+    <string name="privacy_storage_title">Local Storage</string>
+    <string name="privacy_storage_body">
+All information is stored exclusively in the local database on your device.
+
+The application does not create user accounts, synchronize data to the cloud or send information to external servers.
+</string>
+    <string name="privacy_internet_title">Internet Connection</string>
+    <string name="privacy_internet_body">
+The application is designed to work completely offline.
+An Internet connection is not required to use its main features.
+</string>
+    <string name="privacy_sharing_title">Data Sharing</string>
+    <string name="privacy_sharing_body">
+%1$s does not sell, rent or share your information with third parties.
+</string>
+    <string name="privacy_permissions_title">Permissions</string>
+    <string name="privacy_permissions_body">
+The application only requests permissions required for the features it provides.
+</string>
+    <string name="privacy_security_title">Security</string>
+    <string name="privacy_security_body">
+Although all data remains stored locally on your device, it is recommended that you protect your device using a password, PIN or biometric authentication.
+</string>
+    <string name="privacy_changes_title">Policy Changes</string>
+    <string name="privacy_changes_body">
+This Privacy Policy may be updated whenever new features affect the handling of user data.
+</string>
+    <string name="privacy_contact_title">Contact</string>
+    <string name="privacy_contact_body">
+If you have any questions regarding this Privacy Policy, please contact the developer through the support section of the application.
+</string>
+    <!--Support-->
+    <string name="title_support">Help and support</string>
+    <string name="help_intro_title">Need help?</string>
+    <string name="help_intro_body">
+If you have any questions about how %1$s works, you'll find answers to the most common questions here.
+</string>
+    <string name="frequently_asked_questions">Frequently Asked Questions</string>
+    <string name="faq_create_trip_question">How do I create a trip?</string>
+    <string name="faq_create_trip_answer">
+Tap the "+" button at the bottom of the screen and complete the trip information. Once saved, it will automatically appear in your trip list.
+</string>
+    <string name="faq_edit_trip_question">How do I edit a trip?</string>
+    <string name="faq_edit_trip_answer">
+Open the trip from the list, select the edit option, make your changes and save them.
+</string>
+    <string name="faq_delete_trip_question">How do I delete a trip?</string>
+    <string name="faq_delete_trip_answer">
+Open the trip and select the Delete option. This action permanently removes the trip and all associated expenses.
+</string>
+    <string name="faq_sync_question">Are my data synchronized?</string>
+    <string name="faq_sync_answer">
+No. %1$s stores all information only on your device and does not synchronize data with the cloud.
+</string>
+    <string name="faq_offline_question">Do I need an Internet connection?</string>
+    <string name="faq_offline_answer">
+No. The application is designed to work completely offline.
+</string>
+    <string name="contact">Contact</string>
+    <string name="contact_description">
+Found a problem or have a suggestion? You can contact the developer using the following email address.
+</string>
+    <string name="contact_email">support.myvacations@gmail.com</string>
+    <string name="support_email_subject">Soporte MyVacations</string>
 </resources>

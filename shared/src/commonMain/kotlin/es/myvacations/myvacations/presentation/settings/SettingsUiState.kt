@@ -4,5 +4,6 @@ import es.myvacations.myvacations.presentation.utils.Currency
 
 data class SettingsUiState(
     val userName: String = "",
-    val currency: Currency = Currency.EURO
+    val currency: Currency = Currency.EURO,
+    val isLoading: Boolean = false
 )

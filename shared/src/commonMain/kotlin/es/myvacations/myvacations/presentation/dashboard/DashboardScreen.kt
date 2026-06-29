@@ -44,7 +44,7 @@ import es.myvacations.myvacations.presentation.utils.DefaultDashboardTrip
 import es.myvacations.myvacations.presentation.utils.StatCard
 import es.myvacations.myvacations.presentation.utils.StatusChip
 import es.myvacations.myvacations.presentation.utils.painter
-import es.myvacations.myvacations.presentation.utils.toCurrencyName
+import es.myvacations.myvacations.presentation.utils.toCurrencySymbol
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.actual_trip_addone
 import myvacations.shared.generated.resources.app_title
@@ -319,7 +319,7 @@ private fun DashboardStatSection(
                 StatCard(
                     onStatisticsClick = onStatisticsClick,
                     modifier = Modifier.weight(1f),
-                    value = uiState.stats.totalSpent.shortCurrencyWhen100000() + " " + uiState.settings.currency.toCurrencyName(),
+                    value = uiState.stats.totalSpent.shortCurrencyWhen100000() + " " + uiState.settings.currency.toCurrencySymbol(),
                     label = stringResource(Res.string.total_spent),
                     icon = Icons.Default.Wallet,
                     color = Color(0xFFFF6060)
@@ -332,7 +332,7 @@ private fun DashboardStatSection(
                 StatCard(
                     onStatisticsClick = onStatisticsClick,
                     modifier = Modifier.weight(1f),
-                    value = uiState.stats.averageTripCost.shortCurrencyWhen100000() + " " + uiState.settings.currency.toCurrencyName(),
+                    value = uiState.stats.averageTripCost.shortCurrencyWhen100000() + " " + uiState.settings.currency.toCurrencySymbol(),
                     label = stringResource(Res.string.average_spent),
                     icon = Icons.AutoMirrored.Filled.TrendingUp,
                     color = Color(0xFFFFBE42),
@@ -351,7 +351,7 @@ private fun DashboardStatSection(
                 onStatisticsClick = onStatisticsClick,
                 modifier = Modifier.fillMaxWidth()
                     .height(120.dp),
-                value = uiState.stats.averageSavesFromBudget.shortCurrencyWhen100000() + " " + uiState.settings.currency.toCurrencyName(),
+                value = uiState.stats.averageSavesFromBudget.shortCurrencyWhen100000() + " " + uiState.settings.currency.toCurrencySymbol(),
                 label = stringResource(Res.string.average_saves_from_budget),
                 icon = Icons.Default.AttachMoney,
                 color = Color(0xFF4CAF50),

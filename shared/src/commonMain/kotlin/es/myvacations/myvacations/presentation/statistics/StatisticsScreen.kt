@@ -71,7 +71,7 @@ import es.myvacations.myvacations.presentation.utils.ChartItem
 import es.myvacations.myvacations.presentation.utils.StatCard
 import es.myvacations.myvacations.presentation.utils.iconColor
 import es.myvacations.myvacations.presentation.utils.painter
-import es.myvacations.myvacations.presentation.utils.toCurrencyName
+import es.myvacations.myvacations.presentation.utils.toCurrencySymbol
 import es.myvacations.myvacations.presentation.utils.toImageVector
 import es.myvacations.myvacations.presentation.utils.toName
 import io.github.koalaplot.core.pie.DefaultSlice
@@ -201,7 +201,7 @@ fun StatisticsScreen(viewModel: StatisticsViewModel = koinViewModel()) {
                                 StatCard(
                                     onStatisticsClick = {},
                                     modifier = Modifier.weight(1f),
-                                    value = totalSpent.shortCurrencyWhen100000() + " " + uiState.currency.toCurrencyName(),
+                                    value = totalSpent.shortCurrencyWhen100000() + " " + uiState.currency.toCurrencySymbol(),
                                     label = stringResource(Res.string.statistics_totalspent),
                                     icon = Icons.Default.Wallet,
                                     color = Color(0xFFFF6060)
@@ -270,7 +270,7 @@ fun StatisticsScreen(viewModel: StatisticsViewModel = koinViewModel()) {
                                                     Text(
                                                         stringResource(Res.string.trip_detail_overview_total_low) + ": " + selectedBar.mainCost
                                                             .roundTo1Decimals()
-                                                            .shortCurrencyWhen1000() + selectedBar.currency.toCurrencyName()
+                                                            .shortCurrencyWhen1000() + selectedBar.currency.toCurrencySymbol()
                                                     )
 
                                                 }
@@ -449,7 +449,7 @@ fun StatisticsScreen(viewModel: StatisticsViewModel = koinViewModel()) {
                                                         modifier = Modifier,
                                                         textAlign = TextAlign.End,
                                                         text = items.value.roundTo1Decimals()
-                                                            .shortCurrencyWhen1000() + " " + uiState.currency.toCurrencyName()
+                                                            .shortCurrencyWhen1000() + " " + uiState.currency.toCurrencySymbol()
                                                     )
                                                 }
                                             }
@@ -520,7 +520,7 @@ fun StatisticsScreen(viewModel: StatisticsViewModel = koinViewModel()) {
                                         priciest?.mainCost?.roundTo1Decimals()
                                             ?.shortCurrencyWhen100000()?.let {
                                                 Text(
-                                                    text = it + uiState.currency.toCurrencyName(),
+                                                    text = it + uiState.currency.toCurrencySymbol(),
                                                     style = MaterialTheme.typography.titleLarge,
                                                     fontWeight = FontWeight.Bold,
                                                     color = MaterialTheme.colorScheme.primary

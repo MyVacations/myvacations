@@ -26,7 +26,6 @@ import es.myvacations.myvacations.domain.model.TripStatus
 import es.myvacations.myvacations.domain.model.displayName
 import es.myvacations.myvacations.domain.model.flag
 import es.myvacations.myvacations.presentation.createedittrip.TripUiState
-import es.myvacations.myvacations.presentation.dashboard.DashboardUiState
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.in_x_days
 import myvacations.shared.generated.resources.subtitle_dashboard
@@ -102,7 +101,7 @@ fun DefaultDashboardTrip(
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    text = trip.totalCost.shortCurrencyWhen1000() +" "+ trip.currency.toCurrencyName(),
+                    text = trip.totalCost.shortCurrencyWhen1000() +" "+ trip.currency.toCurrencySymbol(),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
