@@ -1,3 +1,9 @@
+Portfolio Project
+
+This repository is publicly available to showcase software architecture, Kotlin Multiplatform development, and application design skills.
+
+The source code is protected by copyright and is not licensed for reuse, redistribution, or modification without prior written permission.
+
 # MyVacations
 
 Planifica, gestiona y controla vacaciones, presupuestos y gastos de viaje con Kotlin Multiplatform y Compose Multiplatform.
