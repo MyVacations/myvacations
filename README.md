@@ -235,4 +235,16 @@ Custom categories:
 
 ## License
 
-MIT License
+This repository is publicly available for portfolio and educational
+review purposes only.
+
+The source code, application design, assets and documentation are
+protected by copyright.
+
+Permission is granted to view the project.
+
+Copying, modifying, redistributing or using this project, in whole or
+in part, without prior written permission from the copyright holder is
+strictly prohibited.
+
+© 2026 Jesus Rodriguez. All Rights Reserved.
