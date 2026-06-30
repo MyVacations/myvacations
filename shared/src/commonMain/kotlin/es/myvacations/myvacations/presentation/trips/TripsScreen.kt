@@ -11,16 +11,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Luggage
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -38,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import es.myvacations.myvacations.core.extensions.shortCurrencyWhen1000
@@ -53,6 +57,8 @@ import es.myvacations.myvacations.presentation.utils.painter
 import es.myvacations.myvacations.presentation.utils.toCurrencySymbol
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.in_x_days
+import myvacations.shared.generated.resources.statistics_notrips
+import myvacations.shared.generated.resources.statistics_notrips_description
 import myvacations.shared.generated.resources.subtitle_dashboard
 import myvacations.shared.generated.resources.trip_detail_header_costperperson_
 import myvacations.shared.generated.resources.trip_detail_search_default_value
@@ -130,23 +136,66 @@ fun TripsScreen(
             }
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn {
-                items(
-                    uiState.trips.filter {
-                        it.titleTrip.contains(searchValue, ignoreCase = true)
-                                && if (selectedFilterStatus != TripStatus.ALL) it.tripStatus == selectedFilterStatus else true
-                    }.sortedWith(
-                        compareBy(
-                            { !it.titleTrip.startsWith(searchValue, ignoreCase = true) },
-                            { it.titleTrip.length }
-                        )
-                    )) { trip ->
-                    TripCard(trip, onClick = { openTripDetail(trip.id) })
+                val values = uiState.trips.filter {
+                    it.titleTrip.contains(searchValue, ignoreCase = true)
+                            && if (selectedFilterStatus != TripStatus.ALL) it.tripStatus == selectedFilterStatus else true
+                }.sortedWith(
+                    compareBy(
+                        { !it.titleTrip.startsWith(searchValue, ignoreCase = true) },
+                        { it.titleTrip.length }
+                    )
+                )
+                if (values.isNotEmpty()) {
+                    items(values) { trip ->
+                        TripCard(trip, onClick = { openTripDetail(trip.id) })
+                    }
+                    item { Spacer(modifier = Modifier.height(65.dp)) }
+                } else {
+                    item {
+                        Spacer(modifier = Modifier.height(65.dp))
+                        ElevatedCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(24.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(24.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+
+                                Icon(
+                                    imageVector = Icons.Default.Luggage,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(48.dp),
+                                    tint = MaterialTheme.colorScheme.primary
+                                )
+
+                                Spacer(Modifier.height(16.dp))
+
+                                Text(
+                                    text = stringResource(Res.string.statistics_notrips),
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.Bold
+                                )
+
+                                Spacer(Modifier.height(8.dp))
+
+                                Text(
+                                    text = stringResource(Res.string.statistics_notrips_description),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                        }
+                    }
                 }
-                item { Spacer(modifier = Modifier.height(65.dp)) }
             }
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

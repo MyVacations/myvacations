@@ -1,5 +1,7 @@
 [versions]
 agp = "9.2.1"
+coreSplashscreen = "1.2.0"
+google-services = "4.5.0"
 android-compileSdk = "37"
 android-minSdk = "24"
 androidx-activity = "1.13.0"
@@ -26,8 +28,15 @@ napier = "2.7.1"
 foundation = "1.11.3"
 calendar-jvm = "2.10.1"
 koalaplot = "0.11.2"
+firebaseAnalytics = "23.2.0"
+firebaseCrashlytics = "20.0.6"
+googleFirebaseCrashlytics = "3.0.7"
 
 [libraries]
+# Firebase
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebaseAnalytics" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
 androidx-core = { module = "androidx.test:core", version.ref = "core" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -75,6 +84,7 @@ calendar = { module = "com.kizitonwose.calendar:compose-multiplatform", version.
 koalaplot = { module = "io.github.koalaplot:koalaplot-core", version.ref = "koalaplot" }
 
 [plugins]
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
@@ -82,3 +92,4 @@ composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "k
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
+google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "googleFirebaseCrashlytics" }

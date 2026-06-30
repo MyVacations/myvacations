@@ -74,7 +74,7 @@
     <string name="tanzania">Tanzania</string>
 
     <!-- Title-->
-    <string name="app_title">My Vacations</string>
+    <string name="app_title">MyVacations</string>
     <!-- Botones de navegación -->
     <string name="dashboard">Dashboard</string>
     <string name="trips">Trips</string>

@@ -42,6 +42,8 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.sqldelight.android.driver)
             implementation(libs.koin.android)
+            implementation(libs.firebase.analytics)
+            implementation(libs.firebase.crashlytics)
         }
         iosMain.dependencies {
             implementation(libs.sqldelight.native.driver)

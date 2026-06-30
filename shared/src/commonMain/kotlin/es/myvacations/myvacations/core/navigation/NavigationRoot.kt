@@ -24,6 +24,7 @@ import es.myvacations.myvacations.presentation.dashboard.DashboardScreen
 import es.myvacations.myvacations.presentation.privacyandfaq.HelpSupportScreen
 import es.myvacations.myvacations.presentation.privacyandfaq.PolicyScreen
 import es.myvacations.myvacations.presentation.settings.SettingsScreen
+import es.myvacations.myvacations.presentation.splash.SplashScreen
 import es.myvacations.myvacations.presentation.statistics.StatisticsScreen
 import es.myvacations.myvacations.presentation.tripdetail.TripDetailScreen
 import es.myvacations.myvacations.presentation.trips.TripsScreen
@@ -68,6 +69,10 @@ fun NavigationRoot(isLandscape: Boolean = false) {
                 modifier = Modifier.padding(paddingValues)
             ) {
                 when (currentScreen) {
+                    ScreenDestination.Splash -> SplashScreen(onFinished = {
+                        navigate(ScreenDestination.Dashboard)
+                    })
+
                     ScreenDestination.Dashboard -> DashboardScreen(
                         onEditTripClick = {
                             navigate(ScreenDestination.TripDetail(it))
