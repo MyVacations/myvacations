@@ -118,7 +118,6 @@ fun HelpSupportScreen(onDismiss: () -> Unit) {
             }
             item {
                 ContactCard(
-                    email = stringResource(Res.string.contact_email)
                 )
             }
         }
@@ -217,9 +216,9 @@ private fun ExpandableFaq(
         }
     }
 }
+
 @Composable
 private fun ContactCard(
-    email: String
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),

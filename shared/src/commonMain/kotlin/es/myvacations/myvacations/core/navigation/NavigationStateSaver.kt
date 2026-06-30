@@ -4,6 +4,7 @@ import androidx.compose.runtime.saveable.Saver
 
 fun ScreenDestination.toSavedValue(): String =
     when (this) {
+        ScreenDestination.Splash -> "splash"
         ScreenDestination.Dashboard -> "dashboard"
         ScreenDestination.Trips -> "trips"
         ScreenDestination.Statistics -> "statistics"
@@ -16,6 +17,7 @@ fun ScreenDestination.toSavedValue(): String =
 
 fun String.toScreenDestination(): ScreenDestination =
     when {
+        this == "splash" -> ScreenDestination.Splash
         this == "dashboard" -> ScreenDestination.Dashboard
         this == "trips" -> ScreenDestination.Trips
         this == "statistics" -> ScreenDestination.Statistics
@@ -31,7 +33,7 @@ fun String.toScreenDestination(): ScreenDestination =
                 removePrefix("tripDetail:")
             )
 
-        else -> ScreenDestination.Dashboard
+        else -> ScreenDestination.Splash
     }
 
 val NavigationStateSaver = Saver<NavigationState, List<String>>(

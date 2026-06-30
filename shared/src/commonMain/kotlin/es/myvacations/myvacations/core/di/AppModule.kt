@@ -10,13 +10,17 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
+    //Si hiciese falta usar crashlytics en algún viewmodel
+    //crashReporter = get()
+
     // ViewModels
     viewModel {
         DashboardViewModel(
             initializeDatabaseSettingsUseCase = get(),
             getSettingsUseCase = get(),
             getDayPeriod = get(),
-            getTripsUseCase = get(),
+            getTripsUseCase = get()
+
         )
     }
     viewModel { TripViewModel(getTripsUseCase = get()) }

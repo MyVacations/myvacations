@@ -71,6 +71,7 @@ fun DashboardScreen(
     onEditTripClick: (tripId: String) -> Unit,
     onStatisticsClick: () -> Unit
 ) {
+
     val uiState by viewModel.uiState.collectAsState()
     LifecycleResumeEffect(Unit) {
         viewModel.refreshGreetings()

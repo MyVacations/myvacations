@@ -4,6 +4,11 @@ sealed interface ScreenDestination {
     val showBottomBarUi: Boolean
     val showFloatingButton: Boolean
 
+    data object Splash : ScreenDestination {
+        override val showBottomBarUi: Boolean = false
+        override val showFloatingButton = false
+    }
+
     data object Dashboard : ScreenDestination {
         override val showBottomBarUi: Boolean = true
         override val showFloatingButton = true

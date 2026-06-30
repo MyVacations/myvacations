@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
 class NavigationState(
-    initialScreen: ScreenDestination = ScreenDestination.Dashboard,
+    initialScreen: ScreenDestination = ScreenDestination.Splash,
     initialBackStack: List<ScreenDestination> = emptyList()
 ) {
     private val backStack = initialBackStack.toMutableList()

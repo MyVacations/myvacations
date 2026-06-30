@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.google.firebase.crashlytics)
 }
 
 kotlin {
@@ -13,6 +15,7 @@ kotlin {
     }
 }
 dependencies {
+    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.foundation)
     implementation(projects.shared)
     implementation(libs.androidx.activity.compose)
@@ -46,6 +49,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
         getByName("debug") {
             isDebuggable = true

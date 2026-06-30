@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "707718412190",
+    "project_id": "myvacations-kmp",
+    "storage_bucket": "myvacations-kmp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707718412190:android:c3552098553f1b632c888f",
+        "android_client_info": {
+          "package_name": "es.myvacations.myvacations"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbUVgEvt4gq_H3lEvkuF8vqIPQNIWXAkU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
