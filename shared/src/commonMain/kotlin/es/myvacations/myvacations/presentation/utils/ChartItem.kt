@@ -7,5 +7,6 @@ data class ChartItem(
     val name: String,
     val value: Double,
     val color: Color,
-    val icon: ImageVector
+    val icon: ImageVector,
+    val currency: Currency
 )

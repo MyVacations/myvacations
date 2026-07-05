@@ -1,11 +1,11 @@
 package es.myvacations.myvacations
 
 import android.os.Bundle
-import com.google.firebase.analytics.FirebaseAnalytics
+//import com.google.firebase.analytics.FirebaseAnalytics
 import es.myvacations.myvacations.core.firebase.AnalyticsReporter
 
 class AndroidAnalyticsReporter(
-    private val firebaseAnalytics: FirebaseAnalytics
+    //private val firebaseAnalytics: FirebaseAnalytics
 ) : AnalyticsReporter {
 
     override fun logEvent(
@@ -24,6 +24,6 @@ class AndroidAnalyticsReporter(
             }
         }
 
-        firebaseAnalytics.logEvent(name, bundle)
+        //firebaseAnalytics.logEvent(name, bundle)
     }
 }

@@ -2,6 +2,7 @@ package es.myvacations.myvacations.presentation.createedittrip
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import es.myvacations.myvacations.core.extensions.toSafeDouble
 import es.myvacations.myvacations.domain.model.Country
 import es.myvacations.myvacations.domain.model.TripCover
 import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseCase
@@ -109,12 +110,12 @@ class CreateEditTripsViewModel(
         _uiState.value = _uiState.value.copy(travelers = travelers)
     }
 
-    fun updateMainCost(cost: Double) {
-        _uiState.value = _uiState.value.copy(mainCost = cost)
+    fun updateMainCost(cost: String) {
+        _uiState.value = _uiState.value.copy(mainCost = cost.toSafeDouble())
     }
 
-    fun updateMainBudget(budget: Double) {
-        _uiState.value = _uiState.value.copy(mainBudget = budget)
+    fun updateMainBudget(budget: String) {
+        _uiState.value = _uiState.value.copy(mainBudget = budget.toSafeDouble())
     }
 
     fun toggleOptionalExpenses() {
@@ -144,12 +145,12 @@ class CreateEditTripsViewModel(
 
     fun updateExpenseAmount(
         id: String,
-        amount: Double
+        amount: String
     ) {
         _uiState.value = _uiState.value.copy(
             optionalExpenses = _uiState.value.optionalExpenses.map {
                 if (it.id == id) {
-                    it.copy(amount = amount)
+                    it.copy(amount = amount.toSafeDouble())
                 } else {
                     it
                 }
@@ -178,7 +179,8 @@ class CreateEditTripsViewModel(
                 id = Random.nextInt().toString(),
                 name = "",
                 icon = TravelIcon.RESTAURANT,
-                amount = 100.0
+                amount = 100.0,
+                currency = _uiState.value.currency
             )
         )
     }

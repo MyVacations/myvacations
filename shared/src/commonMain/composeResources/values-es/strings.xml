@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <!--Month-->
+    <string name="january">Enero</string>
+    <string name="february">Febrero</string>
+    <string name="march">Marzo</string>
+    <string name="april">Abril</string>
+    <string name="may">Mayo</string>
+    <string name="june">Junio</string>
+    <string name="july">Julio</string>
+    <string name="august">Agosto</string>
+    <string name="september">Septiembre</string>
+    <string name="october">Octubre</string>
+    <string name="november">Noviembre</string>
+    <string name="december">Diciembre</string>
     <!--DaysOfWeek-->
     <string name="monday">Lu</string>
     <string name="tuesday">Ma</string>
@@ -24,9 +37,9 @@
     <string name="activity_PLACE">Lugares</string>
     <string name="activity_EXPLORE">Exploración</string>,
     <string name="activity_DIRECTIONS">Transportes</string>,
-    <string name="activity_RESTAURANT">Restaurantes</string>,
+    <string name="activity_RESTAURANT">Consumo</string>,
     <string name="activity_EVENT">Eventos</string>,
-    <string name="activity_BEACH_ACCESS">Acceso a playas</string>,
+    <string name="activity_BEACH_ACCESS">Accesos especiales</string>,
     <string name="activity_PARK">Parques</string>,
     <string name="activity_LANDSCAPE">Paisajes</string>,
     <string name="activity_PHOTO_CAMERA">Fotografía</string>,

@@ -4,5 +4,6 @@ data class TripExpenseUiState(
     val id: String = "",
     val name: String = "",
     val icon: TravelIcon = TravelIcon.RESTAURANT,
-    val amount: Double = 0.0
+    val amount: Double = 0.0,
+    val currency: Currency = Currency.EURO
 )

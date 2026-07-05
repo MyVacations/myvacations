@@ -1,5 +1,6 @@
-import org.gradle.kotlin.dsl.coreLibraryDesugaring
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 plugins {
     alias(libs.plugins.androidApplication)
@@ -32,8 +33,10 @@ android {
     defaultConfig {
         applicationId = "es.myvacations.myvacations"
         minSdk = libs.versions.android.minSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = LocalDate.now()
+            .format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+            .toInt() + 0
+        versionName = "1.0.1"
         multiDexEnabled = true
     }
     packaging {

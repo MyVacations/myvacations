@@ -42,6 +42,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -166,13 +167,13 @@ private fun AddTripScreenFormulary(
     onEndDateChange: (LocalDate) -> Unit = {},
     onDaysTravelingChange: (Int) -> Unit = {},
     onTravelersChange: (Int) -> Unit = {},
-    onMainCostChange: (Double) -> Unit = {},
-    onMainBudgetChange: (Double) -> Unit = {},
+    onMainCostChange: (String) -> Unit = {},
+    onMainBudgetChange: (String) -> Unit = {},
     toggleOptionalExpenses: () -> Unit = {},
     addExpense: () -> Unit = {},
     onDeleteExpense: (String) -> Unit = {},
     updateExpenseName: (String, String) -> Unit = { _, _ -> },
-    updateExpenseAmount: (String, Double) -> Unit = { _, _ -> },
+    updateExpenseAmount: (String, String) -> Unit = { _, _ -> },
     updateExpenseIcon: (String, TravelIcon) -> Unit = { _, _ -> },
     onSave: () -> Unit = {},
     clearUI: () -> Unit = {}
@@ -201,7 +202,7 @@ private fun AddTripScreenFormulary(
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     TextButton(onClick = {
-                        if ((uiState.titleTrip.isEmpty() || uiState.startDate == null || uiState.endDate == null || uiState.mainCost == 0.0 || (uiState.startDate > uiState.endDate)).not()) {
+                        if ((uiState.titleTrip.isEmpty() || uiState.startDate == null || uiState.endDate == null || (uiState.mainCost == 0.0 || uiState.mainCost == null) || (uiState.startDate > uiState.endDate)).not()) {
                             onSave()
                             onDismiss()
                         } else {
@@ -637,8 +638,8 @@ fun DurationAndGroupView(
 @Composable
 fun CostAndBudgetView(
     uiState: TripUiState = TripUiState(),
-    onMainCostChange: (Double) -> Unit = {},
-    onMainBudgetChange: (Double) -> Unit = {}
+    onMainCostChange: (String) -> Unit = {},
+    onMainBudgetChange: (String) -> Unit = {}
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -658,11 +659,16 @@ fun CostAndBudgetView(
         )
 
         Spacer(modifier = Modifier.height(8.dp))
-
+        var textCost by rememberSaveable {
+            mutableStateOf(
+                if (uiState.mainCost == 0.0) "" else uiState.mainCost.toString()
+            )
+        }
         BasicTextField(
-            value = uiState.mainCost.toString(),
+            value = textCost,
             onValueChange = { newValue ->
-                onMainCostChange(newValue.toDoubleOrNull() ?: 0.0)
+                textCost = newValue
+                onMainCostChange(newValue)
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             singleLine = true,
@@ -680,7 +686,7 @@ fun CostAndBudgetView(
                             vertical = 16.dp
                         )
                 ) {
-                    if (uiState.mainCost <= 0.0) {
+                    if (uiState.mainCost.toString() == "0.0" || uiState.mainCost.toString().isEmpty()) {
                         Text(
                             text = "0.0",
                             style = MaterialTheme.typography.bodyLarge
@@ -691,7 +697,7 @@ fun CostAndBudgetView(
                 }
             }
         )
-        if (uiState.mainCost == 0.0) {
+        if (uiState.mainCost == null || uiState.mainCost == 0.0) {
             Text(
                 text = stringResource(Res.string.new_trip_cost_require),
                 color = MaterialTheme.colorScheme.error,
@@ -707,10 +713,16 @@ fun CostAndBudgetView(
 
         Spacer(modifier = Modifier.height(8.dp))
 
+        var textBudget by rememberSaveable {
+            mutableStateOf(
+                if (uiState.mainBudget == 0.0) "" else uiState.mainBudget.toString()
+            )
+        }
         BasicTextField(
-            value = uiState.mainBudget.toString(),
+            value = textBudget,
             onValueChange = { newValue ->
-                onMainBudgetChange(newValue.toDoubleOrNull() ?: 0.0)
+                textBudget = newValue
+                onMainBudgetChange(newValue)
             },
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
             singleLine = true,
@@ -728,7 +740,7 @@ fun CostAndBudgetView(
                             vertical = 16.dp
                         )
                 ) {
-                    if (uiState.mainBudget <= 0.0) {
+                    if (uiState.mainBudget.toString() == "0.0" || uiState.mainBudget.toString().isEmpty()) {
                         Text(
                             text = "0.0",
                             style = MaterialTheme.typography.bodyLarge
@@ -751,7 +763,7 @@ fun ExtraExpensesView(
     onAddExpense: () -> Unit = {},
     onDeleteExpense: (String) -> Unit = {},
     onUpdateExpenseName: (String, String) -> Unit = { _, _ -> },
-    onUpdateExpenseAmount: (String, Double) -> Unit = { _, _ -> },
+    onUpdateExpenseAmount: (String, String) -> Unit = { _, _ -> },
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()

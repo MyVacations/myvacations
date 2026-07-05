@@ -306,7 +306,6 @@ fun TripCostCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             Column {
                 Text(
                     text = stringResource(Res.string.trip_detail_header_totalcost).uppercase(),

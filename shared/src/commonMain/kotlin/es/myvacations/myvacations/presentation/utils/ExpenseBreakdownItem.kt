@@ -71,7 +71,7 @@ fun ExpenseBreakdownItem(
                 Column(
                     horizontalAlignment = Alignment.End
                 ) {
-                    Text(item.value.toString())
+                    Text(item.value.toString()+item.currency.toCurrencySymbol())
                     Text("${percentage.toInt()}%")
                 }
             }

@@ -34,6 +34,7 @@ import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import com.kizitonwose.calendar.core.minusMonths
 import com.kizitonwose.calendar.core.now
 import com.kizitonwose.calendar.core.plusMonths
+import es.myvacations.myvacations.core.extensions.toMonthString
 import es.myvacations.myvacations.presentation.utils.DaysCalendar.daysCalendar
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.YearMonth
@@ -50,7 +51,7 @@ fun MonthHeader(
     Column {
 
         Text(
-            text = "${month.yearMonth.month} ${month.yearMonth.year}",
+            text = "${month.yearMonth.month.toMonthString().uppercase()} ${month.yearMonth.year}",
             style = MaterialTheme.typography.titleLarge
         )
 
@@ -132,7 +133,6 @@ fun AppDatePickerDialog(
                     },
 
                     dayContent = { day ->
-
                         val isCurrentMonth =
                             day.position == DayPosition.MonthDate
 
@@ -142,8 +142,7 @@ fun AppDatePickerDialog(
 
                         Box(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .aspectRatio(1f),
+                                .fillMaxWidth().aspectRatio(1.7f),
                             contentAlignment = Alignment.Center
                         ) {
 
@@ -164,7 +163,6 @@ fun AppDatePickerDialog(
                                     },
                                 contentAlignment = Alignment.Center
                             ) {
-
                                 Text(
                                     text = day.date.day.toString(),
                                     color = when {
