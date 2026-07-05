@@ -68,6 +68,7 @@ import es.myvacations.myvacations.domain.model.flag
 import es.myvacations.myvacations.domain.model.toName
 import es.myvacations.myvacations.presentation.createedittrip.TripUiState
 import es.myvacations.myvacations.presentation.utils.ChartItem
+import es.myvacations.myvacations.presentation.utils.ExpenseItem
 import es.myvacations.myvacations.presentation.utils.StatCard
 import es.myvacations.myvacations.presentation.utils.iconColor
 import es.myvacations.myvacations.presentation.utils.painter
@@ -382,7 +383,8 @@ fun StatisticsScreen(viewModel: StatisticsViewModel = koinViewModel()) {
                                 name = travelIcon.toName(),
                                 value = amount,
                                 color = travelIcon.iconColor(),
-                                icon = travelIcon.toImageVector()
+                                icon = travelIcon.toImageVector(),
+                                currency = uiState.currency
                             )
                         }
                         if (listOfItems.isNotEmpty()) {

@@ -83,32 +83,35 @@ fun ExpensesScreen(uiState: TripDetailUiState = TripDetailUiState()) {
             value = budgetRemaining,
             color = budgetColor,
             name = stringResource(nameBudget),
-            icon = Icons.Default.AttachMoney
+            icon = Icons.Default.AttachMoney,
+            currency = uiState.tripUiState.currency
         ), ChartItem(
             value = budgetNotUsed,
             color = Color.LightGray.copy(alpha = 0.2f),
             name = stringResource(Res.string.trip_detail_expenses_budgetused),
-            icon = Icons.Default.Paid
+            icon = Icons.Default.Paid,
+            currency = uiState.tripUiState.currency
         )
     ) else listOf()
-
     val chartItems = buildList {
         add(
             ChartItem(
                 value = uiState.tripUiState.mainCost,
                 color = Color(0xFF1A557B),
                 name = stringResource(Res.string.trip_detail_overview_tripcost),
-                icon = Icons.Default.FamilyRestroom
+                icon = Icons.Default.FamilyRestroom,
+                currency = uiState.tripUiState.currency
             )
         )
 
         addAll(
             uiState.tripUiState.optionalExpenses.map { expense ->
                 ChartItem(
-                    name = expense.icon.toName(),
+                    name = expense.name,
                     value = expense.amount,
                     color = expense.icon.iconColor(),
-                    icon = expense.icon.toImageVector()
+                    icon = expense.icon.toImageVector(),
+                    currency = uiState.tripUiState.currency
                 )
             })
     }

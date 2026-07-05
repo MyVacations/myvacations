@@ -157,10 +157,10 @@ fun SplashScreen(
             blurTrail.add(position)
             if(blurTrail.size > 10)
             {
-                blurTrail.removeFirst()
+                blurTrail.removeAt(0)
             }
             if (trail.size > 50) {
-                trail.removeFirst()
+                trail.removeAt(0)
             }
         }
     }

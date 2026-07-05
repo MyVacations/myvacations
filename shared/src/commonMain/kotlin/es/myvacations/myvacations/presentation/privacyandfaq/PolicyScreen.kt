@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import es.myvacations.myvacations.core.navigation.SystemBackHandler
+import es.myvacations.myvacations.core.utils.AppInfo
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.privacy_changes_body
 import myvacations.shared.generated.resources.privacy_changes_title
@@ -93,11 +94,11 @@ private fun rememberPolicySections(): List<PolicySections> =
     listOf(
         PolicySections(
             title = stringResource(Res.string.privacy_intro_title),
-            body = stringResource(Res.string.privacy_intro_body)
+            body = stringResource(Res.string.privacy_intro_body,AppInfo.appName)
         ),
         PolicySections(
             title = stringResource(Res.string.privacy_information_title),
-            body = stringResource(Res.string.privacy_information_body)
+            body = stringResource(Res.string.privacy_information_body,AppInfo.appName)
         ),
         PolicySections(
             title = stringResource(Res.string.privacy_storage_title),
@@ -109,7 +110,7 @@ private fun rememberPolicySections(): List<PolicySections> =
         ),
         PolicySections(
             title = stringResource(Res.string.privacy_sharing_title),
-            body = stringResource(Res.string.privacy_sharing_body)
+            body = stringResource(Res.string.privacy_sharing_body,AppInfo.appName)
         ),
         PolicySections(
             title = stringResource(Res.string.privacy_permissions_title),

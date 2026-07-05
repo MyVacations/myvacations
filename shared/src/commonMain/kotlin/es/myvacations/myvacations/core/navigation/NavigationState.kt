@@ -31,7 +31,7 @@ class NavigationState(
 
     fun popBackStack() {
         if (backStack.isNotEmpty()) {
-            currentScreen = backStack.removeLast()
+            currentScreen = backStack.removeAt(backStack.lastIndex)
         }
     }
 
