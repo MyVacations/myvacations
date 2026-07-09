@@ -64,3 +64,10 @@ android {
         isCoreLibraryDesugaringEnabled = true
     }
 }
+
+tasks.register("r8Version") {
+    description = "r8"
+    doLast {
+        println("R8_VERSION_START:" + com.android.tools.r8.Version.getVersionString() + ":R8_VERSION_END")
+    }
+}
