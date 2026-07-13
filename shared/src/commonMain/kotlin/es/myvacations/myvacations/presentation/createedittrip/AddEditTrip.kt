@@ -184,7 +184,7 @@ private fun AddTripScreenFormulary(
     val dialogClear = remember { mutableStateOf(false) }
     val dialogSaveNotReady = remember { mutableStateOf(false) }
     Scaffold(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().padding(top = 12.dp)
     ) { _ ->
         if (dialogClear.value) {
             AlertDialog(

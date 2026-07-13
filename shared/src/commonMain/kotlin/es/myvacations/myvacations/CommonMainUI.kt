@@ -24,10 +24,8 @@ fun App() {
     BoxWithConstraints {
         val isLandscape = maxWidth > maxHeight
         MaterialTheme(
-            colorScheme = darkColorScheme(),
-            content = {
+            colorScheme = darkColorScheme(), content = {
                 NavigationRoot(isLandscape)
-            }
-        )
+            })
     }
 }

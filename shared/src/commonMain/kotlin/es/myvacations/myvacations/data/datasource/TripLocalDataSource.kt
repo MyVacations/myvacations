@@ -159,12 +159,10 @@ class TripLocalDataSource(
     fun insertNotification(
         tripId: String,
         type: String,
-        title: String,
-        message: String,
         createdAt: String,
         read: Boolean = false
     ) {
-        queries.insertNotification(tripId, type, title, message, createdAt, read)
+        queries.insertNotification(tripId, type, createdAt, read)
     }
 
     fun updateReadNotification(id: Long, tripId: String) {

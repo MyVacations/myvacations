@@ -1,7 +1,5 @@
 package es.myvacations.myvacations.domain.usecase.eventsusecase
 
-import es.myvacations.myvacations.core.extensions.shortenTitle
-import es.myvacations.myvacations.core.utils.AppInfo
 import es.myvacations.myvacations.domain.events.AppNotificationDomain
 import es.myvacations.myvacations.domain.events.NotificationType
 import es.myvacations.myvacations.domain.events.currentBudgetNotificationType
@@ -12,25 +10,9 @@ import es.myvacations.myvacations.domain.repository.NotificationRepository
 import es.myvacations.myvacations.domain.repository.TripRepository
 import es.myvacations.myvacations.presentation.createedittrip.TripUiState
 import es.myvacations.myvacations.presentation.mapper.toDomainModel
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import myvacations.shared.generated.resources.Res
-import myvacations.shared.generated.resources.notification_budget_exceeded
-import myvacations.shared.generated.resources.notification_budget_finished
-import myvacations.shared.generated.resources.notification_budget_low
-import myvacations.shared.generated.resources.notification_budget_ok
-import myvacations.shared.generated.resources.notification_budget_title
-import myvacations.shared.generated.resources.notification_info_title
-import myvacations.shared.generated.resources.notification_trip_created
-import myvacations.shared.generated.resources.notification_trip_delete
-import myvacations.shared.generated.resources.notification_trip_expense_created
-import myvacations.shared.generated.resources.notification_trip_expense_delete
-import myvacations.shared.generated.resources.notification_trip_title
-import myvacations.shared.generated.resources.notification_trip_update
-import myvacations.shared.generated.resources.notification_welcome
-import org.jetbrains.compose.resources.getString
 import kotlin.time.Clock
 
 class ObserveTripForAlertsUseCase(
@@ -50,7 +32,6 @@ class ObserveTripForAlertsUseCase(
             addAll(detectBudgetChanges(trips))
             addAll(detectedInfoChanges())
         }
-        Napier.d(tag = "pruebas", message = "Notifications: $notifications")
         notifications.forEach {
             notificationRepository.insertNotification(it)
         }
@@ -61,7 +42,7 @@ class ObserveTripForAlertsUseCase(
         if (appInfoRepository.isFirstLogin()) {
             notifications += createNotification(
                 trip = TripUiState().toDomainModel(),
-                status = NotificationType.INFO_GENERIC_WELCOME
+                status = NotificationType.INFO_GENERIC_WELCOME,
             )
             appInfoRepository.markWelcomeShown()
         }
@@ -93,7 +74,7 @@ class ObserveTripForAlertsUseCase(
             if (previousStatus != currentStatus) {
                 val notification = createNotification(
                     trip = trip,
-                    status = currentStatus
+                    status = currentStatus,
                 )
                 notifications += notification
                 previousStatesBudget[trip.id] = currentStatus
@@ -118,7 +99,7 @@ class ObserveTripForAlertsUseCase(
             if (addTrip == null) {
                 val notification = createNotification(
                     trip,
-                    NotificationType.TRIP_CREATED
+                    NotificationType.TRIP_CREATED,
                 )
                 notifications += notification
                 previousTrips[trip.id] = trip
@@ -128,7 +109,7 @@ class ObserveTripForAlertsUseCase(
             if (addTrip.hasRelevantChanges(trip)) {
                 val notification = createNotification(
                     trip,
-                    NotificationType.TRIP_UPDATED
+                    NotificationType.TRIP_UPDATED,
                 )
                 notifications += notification
                 previousTrips[trip.id] = trip
@@ -141,7 +122,7 @@ class ObserveTripForAlertsUseCase(
 
                 val notification = createNotification(
                     trip,
-                    NotificationType.TRIP_DELETED
+                    NotificationType.TRIP_DELETED,
                 )
 
                 notifications += notification
@@ -178,7 +159,7 @@ class ObserveTripForAlertsUseCase(
                 if (previousExpense == null) {
                     val notification = createNotification(
                         trip,
-                        NotificationType.EXPENSE_ADDED
+                        NotificationType.EXPENSE_ADDED,
                     )
                     notifications += notification
                     return@forEach
@@ -191,7 +172,7 @@ class ObserveTripForAlertsUseCase(
                 val (trip, _) = pair
                 val notification = createNotification(
                     trip,
-                    NotificationType.EXPENSE_DELETED
+                    NotificationType.EXPENSE_DELETED,
                 )
                 notifications += notification
             }
@@ -217,93 +198,18 @@ class ObserveTripForAlertsUseCase(
                 travelers != other.travelers
     }
 
-    private suspend fun createNotification(
+    private fun createNotification(
         trip: TripDomain,
         status: NotificationType,
-        ownMessage: String? = null
+        ownMessage: String = "",
     ): AppNotificationDomain {
         return AppNotificationDomain(
             id = 0.toLong(),
             tripId = trip.id,
             type = status,
-            title = titleFor(status),
-            message = messageFor(trip, status, ownMessage),
+            message = ownMessage,
             createdAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
             read = false
         )
     }
-
-    private suspend fun titleFor(type: NotificationType): String =
-        when (type) {
-            NotificationType.TRIP_CREATED, NotificationType.TRIP_UPDATED, NotificationType.TRIP_DELETED, NotificationType.EXPENSE_ADDED, NotificationType.EXPENSE_DELETED -> getString(
-                Res.string.notification_trip_title
-            )
-
-            NotificationType.BUDGET_OK, NotificationType.BUDGET_EXCEEDED, NotificationType.BUDGET_LOW, NotificationType.BUDGET_FINISHED -> getString(
-                Res.string.notification_budget_title
-            )
-
-            NotificationType.INFO_UPDATES, NotificationType.INFO_GENERIC_WELCOME -> getString(Res.string.notification_info_title)
-            else -> ""
-        }
-
-    private suspend fun messageFor(
-        trip: TripDomain,
-        type: NotificationType,
-        ownMessage: String?
-    ): String =
-        when (type) {
-            NotificationType.TRIP_CREATED -> getString(
-                Res.string.notification_trip_created,
-                trip.title.shortenTitle()
-            )
-
-            NotificationType.TRIP_UPDATED -> getString(
-                Res.string.notification_trip_update,
-                trip.title.shortenTitle()
-            )
-
-            NotificationType.TRIP_DELETED -> getString(
-                Res.string.notification_trip_delete,
-                trip.title.shortenTitle()
-            )
-
-            NotificationType.EXPENSE_ADDED -> getString(
-                Res.string.notification_trip_expense_created,
-                trip.title.shortenTitle()
-            )
-
-            NotificationType.EXPENSE_DELETED -> getString(
-                Res.string.notification_trip_expense_delete,
-                trip.title.shortenTitle()
-            )
-
-            NotificationType.BUDGET_OK -> getString(
-                Res.string.notification_budget_ok,
-                trip.title.shortenTitle()
-            )
-
-            NotificationType.BUDGET_LOW -> getString(
-                Res.string.notification_budget_low,
-                trip.title.shortenTitle()
-            )
-
-            NotificationType.BUDGET_FINISHED -> getString(
-                Res.string.notification_budget_finished,
-                trip.title.shortenTitle()
-            )
-
-            NotificationType.BUDGET_EXCEEDED -> getString(
-                Res.string.notification_budget_exceeded,
-                trip.title.shortenTitle()
-            )
-
-            NotificationType.INFO_UPDATES -> ownMessage ?: ""
-            NotificationType.INFO_GENERIC_WELCOME -> getString(
-                Res.string.notification_welcome,
-                AppInfo.appName
-            )
-
-            else -> ""
-        }
 }

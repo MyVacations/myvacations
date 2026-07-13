@@ -11,8 +11,6 @@ fun NotificationData.toDomainModel() = AppNotificationDomain(
     id = id,
     tripId = tripId,
     type = NotificationType.valueOf(type),
-    title = title,
-    message = message,
     createdAt = LocalDateTime.parse(createdAt),
     read = read
 )

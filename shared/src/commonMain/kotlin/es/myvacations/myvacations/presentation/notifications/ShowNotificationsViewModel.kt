@@ -2,9 +2,13 @@ package es.myvacations.myvacations.presentation.notifications
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import es.myvacations.myvacations.domain.events.messageFor
+import es.myvacations.myvacations.domain.events.titleFor
+import es.myvacations.myvacations.domain.repository.AppInfoRepository
 import es.myvacations.myvacations.domain.usecase.eventsusecase.DeleteNotificationUseCase
 import es.myvacations.myvacations.domain.usecase.eventsusecase.SelectAllNotificationsUseCase
 import es.myvacations.myvacations.domain.usecase.eventsusecase.UpdateNotificationUseCase
+import es.myvacations.myvacations.domain.usecase.tripusecase.GetTripByIdUseCase
 import es.myvacations.myvacations.presentation.events.AppNotificationListUiState
 import es.myvacations.myvacations.presentation.events.AppNotificationUiState
 import es.myvacations.myvacations.presentation.mapper.toUiState
@@ -13,9 +17,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class ShowNotificationsViewModel(
+    private val selectTripByIdUseCase: GetTripByIdUseCase,
     private val selectAllNotificationsUseCase: SelectAllNotificationsUseCase,
     private val updateNotificationUseCase: UpdateNotificationUseCase,
-    private val deleteNotificationUseCase: DeleteNotificationUseCase
+    private val deleteNotificationUseCase: DeleteNotificationUseCase,
+    private val appInfoRepository: AppInfoRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(
         AppNotificationListUiState()
@@ -29,11 +35,21 @@ class ShowNotificationsViewModel(
 
     private fun loadNotifications() {
         viewModelScope.launch {
-            selectAllNotificationsUseCase().collect { notificationDomain ->
-                _uiState.value =
-                    _uiState.value.copy(notifications = notificationDomain.map { notificationDomain ->
-                        notificationDomain.toUiState()
-                    })
+            selectAllNotificationsUseCase().collect { notificationsDomain ->
+                notificationsDomain.forEach { notificationDomain ->
+                    selectTripByIdUseCase.invoke(notificationDomain.tripId).collect { tripDomain ->
+                        _uiState.value =
+                            uiState.value.copy(notifications = notificationsDomain.map { notificationDomain ->
+                                notificationDomain.copy(
+                                    title = notificationDomain.type.titleFor(),
+                                    message = notificationDomain.type.messageFor(
+                                        tripDomain,
+                                        appInfoRepository.messageFromServer()
+                                    )
+                                ).toUiState()
+                            })
+                    }
+                }
             }
         }
     }

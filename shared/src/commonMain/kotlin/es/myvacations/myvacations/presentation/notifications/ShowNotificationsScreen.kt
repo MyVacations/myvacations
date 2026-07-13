@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import es.myvacations.myvacations.core.extensions.shortenTitle
 import es.myvacations.myvacations.core.extensions.toRelativeTime
 import es.myvacations.myvacations.core.navigation.SystemBackHandler
 import es.myvacations.myvacations.domain.events.NotificationType
@@ -87,7 +88,7 @@ fun ShowNotificationsScreen(
     val notificationsFilterRead = uiState.notifications.filter { notificationUiState ->
         notificationUiState.read && selectedFilterStatus.matches(notificationUiState.type)
     }
-    Column {
+    Column(modifier = Modifier.padding(top = 12.dp)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -207,7 +208,7 @@ fun ShowNotificationsScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
@@ -343,7 +344,7 @@ private fun NotificationItemScreen(
             .clickable {
                 changeClickable()
             }
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(vertical = 12.dp).padding(start = 16.dp , end = if (!read) 16.dp else 36.dp ),
         verticalAlignment = Alignment.Top,
     ) {
         if (!read) {
@@ -370,7 +371,7 @@ private fun NotificationItemScreen(
             Text(
                 text = notification.message,
                 style = MaterialTheme.typography.bodyMedium,
-                maxLines = 2,
+                maxLines = 3,
                 overflow = TextOverflow.Ellipsis
             )
 

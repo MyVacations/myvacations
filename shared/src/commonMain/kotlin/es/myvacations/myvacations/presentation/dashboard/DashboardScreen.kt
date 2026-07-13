@@ -107,7 +107,7 @@ fun DashboardContent(
         }
     } else {
         LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)
+            modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp).padding(top = 12.dp)
         ) {
             item {
                 DashboardHeader(uiState, initials, onNotificationsClick)

@@ -97,7 +97,7 @@ fun TripDetailScreen(
     } else {
         Scaffold { _ ->
             LazyColumn(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().padding(top = 12.dp)
             ) {
                 item {
                     TripHeader(

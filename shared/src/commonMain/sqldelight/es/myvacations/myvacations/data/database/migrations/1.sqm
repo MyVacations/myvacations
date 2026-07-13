@@ -2,8 +2,6 @@ CREATE TABLE NotificationData (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     tripId TEXT NOT NULL,
     type TEXT NOT NULL,
-    title TEXT NOT NULL,
-    message TEXT NOT NULL,
     createdAt TEXT NOT NULL,
     read INTEGER AS kotlin.Boolean NOT NULL
 );

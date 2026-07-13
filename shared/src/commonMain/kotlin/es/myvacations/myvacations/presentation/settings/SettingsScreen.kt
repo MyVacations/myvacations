@@ -86,7 +86,7 @@ fun SettingsScreen(
             CircularProgressIndicator()
         }
     } else {
-        Scaffold(
+        Scaffold(modifier = Modifier.padding(top = 12.dp),
             bottomBar = {
                 Column(
                     modifier = Modifier

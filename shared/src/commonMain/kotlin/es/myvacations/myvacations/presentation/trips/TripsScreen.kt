@@ -74,7 +74,7 @@ fun TripsScreen(
     var searchValue by remember { mutableStateOf("") }
     var selectedFilterStatus by remember { mutableStateOf(TripStatus.ALL) }
 
-    Column(modifier = Modifier.padding(horizontal = 16.dp))
+    Column(modifier = Modifier.padding(horizontal = 16.dp).padding(top = 12.dp))
     {
         Text(
             text = stringResource(Res.string.trips_title),

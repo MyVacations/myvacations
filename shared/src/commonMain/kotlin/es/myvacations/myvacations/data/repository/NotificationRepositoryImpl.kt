@@ -30,8 +30,6 @@ class NotificationRepositoryImpl(
         localDataSource.insertNotification(
             tripId = notification.tripId,
             type = notification.type.name,
-            title = notification.title,
-            message = notification.message,
             createdAt = notification.createdAt.toString()
         )
     }

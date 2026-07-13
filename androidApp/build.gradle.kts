@@ -35,8 +35,8 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         versionCode = LocalDate.now()
             .format(DateTimeFormatter.ofPattern("yyyyMMdd"))
-            .toInt() + 0
-        versionName = "1.0.1"
+            .toInt() + 2
+        versionName = "1.0.2"
         multiDexEnabled = true
     }
     packaging {

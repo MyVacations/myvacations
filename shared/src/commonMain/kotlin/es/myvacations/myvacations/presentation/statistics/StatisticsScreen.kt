@@ -128,7 +128,7 @@ fun StatisticsScreen(viewModel: StatisticsViewModel = koinViewModel()) {
 
     Column {
         Text(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp).padding(top = 12.dp),
             text = stringResource(Res.string.statistics_title),
             style = MaterialTheme.typography.headlineSmall
         )

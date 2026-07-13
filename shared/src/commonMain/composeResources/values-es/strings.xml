@@ -127,9 +127,9 @@
     <string name="notification_filter_expenses">Gastos</string>
     <string name="notification_filter_budgets">Presupuestos</string>
     <string name="notification_filter_info">Información</string>
-    <string name="notification_new_ones">Nuevas notificaciones (%1$d)</string>
-    <string name="notification_read_all">Marcar todas como leídas</string>
-    <string name="notification_old_ones">Notificaciones antiguas (%1$d)</string>
+    <string name="notification_new_ones">Nuevas (%1$d)</string>
+    <string name="notification_read_all">Todas leídas</string>
+    <string name="notification_old_ones">Antiguas (%1$d)</string>
     <string name="notification_delete_all">Eliminar todas</string>
     <string name="notification_uptodate">No hay notificaciones, ¡Estás al día!</string>
 

@@ -56,7 +56,7 @@ fun PolicyScreen(onDismiss: () -> Unit) {
         onDismiss()
     }
     val sections = rememberPolicySections()
-    Scaffold(topBar = {
+    Scaffold(modifier = Modifier.padding(top = 12.dp), topBar = {
         TopAppBar(
             title = { Text(stringResource(Res.string.privacy_policy)) },
             navigationIcon = {

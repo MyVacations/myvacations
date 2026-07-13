@@ -1,0 +1,905 @@
+Initialized native services in: C:\Users\JR\.gradle\native
+Initialized jansi services in: C:\Users\JR\.gradle\native
+The client will now receive all logging from the daemon (pid: 15632). The daemon log file: C:\Users\JR\.gradle\daemon\9.6.1\daemon-15632.out.log
+Starting 3rd build in daemon [uptime: 37 mins 19.743 secs, performance: 99%, GC rate: 0.00/s, heap usage: 0% of 4 GiB]
+Using 12 worker leases.
+Operational build model parameters: {cachingModelBuilding=false, configurationCache=true, configurationCacheDisabledReason=null, configurationCacheParallelLoad=true, configurationCacheParallelStore=false, configureOnDemand=false, invalidateCoupledProjects=false, isolatedProjects=false, isolatedProjectsDiagnostics=false, modelAsProjectDependency=false, modelBuilding=false, parallelModelBuilding=false, parallelProjectConfiguration=false, parallelProjectExecution=false, resilientModelBuilding=false, vintage=false}
+Encryption key source: default Gradle keystore (pkcs12)
+Now considering [F:\Proyectos\MyVacations] as hierarchies to watch
+Reusing configuration cache.
+Now considering [F:\Proyectos\MyVacations] as hierarchies to watch
+Watching the file system is configured to be enabled if available
+File system watching is active
+Using local directory build cache for the root build (location = C:\Users\JR\.gradle\caches\build-cache-1, remove unused entries = after 7 days).
+Tasks to be executed: [task ':androidApp:preBuild', task ':androidApp:preReleaseBuild', task ':androidApp:extractReleaseVersionControlInfo', task ':shared:androidPreBuild', task ':shared:preAndroidMainBuild', task ':shared:prepareAndroidMainArtProfile', task ':androidApp:mergeReleaseArtProfile', task ':androidApp:expandReleaseL8ArtProfileWildcards', task ':shared:kmpPartiallyResolvedDependenciesChecker', task ':shared:checkKotlinGradlePluginConfigurationErrors', task ':shared:convertXmlValueResourcesForAndroidMain', task ':shared:copyNonXmlValueResourcesForAndroidMain', task ':shared:prepareComposeResourcesTaskForAndroidMain', task ':shared:generateResourceAccessorsForAndroidMain', task ':shared:convertXmlValueResourcesForCommonMain', task ':shared:copyNonXmlValueResourcesForCommonMain', task ':shared:prepareComposeResourcesTaskForCommonMain', task ':shared:generateResourceAccessorsForCommonMain', task ':shared:generateActualResourceCollectorsForAndroidMain', task ':shared:generateAndroidMainEmptyResourceFiles', task ':shared:copyAndroidMainComposeResourcesToAndroidAssets', task ':shared:packageAndroidMainResources', task ':shared:parseAndroidMainLocalResources', task ':shared:generateAndroidMainRFile', task ':shared:generateCommonMainMyVacationsDatabaseInterface', task ':shared:generateComposeResClass', task ':shared:generateExpectResourceCollectorsForCommonMain', task ':shared:compileAndroidMain', task ':shared:bundleAndroidMainClassesToRuntimeJar', task ':shared:processAndroidMainJavaRes', task ':shared:createFullJarAndroidMain', task ':androidApp:checkReleaseDuplicateClasses', task ':androidApp:generateReleaseResources', task ':androidApp:injectCrashlyticsMappingFileIdRelease', task ':androidApp:injectCrashlyticsVersionControlInfoRelease', task ':androidApp:processReleaseGoogleServices', task ':androidApp:packageReleaseResources', task ':androidApp:processReleaseNavigationResources', task ':androidApp:parseReleaseLocalResources', task ':androidApp:generateReleaseRFile', task ':shared:bundleAndroidMainClassesToCompileJar', task ':androidApp:compileReleaseKotlin', task ':androidApp:javaPreCompileRelease', task ':androidApp:compileReleaseJavaWithJavac', task ':shared:writeAndroidMainAarMetadata', task ':androidApp:checkReleaseAarMetadata', task ':androidApp:mapReleaseSourceSetPaths', task ':androidApp:compileReleaseNavigationResources', task ':androidApp:mergeReleaseResources', task ':androidApp:createReleaseCompatibleScreenManifests', task ':androidApp:extractDeepLinksRelease', task ':shared:processAndroidMainManifest', task ':androidApp:processReleaseMainManifest', task ':androidApp:processReleaseManifest', task ':androidApp:processReleaseManifestForPackage', task ':shared:mapAndroidMainSourceSetPaths', task ':shared:compileAndroidMainLibraryResources', task ':androidApp:processReleaseResources', task ':androidApp:expandReleaseArtProfileWildcards', task ':androidApp:extractProguardFiles', task ':androidApp:mergeReleaseGeneratedProguardFiles', task ':androidApp:processReleaseJavaRes', task ':androidApp:mergeReleaseJavaResource', task ':androidApp:mergeReleaseStartupProfile', task ':androidApp:minifyReleaseWithR8', task ':androidApp:produceReleaseComposeMapping', task ':androidApp:reportReleaseComposeMappingErrors', task ':androidApp:mergeReleaseComposeMapping', task ':androidApp:l8DexDesugarLibRelease', task ':androidApp:generateReleaseAssets', task ':shared:generateAndroidMainAssets', task ':shared:mergeAndroidMainAssets', task ':androidApp:mergeReleaseAssets', task ':androidApp:mergeReleaseJniLibFolders', task ':shared:mergeAndroidMainJniLibFolders', task ':shared:mergeAndroidMainNativeLibs', task ':shared:copyAndroidMainJniLibsProjectOnly', task ':androidApp:mergeReleaseNativeLibs', task ':androidApp:stripReleaseDebugSymbols', task ':androidApp:writeReleaseAppMetadata', task ':androidApp:buildReleasePreBundle', task ':androidApp:compileReleaseArtProfile', task ':androidApp:collectReleaseDependencies', task ':androidApp:configureReleaseDependencies', task ':androidApp:extractReleaseNativeDebugMetadata', task ':shared:prepareLintJarForPublish', task ':androidApp:generateReleaseLintVitalReportModel', task ':shared:checkAndroidMainAarMetadata', task ':shared:extractAndroidMainAnnotations', task ':shared:mergeAndroidMainJavaResource', task ':shared:syncAndroidMainLibJars', task ':shared:bundleAndroidMainLocalLintAar', task ':androidApp:lintVitalAnalyzeRelease', task ':androidApp:lintVitalReportRelease', task ':androidApp:lintVitalRelease', task ':androidApp:uploadCrashlyticsMappingFileRelease', task ':androidApp:parseReleaseIntegrityConfig', task ':androidApp:packageReleaseBundle', task ':androidApp:validateSigningRelease', task ':androidApp:signReleaseBundle', task ':androidApp:produceReleaseBundleIdeListingFile', task ':androidApp:createReleaseBundleListingFileRedirect', task ':androidApp:bundleRelease']
+Tasks that were excluded: []
+Resolve mutations for :androidApp:preBuild (Thread[#365,Execution worker,5,main]) started.
+Resolve mutations for :shared:androidPreBuild (Thread[#367,Execution worker Thread 3,5,main]) started.
+Resolve mutations for :shared:kmpPartiallyResolvedDependenciesChecker (Thread[#368,Execution worker Thread 4,5,main]) started.
+Resolve mutations for :shared:convertXmlValueResourcesForAndroidMain (Thread[#366,Execution worker Thread 2,5,main]) started.
+Resolve mutations for :shared:convertXmlValueResourcesForCommonMain (Thread[#370,Execution worker Thread 6,5,main]) started.
+Resolve mutations for :shared:copyNonXmlValueResourcesForAndroidMain (Thread[#369,Execution worker Thread 5,5,main]) started.
+Resolve mutations for :shared:copyNonXmlValueResourcesForCommonMain (Thread[#371,Execution worker Thread 7,5,main]) started.
+Resolve mutations for :shared:generateCommonMainMyVacationsDatabaseInterface (Thread[#372,Execution worker Thread 8,5,main]) started.
+Resolve mutations for :shared:generateComposeResClass (Thread[#373,Execution worker Thread 9,5,main]) started.
+:shared:kmpPartiallyResolvedDependenciesChecker (Thread[#368,Execution worker Thread 4,5,main]) started.
+Resolve mutations for :shared:generateExpectResourceCollectorsForCommonMain (Thread[#364,included builds,5,main]) started.
+:androidApp:preBuild (Thread[#365,Execution worker,5,main]) started.
+work action Unknown value (Thread[#374,Execution worker Thread 10,5,main]) started.
+:shared:androidPreBuild (Thread[#367,Execution worker Thread 3,5,main]) started.
+work action Unknown value (Thread[#375,Execution worker Thread 11,5,main]) started.
+:shared:generateComposeResClass (Thread[#373,Execution worker Thread 9,5,main]) started.
+:shared:convertXmlValueResourcesForCommonMain (Thread[#370,Execution worker Thread 6,5,main]) started.
+:shared:copyNonXmlValueResourcesForAndroidMain (Thread[#374,Execution worker Thread 10,5,main]) started.
+Resolve mutations for :androidApp:injectCrashlyticsMappingFileIdRelease (Thread[#366,Execution worker Thread 2,5,main]) started.
+:shared:generateCommonMainMyVacationsDatabaseInterface (Thread[#372,Execution worker Thread 8,5,main]) started.
+Resolve mutations for :androidApp:processReleaseGoogleServices (Thread[#369,Execution worker Thread 5,5,main]) started.
+:shared:generateExpectResourceCollectorsForCommonMain (Thread[#364,included builds,5,main]) started.
+Resolve mutations for :androidApp:generateReleaseAssets (Thread[#371,Execution worker Thread 7,5,main]) started.
+:androidApp:injectCrashlyticsMappingFileIdRelease (Thread[#366,Execution worker Thread 2,5,main]) started.
+:androidApp:processReleaseGoogleServices (Thread[#371,Execution worker Thread 7,5,main]) started.
+:androidApp:generateReleaseAssets (Thread[#369,Execution worker Thread 5,5,main]) started.
+Resolve mutations for :shared:generateAndroidMainAssets (Thread[#375,Execution worker Thread 11,5,main]) started.
+:shared:generateAndroidMainAssets (Thread[#375,Execution worker Thread 11,5,main]) started.
+
+> Task :androidApp:generateReleaseAssets UP-TO-DATE
+Skipping task ':androidApp:generateReleaseAssets' as it has no actions.
+
+> Task :shared:generateAndroidMainAssets UP-TO-DATE
+Skipping task ':shared:generateAndroidMainAssets' as it has no actions.
+work action Unknown value (Thread[#375,Execution worker Thread 11,5,main]) started.
+
+> Task :androidApp:preBuild UP-TO-DATE
+Skipping task ':androidApp:preBuild' as it has no actions.
+Resolve mutations for :androidApp:preReleaseBuild (Thread[#365,Execution worker,5,main]) started.
+Resolve mutations for :androidApp:extractProguardFiles (Thread[#375,Execution worker Thread 11,5,main]) started.
+
+> Task :shared:androidPreBuild UP-TO-DATE
+Skipping task ':shared:androidPreBuild' as it has no actions.
+:androidApp:preReleaseBuild (Thread[#365,Execution worker,5,main]) started.
+Resolve mutations for :shared:prepareLintJarForPublish (Thread[#369,Execution worker Thread 5,5,main]) started.
+:androidApp:extractProguardFiles (Thread[#375,Execution worker Thread 11,5,main]) started.
+Build 98288054-8b69-4dc1-8abd-040077af337f is started
+
+> Task :shared:generateComposeResClass UP-TO-DATE
+Caching disabled for task ':shared:generateComposeResClass' because:
+  Caching has not been enabled for the task
+Skipping task ':shared:generateComposeResClass' as it is up-to-date.
+
+> Task :shared:kmpPartiallyResolvedDependenciesChecker
+Caching disabled for task ':shared:kmpPartiallyResolvedDependenciesChecker' because:
+  This task is not intended for execution
+Task ':shared:kmpPartiallyResolvedDependenciesChecker' is not up-to-date because:
+  Task has not declared any outputs despite executing actions.
+Execution stopped by some action with message: null
+
+> Task :androidApp:preReleaseBuild UP-TO-DATE
+Skipping task ':androidApp:preReleaseBuild' as it has no actions.
+
+> Task :shared:generateExpectResourceCollectorsForCommonMain UP-TO-DATE
+Caching disabled for task ':shared:generateExpectResourceCollectorsForCommonMain' because:
+  Caching has not been enabled for the task
+Skipping task ':shared:generateExpectResourceCollectorsForCommonMain' as it is up-to-date.
+Resolve mutations for :shared:preAndroidMainBuild (Thread[#367,Execution worker Thread 3,5,main]) started.
+
+> Task :androidApp:processReleaseGoogleServices UP-TO-DATE
+Build cache key for task ':androidApp:processReleaseGoogleServices' is ce4e1f34c6dc0785b45be1d2dd051815
+Skipping task ':androidApp:processReleaseGoogleServices' as it is up-to-date.
+
+> Task :androidApp:extractProguardFiles UP-TO-DATE
+Caching disabled for task ':androidApp:extractProguardFiles' because:
+  Fast task
+Skipping task ':androidApp:extractProguardFiles' as it is up-to-date.
+:shared:preAndroidMainBuild (Thread[#367,Execution worker Thread 3,5,main]) started.
+
+> Task :shared:preAndroidMainBuild UP-TO-DATE
+Skipping task ':shared:preAndroidMainBuild' as it has no actions.
+Resolve mutations for :androidApp:extractReleaseVersionControlInfo (Thread[#365,Execution worker,5,main]) started.
+Resolve mutations for :shared:checkKotlinGradlePluginConfigurationErrors (Thread[#368,Execution worker Thread 4,5,main]) started.
+
+> Task :shared:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+file or directory 'F:\Proyectos\MyVacations\shared\build\generated\compose\resourceGenerator\preparedResources\androidMain\composeResources', not found
+Skipping task ':shared:copyNonXmlValueResourcesForAndroidMain' as it has no source files and no previous output files.
+:shared:prepareLintJarForPublish (Thread[#369,Execution worker Thread 5,5,main]) started.
+Resolve mutations for :androidApp:checkReleaseDuplicateClasses (Thread[#364,included builds,5,main]) started.
+Resolve mutations for :androidApp:generateReleaseResources (Thread[#373,Execution worker Thread 9,5,main]) started.
+:androidApp:checkReleaseDuplicateClasses (Thread[#364,included builds,5,main]) started.
+:androidApp:generateReleaseResources (Thread[#373,Execution worker Thread 9,5,main]) started.
+Resolve mutations for :androidApp:javaPreCompileRelease (Thread[#371,Execution worker Thread 7,5,main]) started.
+Resolve mutations for :androidApp:createReleaseCompatibleScreenManifests (Thread[#375,Execution worker Thread 11,5,main]) started.
+:androidApp:javaPreCompileRelease (Thread[#371,Execution worker Thread 7,5,main]) started.
+:androidApp:createReleaseCompatibleScreenManifests (Thread[#375,Execution worker Thread 11,5,main]) started.
+
+> Task :shared:prepareLintJarForPublish UP-TO-DATE
+Caching disabled for task ':shared:prepareLintJarForPublish' because:
+  Caching has been disabled for the task
+Skipping task ':shared:prepareLintJarForPublish' as it is up-to-date.
+Resolve mutations for :androidApp:mergeReleaseStartupProfile (Thread[#369,Execution worker Thread 5,5,main]) started.
+
+> Task :shared:generateCommonMainMyVacationsDatabaseInterface UP-TO-DATE
+Build cache key for task ':shared:generateCommonMainMyVacationsDatabaseInterface' is 09bb19043ea1dcb314a48e630cc63960
+Skipping task ':shared:generateCommonMainMyVacationsDatabaseInterface' as it is up-to-date.
+Resolve mutations for :androidApp:mergeReleaseJniLibFolders (Thread[#372,Execution worker Thread 8,5,main]) started.
+
+> Task :androidApp:javaPreCompileRelease UP-TO-DATE
+Build cache key for task ':androidApp:javaPreCompileRelease' is 21b024d45b804ea40d91d440f78a58b7
+Skipping task ':androidApp:javaPreCompileRelease' as it is up-to-date.
+
+> Task :androidApp:createReleaseCompatibleScreenManifests UP-TO-DATE
+Caching disabled for task ':androidApp:createReleaseCompatibleScreenManifests' because:
+  Caching has been disabled for the task
+Skipping task ':androidApp:createReleaseCompatibleScreenManifests' as it is up-to-date.
+Resolve mutations for :shared:prepareAndroidMainArtProfile (Thread[#367,Execution worker Thread 3,5,main]) started.
+
+> Task :androidApp:generateReleaseResources UP-TO-DATE
+Build cache key for task ':androidApp:generateReleaseResources' is 6bec144cda0dce2757b2654a69b4a083
+Skipping task ':androidApp:generateReleaseResources' as it is up-to-date.
+
+> Task :shared:convertXmlValueResourcesForCommonMain UP-TO-DATE
+Caching disabled for task ':shared:convertXmlValueResourcesForCommonMain' because:
+  Caching has not been enabled for the task
+Skipping task ':shared:convertXmlValueResourcesForCommonMain' as it is up-to-date.
+Resolve mutations for :shared:generateAndroidMainEmptyResourceFiles (Thread[#375,Execution worker Thread 11,5,main]) started.
+Resolve mutations for :shared:writeAndroidMainAarMetadata (Thread[#371,Execution worker Thread 7,5,main]) started.
+:shared:generateAndroidMainEmptyResourceFiles (Thread[#375,Execution worker Thread 11,5,main]) started.
+Resolve mutations for :shared:processAndroidMainManifest (Thread[#372,Execution worker Thread 8,5,main]) started.
+:shared:prepareAndroidMainArtProfile (Thread[#367,Execution worker Thread 3,5,main]) started.
+Resolve mutations for :shared:mapAndroidMainSourceSetPaths (Thread[#369,Execution worker Thread 5,5,main]) started.
+:shared:processAndroidMainManifest (Thread[#372,Execution worker Thread 8,5,main]) started.
+:androidApp:extractReleaseVersionControlInfo (Thread[#365,Execution worker,5,main]) started.
+:shared:checkKotlinGradlePluginConfigurationErrors (Thread[#368,Execution worker Thread 4,5,main]) started.
+:shared:convertXmlValueResourcesForAndroidMain (Thread[#374,Execution worker Thread 10,5,main]) started.
+
+> Task :shared:generateAndroidMainEmptyResourceFiles UP-TO-DATE
+Caching disabled for task ':shared:generateAndroidMainEmptyResourceFiles' because:
+  Caching has been disabled for the task
+Skipping task ':shared:generateAndroidMainEmptyResourceFiles' as it is up-to-date.
+
+> Task :shared:checkKotlinGradlePluginConfigurationErrors SKIPPED
+Skipping task ':shared:checkKotlinGradlePluginConfigurationErrors' as task onlyIf 'errorDiagnostics are present' is false.
+:shared:writeAndroidMainAarMetadata (Thread[#371,Execution worker Thread 7,5,main]) started.
+work action resolve res (project ':shared') (Thread[#375,Execution worker Thread 11,5,main]) started.
+:shared:copyNonXmlValueResourcesForCommonMain (Thread[#370,Execution worker Thread 6,5,main]) started.
+Resolve mutations for :androidApp:processReleaseNavigationResources (Thread[#375,Execution worker Thread 11,5,main]) started.
+:shared:mapAndroidMainSourceSetPaths (Thread[#369,Execution worker Thread 5,5,main]) started.
+:androidApp:processReleaseNavigationResources (Thread[#375,Execution worker Thread 11,5,main]) started.
+
+> Task :shared:convertXmlValueResourcesForAndroidMain NO-SOURCE
+file or directory 'F:\Proyectos\MyVacations\shared\build\generated\compose\resourceGenerator\preparedResources\androidMain\composeResources', not found
+Skipping task ':shared:convertXmlValueResourcesForAndroidMain' as it has no source files and no previous output files.
+Resolve mutations for :shared:prepareComposeResourcesTaskForAndroidMain (Thread[#374,Execution worker Thread 10,5,main]) started.
+:androidApp:mergeReleaseJniLibFolders (Thread[#368,Execution worker Thread 4,5,main]) started.
+:androidApp:mergeReleaseStartupProfile (Thread[#373,Execution worker Thread 9,5,main]) started.
+
+> Task :androidApp:extractReleaseVersionControlInfo UP-TO-DATE
+Caching disabled for task ':androidApp:extractReleaseVersionControlInfo' because:
+  Caching has been disabled for the task
+Skipping task ':androidApp:extractReleaseVersionControlInfo' as it is up-to-date.
+
+> Task :shared:writeAndroidMainAarMetadata UP-TO-DATE
+Caching disabled for task ':shared:writeAndroidMainAarMetadata' because:
+  Caching has been disabled for the task
+Skipping task ':shared:writeAndroidMainAarMetadata' as it is up-to-date.
+Resolve mutations for :androidApp:injectCrashlyticsVersionControlInfoRelease (Thread[#371,Execution worker Thread 7,5,main]) started.
+
+> Task :shared:processAndroidMainManifest UP-TO-DATE
+Build cache key for task ':shared:processAndroidMainManifest' is a24d2f919a589499e19543afdf107e71
+Skipping task ':shared:processAndroidMainManifest' as it is up-to-date.
+work action resolve aar-metadata.properties (project ':shared') (Thread[#372,Execution worker Thread 8,5,main]) started.
+Resolve mutations for :androidApp:checkReleaseAarMetadata (Thread[#372,Execution worker Thread 8,5,main]) started.
+
+> Task :shared:mapAndroidMainSourceSetPaths UP-TO-DATE
+Caching disabled for task ':shared:mapAndroidMainSourceSetPaths' because:
+  Caching has been disabled for the task
+Skipping task ':shared:mapAndroidMainSourceSetPaths' as it is up-to-date.
+
+> Task :shared:prepareAndroidMainArtProfile UP-TO-DATE
+Caching disabled for task ':shared:prepareAndroidMainArtProfile' because:
+  Caching has been disabled for the task
+Skipping task ':shared:prepareAndroidMainArtProfile' as it is up-to-date.
+:androidApp:injectCrashlyticsVersionControlInfoRelease (Thread[#371,Execution worker Thread 7,5,main]) started.
+work action resolve baseline-prof.txt (project ':shared') (Thread[#367,Execution worker Thread 3,5,main]) started.
+work action resolve AndroidManifest.xml (project ':shared') (Thread[#365,Execution worker,5,main]) started.
+
+> Task :androidApp:mergeReleaseJniLibFolders UP-TO-DATE
+Caching disabled for task ':androidApp:mergeReleaseJniLibFolders' because:
+  Simple merging task
+Skipping task ':androidApp:mergeReleaseJniLibFolders' as it is up-to-date.
+Resolve mutations for :androidApp:mergeReleaseArtProfile (Thread[#367,Execution worker Thread 3,5,main]) started.
+work action resolve file-map.txt (project ':shared') (Thread[#369,Execution worker Thread 5,5,main]) started.
+Resolve mutations for :shared:mergeAndroidMainJniLibFolders (Thread[#369,Execution worker Thread 5,5,main]) started.
+Resolve mutations for :androidApp:writeReleaseAppMetadata (Thread[#368,Execution worker Thread 4,5,main]) started.
+:androidApp:checkReleaseAarMetadata (Thread[#372,Execution worker Thread 8,5,main]) started.
+
+> Task :androidApp:mergeReleaseStartupProfile UP-TO-DATE
+Caching disabled for task ':androidApp:mergeReleaseStartupProfile' because:
+  Simple merging task
+Skipping task ':androidApp:mergeReleaseStartupProfile' as it is up-to-date.
+:shared:mergeAndroidMainJniLibFolders (Thread[#369,Execution worker Thread 5,5,main]) started.
+work action resolve lint.jar (project ':shared') (Thread[#373,Execution worker Thread 9,5,main]) started.
+Resolve mutations for :androidApp:collectReleaseDependencies (Thread[#365,Execution worker,5,main]) started.
+:androidApp:writeReleaseAppMetadata (Thread[#368,Execution worker Thread 4,5,main]) started.
+:androidApp:mergeReleaseArtProfile (Thread[#367,Execution worker Thread 3,5,main]) started.
+:androidApp:collectReleaseDependencies (Thread[#365,Execution worker,5,main]) started.
+
+> Task :androidApp:injectCrashlyticsVersionControlInfoRelease UP-TO-DATE
+Build cache key for task ':androidApp:injectCrashlyticsVersionControlInfoRelease' is 3d0a4f59dbbc6e609e55d25706931dc5
+Skipping task ':androidApp:injectCrashlyticsVersionControlInfoRelease' as it is up-to-date.
+work action resolve lint.jar (project ':shared') (Thread[#371,Execution worker Thread 7,5,main]) started.
+Resolve mutations for :shared:checkAndroidMainAarMetadata (Thread[#371,Execution worker Thread 7,5,main]) started.
+:shared:checkAndroidMainAarMetadata (Thread[#371,Execution worker Thread 7,5,main]) started.
+Resolve mutations for :androidApp:parseReleaseIntegrityConfig (Thread[#373,Execution worker Thread 9,5,main]) started.
+:shared:prepareComposeResourcesTaskForAndroidMain (Thread[#374,Execution worker Thread 10,5,main]) started.
+
+> Task :androidApp:writeReleaseAppMetadata UP-TO-DATE
+Caching disabled for task ':androidApp:writeReleaseAppMetadata' because:
+  Caching has been disabled for the task
+Skipping task ':androidApp:writeReleaseAppMetadata' as it is up-to-date.
+:androidApp:parseReleaseIntegrityConfig (Thread[#373,Execution worker Thread 9,5,main]) started.
+Resolve mutations for :androidApp:validateSigningRelease (Thread[#368,Execution worker Thread 4,5,main]) started.
+:androidApp:validateSigningRelease (Thread[#368,Execution worker Thread 4,5,main]) started.
+
+> Task :androidApp:injectCrashlyticsMappingFileIdRelease
+Build cache key for task ':androidApp:injectCrashlyticsMappingFileIdRelease' is fc5089dbb10d557f7e9ac8d338c5c038
+Task ':androidApp:injectCrashlyticsMappingFileIdRelease' is not up-to-date because:
+  Task.upToDateWhen is false.
+Stored cache entry for task ':androidApp:injectCrashlyticsMappingFileIdRelease' with cache key fc5089dbb10d557f7e9ac8d338c5c038
+Resolve mutations for :androidApp:packageReleaseResources (Thread[#366,Execution worker Thread 2,5,main]) started.
+
+> Task :shared:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+Skipping task ':shared:prepareComposeResourcesTaskForAndroidMain' as it has no source files and no previous output files.
+Resolve mutations for :shared:generateResourceAccessorsForAndroidMain (Thread[#374,Execution worker Thread 10,5,main]) started.
+
+> Task :androidApp:parseReleaseIntegrityConfig UP-TO-DATE
+Build cache key for task ':androidApp:parseReleaseIntegrityConfig' is 422471b112cf4818d05fe1a675f4fd1e
+Skipping task ':androidApp:parseReleaseIntegrityConfig' as it is up-to-date.
+
+> Task :shared:mergeAndroidMainJniLibFolders UP-TO-DATE
+Caching disabled for task ':shared:mergeAndroidMainJniLibFolders' because:
+  Simple merging task
+Skipping task ':shared:mergeAndroidMainJniLibFolders' as it is up-to-date.
+Resolve mutations for :androidApp:mapReleaseSourceSetPaths (Thread[#373,Execution worker Thread 9,5,main]) started.
+Resolve mutations for :androidApp:extractDeepLinksRelease (Thread[#369,Execution worker Thread 5,5,main]) started.
+
+> Task :androidApp:validateSigningRelease UP-TO-DATE
+Caching disabled for task ':androidApp:validateSigningRelease' because:
+  Caching has been disabled for the task
+Skipping task ':androidApp:validateSigningRelease' as it is up-to-date.
+:androidApp:extractDeepLinksRelease (Thread[#369,Execution worker Thread 5,5,main]) started.
+:androidApp:mapReleaseSourceSetPaths (Thread[#373,Execution worker Thread 9,5,main]) started.
+:shared:generateResourceAccessorsForAndroidMain (Thread[#374,Execution worker Thread 10,5,main]) started.
+:androidApp:packageReleaseResources (Thread[#366,Execution worker Thread 2,5,main]) started.
+Resolve mutations for :shared:mergeAndroidMainNativeLibs (Thread[#368,Execution worker Thread 4,5,main]) started.
+
+> Task :androidApp:mapReleaseSourceSetPaths UP-TO-DATE
+Caching disabled for task ':androidApp:mapReleaseSourceSetPaths' because:
+  Caching has been disabled for the task
+Skipping task ':androidApp:mapReleaseSourceSetPaths' as it is up-to-date.
+
+> Task :androidApp:extractDeepLinksRelease UP-TO-DATE
+Build cache key for task ':androidApp:extractDeepLinksRelease' is 559599faeea04a169222881b70e2050c
+Skipping task ':androidApp:extractDeepLinksRelease' as it is up-to-date.
+
+> Task :shared:generateResourceAccessorsForAndroidMain NO-SOURCE
+Skipping task ':shared:generateResourceAccessorsForAndroidMain' as it has no source files and no previous output files.
+:shared:mergeAndroidMainNativeLibs (Thread[#368,Execution worker Thread 4,5,main]) started.
+Resolve mutations for :androidApp:processReleaseMainManifest (Thread[#369,Execution worker Thread 5,5,main]) started.
+:androidApp:processReleaseMainManifest (Thread[#369,Execution worker Thread 5,5,main]) started.
+
+> Task :shared:mergeAndroidMainNativeLibs NO-SOURCE
+Skipping task ':shared:mergeAndroidMainNativeLibs' as it has no source files and no previous output files.
+Resolve mutations for :shared:copyAndroidMainJniLibsProjectOnly (Thread[#368,Execution worker Thread 4,5,main]) started.
+:shared:copyAndroidMainJniLibsProjectOnly (Thread[#368,Execution worker Thread 4,5,main]) started.
+
+> Task :shared:copyAndroidMainJniLibsProjectOnly UP-TO-DATE
+Caching disabled for task ':shared:copyAndroidMainJniLibsProjectOnly' because:
+  Caching has been disabled for the task
+Skipping task ':shared:copyAndroidMainJniLibsProjectOnly' as it is up-to-date.
+work action resolve jni (project ':shared') (Thread[#368,Execution worker Thread 4,5,main]) started.
+Resolve mutations for :androidApp:mergeReleaseNativeLibs (Thread[#368,Execution worker Thread 4,5,main]) started.
+:androidApp:mergeReleaseNativeLibs (Thread[#368,Execution worker Thread 4,5,main]) started.
+
+> Task :shared:copyNonXmlValueResourcesForCommonMain UP-TO-DATE
+Caching disabled for task ':shared:copyNonXmlValueResourcesForCommonMain' because:
+  Caching has not been enabled for the task
+Skipping task ':shared:copyNonXmlValueResourcesForCommonMain' as it is up-to-date.
+Resolve mutations for :shared:prepareComposeResourcesTaskForCommonMain (Thread[#370,Execution worker Thread 6,5,main]) started.
+:shared:prepareComposeResourcesTaskForCommonMain (Thread[#370,Execution worker Thread 6,5,main]) started.
+
+> Task :shared:prepareComposeResourcesTaskForCommonMain UP-TO-DATE
+Caching disabled for task ':shared:prepareComposeResourcesTaskForCommonMain' because:
+  Caching has not been enabled for the task
+Skipping task ':shared:prepareComposeResourcesTaskForCommonMain' as it is up-to-date.
+Resolve mutations for :shared:generateResourceAccessorsForCommonMain (Thread[#370,Execution worker Thread 6,5,main]) started.
+:shared:generateResourceAccessorsForCommonMain (Thread[#370,Execution worker Thread 6,5,main]) started.
+Resolve mutations for :shared:copyAndroidMainComposeResourcesToAndroidAssets (Thread[#374,Execution worker Thread 10,5,main]) started.
+:shared:copyAndroidMainComposeResourcesToAndroidAssets (Thread[#374,Execution worker Thread 10,5,main]) started.
+
+> Task :shared:generateResourceAccessorsForCommonMain UP-TO-DATE
+Caching disabled for task ':shared:generateResourceAccessorsForCommonMain' because:
+  Caching has not been enabled for the task
+Skipping task ':shared:generateResourceAccessorsForCommonMain' as it is up-to-date.
+Resolve mutations for :shared:generateActualResourceCollectorsForAndroidMain (Thread[#370,Execution worker Thread 6,5,main]) started.
+
+> Task :androidApp:collectReleaseDependencies UP-TO-DATE
+Caching disabled for task ':androidApp:collectReleaseDependencies' because:
+  Caching has been disabled for the task
+Skipping task ':androidApp:collectReleaseDependencies' as it is up-to-date.
+
+> Task :shared:copyAndroidMainComposeResourcesToAndroidAssets UP-TO-DATE
+Caching disabled for task ':shared:copyAndroidMainComposeResourcesToAndroidAssets' because:
+  Caching has not been enabled for the task
+Skipping task ':shared:copyAndroidMainComposeResourcesToAndroidAssets' as it is up-to-date.
+Resolve mutations for :androidApp:configureReleaseDependencies (Thread[#365,Execution worker,5,main]) started.
+Resolve mutations for :shared:packageAndroidMainResources (Thread[#374,Execution worker Thread 10,5,main]) started.
+Resolve mutations for :shared:mergeAndroidMainAssets (Thread[#373,Execution worker Thread 9,5,main]) started.
+:shared:generateActualResourceCollectorsForAndroidMain (Thread[#370,Execution worker Thread 6,5,main]) started.
+:shared:mergeAndroidMainAssets (Thread[#373,Execution worker Thread 9,5,main]) started.
+:shared:packageAndroidMainResources (Thread[#374,Execution worker Thread 10,5,main]) started.
+:androidApp:configureReleaseDependencies (Thread[#365,Execution worker,5,main]) started.
+
+> Task :shared:generateActualResourceCollectorsForAndroidMain UP-TO-DATE
+Caching disabled for task ':shared:generateActualResourceCollectorsForAndroidMain' because:
+  Caching has not been enabled for the task
+Skipping task ':shared:generateActualResourceCollectorsForAndroidMain' as it is up-to-date.
+
+> Task :androidApp:configureReleaseDependencies UP-TO-DATE
+Caching disabled for task ':androidApp:configureReleaseDependencies' because:
+  Caching has been disabled for the task
+Skipping task ':androidApp:configureReleaseDependencies' as it is up-to-date.
+
+> Task :shared:mergeAndroidMainAssets UP-TO-DATE
+Caching disabled for task ':shared:mergeAndroidMainAssets' because:
+  Simple merging task
+Skipping task ':shared:mergeAndroidMainAssets' as it is up-to-date.
+work action resolve mergeAndroidMainAssets (project ':shared') (Thread[#373,Execution worker Thread 9,5,main]) started.
+Resolve mutations for :androidApp:mergeReleaseAssets (Thread[#373,Execution worker Thread 9,5,main]) started.
+:androidApp:mergeReleaseAssets (Thread[#373,Execution worker Thread 9,5,main]) started.
+
+> Task :shared:packageAndroidMainResources UP-TO-DATE
+Build cache key for task ':shared:packageAndroidMainResources' is f48e4a3d2579e1e92243a364a0baee4c
+Skipping task ':shared:packageAndroidMainResources' as it is up-to-date.
+Resolve mutations for :shared:parseAndroidMainLocalResources (Thread[#374,Execution worker Thread 10,5,main]) started.
+work action resolve res (project ':shared') (Thread[#370,Execution worker Thread 6,5,main]) started.
+Resolve mutations for :androidApp:mergeReleaseResources (Thread[#370,Execution worker Thread 6,5,main]) started.
+:shared:parseAndroidMainLocalResources (Thread[#374,Execution worker Thread 10,5,main]) started.
+Resolve mutations for :shared:compileAndroidMainLibraryResources (Thread[#365,Execution worker,5,main]) started.
+:shared:compileAndroidMainLibraryResources (Thread[#365,Execution worker,5,main]) started.
+
+> Task :shared:compileAndroidMainLibraryResources UP-TO-DATE
+Build cache key for task ':shared:compileAndroidMainLibraryResources' is d0298233b532ebb20bb0dd3acd674b44
+Skipping task ':shared:compileAndroidMainLibraryResources' as it is up-to-date.
+work action resolve out (project ':shared') (Thread[#365,Execution worker,5,main]) started.
+:androidApp:mergeReleaseResources (Thread[#370,Execution worker Thread 6,5,main]) started.
+
+> Task :shared:parseAndroidMainLocalResources UP-TO-DATE
+Build cache key for task ':shared:parseAndroidMainLocalResources' is 2b9ee0450046a4ff6cf32615460c45f4
+Skipping task ':shared:parseAndroidMainLocalResources' as it is up-to-date.
+Resolve mutations for :shared:generateAndroidMainRFile (Thread[#374,Execution worker Thread 10,5,main]) started.
+
+> Task :androidApp:mergeReleaseArtProfile UP-TO-DATE
+Caching disabled for task ':androidApp:mergeReleaseArtProfile' because:
+  Simple merging task
+Skipping task ':androidApp:mergeReleaseArtProfile' as it is up-to-date.
+:shared:generateAndroidMainRFile (Thread[#365,Execution worker,5,main]) started.
+Resolve mutations for :androidApp:expandReleaseL8ArtProfileWildcards (Thread[#367,Execution worker Thread 3,5,main]) started.
+:androidApp:expandReleaseL8ArtProfileWildcards (Thread[#367,Execution worker Thread 3,5,main]) started.
+
+> Task :androidApp:expandReleaseL8ArtProfileWildcards UP-TO-DATE
+Build cache key for task ':androidApp:expandReleaseL8ArtProfileWildcards' is dd5ad536f77b224f525a648e948a0604
+Skipping task ':androidApp:expandReleaseL8ArtProfileWildcards' as it is up-to-date.
+
+> Task :shared:checkAndroidMainAarMetadata UP-TO-DATE
+Caching disabled for task ':shared:checkAndroidMainAarMetadata' because:
+  Caching has been disabled for the task
+Skipping task ':shared:checkAndroidMainAarMetadata' as it is up-to-date.
+
+> Task :shared:generateAndroidMainRFile UP-TO-DATE
+Build cache key for task ':shared:generateAndroidMainRFile' is 3716899827d883bcb1309bb778df76c0
+Skipping task ':shared:generateAndroidMainRFile' as it is up-to-date.
+Resolve mutations for :shared:compileAndroidMain (Thread[#365,Execution worker,5,main]) started.
+work action resolve package-aware-r.txt (project ':shared') (Thread[#374,Execution worker Thread 10,5,main]) started.
+Resolve mutations for :shared:extractAndroidMainAnnotations (Thread[#374,Execution worker Thread 10,5,main]) started.
+:shared:compileAndroidMain (Thread[#365,Execution worker,5,main]) started.
+:shared:extractAndroidMainAnnotations (Thread[#371,Execution worker Thread 7,5,main]) started.
+
+> Task :androidApp:checkReleaseDuplicateClasses UP-TO-DATE
+Caching disabled for task ':androidApp:checkReleaseDuplicateClasses' because:
+  Caching has been disabled for the task
+Skipping task ':androidApp:checkReleaseDuplicateClasses' as it is up-to-date.
+
+> Task :androidApp:mergeReleaseNativeLibs UP-TO-DATE
+Caching disabled for task ':androidApp:mergeReleaseNativeLibs' because:
+  Caching has been disabled for the task
+Skipping task ':androidApp:mergeReleaseNativeLibs' as it is up-to-date.
+Resolve mutations for :androidApp:stripReleaseDebugSymbols (Thread[#368,Execution worker Thread 4,5,main]) started.
+:androidApp:stripReleaseDebugSymbols (Thread[#368,Execution worker Thread 4,5,main]) started.
+
+> Task :androidApp:processReleaseNavigationResources UP-TO-DATE
+Build cache key for task ':androidApp:processReleaseNavigationResources' is ab88a6a98827427c00de39d3d3648c31
+Skipping task ':androidApp:processReleaseNavigationResources' as it is up-to-date.
+Resolve mutations for :androidApp:compileReleaseNavigationResources (Thread[#375,Execution worker Thread 11,5,main]) started.
+
+> Task :androidApp:stripReleaseDebugSymbols UP-TO-DATE
+Caching disabled for task ':androidApp:stripReleaseDebugSymbols' because:
+  Caching has been disabled for the task
+Skipping task ':androidApp:stripReleaseDebugSymbols' as it is up-to-date.
+Resolve mutations for :androidApp:extractReleaseNativeDebugMetadata (Thread[#368,Execution worker Thread 4,5,main]) started.
+:androidApp:extractReleaseNativeDebugMetadata (Thread[#368,Execution worker Thread 4,5,main]) started.
+
+> Task :androidApp:extractReleaseNativeDebugMetadata UP-TO-DATE
+Build cache key for task ':androidApp:extractReleaseNativeDebugMetadata' is 42da411817aeb2b0d8d3fd69cf416679
+Skipping task ':androidApp:extractReleaseNativeDebugMetadata' as it is up-to-date.
+:androidApp:compileReleaseNavigationResources (Thread[#375,Execution worker Thread 11,5,main]) started.
+
+> Task :androidApp:compileReleaseNavigationResources UP-TO-DATE
+Build cache key for task ':androidApp:compileReleaseNavigationResources' is c4a83965d52ab2ec26d1d0ae415e3015
+Skipping task ':androidApp:compileReleaseNavigationResources' as it is up-to-date.
+
+> Task :androidApp:mergeReleaseAssets UP-TO-DATE
+Caching disabled for task ':androidApp:mergeReleaseAssets' because:
+  Simple merging task
+Skipping task ':androidApp:mergeReleaseAssets' as it is up-to-date.
+
+> Task :androidApp:checkReleaseAarMetadata UP-TO-DATE
+Caching disabled for task ':androidApp:checkReleaseAarMetadata' because:
+  Caching has been disabled for the task
+Skipping task ':androidApp:checkReleaseAarMetadata' as it is up-to-date.
+
+> Task :androidApp:processReleaseMainManifest UP-TO-DATE
+Build cache key for task ':androidApp:processReleaseMainManifest' is d07d625807c908819ca4bfdc44003893
+Skipping task ':androidApp:processReleaseMainManifest' as it is up-to-date.
+Resolve mutations for :androidApp:processReleaseManifest (Thread[#369,Execution worker Thread 5,5,main]) started.
+:androidApp:processReleaseManifest (Thread[#369,Execution worker Thread 5,5,main]) started.
+
+> Task :androidApp:processReleaseManifest UP-TO-DATE
+Build cache key for task ':androidApp:processReleaseManifest' is 6151504d26c3d706e9f7b42fdac8ebfd
+Skipping task ':androidApp:processReleaseManifest' as it is up-to-date.
+Resolve mutations for :androidApp:processReleaseManifestForPackage (Thread[#372,Execution worker Thread 8,5,main]) started.
+:androidApp:processReleaseManifestForPackage (Thread[#372,Execution worker Thread 8,5,main]) started.
+
+> Task :androidApp:processReleaseManifestForPackage UP-TO-DATE
+Build cache key for task ':androidApp:processReleaseManifestForPackage' is 12016ccff1c30b0ed5d259989027fe29
+Skipping task ':androidApp:processReleaseManifestForPackage' as it is up-to-date.
+
+> Task :androidApp:packageReleaseResources
+Build cache key for task ':androidApp:packageReleaseResources' is b459ec856caaa4c18e46d95caace8c43
+Task ':androidApp:packageReleaseResources' is not up-to-date because:
+  Input property 'resourcesComputer.extraGeneratedResFolders' file F:\Proyectos\MyVacations\androidApp\build\generated\res\injectCrashlyticsMappingFileIdRelease\values\com_google_firebase_crashlytics_mappingfileid.xml has changed.
+The input changes require a full rebuild for incremental task ':androidApp:packageReleaseResources'.
+[MergeResources] Inputs are non-incremental full task action.
+Stored cache entry for task ':androidApp:packageReleaseResources' with cache key b459ec856caaa4c18e46d95caace8c43
+Resolve mutations for :androidApp:parseReleaseLocalResources (Thread[#366,Execution worker Thread 2,5,main]) started.
+:androidApp:parseReleaseLocalResources (Thread[#366,Execution worker Thread 2,5,main]) started.
+
+> Task :shared:extractAndroidMainAnnotations UP-TO-DATE
+Build cache key for task ':shared:extractAndroidMainAnnotations' is 02befa13a1278cf342076f3d513d9244
+Skipping task ':shared:extractAndroidMainAnnotations' as it is up-to-date.
+
+> Task :androidApp:parseReleaseLocalResources
+Build cache key for task ':androidApp:parseReleaseLocalResources' is 1a62d665762eb8c836cba8febdd6603e
+Task ':androidApp:parseReleaseLocalResources' is not up-to-date because:
+  Input property 'inputResourcesDir' file F:\Proyectos\MyVacations\androidApp\build\intermediates\packaged_res\release\packageReleaseResources\values\values.xml has changed.
+Stored cache entry for task ':androidApp:parseReleaseLocalResources' with cache key 1a62d665762eb8c836cba8febdd6603e
+Resolve mutations for :androidApp:generateReleaseRFile (Thread[#366,Execution worker Thread 2,5,main]) started.
+:androidApp:generateReleaseRFile (Thread[#366,Execution worker Thread 2,5,main]) started.
+
+> Task :androidApp:generateReleaseRFile UP-TO-DATE
+Build cache key for task ':androidApp:generateReleaseRFile' is 5930455f8a1c402d89583d80e3e8521b
+Skipping task ':androidApp:generateReleaseRFile' as it is up-to-date.
+
+> Task :shared:compileAndroidMain UP-TO-DATE
+file or directory 'F:\Proyectos\MyVacations\shared\build\generated\compose\resourceGenerator\kotlin\androidMainResourceAccessors', not found
+file or directory 'F:\Proyectos\MyVacations\shared\build\generated\compose\resourceGenerator\kotlin\androidMainResourceAccessors', not found
+file or directory 'F:\Proyectos\MyVacations\shared\build\generated\compose\resourceGenerator\kotlin\androidMainResourceAccessors', not found
+Build cache key for task ':shared:compileAndroidMain' is 0ff538cf03a96d19102ec0ff1c9679f2
+Skipping task ':shared:compileAndroidMain' as it is up-to-date.
+Resolve mutations for :shared:bundleAndroidMainClassesToRuntimeJar (Thread[#365,Execution worker,5,main]) started.
+Resolve mutations for :shared:processAndroidMainJavaRes (Thread[#366,Execution worker Thread 2,5,main]) started.
+Resolve mutations for :shared:bundleAndroidMainClassesToCompileJar (Thread[#373,Execution worker Thread 9,5,main]) started.
+:shared:processAndroidMainJavaRes (Thread[#366,Execution worker Thread 2,5,main]) started.
+:shared:bundleAndroidMainClassesToRuntimeJar (Thread[#365,Execution worker,5,main]) started.
+:shared:bundleAndroidMainClassesToCompileJar (Thread[#373,Execution worker Thread 9,5,main]) started.
+
+> Task :shared:bundleAndroidMainClassesToCompileJar UP-TO-DATE
+Caching disabled for task ':shared:bundleAndroidMainClassesToCompileJar' because:
+  Simple merging task
+Skipping task ':shared:bundleAndroidMainClassesToCompileJar' as it is up-to-date.
+
+> Task :shared:bundleAndroidMainClassesToRuntimeJar UP-TO-DATE
+Caching disabled for task ':shared:bundleAndroidMainClassesToRuntimeJar' because:
+  Simple merging task
+Skipping task ':shared:bundleAndroidMainClassesToRuntimeJar' as it is up-to-date.
+work action resolve classes.jar (project ':shared') (Thread[#373,Execution worker Thread 9,5,main]) started.
+work action resolve classes.jar (project ':shared') (Thread[#365,Execution worker,5,main]) started.
+Resolve mutations for :androidApp:compileReleaseKotlin (Thread[#373,Execution worker Thread 9,5,main]) started.
+
+> Task :shared:processAndroidMainJavaRes UP-TO-DATE
+Caching disabled for task ':shared:processAndroidMainJavaRes' because:
+  Caching has been disabled for the task
+Skipping task ':shared:processAndroidMainJavaRes' as it is up-to-date.
+Resolve mutations for :shared:createFullJarAndroidMain (Thread[#366,Execution worker Thread 2,5,main]) started.
+work action resolve out (project ':shared') (Thread[#365,Execution worker,5,main]) started.
+Resolve mutations for :shared:mergeAndroidMainJavaResource (Thread[#368,Execution worker Thread 4,5,main]) started.
+:androidApp:compileReleaseKotlin (Thread[#373,Execution worker Thread 9,5,main]) started.
+:shared:createFullJarAndroidMain (Thread[#366,Execution worker Thread 2,5,main]) started.
+:shared:mergeAndroidMainJavaResource (Thread[#368,Execution worker Thread 4,5,main]) started.
+
+> Task :shared:createFullJarAndroidMain UP-TO-DATE
+Caching disabled for task ':shared:createFullJarAndroidMain' because:
+  Simple merging task
+Skipping task ':shared:createFullJarAndroidMain' as it is up-to-date.
+work action resolve full.jar (project ':shared') (Thread[#366,Execution worker Thread 2,5,main]) started.
+work action resolve full.jar (project ':shared') (Thread[#365,Execution worker,5,main]) started.
+ExtractProGuardRulesTransform (Thread[#372,Execution worker Thread 8,5,main]) started.
+
+> Task :shared:mergeAndroidMainJavaResource UP-TO-DATE
+Caching disabled for task ':shared:mergeAndroidMainJavaResource' because:
+  Caching has been disabled for the task
+Skipping task ':shared:mergeAndroidMainJavaResource' as it is up-to-date.
+Resolve mutations for :shared:syncAndroidMainLibJars (Thread[#368,Execution worker Thread 4,5,main]) started.
+FilterShrinkerRulesTransform (Thread[#366,Execution worker Thread 2,5,main]) started.
+:shared:syncAndroidMainLibJars (Thread[#368,Execution worker Thread 4,5,main]) started.
+
+> Task :shared:syncAndroidMainLibJars UP-TO-DATE
+Build cache key for task ':shared:syncAndroidMainLibJars' is 73f2742507fdf77a40e9f90cce803d47
+Skipping task ':shared:syncAndroidMainLibJars' as it is up-to-date.
+Resolve mutations for :shared:bundleAndroidMainLocalLintAar (Thread[#368,Execution worker Thread 4,5,main]) started.
+:shared:bundleAndroidMainLocalLintAar (Thread[#366,Execution worker Thread 2,5,main]) started.
+
+> Task :shared:bundleAndroidMainLocalLintAar UP-TO-DATE
+Caching disabled for task ':shared:bundleAndroidMainLocalLintAar' because:
+  Caching has been disabled for the task
+Skipping task ':shared:bundleAndroidMainLocalLintAar' as it is up-to-date.
+work action resolve out.aar (project ':shared') (Thread[#366,Execution worker Thread 2,5,main]) started.
+work action resolve out.aar (project ':shared') (Thread[#368,Execution worker Thread 4,5,main]) started.
+ExtractAarTransform (Thread[#366,Execution worker Thread 2,5,main]) started.
+ExtractAarTransform (Thread[#368,Execution worker Thread 4,5,main]) started.
+
+> Task :androidApp:compileReleaseKotlin UP-TO-DATE
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\main\java', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\release\java', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\release\kotlin', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\main\java', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\release\java', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\main\java', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\release\java', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\release\kotlin', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\main\java', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\release\java', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\main\java', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\release\java', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\release\kotlin', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\main\java', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\release\java', not found
+Build cache key for task ':androidApp:compileReleaseKotlin' is 19fd2916fcf1f8a1158a5e58c241fa3c
+Skipping task ':androidApp:compileReleaseKotlin' as it is up-to-date.
+Resolve mutations for :androidApp:compileReleaseJavaWithJavac (Thread[#368,Execution worker Thread 4,5,main]) started.
+Resolve mutations for :androidApp:processReleaseJavaRes (Thread[#373,Execution worker Thread 9,5,main]) started.
+:androidApp:processReleaseJavaRes (Thread[#373,Execution worker Thread 9,5,main]) started.
+:androidApp:compileReleaseJavaWithJavac (Thread[#368,Execution worker Thread 4,5,main]) started.
+
+> Task :androidApp:compileReleaseJavaWithJavac NO-SOURCE
+Skipping task ':androidApp:compileReleaseJavaWithJavac' as it has no source files and no previous output files.
+Resolve mutations for :androidApp:generateReleaseLintVitalReportModel (Thread[#368,Execution worker Thread 4,5,main]) started.
+Resolve mutations for :androidApp:lintVitalAnalyzeRelease (Thread[#371,Execution worker Thread 7,5,main]) started.
+
+> Task :androidApp:processReleaseJavaRes UP-TO-DATE
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\main\resources', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\release\resources', not found
+Caching disabled for task ':androidApp:processReleaseJavaRes' because:
+  Caching has been disabled for the task
+Skipping task ':androidApp:processReleaseJavaRes' as it is up-to-date.
+Resolve mutations for :androidApp:mergeReleaseJavaResource (Thread[#373,Execution worker Thread 9,5,main]) started.
+:androidApp:generateReleaseLintVitalReportModel (Thread[#368,Execution worker Thread 4,5,main]) started.
+:androidApp:lintVitalAnalyzeRelease (Thread[#369,Execution worker Thread 5,5,main]) started.
+:androidApp:mergeReleaseJavaResource (Thread[#373,Execution worker Thread 9,5,main]) started.
+
+> Task :androidApp:mergeReleaseJavaResource UP-TO-DATE
+Caching disabled for task ':androidApp:mergeReleaseJavaResource' because:
+  Caching has been disabled for the task
+Skipping task ':androidApp:mergeReleaseJavaResource' as it is up-to-date.
+
+> Task :androidApp:generateReleaseLintVitalReportModel
+Caching disabled for task ':androidApp:generateReleaseLintVitalReportModel' because:
+  Caching has been disabled for the task
+Task ':androidApp:generateReleaseLintVitalReportModel' is not up-to-date because:
+  Input property 'variantInputs.mainArtifact.generatedResourceFolders' file F:\Proyectos\MyVacations\androidApp\build\generated\res\injectCrashlyticsMappingFileIdRelease\values\com_google_firebase_crashlytics_mappingfileid.xml has changed.
+
+> Task :androidApp:mergeReleaseResources
+Build cache key for task ':androidApp:mergeReleaseResources' is 6c130a729ccb094f8c4fac7845ca95e9
+Task ':androidApp:mergeReleaseResources' is not up-to-date because:
+  Input property 'resourcesComputer.extraGeneratedResFolders' file F:\Proyectos\MyVacations\androidApp\build\generated\res\injectCrashlyticsMappingFileIdRelease\values\com_google_firebase_crashlytics_mappingfileid.xml has changed.
+The input changes require a full rebuild for incremental task ':androidApp:mergeReleaseResources'.
+[MergeResources] Inputs are non-incremental full task action.
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values\values.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values_values.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-hi\values-hi.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-hi_values-hi.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-pt\values-pt.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-pt_values-pt.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-watch-v21\values-watch-v21.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-watch-v21_values-watch-v21.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-is\values-is.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-is_values-is.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-watch-v20\values-watch-v20.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-watch-v20_values-watch-v20.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-hr\values-hr.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-hr_values-hr.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-in\values-in.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-in_values-in.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-zh-rHK\values-zh-rHK.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-zh-rHK_values-zh-rHK.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-it\values-it.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-it_values-it.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-am\values-am.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-am_values-am.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-hy\values-hy.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-hy_values-hy.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-v25\values-v25.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-v25_values-v25.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-hu\values-hu.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-hu_values-hu.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-ja\values-ja.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-ja_values-ja.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-v16\values-v16.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-v16_values-v16.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-ar\values-ar.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-ar_values-ar.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-b+sr+Latn\values-b+sr+Latn.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-b+sr+Latn_values-b+sr+Latn.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-v24\values-v24.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-v24_values-v24.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-az\values-az.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-az_values-az.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-v22\values-v22.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-v22_values-v22.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-iw\values-iw.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-iw_values-iw.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-bn\values-bn.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-bn_values-bn.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-be\values-be.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-be_values-be.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-zu\values-zu.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-zu_values-zu.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-v27\values-v27.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-v27_values-v27.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-bg\values-bg.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-bg_values-bg.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-ru\values-ru.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-ru_values-ru.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-bs\values-bs.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-bs_values-bs.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-sw600dp-v13\values-sw600dp-v13.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-sw600dp-v13_values-sw600dp-v13.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-pt-rPT\values-pt-rPT.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-pt-rPT_values-pt-rPT.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-v30\values-v30.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-v30_values-v30.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-sv\values-sv.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-sv_values-sv.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-sr\values-sr.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-sr_values-sr.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-sk\values-sk.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-sk_values-sk.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-v18\values-v18.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-v18_values-v18.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-sl\values-sl.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-sl_values-sl.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-ca\values-ca.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-ca_values-ca.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-en-rCA\values-en-rCA.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-en-rCA_values-en-rCA.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-sq\values-sq.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-sq_values-sq.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-km\values-km.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-km_values-km.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-as\values-as.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-as_values-as.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-tl\values-tl.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-tl_values-tl.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-te\values-te.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-te_values-te.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-ky\values-ky.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-ky_values-ky.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-kk\values-kk.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-kk_values-kk.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-cs\values-cs.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-cs_values-cs.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-pt-rBR\values-pt-rBR.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-pt-rBR_values-pt-rBR.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-v26\values-v26.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-v26_values-v26.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-en-rIN\values-en-rIN.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-en-rIN_values-en-rIN.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-mk\values-mk.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-mk_values-mk.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-v31\values-v31.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-v31_values-v31.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-night-v33\values-night-v33.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-night-v33_values-night-v33.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-th\values-th.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-th_values-th.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-v17\values-v17.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-v17_values-v17.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-lo\values-lo.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-lo_values-lo.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-h720dp-v13\values-h720dp-v13.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-h720dp-v13_values-h720dp-v13.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-ur\values-ur.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-ur_values-ur.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-kn\values-kn.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-kn_values-kn.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-my\values-my.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-my_values-my.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-lv\values-lv.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-lv_values-lv.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-eu\values-eu.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-eu_values-eu.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-de\values-de.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-de_values-de.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-ms\values-ms.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-ms_values-ms.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-v21\values-v21.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-v21_values-v21.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-fi\values-fi.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-fi_values-fi.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-et\values-et.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-et_values-et.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-xlarge-v4\values-xlarge-v4.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-xlarge-v4_values-xlarge-v4.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-large-v4\values-large-v4.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-large-v4_values-large-v4.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-fr-rCA\values-fr-rCA.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-fr-rCA_values-fr-rCA.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-uk\values-uk.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-uk_values-uk.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-fa\values-fa.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-fa_values-fa.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-zh-rTW\values-zh-rTW.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-zh-rTW_values-zh-rTW.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-ml\values-ml.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-ml_values-ml.arsc.flat
+Compiling xml file F:\Proyectos\MyVacations\androidApp\src\main\res\mipmap-anydpi-v26\ic_launcher_round.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\mipmap-anydpi-v26_ic_launcher_round.xml.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-lt\values-lt.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-lt_values-lt.arsc.flat
+Compiling file F:\Proyectos\MyVacations\androidApp\src\main\res\mipmap-mdpi\ic_launcher.webp to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\mipmap-mdpi_ic_launcher.webp.flat
+Compiling file F:\Proyectos\MyVacations\androidApp\src\main\res\mipmap-xxxhdpi\ic_launcher_round.webp to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\mipmap-xxxhdpi_ic_launcher_round.webp.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-ne\values-ne.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-ne_values-ne.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-fr\values-fr.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-fr_values-fr.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-es\values-es.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-es_values-es.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-gu\values-gu.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-gu_values-gu.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-v29\values-v29.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-v29_values-v29.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-el\values-el.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-el_values-el.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-vi\values-vi.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-vi_values-vi.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-gl\values-gl.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-gl_values-gl.arsc.flat
+Compiling file F:\Proyectos\MyVacations\androidApp\src\main\res\mipmap-xhdpi\ic_launcher_round.webp to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\mipmap-xhdpi_ic_launcher_round.webp.flat
+Compiling file F:\Proyectos\MyVacations\androidApp\src\main\res\mipmap-mdpi\ic_launcher_round.webp to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\mipmap-mdpi_ic_launcher_round.webp.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-ka\values-ka.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-ka_values-ka.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-zh-rCN\values-zh-rCN.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-zh-rCN_values-zh-rCN.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-en-rXC\values-en-rXC.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-en-rXC_values-en-rXC.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-ldltr-v21\values-ldltr-v21.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-ldltr-v21_values-ldltr-v21.arsc.flat
+Compiling file F:\Proyectos\MyVacations\androidApp\src\main\res\mipmap-xxhdpi\ic_launcher.webp to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\mipmap-xxhdpi_ic_launcher.webp.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-ko\values-ko.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-ko_values-ko.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-hdpi-v4\values-hdpi-v4.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-hdpi-v4_values-hdpi-v4.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-pl\values-pl.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-pl_values-pl.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-es-rUS\values-es-rUS.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-es-rUS_values-es-rUS.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-nl\values-nl.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-nl_values-nl.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-da\values-da.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-da_values-da.arsc.flat
+Compiling xml file F:\Proyectos\MyVacations\androidApp\src\main\res\mipmap-anydpi-v26\ic_launcher.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\mipmap-anydpi-v26_ic_launcher.xml.flat
+Compiling file F:\Proyectos\MyVacations\androidApp\src\main\res\mipmap-xxhdpi\ic_launcher_round.webp to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\mipmap-xxhdpi_ic_launcher_round.webp.flat
+Compiling file F:\Proyectos\MyVacations\androidApp\src\main\res\mipmap-xhdpi\ic_launcher.webp to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\mipmap-xhdpi_ic_launcher.webp.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-ro\values-ro.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-ro_values-ro.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-pa\values-pa.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-pa_values-pa.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-mn\values-mn.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-mn_values-mn.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-si\values-si.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-si_values-si.arsc.flat
+Compiling file F:\Proyectos\MyVacations\androidApp\src\main\res\mipmap-xxxhdpi\ic_launcher.webp to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\mipmap-xxxhdpi_ic_launcher.webp.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-nb\values-nb.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-nb_values-nb.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-sw\values-sw.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-sw_values-sw.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-en-rGB\values-en-rGB.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-en-rGB_values-en-rGB.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-tr\values-tr.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-tr_values-tr.arsc.flat
+Compiling xml file F:\Proyectos\MyVacations\androidApp\src\main\res\drawable\ic_launcher_foreground.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\drawable_ic_launcher_foreground.xml.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-uz\values-uz.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-uz_values-uz.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-port\values-port.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-port_values-port.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-land\values-land.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-land_values-land.arsc.flat
+Compiling file F:\Proyectos\MyVacations\androidApp\src\main\res\mipmap-hdpi\ic_launcher_round.webp to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\mipmap-hdpi_ic_launcher_round.webp.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-af\values-af.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-af_values-af.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-v23\values-v23.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-v23_values-v23.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-v28\values-v28.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-v28_values-v28.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-v33\values-v33.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-v33_values-v33.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-ta\values-ta.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-ta_values-ta.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-en-rAU\values-en-rAU.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-en-rAU_values-en-rAU.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-mr\values-mr.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-mr_values-mr.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-night-v8\values-night-v8.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-night-v8_values-night-v8.arsc.flat
+Compiling XML table F:\Proyectos\MyVacations\androidApp\build\intermediates\incremental\release\mergeReleaseResources\merged.dir\values-or\values-or.xml to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values-or_values-or.arsc.flat
+Compiling file F:\Proyectos\MyVacations\androidApp\src\main\res\mipmap-hdpi\ic_launcher.webp to F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\mipmap-hdpi_ic_launcher.webp.flat
+
+> Task :androidApp:lintVitalAnalyzeRelease
+Build cache key for task ':androidApp:lintVitalAnalyzeRelease' is 58f312d40e861376634dd16ff0a5aff8
+Task ':androidApp:lintVitalAnalyzeRelease' is not up-to-date because:
+  Input property 'variantInputs.mainArtifact.generatedResourceFolders' file F:\Proyectos\MyVacations\androidApp\build\generated\res\injectCrashlyticsMappingFileIdRelease\values\com_google_firebase_crashlytics_mappingfileid.xml has changed.
+Android Lint: Reusing lint classloader 32.2.1_db3102174d96bb85399f8dd88f389747_true
+Stored cache entry for task ':androidApp:lintVitalAnalyzeRelease' with cache key 58f312d40e861376634dd16ff0a5aff8
+Resolve mutations for :androidApp:lintVitalReportRelease (Thread[#369,Execution worker Thread 5,5,main]) started.
+:androidApp:lintVitalReportRelease (Thread[#369,Execution worker Thread 5,5,main]) started.
+
+> Task :androidApp:lintVitalReportRelease
+Caching disabled for task ':androidApp:lintVitalReportRelease' because:
+  Caching has been disabled for the task
+Task ':androidApp:lintVitalReportRelease' is not up-to-date because:
+  Input property 'partialResults' file F:\Proyectos\MyVacations\androidApp\build\intermediates\lint_vital_partial_results\release\lintVitalAnalyzeRelease\out\lint-resources.xml has changed.
+Android Lint: Reusing lint classloader 32.2.1_db3102174d96bb85399f8dd88f389747_true
+Resolve mutations for :androidApp:lintVitalRelease (Thread[#369,Execution worker Thread 5,5,main]) started.
+:androidApp:lintVitalRelease (Thread[#369,Execution worker Thread 5,5,main]) started.
+
+> Task :androidApp:lintVitalRelease
+Caching disabled for task ':androidApp:lintVitalRelease' because:
+  Caching has been disabled for the task
+Task ':androidApp:lintVitalRelease' is not up-to-date because:
+  Task.upToDateWhen is false.
+
+> Task :androidApp:mergeReleaseResources
+Stored cache entry for task ':androidApp:mergeReleaseResources' with cache key 6c130a729ccb094f8c4fac7845ca95e9
+Resolve mutations for :androidApp:processReleaseResources (Thread[#370,Execution worker Thread 6,5,main]) started.
+:androidApp:processReleaseResources (Thread[#370,Execution worker Thread 6,5,main]) started.
+
+> Task :androidApp:processReleaseResources
+Build cache key for task ':androidApp:processReleaseResources' is c32baefdbb6ed316e861cb4d1dd9a023
+Task ':androidApp:processReleaseResources' is not up-to-date because:
+  Input property 'inputResourcesDir' file F:\Proyectos\MyVacations\androidApp\build\intermediates\merged_res\release\mergeReleaseResources\values_values.arsc.flat has changed.
+AAPT2 aapt2-9.2.1-15009934-windows Daemon #0: starting
+Aapt output file F:\Proyectos\MyVacations\androidApp\build\intermediates\linked_resources_proto_format\release\processReleaseResources\linked-resources-proto-format-release.ap_
+Stored cache entry for task ':androidApp:processReleaseResources' with cache key c32baefdbb6ed316e861cb4d1dd9a023
+Resolve mutations for :androidApp:expandReleaseArtProfileWildcards (Thread[#370,Execution worker Thread 6,5,main]) started.
+Resolve mutations for :androidApp:mergeReleaseGeneratedProguardFiles (Thread[#369,Execution worker Thread 5,5,main]) started.
+Resolve mutations for :androidApp:produceReleaseComposeMapping (Thread[#366,Execution worker Thread 2,5,main]) started.
+:androidApp:mergeReleaseGeneratedProguardFiles (Thread[#369,Execution worker Thread 5,5,main]) started.
+:androidApp:produceReleaseComposeMapping (Thread[#366,Execution worker Thread 2,5,main]) started.
+:androidApp:expandReleaseArtProfileWildcards (Thread[#370,Execution worker Thread 6,5,main]) started.
+
+> Task :androidApp:mergeReleaseGeneratedProguardFiles UP-TO-DATE
+Caching disabled for task ':androidApp:mergeReleaseGeneratedProguardFiles' because:
+  Simple merging task
+Skipping task ':androidApp:mergeReleaseGeneratedProguardFiles' as it is up-to-date.
+
+> Task :androidApp:expandReleaseArtProfileWildcards UP-TO-DATE
+Build cache key for task ':androidApp:expandReleaseArtProfileWildcards' is b0743ad6aaf8289eec250f95c98194f7
+Skipping task ':androidApp:expandReleaseArtProfileWildcards' as it is up-to-date.
+Resolve mutations for :androidApp:minifyReleaseWithR8 (Thread[#370,Execution worker Thread 6,5,main]) started.
+:androidApp:minifyReleaseWithR8 (Thread[#370,Execution worker Thread 6,5,main]) started.
+
+> Task :androidApp:produceReleaseComposeMapping UP-TO-DATE
+Build cache key for task ':androidApp:produceReleaseComposeMapping' is 8006c4b734d2f01dd1edb2e84923d87a
+Skipping task ':androidApp:produceReleaseComposeMapping' as it is up-to-date.
+Resolve mutations for :androidApp:reportReleaseComposeMappingErrors (Thread[#366,Execution worker Thread 2,5,main]) started.
+:androidApp:reportReleaseComposeMappingErrors (Thread[#366,Execution worker Thread 2,5,main]) started.
+
+> Task :androidApp:reportReleaseComposeMappingErrors
+Caching disabled for task ':androidApp:reportReleaseComposeMappingErrors' because:
+  Logs warnings reported by worker from the previous task
+Task ':androidApp:reportReleaseComposeMappingErrors' is not up-to-date because:
+  Task has not declared any outputs despite executing actions.
+
+> Task :androidApp:minifyReleaseWithR8
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\main\keepRules', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\release\keepRules', not found
+Build cache key for task ':androidApp:minifyReleaseWithR8' is 9e251f26631069c02df56cf31d99f012
+Task ':androidApp:minifyReleaseWithR8' is not up-to-date because:
+  Input property 'resourceShrinkingParams.linkedResourcesInputDir' file F:\Proyectos\MyVacations\androidApp\build\intermediates\linked_resources_proto_format\release\processReleaseResources\linked-resources-proto-format-release.ap_ has changed.
+  Input property 'resourceShrinkingParams.mergedNotCompiledResourcesInputDir' file F:\Proyectos\MyVacations\androidApp\build\intermediates\merged-not-compiled-resources\release\values\values.xml has changed.
+R8 is a new Android code shrinker. If you experience any issues, please file a bug at
+https://issuetracker.google.com, using 'Shrinker (R8)' as component name.
+Current version is: 9.2.14.
+
+file or directory 'F:\Proyectos\MyVacations\androidApp\build\intermediates\generated_proguard_file\release\mergeReleaseGeneratedProguardFiles\proguard.txt', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\main\keepRules', not found
+file or directory 'F:\Proyectos\MyVacations\androidApp\src\release\keepRules', not found
+F:\Proyectos\MyVacations\androidApp\build\intermediates\javac\release\compileReleaseJavaWithJavac\classes is ignored as it does not exist.
+INFO: R8: Android Gradle plugin 9.2.1 (extracted file: F:\Proyectos\MyVacations\androidApp\build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-9.2.1): Proguard configuration rule does not match anything: `-keep public class com.google.vending.licensing.ILicensingService`
+INFO: R8: Android Gradle plugin 9.2.1 (extracted file: F:\Proyectos\MyVacations\androidApp\build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-9.2.1): Proguard configuration rule does not match anything: `-keep public class com.android.vending.licensing.ILicensingService`
+INFO: R8: Android Gradle plugin 9.2.1 (extracted file: F:\Proyectos\MyVacations\androidApp\build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-9.2.1): Proguard configuration rule does not match anything: `-keep public class com.google.android.vending.licensing.ILicensingService`
+INFO: R8: Android Gradle plugin 9.2.1 (extracted file: F:\Proyectos\MyVacations\androidApp\build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-9.2.1): Proguard configuration rule does not match anything: `-keepclassmembers class * {
+  @android.webkit.JavascriptInterface <methods>;
+}`
+INFO: R8: Android Gradle plugin 9.2.1 (extracted file: F:\Proyectos\MyVacations\androidApp\build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-9.2.1): Proguard configuration rule does not match anything: `-keep class android.support.annotation.Keep`
+INFO: R8: Android Gradle plugin 9.2.1 (extracted file: F:\Proyectos\MyVacations\androidApp\build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-9.2.1): Proguard configuration rule does not match anything: `-keep @android.support.annotation.Keep class * {
+  *;
+}`
+INFO: R8: Android Gradle plugin 9.2.1 (extracted file: F:\Proyectos\MyVacations\androidApp\build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-9.2.1): Proguard configuration rule does not match anything: `-keepclasseswithmembers class * {
+  @android.support.annotation.Keep <methods>;
+}`
+INFO: R8: Android Gradle plugin 9.2.1 (extracted file: F:\Proyectos\MyVacations\androidApp\build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-9.2.1): Proguard configuration rule does not match anything: `-keepclasseswithmembers class * {
+  @android.support.annotation.Keep <fields>;
+}`
+INFO: R8: Android Gradle plugin 9.2.1 (extracted file: F:\Proyectos\MyVacations\androidApp\build\intermediates\default_proguard_files\global\proguard-android-optimize.txt-9.2.1): Proguard configuration rule does not match anything: `-keepclasseswithmembers class * {
+  @android.support.annotation.Keep <init>(...);
+}`
+INFO: F:\Proyectos\MyVacations\androidApp\proguard-rules.pro:8:1-10:2: R8: Proguard configuration rule does not match anything: `-keepclassmembers class ** {
+  @kotlinx.serialization.Serializable *;
+}`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\dc14bdd536185cfc8612e1f32aedaff8\transformed\navigation-common-release\proguard.txt:16:1-19:2: R8: Proguard configuration rule does not match anything: `-if public class ** implements androidx.navigation.NavArgs
+-keepclassmembers public class <1> {
+  ** fromBundle(android.os.Bundle);
+}`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\003eb5830aee4561d425e23b7194c42a\transformed\animation\proguard.txt:5:1-7:2: R8: Proguard configuration rule does not match anything: `-assumenosideeffects class * {
+  static androidx.compose.animation.LookaheadAnimationVisualDebugConfig *(...) return null;
+}`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\003eb5830aee4561d425e23b7194c42a\transformed\animation\proguard.txt:9:1-11:2: R8: Proguard configuration rule does not match anything: `-assumenosideeffects class androidx.compose.animation.LookaheadAnimationVisualDebugHelperKt {
+  public static void LookaheadAnimationVisualDebugging(...);
+}`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\4c437b69bb7e8fdd22b1eaa0247cca4c\transformed\lifecycle-viewmodel-savedstate\proguard.txt:5:1-7:2: R8: Proguard configuration rule does not match anything: `-keepclassmembers,allowrepackaging,allowobfuscation class * extends androidx.lifecycle.AndroidViewModel {
+  <init>(android.app.Application,androidx.lifecycle.SavedStateHandle);
+}`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\8b2ddc0d88560e414f9706fd270040e3\transformed\lifecycle-viewmodel\proguard.txt:5:1-7:2: R8: Proguard configuration rule does not match anything: `-keepclassmembers,allowrepackaging,allowobfuscation class * extends androidx.lifecycle.AndroidViewModel {
+  <init>(android.app.Application);
+}`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\c0e26a344803b7ab88a4231403b68f81\transformed\lifecycle-runtime\proguard.txt:10:1-12:2: R8: Proguard configuration rule does not match anything: `-keep class * implements androidx.lifecycle.GeneratedAdapter {
+  <init>(...);
+}`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\c0e26a344803b7ab88a4231403b68f81\transformed\lifecycle-runtime\proguard.txt:14:1-16:2: R8: Proguard configuration rule does not match anything: `-keepclassmembers class ** {
+  @androidx.lifecycle.OnLifecycleEvent *;
+}`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\73dfe2a9c6ace3b0d400f331e4e19541\transformed\savedstate-compose\proguard.txt:13:1-18:2: R8: Proguard configuration rule does not match anything: `-if public class androidx.compose.ui.platform.AndroidCompositionLocals_androidKt {
+  public static *** getLocalSavedStateRegistryOwner();
+}
+-keep public class androidx.compose.ui.platform.AndroidCompositionLocals_androidKt {
+  public static *** getLocalSavedStateRegistryOwner();
+}`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\9254260e5a0c9ee31c94796fe460998a\transformed\runtime\proguard.txt:13:1-15:2: R8: Proguard configuration rule does not match anything: `-assumenosideeffects public class androidx.compose.runtime.ComposerImpl {
+  <clinit>();
+}`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\85017d7961c2127132616d4dd0ee5fb7\transformed\play-services-basement-18.8.0\proguard.txt:42:1-49: R8: Proguard configuration rule does not match anything: `-keep @interface android.support.annotation.Keep`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\85017d7961c2127132616d4dd0ee5fb7\transformed\play-services-basement-18.8.0\proguard.txt:44:1-46:2: R8: Proguard configuration rule does not match anything: `-keepclasseswithmembers class * {
+  @androidx.annotation.Keep <fields>;
+}`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\85017d7961c2127132616d4dd0ee5fb7\transformed\play-services-basement-18.8.0\proguard.txt:47:1-49:2: R8: Proguard configuration rule does not match anything: `-keepclasseswithmembers class * {
+  @androidx.annotation.Keep <methods>;
+}`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\85017d7961c2127132616d4dd0ee5fb7\transformed\play-services-basement-18.8.0\proguard.txt:64:1-66:2: R8: Proguard configuration rule does not match anything: `-keepclassmembers,allowshrinking class * {
+  @com.google.android.gms.common.annotation.KeepName *;
+}`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\422b77cfd9681c5e26750f3a25006020\transformed\fragment-1.8.9\proguard.txt:16:1-19:2: R8: Proguard configuration rule does not match anything: `-if public class ** extends androidx.fragment.app.Fragment
+-keepclasseswithmembers,allowrepackaging,allowobfuscation public class <1> {
+  public <init>();
+}`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\422b77cfd9681c5e26750f3a25006020\transformed\fragment-1.8.9\proguard.txt:24:1-29:2: R8: Proguard configuration rule does not match anything: `-if class androidx.fragment.app.FragmentTransition {
+  private static androidx.fragment.app.FragmentTransitionImpl resolveSupportImpl();
+}
+-keep class androidx.transition.FragmentTransitionSupport {
+  public <init>();
+}`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\0e20f795e3173488dd93e4cc699e8788\transformed\shrink-rules\lib\META-INF\com.android.tools\r8\kotlinx-serialization-common.pro:9:1-12:2: R8: Proguard configuration rule does not match anything: `-if @kotlinx.serialization.internal.NamedCompanion class *
+-keepclassmembers class * {
+  static <1> *;
+}`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\0e20f795e3173488dd93e4cc699e8788\transformed\shrink-rules\lib\META-INF\com.android.tools\r8\kotlinx-serialization-r8.pro:16:1-17:94: R8: Proguard configuration rule does not match anything: `-if @kotlinx.serialization.internal.NamedCompanion class *
+-keep,allowaccessmodification,allowrepackaging,allowobfuscation,allowshrinking,allowoptimization class <1>`
+INFO: C:\Users\JR\.gradle\caches\9.6.1\transforms\169c58a8a35b4513588fe8da27afcdad\transformed\shrink-rules\lib\META-INF\proguard\androidx-annotations.pro:12:1-14:2: R8: Proguard configuration rule does not match anything: `-keepclasseswithmembers class * {
+  @androidx.annotation.Keep <init>(...);
+}`
+¨Desea terminar el trabajo por lotes (S/N)? 

@@ -91,7 +91,7 @@ fun HelpSupportScreen(onDismiss: () -> Unit) {
     SystemBackHandler {
         onDismiss()
     }
-    Scaffold(topBar = {
+    Scaffold(modifier = Modifier.padding(top = 12.dp), topBar = {
         TopAppBar(
             title = { Text(stringResource(Res.string.title_support)) },
             navigationIcon = {

@@ -53,5 +53,5 @@ val appModule = module {
     }
     viewModel { StatisticsViewModel(getTripsUseCase = get()) }
 
-    viewModel { ShowNotificationsViewModel(selectAllNotificationsUseCase = get(), updateNotificationUseCase = get(), deleteNotificationUseCase = get()) }
+    viewModel { ShowNotificationsViewModel(selectTripByIdUseCase = get(), selectAllNotificationsUseCase = get(), updateNotificationUseCase = get(), deleteNotificationUseCase = get(), appInfoRepository = get()) }
 }

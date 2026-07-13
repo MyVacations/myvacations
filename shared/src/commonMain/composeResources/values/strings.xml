@@ -127,9 +127,9 @@
     <string name="notification_filter_expenses">Expenses</string>
     <string name="notification_filter_budgets">Budgets</string>
     <string name="notification_filter_info">Info</string>
-    <string name="notification_new_ones">New notifications (%1$d)</string>
-    <string name="notification_read_all">Mark all as read</string>
-    <string name="notification_old_ones">Old notifications (%1$d)</string>
+    <string name="notification_new_ones">News (%1$d)</string>
+    <string name="notification_read_all">All read</string>
+    <string name="notification_old_ones">Olds (%1$d)</string>
     <string name="notification_delete_all">Delete all</string>
     <string name="notification_uptodate">No new notifications, you're up to date!</string>
 

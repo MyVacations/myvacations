@@ -41,7 +41,7 @@ sealed interface ScreenDestination {
         override val showFloatingButton = false
     }
     data object ShowNotifications : ScreenDestination {
-        override val showBottomBarUi: Boolean = true
+        override val showBottomBarUi: Boolean = false
         override val showFloatingButton = false
     }
 

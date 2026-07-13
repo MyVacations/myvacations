@@ -1,8 +1,25 @@
 package es.myvacations.myvacations.domain.events
 
+import es.myvacations.myvacations.core.extensions.shortenTitle
+import es.myvacations.myvacations.core.utils.AppInfo
 import es.myvacations.myvacations.domain.model.NotificationStatus
 import es.myvacations.myvacations.domain.model.TripDomain
 import kotlinx.datetime.LocalDateTime
+import myvacations.shared.generated.resources.Res
+import myvacations.shared.generated.resources.notification_budget_exceeded
+import myvacations.shared.generated.resources.notification_budget_finished
+import myvacations.shared.generated.resources.notification_budget_low
+import myvacations.shared.generated.resources.notification_budget_ok
+import myvacations.shared.generated.resources.notification_budget_title
+import myvacations.shared.generated.resources.notification_info_title
+import myvacations.shared.generated.resources.notification_trip_created
+import myvacations.shared.generated.resources.notification_trip_delete
+import myvacations.shared.generated.resources.notification_trip_expense_created
+import myvacations.shared.generated.resources.notification_trip_expense_delete
+import myvacations.shared.generated.resources.notification_trip_title
+import myvacations.shared.generated.resources.notification_trip_update
+import myvacations.shared.generated.resources.notification_welcome
+import org.jetbrains.compose.resources.getString
 
 enum class NotificationType {
     TRIP_CREATED,
@@ -57,8 +74,8 @@ data class AppNotificationDomain(
     val id: Long,
     val tripId: String,
     val type: NotificationType,
-    val title: String,
-    val message: String,
+    val title: String = "",
+    val message: String = "",
     val createdAt: LocalDateTime,
     val read: Boolean = false
 )
@@ -76,3 +93,74 @@ fun TripDomain.currentBudgetNotificationType(): NotificationType {
         else -> NotificationType.BUDGET_OK
     }
 }
+
+suspend fun NotificationType.titleFor(): String =
+    when (this) {
+        NotificationType.TRIP_CREATED, NotificationType.TRIP_UPDATED, NotificationType.TRIP_DELETED, NotificationType.EXPENSE_ADDED, NotificationType.EXPENSE_DELETED -> getString(
+            Res.string.notification_trip_title
+        )
+
+        NotificationType.BUDGET_OK, NotificationType.BUDGET_EXCEEDED, NotificationType.BUDGET_LOW, NotificationType.BUDGET_FINISHED -> getString(
+            Res.string.notification_budget_title
+        )
+
+        NotificationType.INFO_UPDATES, NotificationType.INFO_GENERIC_WELCOME -> getString(Res.string.notification_info_title)
+    }
+
+suspend fun NotificationType.messageFor(
+    trip: TripDomain?,
+    ownMessage: String?
+): String =
+    when (this) {
+        NotificationType.TRIP_CREATED -> getString(
+            Res.string.notification_trip_created,
+            trip?.title?.shortenTitle() ?: ""
+        )
+
+        NotificationType.TRIP_UPDATED -> getString(
+            Res.string.notification_trip_update,
+            trip?.title?.shortenTitle() ?: ""
+        )
+
+        NotificationType.TRIP_DELETED -> getString(
+            Res.string.notification_trip_delete,
+            trip?.title?.shortenTitle() ?: ""
+        )
+
+        NotificationType.EXPENSE_ADDED -> getString(
+            Res.string.notification_trip_expense_created,
+            trip?.title?.shortenTitle() ?: ""
+        )
+
+        NotificationType.EXPENSE_DELETED -> getString(
+            Res.string.notification_trip_expense_delete,
+            trip?.title?.shortenTitle() ?: ""
+        )
+
+        NotificationType.BUDGET_OK -> getString(
+            Res.string.notification_budget_ok,
+            trip?.title?.shortenTitle() ?: ""
+        )
+
+        NotificationType.BUDGET_LOW -> getString(
+            Res.string.notification_budget_low,
+            trip?.title?.shortenTitle() ?: ""
+        )
+
+        NotificationType.BUDGET_FINISHED -> getString(
+            Res.string.notification_budget_finished,
+            trip?.title?.shortenTitle() ?: ""
+        )
+
+        NotificationType.BUDGET_EXCEEDED -> getString(
+            Res.string.notification_budget_exceeded,
+            trip?.title?.shortenTitle() ?: ""
+        )
+
+        NotificationType.INFO_UPDATES -> ownMessage ?: ""
+        NotificationType.INFO_GENERIC_WELCOME -> getString(
+            Res.string.notification_welcome,
+            AppInfo.appName
+        )
+
+    }
