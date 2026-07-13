@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface TripRepository {
     fun getTrips(): Flow<List<TripDomain>>
     fun getSpecificTrip(id: String): Flow<TripDomain?>
+    fun getSpecificTripWithoutFlow(id: String): TripDomain?
     suspend fun addTrip(trip: TripDomain)
     suspend fun updateTrip(trip: TripDomain)
     suspend fun updateExpense(trip: TripDomain)

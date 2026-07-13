@@ -36,6 +36,10 @@ class TripsRepositoryImpl(
         }
     }
 
+    override fun getSpecificTripWithoutFlow(id: String): TripDomain? {
+        return localDataSource.getByIdWithoutFlow(id)?.toDomainModel()
+    }
+
     override suspend fun addTrip(trip: TripDomain) {
         localDataSource.insertTrip(
             id = trip.id,

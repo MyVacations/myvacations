@@ -36,20 +36,23 @@ class ShowNotificationsViewModel(
     private fun loadNotifications() {
         viewModelScope.launch {
             selectAllNotificationsUseCase().collect { notificationsDomain ->
-                notificationsDomain.forEach { notificationDomain ->
-                    selectTripByIdUseCase.invoke(notificationDomain.tripId).collect { tripDomain ->
-                        _uiState.value =
-                            uiState.value.copy(notifications = notificationsDomain.map { notificationDomain ->
-                                notificationDomain.copy(
-                                    title = notificationDomain.type.titleFor(),
-                                    message = notificationDomain.type.messageFor(
-                                        tripDomain,
-                                        appInfoRepository.messageFromServer()
-                                    )
-                                ).toUiState()
-                            })
-                    }
+                val serverMessage = appInfoRepository.messageFromServer()
+                val notifications = notificationsDomain.map { notification ->
+
+                    val trip = selectTripByIdUseCase.invokeWithoutFlow(notification.tripId)
+
+                    notification.copy(
+                        title = notification.type.titleFor(),
+                        message = notification.type.messageFor(
+                            trip,
+                            serverMessage
+                        )
+                    ).toUiState()
                 }
+
+                _uiState.value = _uiState.value.copy(
+                    notifications = notifications
+                )
             }
         }
     }

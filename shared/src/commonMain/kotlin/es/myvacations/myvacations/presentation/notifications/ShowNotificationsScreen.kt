@@ -46,7 +46,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import es.myvacations.myvacations.core.extensions.shortenTitle
 import es.myvacations.myvacations.core.extensions.toRelativeTime
 import es.myvacations.myvacations.core.navigation.SystemBackHandler
 import es.myvacations.myvacations.domain.events.NotificationType
@@ -344,7 +343,7 @@ private fun NotificationItemScreen(
             .clickable {
                 changeClickable()
             }
-            .padding(vertical = 12.dp).padding(start = 16.dp , end = if (!read) 16.dp else 36.dp ),
+            .padding(vertical = 12.dp).padding(start = 16.dp, end = if (!read) 16.dp else 36.dp),
         verticalAlignment = Alignment.Top,
     ) {
         if (!read) {
