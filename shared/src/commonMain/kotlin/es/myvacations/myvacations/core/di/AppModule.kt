@@ -2,6 +2,7 @@ package es.myvacations.myvacations.core.di
 
 import es.myvacations.myvacations.presentation.createedittrip.CreateEditTripsViewModel
 import es.myvacations.myvacations.presentation.dashboard.DashboardViewModel
+import es.myvacations.myvacations.presentation.notifications.ShowNotificationsViewModel
 import es.myvacations.myvacations.presentation.settings.SettingsViewModel
 import es.myvacations.myvacations.presentation.statistics.StatisticsViewModel
 import es.myvacations.myvacations.presentation.tripdetail.TripDetailsViewModel
@@ -16,11 +17,10 @@ val appModule = module {
     // ViewModels
     viewModel {
         DashboardViewModel(
-            initializeDatabaseSettingsUseCase = get(),
+            selectAllNotificationsUseCase = get(),
             getSettingsUseCase = get(),
             getDayPeriod = get(),
             getTripsUseCase = get()
-
         )
     }
     viewModel { TripViewModel(getTripsUseCase = get()) }
@@ -52,4 +52,6 @@ val appModule = module {
         )
     }
     viewModel { StatisticsViewModel(getTripsUseCase = get()) }
+
+    viewModel { ShowNotificationsViewModel(selectAllNotificationsUseCase = get(), updateNotificationUseCase = get(), deleteNotificationUseCase = get()) }
 }

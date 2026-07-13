@@ -31,4 +31,8 @@ class SettingsRepositoryImpl(private val localDataSource: SettingsLocalDataSourc
         )
         localDataSource.updateMainTraveler(settings.username)
     }
+
+    override suspend fun updateWelcomeShown() {
+        localDataSource.updateWelcomeShown()
+    }
 }

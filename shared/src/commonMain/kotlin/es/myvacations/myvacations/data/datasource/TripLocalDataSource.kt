@@ -2,7 +2,6 @@ package es.myvacations.myvacations.data.datasource
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import app.cash.sqldelight.coroutines.mapToOne
 import app.cash.sqldelight.coroutines.mapToOneOrNull
 import es.myvacations.myvacations.data.database.MyVacationsDatabase
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +10,6 @@ import kotlinx.coroutines.IO
 class TripLocalDataSource(
     private val database: MyVacationsDatabase
 ) {
-
     private val queries = database.vacationsEntityQueries
 
     fun getAllTrips() =
@@ -114,12 +112,19 @@ class TripLocalDataSource(
         queries.deleteExpense(id = id, tripId = tripId)
     }
 
-    fun selectTravelersForInternalQuery(tripId: String) = queries.selectTravelers(tripId).executeAsList()
+    fun selectTravelersForInternalQuery(tripId: String) =
+        queries.selectTravelers(tripId).executeAsList()
 
-    fun selectTravelers(tripId: String) = queries.selectTravelers(tripId).asFlow().mapToList(Dispatchers.IO)
+    fun selectTravelers(tripId: String) =
+        queries.selectTravelers(tripId).asFlow().mapToList(Dispatchers.IO)
 
-    fun insertTravelers(id: String, tripId: String, travelerName: String,mainUser: Boolean = false) {
-        queries.insertTravelers(id, tripId, travelerName,mainUser)
+    fun insertTravelers(
+        id: String,
+        tripId: String,
+        travelerName: String,
+        mainUser: Boolean = false
+    ) {
+        queries.insertTravelers(id, tripId, travelerName, mainUser)
     }
 
     fun updateTraveler(id: String, tripId: String, travelerName: String) {
@@ -131,8 +136,9 @@ class TripLocalDataSource(
     }
 
     fun deleteTraveler(id: String, tripId: String) {
-        val travelers = (queries.selectTravelersAccountByTripId(tripId).executeAsOne() - 1).coerceAtLeast(1)
-        queries.updateTravelersAccount(travelers,tripId)
+        val travelers =
+            (queries.selectTravelersAccountByTripId(tripId).executeAsOne() - 1).coerceAtLeast(1)
+        queries.updateTravelersAccount(travelers, tripId)
         queries.deleteTraveler(id = id, tripId = tripId)
     }
 
@@ -141,4 +147,31 @@ class TripLocalDataSource(
     fun updateNameSettings(
         name: String
     ) = queries.updateNameSettings(name = name)
+
+    fun selectNotificationsByIdTravel(tripId: String) =
+        queries.selectNotificationsByIdTravel(tripId).asFlow().mapToList(
+            Dispatchers.IO
+        )
+
+    fun selectAllNotifications() =
+        queries.selectAllNotifications().asFlow().mapToList(Dispatchers.IO)
+
+    fun insertNotification(
+        tripId: String,
+        type: String,
+        title: String,
+        message: String,
+        createdAt: String,
+        read: Boolean = false
+    ) {
+        queries.insertNotification(tripId, type, title, message, createdAt, read)
+    }
+
+    fun updateReadNotification(id: Long, tripId: String) {
+        queries.updateReadNotification(id = id, tripId = tripId, read = true)
+    }
+
+    fun deleteNotification(id: Long, tripId: String) {
+        queries.deleteNotification(id, tripId)
+    }
 }

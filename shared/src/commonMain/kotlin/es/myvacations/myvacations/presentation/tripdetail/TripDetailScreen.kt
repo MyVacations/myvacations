@@ -45,22 +45,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import es.myvacations.myvacations.core.extensions.shortCurrencyWhen1000
+import es.myvacations.myvacations.core.extensions.shortCurrency
 import es.myvacations.myvacations.core.navigation.SystemBackHandler
 import es.myvacations.myvacations.core.utils.DateFormatter
+import es.myvacations.myvacations.presentation.utils.LegendItem
 import es.myvacations.myvacations.presentation.utils.StatusCard
 import es.myvacations.myvacations.presentation.utils.painter
 import es.myvacations.myvacations.presentation.utils.toCurrencySymbol
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.accept
 import myvacations.shared.generated.resources.cancel
+import myvacations.shared.generated.resources.trip_detail_budget
 import myvacations.shared.generated.resources.trip_detail_delete
 import myvacations.shared.generated.resources.trip_detail_delete_details
-import myvacations.shared.generated.resources.trip_detail_header_costperday
-import myvacations.shared.generated.resources.trip_detail_header_costperperson
-import myvacations.shared.generated.resources.trip_detail_header_totalcost
+import myvacations.shared.generated.resources.trip_detail_header_nobudget
+import myvacations.shared.generated.resources.trip_detail_header_spent
+import myvacations.shared.generated.resources.trip_detail_header_yourcost
+import myvacations.shared.generated.resources.trip_detail_traveler_budget_exceed
+import myvacations.shared.generated.resources.trip_detail_traveler_budget_healthy
+import myvacations.shared.generated.resources.trip_detail_traveler_budget_low
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -89,9 +95,9 @@ fun TripDetailScreen(
             CircularProgressIndicator()
         }
     } else {
-        Scaffold { padding ->
+        Scaffold { _ ->
             LazyColumn(
-                modifier = Modifier.padding(padding)
+                modifier = Modifier.fillMaxSize()
             ) {
                 item {
                     TripHeader(
@@ -308,7 +314,7 @@ fun TripCostCard(
         ) {
             Column {
                 Text(
-                    text = stringResource(Res.string.trip_detail_header_totalcost).uppercase(),
+                    text = stringResource(Res.string.trip_detail_header_yourcost).uppercase(),
                     color = Color.White.copy(alpha = 0.8f),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.SemiBold
@@ -317,7 +323,7 @@ fun TripCostCard(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = uiState.tripUiState.totalCost.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencySymbol(),
+                    text = uiState.tripUiState.individualCost.shortCurrency() + " " + uiState.currency.toCurrencySymbol(),
                     color = Color.White,
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.Bold
@@ -325,27 +331,79 @@ fun TripCostCard(
             }
 
             Column(
-                horizontalAlignment = Alignment.End
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                Text(
-                    text = uiState.tripUiState.costPerPerson.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencySymbol() + " /" + stringResource(
-                        Res.string.trip_detail_header_costperperson
-                    ),
-                    color = Color.White,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
-                )
+                Spacer(modifier.weight(1f))
+                Row {
+                    Text(
+                        text = "${stringResource(Res.string.trip_detail_budget)}:",
+                        modifier = Modifier.width(70.dp),
+                        textAlign = TextAlign.End,
+                        color = Color.White.copy(alpha = 0.8f)
+                    )
 
-                Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(Modifier.width(8.dp))
 
-                Text(
-                    text = uiState.tripUiState.costPerDay.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencySymbol() + " /" + stringResource(
-                        Res.string.trip_detail_header_costperday
-                    ),
-                    color = Color.White,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
-                )
+                    Text(
+                        text = "${uiState.tripUiState.mainBudget.shortCurrency()} ${uiState.currency.toCurrencySymbol()}",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Row {
+                    Text(
+                        text = "${stringResource(Res.string.trip_detail_header_spent)}:",
+                        modifier = Modifier.width(70.dp),
+                        textAlign = TextAlign.End,
+                        color = Color.White.copy(alpha = 0.8f)
+                    )
+
+                    Spacer(Modifier.width(8.dp))
+
+                    Text(
+                        text = "${uiState.tripUiState.totalOptionalExpenses.shortCurrency()} ${uiState.currency.toCurrencySymbol()}",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Spacer(modifier.weight(1f))
+
+                when {
+                    uiState.tripUiState.mainBudget == 0.0 -> LegendItem(
+                        Color.LightGray,
+                        stringResource(Res.string.trip_detail_header_nobudget),
+                        Color.White,
+                        MaterialTheme.typography.titleMedium
+                    )
+
+                    uiState.tripUiState.lowBudget > 15.0 -> LegendItem(
+                        Color(0xFF11AC1F),
+                        stringResource(Res.string.trip_detail_traveler_budget_healthy),
+                        Color.White,
+                        MaterialTheme.typography.titleMedium
+                    )
+
+                    uiState.tripUiState.remainingBudget < 0.0 -> LegendItem(
+                        Color.Red,
+                        stringResource(
+                            Res.string.trip_detail_traveler_budget_exceed,
+                            uiState.tripUiState.remainingBudget.times(-1)
+                                .shortCurrency() + " " + uiState.currency.toCurrencySymbol(),
+                        ),
+                        Color.White,
+                        MaterialTheme.typography.titleMedium
+                    )
+
+                    else -> LegendItem(
+                        Color(0xFFB45400),
+                        stringResource(Res.string.trip_detail_traveler_budget_low),
+                        Color.White,
+                        MaterialTheme.typography.titleMedium
+                    )
+                }
             }
         }
     }

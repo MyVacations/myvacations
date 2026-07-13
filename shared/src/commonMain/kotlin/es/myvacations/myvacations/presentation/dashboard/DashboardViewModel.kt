@@ -3,10 +3,10 @@ package es.myvacations.myvacations.presentation.dashboard
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import es.myvacations.myvacations.core.extensions.transformInInitials
-import es.myvacations.myvacations.domain.model.SettingsDomain
+import es.myvacations.myvacations.domain.mapper.toUiModel
 import es.myvacations.myvacations.domain.usecase.GetDayPeriodUseCase
+import es.myvacations.myvacations.domain.usecase.eventsusecase.SelectAllNotificationsUseCase
 import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseCase
-import es.myvacations.myvacations.domain.usecase.settingsusecase.InitializeDatabaseSettingsUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.GetTripsUseCase
 import es.myvacations.myvacations.presentation.mapper.toUiCurrentTripState
 import es.myvacations.myvacations.presentation.mapper.toUiPastTripState
@@ -31,7 +31,7 @@ import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
 
 class DashboardViewModel(
-    private val initializeDatabaseSettingsUseCase: InitializeDatabaseSettingsUseCase,
+    private val selectAllNotificationsUseCase: SelectAllNotificationsUseCase,
     private val getSettingsUseCase: GetSettingsUseCase,
     private val getDayPeriod: GetDayPeriodUseCase,
     private val getTripsUseCase: GetTripsUseCase,
@@ -48,12 +48,6 @@ class DashboardViewModel(
             _uiState.update {
                 it.copy(isLoading = true)
             }
-            initializeDatabaseSettingsUseCase.invoke(
-                SettingsDomain(
-                    username = "",
-                    preferredCurrency = Currency.EURO
-                )
-            )
             while (isActive) {
                 waitUntilNextPeriodChange()
                 refreshGreetings()
@@ -62,6 +56,19 @@ class DashboardViewModel(
 
         observeTrips()
         observeSettings()
+        observeNotifications()
+    }
+
+    private fun observeNotifications() {
+        viewModelScope.launch {
+            selectAllNotificationsUseCase.invoke().collect { notificationsDomain ->
+                _uiState.update {
+                    it.copy(notifications = notificationsDomain.map { notificationDomain ->
+                        notificationDomain.toUiModel()
+                    })
+                }
+            }
+        }
     }
 
     private suspend fun waitUntilNextPeriodChange() {

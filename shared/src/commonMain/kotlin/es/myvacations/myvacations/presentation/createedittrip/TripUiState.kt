@@ -18,7 +18,7 @@ data class TripUiState(
     val placeTrip: Country = Country.SPAIN,
     val startDate: LocalDate? = null,
     val endDate: LocalDate? = null,
-    val daysTraveling: Int = 1,
+    val daysTraveling: Int = 0,
     val travelers: Int = 1,
     val mainCost: Double = 0.0,
     val mainBudget: Double = 0.0,
@@ -42,17 +42,17 @@ data class TripUiState(
     val totalOptionalExpenses: Double
         get() = optionalExpenses.sumOf { it.amount }
 
-    val totalCost: Double
-        get() = (mainCost + totalOptionalExpenses).roundTo2Decimals()
-
     val remainingBudget: Double
         get() = (mainBudget - totalOptionalExpenses)
 
     val costPerPerson: Double
-        get() = (if (travelers > 0) totalCost / travelers else 0.0).roundTo2Decimals()
+        get() = (if (travelers > 0) mainCost / travelers else 0.0).roundTo2Decimals()
 
-    val costPerDay: Double
-        get() = (if (totalDays > 0) totalCost / totalDays else 0.0).roundTo2Decimals()
+    val individualCost: Double
+        get() = costPerPerson + totalOptionalExpenses
+
+    val lowBudget: Double
+        get() = (100 - ((totalOptionalExpenses * 100)  / mainBudget))
 
     val totalDays: Int
         get() = startDate?.daysUntil(endDate ?: today) ?: 0

@@ -1,6 +1,8 @@
 package es.myvacations.myvacations.presentation.dashboard
 
+import es.myvacations.myvacations.domain.events.AppNotificationDomain
 import es.myvacations.myvacations.presentation.createedittrip.TripUiState
+import es.myvacations.myvacations.presentation.events.AppNotificationUiState
 import es.myvacations.myvacations.presentation.settings.SettingsUiState
 
 data class DashboardUiState(
@@ -10,5 +12,6 @@ data class DashboardUiState(
     val stats: DashboardStats = DashboardStats(),
     val upcomingTrips: List<TripUiState> = listOf(),
     val pastTrips: List<TripUiState> = listOf(),
-    val isLoading: Boolean = true
+    val isLoading: Boolean = false,
+    val notifications: List<AppNotificationUiState> = emptyList()
 )

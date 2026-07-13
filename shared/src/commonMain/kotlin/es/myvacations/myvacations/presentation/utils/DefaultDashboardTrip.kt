@@ -21,7 +21,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import es.myvacations.myvacations.core.extensions.shortCurrencyWhen1000
+import es.myvacations.myvacations.core.extensions.shortCurrency
 import es.myvacations.myvacations.domain.model.TripStatus
 import es.myvacations.myvacations.domain.model.displayName
 import es.myvacations.myvacations.domain.model.flag
@@ -101,7 +101,7 @@ fun DefaultDashboardTrip(
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    text = trip.totalCost.shortCurrencyWhen1000() +" "+ trip.currency.toCurrencySymbol(),
+                    text = trip.mainCost.shortCurrency() +" "+ trip.currency.toCurrencySymbol(),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary

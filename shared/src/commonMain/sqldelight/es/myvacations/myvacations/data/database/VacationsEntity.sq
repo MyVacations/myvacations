@@ -32,14 +32,27 @@ CREATE TABLE TripTravelersData (
     ON DELETE CASCADE
 );
 
-CREATE INDEX expense_tripId_idx ON TripExpenseData(tripId);
-CREATE INDEX traveler_tripId_idx ON TripTravelersData(tripId);
-
 CREATE TABLE SettingsData (
     id TEXT NOT NULL PRIMARY KEY,
     name TEXT NOT NULL,
-    currency TEXT NOT NULL
+    currency TEXT NOT NULL,
+    welcomeShow INTEGER AS kotlin.Boolean NOT NULL
 );
+
+CREATE TABLE NotificationData (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    tripId TEXT NOT NULL,
+    type TEXT NOT NULL,
+    title TEXT NOT NULL,
+    message TEXT NOT NULL,
+    createdAt TEXT NOT NULL,
+    read INTEGER AS kotlin.Boolean NOT NULL
+);
+
+CREATE INDEX expense_tripId_idx ON TripExpenseData(tripId);
+CREATE INDEX traveler_tripId_idx ON TripTravelersData(tripId);
+CREATE INDEX notification_date_idx
+ON NotificationData(createdAt DESC);
 
 selectAllTrips:
 SELECT * FROM TripData;
@@ -134,10 +147,12 @@ insertDefaultUser:
 INSERT OR IGNORE INTO SettingsData(
     id,
     name,
-    currency
+    currency,
+    welcomeShow
 )
 VALUES (
     "settings",
+    ?,
     ?,
     ?
 );
@@ -153,6 +168,12 @@ updateNameSettings:
 UPDATE SettingsData
 SET
     name = ?
+WHERE id = "settings";
+
+updateWelcome:
+UPDATE SettingsData
+SET
+    welcomeShow = ?
 WHERE id = "settings";
 
 selectTravelers:
@@ -187,4 +208,39 @@ WHERE mainUser = 1;
 
 deleteTraveler:
 DELETE FROM TripTravelersData
+WHERE id = ? AND tripId = ?;
+
+selectNotificationsByIdTravel:
+SELECT * FROM NotificationData
+WHERE tripId = ?;
+
+selectAllNotifications:
+SELECT * FROM NotificationData;
+
+insertNotification:
+INSERT INTO NotificationData(
+    tripId,
+    type,
+    title,
+    message,
+    createdAt,
+    read
+)
+VALUES (
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?
+);
+
+updateReadNotification:
+UPDATE NotificationData
+SET
+    read = ?
+WHERE id = ? AND tripId = ?;
+
+deleteNotification:
+DELETE FROM NotificationData
 WHERE id = ? AND tripId = ?;

@@ -1,6 +1,11 @@
 package es.myvacations.myvacations.domain.di
 
 import es.myvacations.myvacations.domain.usecase.GetDayPeriodUseCase
+import es.myvacations.myvacations.domain.usecase.eventsusecase.DeleteNotificationUseCase
+import es.myvacations.myvacations.domain.usecase.eventsusecase.ObserveTripForAlertsUseCase
+import es.myvacations.myvacations.domain.usecase.eventsusecase.SelectAllNotificationsUseCase
+import es.myvacations.myvacations.domain.usecase.eventsusecase.SelectNotificationsInATripUseCase
+import es.myvacations.myvacations.domain.usecase.eventsusecase.UpdateNotificationUseCase
 import es.myvacations.myvacations.domain.usecase.expenseusecase.DeleteExpenseUseCase
 import es.myvacations.myvacations.domain.usecase.expenseusecase.UpdateExpenseUseCase
 import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseCase
@@ -36,4 +41,9 @@ val domainModule = module {
     factory { UpdateTravelerUseCase(get()) }
     factory { UpdateMainTravelerUseCase(get()) }
     factory { InsertTravelerUseCase(get()) }
+    factory { ObserveTripForAlertsUseCase(get(), get(), get()) }
+    factory { SelectAllNotificationsUseCase(get()) }
+    factory { SelectNotificationsInATripUseCase(get()) }
+    factory { UpdateNotificationUseCase(get()) }
+    factory { DeleteNotificationUseCase(get()) }
 }

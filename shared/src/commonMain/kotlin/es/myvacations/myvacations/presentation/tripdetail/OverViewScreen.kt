@@ -43,6 +43,7 @@ import myvacations.shared.generated.resources.trip_detail_overview_total_low
 import myvacations.shared.generated.resources.trip_detail_overview_traveldays
 import myvacations.shared.generated.resources.trip_detail_overview_travelers
 import myvacations.shared.generated.resources.trip_detail_overview_tripcost
+import myvacations.shared.generated.resources.trip_detail_traveler_costyou
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -181,7 +182,7 @@ private fun CostSummaryCard(
 
             SummaryRow(
                 title = stringResource(Res.string.trip_detail_overview_total_low),
-                value = uiState.tripUiState.totalCost.toString() + " " + uiState.currency.toCurrencySymbol(),
+                value = uiState.tripUiState.mainCost.toString() + " " + uiState.currency.toCurrencySymbol(),
                 highlight = true,
                 bold = true
             )
@@ -196,8 +197,8 @@ private fun CostSummaryCard(
             Spacer(modifier = Modifier.height(12.dp))
 
             SummaryRow(
-                title = stringResource(Res.string.trip_detail_overview_perday),
-                value = uiState.tripUiState.costPerDay.toString() + " " + uiState.currency.toCurrencySymbol()
+                title = stringResource(Res.string.trip_detail_traveler_costyou),
+                value = uiState.tripUiState.individualCost.toString() + " " + uiState.currency.toCurrencySymbol()
             )
         }
     }

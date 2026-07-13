@@ -205,6 +205,7 @@ class CreateEditTripsViewModel(
                 mainBudget = 0.0,
                 cover = TripCover.BARCELONA,
                 optionalExpensesExpanded = false,
+                editMode = false,
                 optionalExpenses = emptyList()
             )
         }
@@ -215,7 +216,6 @@ class CreateEditTripsViewModel(
             if (_uiState.value.editMode) editTrip.invoke(uiState.value.toDomainModel()) else saveTrip.invoke(
                 uiState.value.toDomainModel().copy(id = Uuid.random().toHexString())
             )
-            clearUi()
         }
     }
 

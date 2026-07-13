@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,8 +21,12 @@ import androidx.compose.material.icons.automirrored.filled.DirectionsWalk
 import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Wallet
+import androidx.compose.material3.Badge
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -37,8 +42,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
-import es.myvacations.myvacations.core.extensions.shortCurrencyWhen100000
+import es.myvacations.myvacations.core.extensions.shortCurrency
 import es.myvacations.myvacations.core.utils.DateFormatter
+import es.myvacations.myvacations.presentation.events.AppNotificationUiState
 import es.myvacations.myvacations.presentation.settings.SettingsUiState
 import es.myvacations.myvacations.presentation.utils.DefaultDashboardTrip
 import es.myvacations.myvacations.presentation.utils.StatCard
@@ -69,36 +75,42 @@ import org.koin.compose.viewmodel.koinViewModel
 fun DashboardScreen(
     viewModel: DashboardViewModel = koinViewModel(),
     onEditTripClick: (tripId: String) -> Unit,
-    onStatisticsClick: () -> Unit
+    onStatisticsClick: () -> Unit,
+    onNotificationsClick: () -> Unit
 ) {
-
     val uiState by viewModel.uiState.collectAsState()
+
     LifecycleResumeEffect(Unit) {
         viewModel.refreshGreetings()
         onPauseOrDispose { }
     }
-    DashboardContent(uiState, onEditTripClick, onStatisticsClick, viewModel::initials)
+    DashboardContent(
+        uiState,
+        onEditTripClick,
+        onStatisticsClick,
+        viewModel::initials,
+        onNotificationsClick
+    )
 }
 
-@Preview(showBackground = true)
 @Composable
 fun DashboardContent(
     uiState: DashboardUiState = DashboardUiState(),
     onEditTripClick: (tripId: String) -> Unit = {},
     onStatisticsClick: () -> Unit = {},
-    initials: (userName: String) -> String = { "" }
+    initials: (userName: String) -> String = { "" },
+    onNotificationsClick: () -> Unit
 ) {
     if (uiState.isLoading) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center)
-        {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
     } else {
         LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp, vertical = 16.dp)
+            modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)
         ) {
             item {
-                DashboardHeader(uiState, initials)
+                DashboardHeader(uiState, initials, onNotificationsClick)
             }
             item {
                 ActualTripCard(uiState, onEditTripClick)
@@ -144,44 +156,42 @@ fun DashboardContent(
     }
 }
 
+@Preview(showBackground = true)
 @Composable
-fun DashboardHeader(uiState: DashboardUiState, initials: (userName: String) -> String) {
+fun DashboardHeader(
+    uiState: DashboardUiState = DashboardUiState(),
+    initials: (userName: String) -> String = { "" },
+    onNotificationsClick: () -> Unit = {}
+) {
     val greetingText = when (uiState.greetings) {
         Greetings.MORNING -> stringResource(
             Res.string.greetings_morning,
             uiState.settings.userName.takeIf { it.isNotBlank() }
-                ?: stringResource(Res.string.guest_user)
-        )
+                ?: stringResource(Res.string.guest_user))
 
         Greetings.AFTERNOON -> stringResource(
             Res.string.greetings_afternoon,
             uiState.settings.userName.takeIf { it.isNotBlank() }
-                ?: stringResource(Res.string.guest_user)
-        )
+                ?: stringResource(Res.string.guest_user))
 
         Greetings.EVENING -> stringResource(
             Res.string.greetings_evening,
             uiState.settings.userName.takeIf { it.isNotBlank() }
-                ?: stringResource(Res.string.guest_user)
-        )
+                ?: stringResource(Res.string.guest_user))
 
         Greetings.NIGHT -> stringResource(
             Res.string.greetings_night,
             uiState.settings.userName.takeIf { it.isNotBlank() }
-                ?: stringResource(Res.string.guest_user)
-        )
+                ?: stringResource(Res.string.guest_user))
     }
     Row(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.Top
     ) {
-
         Column {
             Text(
-                text = greetingText,
-                style = MaterialTheme.typography.bodyMedium
+                text = greetingText, style = MaterialTheme.typography.bodyMedium
             )
 
             Text(
@@ -190,7 +200,34 @@ fun DashboardHeader(uiState: DashboardUiState, initials: (userName: String) -> S
             )
             Spacer(Modifier.height(8.dp))
         }
+        Spacer(modifier = Modifier.weight(1f))
+        val notificationCount = uiState.notifications.filter { !it.read }.size
+        Box(
+            modifier = Modifier.size(48.dp)
+        ) {
+            IconButton(
+                onClick = { onNotificationsClick() },
+                modifier = Modifier.matchParentSize()
+            ) {
+                Icon(
+                    modifier = Modifier.size(38.dp),
+                    imageVector = Icons.Default.Notifications,
+                    contentDescription = null,
+                    tint = Color.White
+                )
+            }
 
+            if (notificationCount > 0) {
+                Badge(
+                    modifier = Modifier.align(Alignment.BottomEnd).offset(x = (-4).dp, y = (-4).dp)
+                ) {
+                    Text(
+                        text = if (notificationCount > 99) "99+" else notificationCount.toString()
+                    )
+                }
+            }
+        }
+        Spacer(modifier = Modifier.weight(0.3f))
         UserAvatar(uiState, initials)
     }
 }
@@ -218,16 +255,12 @@ fun UserAvatar(
 @Preview(showBackground = true)
 @Composable
 fun ActualTripCard(
-    uiState: DashboardUiState = DashboardUiState(),
-    onEditTripClick: (tripId: String) -> Unit = {}
+    uiState: DashboardUiState = DashboardUiState(), onEditTripClick: (tripId: String) -> Unit = {}
 ) {
     val trip = uiState.currentTrip
     if (uiState.currentTrip != null) {
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(180.dp)
-                .clip(RoundedCornerShape(24.dp))
+            modifier = Modifier.fillMaxWidth().height(180.dp).clip(RoundedCornerShape(24.dp))
                 .clickable(onClick = {
                     onEditTripClick(trip.id)
                 })
@@ -239,13 +272,9 @@ fun ActualTripCard(
                 modifier = Modifier.fillMaxSize()
             )
             Column(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(
-                        start = 16.dp,
-                        end = 16.dp,
-                        bottom = 24.dp
-                    )
+                modifier = Modifier.align(Alignment.BottomStart).padding(
+                    start = 16.dp, end = 16.dp, bottom = 24.dp
+                )
             ) {
                 StatusChip(trip.tripStatus)
                 Spacer(Modifier.height(8.dp))
@@ -268,19 +297,12 @@ fun ActualTripCard(
         }
     } else {
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(60.dp)
-                .clip(RoundedCornerShape(24.dp))
+            modifier = Modifier.fillMaxWidth().height(60.dp).clip(RoundedCornerShape(24.dp))
         ) {
             Column(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(
-                        start = 16.dp,
-                        end = 16.dp,
-                        bottom = 16.dp
-                    )
+                modifier = Modifier.align(Alignment.BottomStart).padding(
+                    start = 16.dp, end = 16.dp, bottom = 16.dp
+                )
             ) {
                 Text(
                     text = stringResource(Res.string.actual_trip_addone),
@@ -296,8 +318,7 @@ fun ActualTripCard(
 @Preview(showBackground = true)
 @Composable
 private fun DashboardStatSection(
-    uiState: DashboardUiState = DashboardUiState(),
-    onStatisticsClick: () -> Unit = {}
+    uiState: DashboardUiState = DashboardUiState(), onStatisticsClick: () -> Unit = {}
 ) {
     Spacer(modifier = Modifier.height(16.dp))
     if (uiState.stats.totalTrips != 0) {
@@ -320,7 +341,7 @@ private fun DashboardStatSection(
                 StatCard(
                     onStatisticsClick = onStatisticsClick,
                     modifier = Modifier.weight(1f),
-                    value = uiState.stats.totalSpent.shortCurrencyWhen100000() + " " + uiState.settings.currency.toCurrencySymbol(),
+                    value = uiState.stats.totalSpent.shortCurrency() + " " + uiState.settings.currency.toCurrencySymbol(),
                     label = stringResource(Res.string.total_spent),
                     icon = Icons.Default.Wallet,
                     color = Color(0xFFFF6060)
@@ -333,7 +354,7 @@ private fun DashboardStatSection(
                 StatCard(
                     onStatisticsClick = onStatisticsClick,
                     modifier = Modifier.weight(1f),
-                    value = uiState.stats.averageTripCost.shortCurrencyWhen100000() + " " + uiState.settings.currency.toCurrencySymbol(),
+                    value = uiState.stats.averageTripCost.shortCurrency() + " " + uiState.settings.currency.toCurrencySymbol(),
                     label = stringResource(Res.string.average_spent),
                     icon = Icons.AutoMirrored.Filled.TrendingUp,
                     color = Color(0xFFFFBE42),
@@ -350,9 +371,8 @@ private fun DashboardStatSection(
 
             StatCard(
                 onStatisticsClick = onStatisticsClick,
-                modifier = Modifier.fillMaxWidth()
-                    .height(120.dp),
-                value = uiState.stats.averageSavesFromBudget.shortCurrencyWhen100000() + " " + uiState.settings.currency.toCurrencySymbol(),
+                modifier = Modifier.fillMaxWidth().height(120.dp),
+                value = uiState.stats.averageSavesFromBudget.shortCurrency() + " " + uiState.settings.currency.toCurrencySymbol(),
                 label = stringResource(Res.string.average_saves_from_budget),
                 icon = Icons.Default.AttachMoney,
                 color = Color(0xFF4CAF50),
@@ -361,10 +381,7 @@ private fun DashboardStatSection(
         }
     } else {
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(300.dp)
-                .clip(RoundedCornerShape(24.dp))
+            modifier = Modifier.fillMaxWidth().height(300.dp).clip(RoundedCornerShape(24.dp))
         ) {
             Image(
                 painter = painterResource(Res.drawable.noTrips),
@@ -381,9 +398,6 @@ private fun DashboardStatSection(
 private fun DashboardContentPreview() {
     DashboardContent(
         uiState = DashboardUiState(
-            greetings = Greetings.MORNING,
-            settings = SettingsUiState("Jesus")
-        ),
-        initials = { "" }
-    )
+            greetings = Greetings.MORNING, settings = SettingsUiState("Jesus")
+        ), initials = { "" }, onNotificationsClick = {})
 }

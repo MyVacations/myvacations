@@ -35,7 +35,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -92,7 +91,6 @@ import myvacations.shared.generated.resources.new_trip_duration
 import myvacations.shared.generated.resources.new_trip_end_date
 import myvacations.shared.generated.resources.new_trip_end_date_require
 import myvacations.shared.generated.resources.new_trip_error
-import myvacations.shared.generated.resources.new_trip_estimated_total
 import myvacations.shared.generated.resources.new_trip_optional_expenses
 import myvacations.shared.generated.resources.new_trip_save_trip
 import myvacations.shared.generated.resources.new_trip_start_date
@@ -114,7 +112,9 @@ fun AddEditTripScreen(
     viewModel: CreateEditTripsViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-
+    SystemBackHandler {
+        viewModel.clearUi()
+    }
     LaunchedEffect(tripId) {
         if (tripId.isEmpty()) return@LaunchedEffect
 
@@ -183,38 +183,9 @@ private fun AddTripScreenFormulary(
     }
     val dialogClear = remember { mutableStateOf(false) }
     val dialogSaveNotReady = remember { mutableStateOf(false) }
-
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(if (uiState.editMode) Res.string.edt_trip else Res.string.new_trip_title)) },
-                navigationIcon = {
-                    IconButton(onClick = onDismiss) {
-                        Icon(Icons.Default.Close, null)
-                    }
-                },
-                actions = {
-                    TextButton(onClick = { dialogClear.value = true }) {
-                        Text(
-                            text = stringResource(Res.string.new_trip_clear),
-                            color = MaterialTheme.colorScheme.error,
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    TextButton(onClick = {
-                        if ((uiState.titleTrip.isEmpty() || uiState.startDate == null || uiState.endDate == null || (uiState.mainCost == 0.0 || uiState.mainCost == null) || (uiState.startDate > uiState.endDate)).not()) {
-                            onSave()
-                            onDismiss()
-                        } else {
-                            dialogSaveNotReady.value = true
-                        }
-                    }) {
-                        Text(stringResource(Res.string.new_trip_save_trip))
-                    }
-                }
-            )
-        }
-    ) { padding ->
+        modifier = Modifier.fillMaxSize()
+    ) { _ ->
         if (dialogClear.value) {
             AlertDialog(
                 onDismissRequest = { dialogClear.value = false },
@@ -251,43 +222,84 @@ private fun AddTripScreenFormulary(
                 }
             )
         }
-        LazyColumn(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .padding(horizontal = 16.dp)
         ) {
-            item {
-                DestinationView(uiState, onTitleTripChange, onCountrySelected, onCoverSelected)
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-            item {
-                DatesView(uiState, onStartDateChange, onEndDateChange)
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-            item {
-                DurationAndGroupView(uiState, onDaysTravelingChange, onTravelersChange)
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-            item {
-                CostAndBudgetView(uiState, onMainCostChange, onMainBudgetChange)
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-            item {
-                ExtraExpensesView(
-                    uiState,
-                    onToggleExpanded = toggleOptionalExpenses,
-                    onAddExpense = addExpense,
-                    onDeleteExpense = onDeleteExpense,
-                    onUpdateExpenseName = updateExpenseName,
-                    onUpdateExpenseAmount = updateExpenseAmount,
-                    onUpdateExpenseIcon = updateExpenseIcon
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(onClick = {
+                    clearUI()
+                    onDismiss()
+                }) {
+                    Icon(Icons.Default.Close, null)
+                }
+
+                Text(
+                    text = stringResource(if (uiState.editMode) Res.string.edt_trip else Res.string.new_trip_title),
+                    style = MaterialTheme.typography.titleLarge
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.weight(1f))
+                TextButton(onClick = { dialogClear.value = true }) {
+                    Text(
+                        text = stringResource(Res.string.new_trip_clear),
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                TextButton(onClick = {
+                    if ((uiState.titleTrip.isEmpty() || uiState.startDate == null || uiState.endDate == null || (uiState.mainCost == 0.0 || uiState.mainCost == null) || (uiState.startDate > uiState.endDate)).not()) {
+                        onSave()
+                        onDismiss()
+                    } else {
+                        dialogSaveNotReady.value = true
+                    }
+                }) {
+                    Text(stringResource(Res.string.new_trip_save_trip))
+                }
             }
-            item {
-                TotalEstimatedCostView(uiState)
-                Spacer(modifier = Modifier.height(16.dp))
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 8.dp)
+                    .padding(horizontal = 16.dp)
+            ) {
+                item {
+                    DestinationView(uiState, onTitleTripChange, onCountrySelected, onCoverSelected)
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+                item {
+                    DatesView(uiState, onStartDateChange, onEndDateChange)
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+                item {
+                    DurationAndGroupView(uiState, onDaysTravelingChange, onTravelersChange)
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+                item {
+                    CostAndBudgetView(uiState, onMainCostChange, onMainBudgetChange)
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+                item {
+                    ExtraExpensesView(
+                        uiState,
+                        onToggleExpanded = toggleOptionalExpenses,
+                        onAddExpense = addExpense,
+                        onDeleteExpense = onDeleteExpense,
+                        onUpdateExpenseName = updateExpenseName,
+                        onUpdateExpenseAmount = updateExpenseAmount,
+                        onUpdateExpenseIcon = updateExpenseIcon
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+                item {
+                    TotalEstimatedCostView(uiState)
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
             }
         }
     }
@@ -395,12 +407,13 @@ fun DestinationView(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(140.dp)
+                .height(180.dp)
                 .clickable {
                     showCoverDialog = true
                 }
         ) {
             Image(
+                modifier = Modifier.fillMaxSize(),
                 painter = uiState.cover.painter(),
                 contentDescription = null,
                 contentScale = ContentScale.Crop
@@ -686,7 +699,9 @@ fun CostAndBudgetView(
                             vertical = 16.dp
                         )
                 ) {
-                    if (uiState.mainCost.toString() == "0.0" || uiState.mainCost.toString().isEmpty()) {
+                    if (uiState.mainCost.toString() == "0.0" || uiState.mainCost.toString()
+                            .isEmpty()
+                    ) {
                         Text(
                             text = "0.0",
                             style = MaterialTheme.typography.bodyLarge
@@ -740,7 +755,9 @@ fun CostAndBudgetView(
                             vertical = 16.dp
                         )
                 ) {
-                    if (uiState.mainBudget.toString() == "0.0" || uiState.mainBudget.toString().isEmpty()) {
+                    if (uiState.mainBudget.toString() == "0.0" || uiState.mainBudget.toString()
+                            .isEmpty()
+                    ) {
                         Text(
                             text = "0.0",
                             style = MaterialTheme.typography.bodyLarge
@@ -820,8 +837,5 @@ fun ExtraExpensesView(
 
 @Composable
 fun TotalEstimatedCostView(uiState: TripUiState) {
-    SummaryCard(
-        title = stringResource(Res.string.new_trip_estimated_total),
-        value = uiState.totalCost.toString() + " " + uiState.currency.toCurrencySymbol()
-    )
+    SummaryCard(uiState = uiState)
 }
