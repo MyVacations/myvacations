@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import es.myvacations.myvacations.presentation.createedittrip.AddEditTripScreen
 import es.myvacations.myvacations.presentation.dashboard.DashboardScreen
+import es.myvacations.myvacations.presentation.notifications.ShowNotificationsScreen
 import es.myvacations.myvacations.presentation.privacyandfaq.HelpSupportScreen
 import es.myvacations.myvacations.presentation.privacyandfaq.PolicyScreen
 import es.myvacations.myvacations.presentation.settings.SettingsScreen
@@ -74,6 +75,9 @@ fun NavigationRoot(isLandscape: Boolean = false) {
                     })
 
                     ScreenDestination.Dashboard -> DashboardScreen(
+                        onNotificationsClick = {
+                            navigate(ScreenDestination.ShowNotifications)
+                        },
                         onEditTripClick = {
                             navigate(ScreenDestination.TripDetail(it))
                         },
@@ -104,6 +108,16 @@ fun NavigationRoot(isLandscape: Boolean = false) {
                         HelpSupportScreen(onDismiss = {
                             popBackStack()
                         })
+                    }
+
+                    is ScreenDestination.ShowNotifications -> {
+                        ShowNotificationsScreen(
+                            onDismiss = {
+                                popBackStack()
+                            },
+                            onClick = {
+                                navigate(ScreenDestination.TripDetail(it))
+                            })
                     }
 
                     is ScreenDestination.AddEdit -> {

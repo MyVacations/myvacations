@@ -12,7 +12,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.FamilyRestroom
-import androidx.compose.material.icons.filled.Paid
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -33,7 +32,6 @@ import es.myvacations.myvacations.presentation.utils.ExpenseBreakdownItem
 import es.myvacations.myvacations.presentation.utils.LegendItem
 import es.myvacations.myvacations.presentation.utils.iconColor
 import es.myvacations.myvacations.presentation.utils.toImageVector
-import es.myvacations.myvacations.presentation.utils.toName
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.close
 import myvacations.shared.generated.resources.trip_detail_budget
@@ -53,46 +51,70 @@ import myvacations.shared.generated.resources.trip_detail_legend_transports
 import myvacations.shared.generated.resources.trip_detail_legend_ubications
 import myvacations.shared.generated.resources.trip_detail_legend_used
 import myvacations.shared.generated.resources.trip_detail_overview_tripcost
+import myvacations.shared.generated.resources.trip_detail_traveler_budget_low
 import org.jetbrains.compose.resources.stringResource
 
 @Preview(showBackground = true)
 @Composable
 fun ExpensesScreen(uiState: TripDetailUiState = TripDetailUiState()) {
     val legendOpen = remember { mutableStateOf(false) }
-    val budgetColor = when {
-        uiState.tripUiState.remainingBudget > 0.0 -> Color(0xFF11AC1F)
-        uiState.tripUiState.remainingBudget == 0.0 -> Color(0xFFB45400)
-        else -> Color.Red
-    }
-    val nameBudget = when {
-        uiState.tripUiState.remainingBudget > 0.0 -> Res.string.trip_detail_expenses_budgetnotused
-        uiState.tripUiState.remainingBudget == 0.0 -> Res.string.trip_detail_expenses_budget_complete
-        else -> Res.string.trip_detail_expenses_budget_exceed
-    }
-    val budgetRemaining = when {
-        uiState.tripUiState.remainingBudget > 0.0 -> uiState.tripUiState.remainingBudget
-        uiState.tripUiState.remainingBudget == 0.0 -> uiState.tripUiState.mainBudget
-        else -> uiState.tripUiState.totalOptionalExpenses
-    }
-    val budgetNotUsed = when {
-        uiState.tripUiState.remainingBudget > 0.0 -> uiState.tripUiState.totalOptionalExpenses
-        else -> 0.0
-    }
-    val listItemsBudget = if (uiState.tripUiState.mainBudget != 0.0) listOf(
-        ChartItem(
-            value = budgetRemaining,
-            color = budgetColor,
-            name = stringResource(nameBudget),
-            icon = Icons.Default.AttachMoney,
-            currency = uiState.tripUiState.currency
-        ), ChartItem(
-            value = budgetNotUsed,
-            color = Color.LightGray.copy(alpha = 0.2f),
-            name = stringResource(Res.string.trip_detail_expenses_budgetused),
-            icon = Icons.Default.Paid,
-            currency = uiState.tripUiState.currency
+
+    val budgetList = when {
+        uiState.tripUiState.mainBudget == 0.0 -> emptyList<ChartItem>()
+
+        uiState.tripUiState.lowBudget == 0.0 -> listOf(
+            ChartItem(
+                value = uiState.tripUiState.mainBudget,
+                color = Color(0xFFB45400),
+                name = stringResource(Res.string.trip_detail_expenses_budget_complete),
+                icon = Icons.Default.AttachMoney,
+                currency = uiState.currency
+            )
         )
-    ) else listOf()
+
+        uiState.tripUiState.lowBudget > 15.0 -> listOf(
+            ChartItem(
+                value = uiState.tripUiState.remainingBudget,
+                color = Color(0xFF11AC1F),
+                name = stringResource(Res.string.trip_detail_expenses_budgetnotused),
+                icon = Icons.Default.AttachMoney,
+                currency = uiState.currency
+            ), ChartItem(
+                value = uiState.tripUiState.totalOptionalExpenses,
+                color = Color.LightGray.copy(alpha = 0.2f),
+                name = stringResource(Res.string.trip_detail_expenses_budgetused),
+                icon = Icons.Default.AttachMoney,
+                currency = uiState.currency
+            )
+        )
+
+        uiState.tripUiState.remainingBudget < 0.0 -> listOf(
+            ChartItem(
+                value = uiState.tripUiState.totalOptionalExpenses,
+                color = Color.Red,
+                name = stringResource(Res.string.trip_detail_expenses_budget_exceed),
+                icon = Icons.Default.AttachMoney,
+                currency = uiState.currency
+            )
+        )
+
+        else -> listOf(
+            ChartItem(
+                value = uiState.tripUiState.remainingBudget,
+                color = Color(0xFFB45400),
+                name = stringResource(Res.string.trip_detail_traveler_budget_low),
+                icon = Icons.Default.AttachMoney,
+                currency = uiState.currency
+            ), ChartItem(
+                value = uiState.tripUiState.totalOptionalExpenses,
+                color = Color.LightGray.copy(alpha = 0.2f),
+                name = stringResource(Res.string.trip_detail_expenses_budgetused),
+                icon = Icons.Default.AttachMoney,
+                currency = uiState.currency
+            )
+        )
+    }
+
     val chartItems = buildList {
         add(
             ChartItem(
@@ -116,12 +138,8 @@ fun ExpensesScreen(uiState: TripDetailUiState = TripDetailUiState()) {
             })
     }
 
-    val total = uiState.tripUiState.totalCost
+    val total = uiState.tripUiState.mainCost
 
-    val totalBudget = when {
-        uiState.tripUiState.remainingBudget > 0.0 -> listItemsBudget.sumOf { it.value }
-        else -> uiState.tripUiState.mainBudget
-    }
 
     Spacer(modifier = Modifier.height(24.dp))
     Card(
@@ -217,7 +235,7 @@ fun ExpensesScreen(uiState: TripDetailUiState = TripDetailUiState()) {
                 style = MaterialTheme.typography.titleMedium
             )
             Spacer(Modifier.height(20.dp))
-            DonutChart(uiState.tripUiState, chartItems, listItemsBudget, total, totalBudget)
+            DonutChart(uiState.tripUiState, budgetList, chartItems, total)
             Spacer(Modifier.height(8.dp))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                 Text(
@@ -231,14 +249,23 @@ fun ExpensesScreen(uiState: TripDetailUiState = TripDetailUiState()) {
         }
     }
     Spacer(Modifier.height(8.dp))
-    listItemsBudget.filter { it.value != 0.0 }.forEach { chartItems ->
-        val percentage = (chartItems.value / totalBudget) * 100
-        ExpenseBreakdownItem(chartItems, percentage)
-        Spacer(modifier = Modifier.height(8.dp))
+
+    budgetList.firstOrNull().let {
+        if (it != null) {
+            val percentage = (it.value / uiState.tripUiState.mainBudget) * 100
+            ExpenseBreakdownItem(
+                true,
+                item = it,
+                percentage = percentage,
+                totalBudget = uiState.tripUiState.mainBudget
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
     }
+
     chartItems.forEach { chartItems ->
         val percentage = (chartItems.value / total) * 100
-        ExpenseBreakdownItem(chartItems, percentage)
+        ExpenseBreakdownItem(item = chartItems, percentage = percentage)
         Spacer(modifier = Modifier.height(8.dp))
     }
 }

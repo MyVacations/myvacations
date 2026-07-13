@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import es.myvacations.myvacations.core.extensions.roundTo1Decimals
-import es.myvacations.myvacations.core.extensions.shortCurrencyWhen1000
+import es.myvacations.myvacations.core.extensions.shortCurrency
 import es.myvacations.myvacations.presentation.createedittrip.TripUiState
 import io.github.koalaplot.core.pie.DefaultSlice
 import io.github.koalaplot.core.pie.PieChart
@@ -35,10 +35,9 @@ import io.github.koalaplot.core.util.ExperimentalKoalaPlotApi
 @Composable
 fun DonutChart(
     uiState: TripUiState = TripUiState(),
+    budgetList: List<ChartItem> = emptyList(),
     chartItems: List<ChartItem> = emptyList(),
-    listItemsBudget: List<ChartItem> = emptyList(),
-    total: Double,
-    totalBudget: Double
+    total: Double
 ) {
     var selectedInternalSlice by remember {
         mutableStateOf<Int?>(null)
@@ -46,6 +45,7 @@ fun DonutChart(
     var selectedExternalSlice by remember {
         mutableStateOf<Int?>(null)
     }
+
 
     Box(
         modifier = Modifier.fillMaxWidth().clickable(
@@ -59,12 +59,12 @@ fun DonutChart(
         PieChart(
             modifier = Modifier.fillMaxWidth(),
             holeSize = 0.82f,
-            values = listItemsBudget.map { it.value.toFloat() },
+            values = budgetList.map { it.value.toFloat() },
             slice = { index ->
                 val selected = selectedExternalSlice == index
                 DefaultSlice(
-                    color = if (selected) listItemsBudget[index].color.copy(alpha = 0.85f)
-                    else listItemsBudget[index].color,
+                    color = if (selected) budgetList[index].color.copy(alpha = 0.85f)
+                    else budgetList[index].color,
                     border = if (selected) BorderStroke(5.dp, Color.White)
                     else null,
                     clickable = true,
@@ -109,8 +109,8 @@ fun DonutChart(
                     targetState = selectedExternalSlice, label = "SelectedSliceExternal"
                 ) { index ->
                     if (index != null) {
-                        val item = listItemsBudget[index]
-                        val percentage = (item.value / totalBudget) * 100
+                        val item = budgetList[index]
+                        val percentage = (item.value / uiState.mainBudget) * 100
 
                         Card(
                             modifier = Modifier.padding(top = 16.dp)
@@ -124,7 +124,7 @@ fun DonutChart(
                                         text = item.name, color = item.color
                                     )
                                     Spacer(Modifier.height(4.dp))
-                                    Text(item.value.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencySymbol() + " / " + percentage.roundTo1Decimals() + "%")
+                                    Text(item.value.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + " / " + percentage.roundTo1Decimals() + "%")
 
                                 }
                             }
@@ -152,7 +152,7 @@ fun DonutChart(
                                         text = item.name, color = item.color
                                     )
                                     Spacer(Modifier.height(4.dp))
-                                    Text(item.value.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencySymbol() + " / " + percentage.roundTo1Decimals() + "%")
+                                    Text(item.value.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + " / " + percentage.roundTo1Decimals() + "%")
                                 }
                             }
                         }

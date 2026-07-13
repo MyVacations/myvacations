@@ -17,7 +17,9 @@ class SettingsLocalDataSource(
     fun insertDefaultSettings(
         name: String,
         currency: String
-    ) = queries.insertDefaultUser(name, currency)
+    ) = queries.insertDefaultUser(name, currency, true)
+
+    fun updateWelcomeShown() = queries.updateWelcome(welcomeShow = false)
 
     fun updateSettings(
         name: String,

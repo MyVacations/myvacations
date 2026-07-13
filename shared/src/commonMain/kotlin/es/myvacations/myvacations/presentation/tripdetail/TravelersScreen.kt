@@ -38,8 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import es.myvacations.myvacations.core.extensions.shortCurrencyWhen1000
-import es.myvacations.myvacations.core.extensions.shortCurrencyWhen100000
+import es.myvacations.myvacations.core.extensions.shortCurrency
 import es.myvacations.myvacations.core.extensions.transformInInitials
 import es.myvacations.myvacations.presentation.utils.toCurrencySymbol
 import myvacations.shared.generated.resources.Res
@@ -47,10 +46,10 @@ import myvacations.shared.generated.resources.accept
 import myvacations.shared.generated.resources.cancel
 import myvacations.shared.generated.resources.guest_user
 import myvacations.shared.generated.resources.trip_detail_traveler_costperperson
+import myvacations.shared.generated.resources.trip_detail_traveler_costyou
 import myvacations.shared.generated.resources.trip_detail_traveler_delete
 import myvacations.shared.generated.resources.trip_detail_traveler_name_placeholder
 import myvacations.shared.generated.resources.trip_detail_traveler_newtraveler
-import myvacations.shared.generated.resources.trip_detail_traveler_perpersondays
 import myvacations.shared.generated.resources.trip_detail_traveler_summay
 import myvacations.shared.generated.resources.trip_detail_traveler_totalcost
 import myvacations.shared.generated.resources.trip_detail_traveler_travelers
@@ -95,25 +94,22 @@ fun TravelersScreen(
             }
 
             Spacer(Modifier.height(20.dp))
-
             SummaryRow(
                 title = stringResource(Res.string.trip_detail_traveler_totalcost),
-                value = uiState.tripUiState.totalCost.shortCurrencyWhen100000() + " " + uiState.currency.toCurrencySymbol(),
+                value = uiState.tripUiState.mainCost.shortCurrency() + " " + uiState.currency.toCurrencySymbol(),
             )
 
             Spacer(Modifier.height(12.dp))
-
             SummaryRow(
                 title = stringResource(Res.string.trip_detail_traveler_costperperson),
-                value = uiState.tripUiState.costPerPerson.shortCurrencyWhen100000() + " " + uiState.currency.toCurrencySymbol(),
-                valueColor = MaterialTheme.colorScheme.primary
+                value = uiState.tripUiState.costPerPerson.shortCurrency() + " " + uiState.currency.toCurrencySymbol()
             )
 
             Spacer(Modifier.height(12.dp))
-
             SummaryRow(
-                title = stringResource(Res.string.trip_detail_traveler_perpersondays),
-                value = uiState.tripUiState.costPerDay.shortCurrencyWhen100000() + " " + uiState.currency.toCurrencySymbol()
+                title = stringResource(Res.string.trip_detail_traveler_costyou),
+                value = uiState.tripUiState.individualCost.shortCurrency() + " " + uiState.currency.toCurrencySymbol(),
+                valueColor = MaterialTheme.colorScheme.primary
             )
         }
     }
@@ -205,9 +201,8 @@ fun TravelersScreen(
                         modifier = Modifier.padding(horizontal = 6.dp),
                         horizontalAlignment = Alignment.End
                     ) {
-
                         Text(
-                            text = uiState.tripUiState.costPerPerson.shortCurrencyWhen1000() + " " + uiState.currency.toCurrencySymbol(),
+                            text = (if (index == 0) uiState.tripUiState.individualCost.shortCurrency() else uiState.tripUiState.costPerPerson.shortCurrency()) + " " + uiState.currency.toCurrencySymbol(),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary

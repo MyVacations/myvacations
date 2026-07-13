@@ -6,7 +6,7 @@ import es.myvacations.myvacations.domain.repository.TripRepository
 import es.myvacations.myvacations.domain.usecase.tripusecase.SaveTripUseCase
 import es.myvacations.myvacations.presentation.utils.DefaultTrip
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.count
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
@@ -69,7 +69,7 @@ class FakeTripRepository : TripRepository {
         useCase(DefaultTrip.tripActual)
         assertEquals(
             1,
-            repository.getTrips().count()
+            repository.getTrips().first().size
         )
     }
 }

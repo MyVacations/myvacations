@@ -14,16 +14,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun LegendItem(
     color: Color,
-    text: String
+    text: String,
+    textColor: Color = Color.Unspecified,
+    style: TextStyle = MaterialTheme.typography.bodyMedium
 ) {
     Row(
         modifier = Modifier.padding(vertical = 4.dp),
-        verticalAlignment = Alignment.Top
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
@@ -36,7 +40,8 @@ fun LegendItem(
 
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyMedium
+            style = style,
+            color = textColor
         )
     }
 }

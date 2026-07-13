@@ -1,6 +1,8 @@
 package es.myvacations.myvacations.core.navigation
 
 import androidx.compose.runtime.saveable.Saver
+import es.myvacations.myvacations.presentation.events.AppNotificationUiState
+import kotlinx.serialization.json.Json
 
 fun ScreenDestination.toSavedValue(): String =
     when (this) {
@@ -11,6 +13,7 @@ fun ScreenDestination.toSavedValue(): String =
         ScreenDestination.Settings -> "settings"
         ScreenDestination.ShowPrivacyPolitic -> "showPrivacyPolitic"
         ScreenDestination.ShowHelpAndSupport -> "showHelpAndSupport"
+        ScreenDestination.ShowNotifications -> "showNotifications"
         is ScreenDestination.AddEdit -> "addEditTrip:$tripId"
         is ScreenDestination.TripDetail -> "tripDetail:$tripId"
     }
@@ -24,6 +27,8 @@ fun String.toScreenDestination(): ScreenDestination =
         this == "settings" -> ScreenDestination.Settings
         this == "showPrivacyPolitic" -> ScreenDestination.ShowPrivacyPolitic
         this == "showHelpAndSupport" -> ScreenDestination.ShowHelpAndSupport
+        this == "showNotifications" -> ScreenDestination.ShowNotifications
+
         startsWith("addEditTrip:") -> ScreenDestination.AddEdit(
             removePrefix("addEditTrip:")
         )

@@ -1,5 +1,7 @@
 package es.myvacations.myvacations.core.navigation
 
+import es.myvacations.myvacations.presentation.events.AppNotificationUiState
+
 sealed interface ScreenDestination {
     val showBottomBarUi: Boolean
     val showFloatingButton: Boolean
@@ -36,6 +38,10 @@ sealed interface ScreenDestination {
 
     data object ShowHelpAndSupport : ScreenDestination {
         override val showBottomBarUi: Boolean = false
+        override val showFloatingButton = false
+    }
+    data object ShowNotifications : ScreenDestination {
+        override val showBottomBarUi: Boolean = true
         override val showFloatingButton = false
     }
 

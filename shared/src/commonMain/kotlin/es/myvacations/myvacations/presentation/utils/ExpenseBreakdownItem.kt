@@ -22,11 +22,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import es.myvacations.myvacations.core.extensions.shortCurrency
 
 @Composable
 fun ExpenseBreakdownItem(
+    isBudget: Boolean = false,
     item: ChartItem,
-    percentage: Double
+    percentage: Double,
+    totalBudget: Double = 0.0
 ) {
     Card(
         modifier = Modifier
@@ -40,7 +43,6 @@ fun ExpenseBreakdownItem(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -71,7 +73,7 @@ fun ExpenseBreakdownItem(
                 Column(
                     horizontalAlignment = Alignment.End
                 ) {
-                    Text(item.value.toString()+item.currency.toCurrencySymbol())
+                    Text(if(isBudget) item.value.shortCurrency() + item.currency.toCurrencySymbol() + " / " + totalBudget.shortCurrency() + item.currency.toCurrencySymbol() else item.value.shortCurrency()+item.currency.toCurrencySymbol())
                     Text("${percentage.toInt()}%")
                 }
             }

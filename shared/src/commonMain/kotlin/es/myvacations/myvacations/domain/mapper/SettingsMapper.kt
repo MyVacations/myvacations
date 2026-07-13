@@ -7,5 +7,6 @@ import es.myvacations.myvacations.presentation.utils.Currency
 
 fun SettingsData.toDomainModel() = SettingsDomain(
     username = name,
-    preferredCurrency = Currency.valueOf(currency)
+    preferredCurrency = Currency.valueOf(currency),
+    welcomeShown = welcomeShow
 )

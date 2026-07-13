@@ -121,6 +121,37 @@
     <string name="subtitle_dashboard">%1$s · %1$dd · %2$d pax</string>
     <string name="in_x_days">in %1$dd</string>
     <string name="x_days_ago">%1$dd ago</string>
+    <string name="notification_title">Notifications</string>
+    <string name="notification_filter_all">All</string>
+    <string name="notification_filter_trips">Trips</string>
+    <string name="notification_filter_expenses">Expenses</string>
+    <string name="notification_filter_budgets">Budgets</string>
+    <string name="notification_filter_info">Info</string>
+    <string name="notification_new_ones">New notifications (%1$d)</string>
+    <string name="notification_read_all">Mark all as read</string>
+    <string name="notification_old_ones">Old notifications (%1$d)</string>
+    <string name="notification_delete_all">Delete all</string>
+    <string name="notification_uptodate">No new notifications, you're up to date!</string>
+
+    <string name="relative_now">Just now</string>
+    <string name="relative_minutes_ago">%1$s min ago</string>
+    <string name="relative_hours_ago">%1$s h ago</string>
+    <string name="relative_yesterday">Yesterday</string>
+    <string name="relative_days_ago">%1$s days ago</string>
+
+    <string name="notification_trip_title">New information about your trip!</string>
+    <string name="notification_budget_title">Changes in your budget!</string>
+    <string name="notification_info_title">Standing out information</string>
+    <string name="notification_trip_created">Trip %1$s has been created.</string>
+    <string name="notification_trip_update">Trip %1$s has been updated.</string>
+    <string name="notification_trip_delete">Trip %1$s has been deleted.</string>
+    <string name="notification_trip_expense_created">New expense for trip %1$s has been created.</string>
+    <string name="notification_trip_expense_delete">Expense delete in trip %1$s.</string>
+    <string name="notification_budget_ok">Budget for trip %1$s has returned to normal.</string>
+    <string name="notification_budget_exceeded">Trip %1$s has exceeded its budget.</string>
+    <string name="notification_budget_finished">Trip %1$s has run out of budget.</string>
+    <string name="notification_budget_low">Trip %1$s is running low on budget.</string>
+    <string name="notification_welcome">Welcome to %1$s, this is the beginning of your adventure!</string>
 
     <!--NewTrip-->
     <string name="new_trip_clear_formulary">Clear Formulary?</string>
@@ -144,11 +175,12 @@
     <string name="new_trip_duration">Total</string>
     <string name="new_trip_travelers">Travelers</string>
     <string name="new_trip_traveling_days">Traveling Days</string>
-    <string name="new_trip_cost">Trip cost</string>
-    <string name="new_trip_budget">Budget (%1$s)</string>
+    <string name="new_trip_cost">Total trip cost</string>
+    <string name="new_trip_budget">My budget (%1$s)</string>
     <string name="new_trip_optional_expenses_example">Flights</string>
     <string name="new_trip_optional_expenses_none">None optional expenses</string>
-    <string name="new_trip_estimated_total">Estimated total</string>
+    <string name="new_trip_my_expected_cost">Your Expected Cost</string>
+    <string name="new_trip_my_expected_budget">My budget vs. optional expenses</string>
     <string name="new_trip_notes">NOTES</string>
     <string name="new_trip_days">days</string>
     <string name="new_trip_add_expense">+ Add expense</string>
@@ -165,7 +197,41 @@
     <string name="new_trip_end_date_require">End date is required</string>
     <string name="new_trip_cost_require">Cost is required</string>
     <string name="new_trip_cover_dialog_title">Select a cover</string>
-
+    <!--LegendInside-->
+    <string name="new_trip_legend_title">Budget &amp; Expenses Guide</string>
+    <string name="new_trip_legend_budgetsummary">Budget summary</string>
+    <string name="new_trip_legend_expected_cost_title">Your expected cost</string>
+    <string name="new_trip_legend_expected_cost_description">
+Represents the total amount you are expected to spend during the trip. It is calculated using your share of the trip cost plus all your personal extra expenses.
+</string>
+    <string name="new_trip_legend_budget_remaining_title">Budget remaining</string>
+    <string name="new_trip_legend_budget_remaining_description">
+Shows how much of your personal budget is still available after subtracting your extra expenses.
+</string>
+    <string name="new_trip_legend_travelers_title">Travelers</string>
+    <string name="new_trip_legend_travelers_description">
+The number of travelers is only used to calculate your expected share of the total trip cost. Extra expenses are personal and are not divided between travelers.
+</string>
+    <string name="new_trip_legend_example_title">Example</string>
+    <string name="new_trip_legend_example">
+Trip cost: 1000%1$s\nTravelers: 4\nYour share: 250%1$s\nExtra expenses: 80%1$s\nYour expected cost: 330%1$s
+</string>
+    <string name="new_trip_legend_categories">Expense categories</string>
+    <string name="new_trip_legend_main_cost">
+Your expected share of the main trip cost, such as flights or accommodation.
+</string>
+    <string name="new_trip_legend_places">
+Parks, beaches, landmarks and places to visit.
+</string>
+    <string name="new_trip_legend_transport">
+Taxi, metro, bus, train, fuel and parking.
+</string>
+    <string name="new_trip_legend_food">
+Restaurants, cafés, groceries and drinks.
+</string>
+    <string name="new_trip_legend_activities">
+Museums, tours, attractions and entertainment.
+</string>
     <!--TripDetail-->
     <string name="trip_detail_all">All</string>
     <string name="trip_detail_active">Active</string>
@@ -173,7 +239,9 @@
     <string name="trip_detail_past">Past</string>
     <string name="trip_detail_delete">¿Delete trip?</string>
     <string name="trip_detail_delete_details">This trip will be deleted with all its data</string>
-    <string name="trip_detail_header_totalcost">Total Cost</string>
+    <string name="trip_detail_header_yourcost">Your total cost</string>
+    <string name="trip_detail_header_nobudget">No budget add</string>
+    <string name="trip_detail_header_spent">Spent</string>
     <string name="trip_detail_header_costperperson">person</string>
     <string name="trip_detail_header_costperperson_">pax</string>
     <string name="trip_detail_header_costperday">day</string>
@@ -217,8 +285,12 @@
     <string name="trip_detail_traveler_summay">Group Summary</string>
     <string name="trip_detail_traveler_travelers">%1$d travelers</string>
     <string name="trip_detail_traveler_totalcost">Total cost</string>
+    <string name="trip_detail_traveler_costyou">Your cost + optional expenses</string>
     <string name="trip_detail_traveler_costperperson">Cost per person</string>
-    <string name="trip_detail_traveler_perpersondays">Per person / stay day</string>
+    <string name="trip_detail_traveler_budget_health">Budget status</string>
+    <string name="trip_detail_traveler_budget_healthy">You're within your budget.</string>
+    <string name="trip_detail_traveler_budget_low">Your budget is running low.</string>
+    <string name="trip_detail_traveler_budget_exceed">You exceeded your budget by %1$s</string>
     <string name="trip_detail_traveler_newtraveler">+ Add Traveler</string>
     <string name="trip_detail_search_default_value">Search destinations...</string>
     <!--Statistics-->

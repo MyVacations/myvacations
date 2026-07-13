@@ -1,6 +1,7 @@
 package es.myvacations.myvacations.presentation.mapper
 
 import es.myvacations.myvacations.core.extensions.roundTo2Decimals
+import es.myvacations.myvacations.domain.events.AppNotificationDomain
 import es.myvacations.myvacations.domain.mapper.calculateStatus
 import es.myvacations.myvacations.domain.model.SettingsDomain
 import es.myvacations.myvacations.domain.model.TravelersDomain
@@ -9,10 +10,10 @@ import es.myvacations.myvacations.domain.model.TripExpensesDomain
 import es.myvacations.myvacations.domain.model.TripStatus
 import es.myvacations.myvacations.presentation.createedittrip.TripUiState
 import es.myvacations.myvacations.presentation.dashboard.DashboardStats
+import es.myvacations.myvacations.presentation.events.AppNotificationUiState
 import es.myvacations.myvacations.presentation.settings.SettingsUiState
 import es.myvacations.myvacations.presentation.tripdetail.TravelerUiState
 import es.myvacations.myvacations.presentation.utils.TripExpenseUiState
-import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
@@ -21,10 +22,15 @@ fun TripUiState.toDomainModel() = TripDomain(
     id = id,
     title = titleTrip,
     place = placeTrip,
-    startDate = (startDate ?: Clock.System.now()
-        .toLocalDateTime(TimeZone.currentSystemDefault())) as LocalDate,
-    endDate = (endDate ?: Clock.System.now()
-        .toLocalDateTime(TimeZone.currentSystemDefault())) as LocalDate,
+    startDate = startDate
+        ?: Clock.System.now()
+            .toLocalDateTime(TimeZone.currentSystemDefault())
+            .date,
+
+    endDate = endDate
+        ?: Clock.System.now()
+            .toLocalDateTime(TimeZone.currentSystemDefault())
+            .date,
     travelers = travelers,
     daysTraveling = daysTraveling,
     mainCost = mainCost,
@@ -49,8 +55,8 @@ fun TripDomain.toUiState() = TripUiState(
 
 fun List<TripDomain>.toUiStatsState() = DashboardStats(
     totalTrips = size,
-    totalSpent = sumOf { trip -> trip.toUiState().totalCost },
-    averageTripCost = map { trip -> trip.toUiState().totalCost }
+    totalSpent = sumOf { trip -> trip.toUiState().mainCost },
+    averageTripCost = map { trip -> trip.toUiState().mainCost }
         .average().takeIf { trip -> !trip.isNaN() }
         ?.roundTo2Decimals()
         ?: 0.0,
@@ -84,15 +90,14 @@ fun List<TripDomain>.toUiPastTripState() = filter { tripDomain ->
 }.map { tripDomain -> tripDomain.toUiState() }
 
 fun SettingsDomain.toUiSettingsState() = SettingsUiState(
-
     userName = username,
     currency = preferredCurrency
 )
 
 fun SettingsUiState.toDomainSettingsState() = SettingsDomain(
-
     username = userName,
-    preferredCurrency = currency
+    preferredCurrency = currency,
+    welcomeShown = false
 )
 
 fun TripExpensesDomain.toUiState() = TripExpenseUiState(
@@ -121,4 +126,24 @@ fun TravelerUiState.toDomainModel() = TravelersDomain(
     tripId = tripId,
     travelerName = travelerName,
     isMainTraveler = isMainTraveler
+)
+
+fun AppNotificationUiState.toDomainModel() = AppNotificationDomain(
+    id = id,
+    tripId = tripId,
+    title = title,
+    message = message,
+    type = type,
+    read = read,
+    createdAt = createdAt
+)
+
+fun AppNotificationDomain.toUiState() = AppNotificationUiState(
+    id = id,
+    tripId = tripId,
+    title = title,
+    message = message,
+    type = type,
+    read = read,
+    createdAt = createdAt
 )

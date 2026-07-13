@@ -82,7 +82,7 @@ class TripsRepositoryImpl(
             travelers = trip.travelers,
             daysTraveling = trip.daysTraveling,
             mainCost = trip.mainCost,
-            mainBudget = trip.mainBudget ?: 0.0,
+            mainBudget = trip.mainBudget,
             cover = trip.cover.name
         )
         val currentExpenses =

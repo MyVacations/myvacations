@@ -44,8 +44,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import es.myvacations.myvacations.core.extensions.shortCurrencyWhen1000
-import es.myvacations.myvacations.core.extensions.shortCurrencyWhen100000
+import es.myvacations.myvacations.core.extensions.shortCurrency
 import es.myvacations.myvacations.core.utils.DateFormatter
 import es.myvacations.myvacations.domain.model.TripStatus
 import es.myvacations.myvacations.domain.model.displayName
@@ -75,7 +74,7 @@ fun TripsScreen(
     var searchValue by remember { mutableStateOf("") }
     var selectedFilterStatus by remember { mutableStateOf(TripStatus.ALL) }
 
-    Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp))
+    Column(modifier = Modifier.padding(horizontal = 16.dp))
     {
         Text(
             text = stringResource(Res.string.trips_title),
@@ -272,7 +271,7 @@ fun TripCard(
                     horizontalAlignment = Alignment.End
                 ) {
                     Text(
-                        text = trip.totalCost.shortCurrencyWhen100000() + " " + trip.currency.toCurrencySymbol(),
+                        text = trip.mainCost.shortCurrency() + " " + trip.currency.toCurrencySymbol(),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary
@@ -310,7 +309,7 @@ fun TripCard(
             )
             Spacer(modifier.width(8.dp))
             Text(
-                text = trip.costPerPerson.shortCurrencyWhen1000() + " " + trip.currency.toCurrencySymbol() + " /" + stringResource(
+                text = trip.costPerPerson.shortCurrency() + " " + trip.currency.toCurrencySymbol() + " /" + stringResource(
                     Res.string.trip_detail_header_costperperson_
                 ),
                 color = Color.White.copy(alpha = 0.9f),
