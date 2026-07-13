@@ -3,13 +3,16 @@ package es.myvacations.myvacations.presentation.utils
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
@@ -104,7 +107,7 @@ fun AppDatePickerDialog(
             TextButton(
                 onClick = {
                     selectedDate?.let(onDateSelected)
-                    if(selectedDate != null) onDismiss()
+                    if (selectedDate != null) onDismiss()
                 }
             ) {
                 Text(stringResource(Res.string.accept))
@@ -118,70 +121,73 @@ fun AppDatePickerDialog(
             }
         },
         text = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-            ) {
+            BoxWithConstraints {
+                val maxCalendarHeight = maxHeight * 0.75f
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = maxCalendarHeight)
+                ) {
 
-                HorizontalCalendar(
-                    modifier = Modifier.weight(1f),
-                    state = state,
+                    HorizontalCalendar(
+                        modifier = Modifier.fillMaxWidth(),
+                        state = state,
 
-                    monthHeader = {
-                        MonthHeader(it)
-                    },
+                        monthHeader = {
+                            MonthHeader(it)
+                        },
 
-                    dayContent = { day ->
-                        val isCurrentMonth =
-                            day.position == DayPosition.MonthDate
+                        dayContent = { day ->
+                            val isCurrentMonth =
+                                day.position == DayPosition.MonthDate
 
-                        val isSelected =
-                            isCurrentMonth &&
-                                    day.date == selectedDate
-
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth().aspectRatio(1.7f),
-                            contentAlignment = Alignment.Center
-                        ) {
+                            val isSelected =
+                                isCurrentMonth &&
+                                        day.date == selectedDate
 
                             Box(
                                 modifier = Modifier
-                                    .size(36.dp)
-                                    .clip(CircleShape)
-                                    .background(
-                                        if (isSelected)
-                                            Color(0xFF8B5CF6)
-                                        else
-                                            Color.Transparent
-                                    )
-                                    .clickable(
-                                        enabled = isCurrentMonth
-                                    ) {
-                                        selectedDate = day.date
-                                    },
+                                    .fillMaxWidth().aspectRatio(1.7f),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Text(
-                                    text = day.date.day.toString(),
-                                    color = when {
-                                        isSelected ->
-                                            Color.White
 
-                                        isCurrentMonth ->
-                                            MaterialTheme.colorScheme.onSurface
+                                Box(
+                                    modifier = Modifier
+                                        .size(36.dp)
+                                        .clip(CircleShape)
+                                        .background(
+                                            if (isSelected)
+                                                Color(0xFF8B5CF6)
+                                            else
+                                                Color.Transparent
+                                        )
+                                        .clickable(
+                                            enabled = isCurrentMonth
+                                        ) {
+                                            selectedDate = day.date
+                                        },
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = day.date.day.toString(),
+                                        color = when {
+                                            isSelected ->
+                                                Color.White
 
-                                        else ->
-                                            MaterialTheme.colorScheme.onSurface.copy(
-                                                alpha = 0.25f
-                                            )
-                                    }
-                                )
+                                            isCurrentMonth ->
+                                                MaterialTheme.colorScheme.onSurface
+
+                                            else ->
+                                                MaterialTheme.colorScheme.onSurface.copy(
+                                                    alpha = 0.25f
+                                                )
+                                        }
+                                    )
+                                }
                             }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
     )
