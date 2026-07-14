@@ -100,6 +100,7 @@
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
+    <string name="error">There was an error, check numbers</string>
     <!--Dashboard-->
     <string name="guest_user">Guest</string>
     <string name="greetings_morning">Good morning %1$s 👋</string>
@@ -289,8 +290,8 @@ Museums, tours, attractions and entertainment.
     <string name="trip_detail_traveler_costperperson">Cost per person</string>
     <string name="trip_detail_traveler_budget_health">Budget status</string>
     <string name="trip_detail_traveler_budget_healthy">You're within your budget.</string>
-    <string name="trip_detail_traveler_budget_low">Your budget is running low.</string>
-    <string name="trip_detail_traveler_budget_exceed">You exceeded your budget by %1$s</string>
+    <string name="trip_detail_traveler_budget_low">Your bud. is running low.</string>
+    <string name="trip_detail_traveler_budget_exceed">Bud. exceeded by %1$s</string>
     <string name="trip_detail_traveler_newtraveler">+ Add Traveler</string>
     <string name="trip_detail_search_default_value">Search destinations...</string>
     <!--Statistics-->

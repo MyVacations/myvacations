@@ -1,6 +1,5 @@
 package es.myvacations.myvacations.presentation.dashboard
 
-import es.myvacations.myvacations.domain.events.AppNotificationDomain
 import es.myvacations.myvacations.presentation.createedittrip.TripUiState
 import es.myvacations.myvacations.presentation.events.AppNotificationUiState
 import es.myvacations.myvacations.presentation.settings.SettingsUiState

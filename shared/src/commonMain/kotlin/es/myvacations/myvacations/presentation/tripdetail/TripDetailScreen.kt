@@ -338,7 +338,6 @@ fun TripCostCard(
                 Row {
                     Text(
                         text = "${stringResource(Res.string.trip_detail_budget)}:",
-                        modifier = Modifier.width(70.dp),
                         textAlign = TextAlign.End,
                         color = Color.White.copy(alpha = 0.8f)
                     )

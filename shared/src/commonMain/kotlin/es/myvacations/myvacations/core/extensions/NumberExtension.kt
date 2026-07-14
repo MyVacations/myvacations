@@ -4,6 +4,7 @@ import kotlin.math.roundToInt
 
 fun Double.shortCurrency(): String {
     return when {
+        this >= 100_000_00 -> ""
         this >= 1_000_000 -> {
             val value = (this / 100_000).roundToInt() / 10.0
             "$value"+"M".replace(".0M", "M")

@@ -100,6 +100,7 @@
     <string name="accept">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="close">Cerrar</string>
+    <string name="error">Hubo un error, comprueba los números</string>
     <!--Dashboard-->
     <string name="guest_user">Invitado</string>
     <string name="greetings_morning">Buenos días %1$s 👋</string>
@@ -155,7 +156,7 @@
 
     <!--NewTrip-->
     <string name="new_trip_clear_formulary">¿Limpiar formulario?</string>
-    <string name="new_trip_complete_formulary">Completa el formulario para crear un nuevo viaje</string>
+    <string name="new_trip_complete_formulary">Revisa el formulario para crear un nuevo viaje</string>
     <string name="new_trip_title">Nuevo viaje</string>
     <string name="edt_trip">Editar viaje</string>
     <string name="new_trip_clear">Borrar</string>
@@ -290,8 +291,8 @@ Museos, excursiones, atracciones y actividades de ocio.
     <string name="trip_detail_traveler_newtraveler">+ Añadir viajero</string>
     <string name="trip_detail_traveler_budget_health">Estado del presupuesto</string>
     <string name="trip_detail_traveler_budget_healthy">Estás dentro del presupuesto.</string>
-    <string name="trip_detail_traveler_budget_low">Te queda poco presupuesto disponible.</string>
-    <string name="trip_detail_traveler_budget_exceed">Has excedido el presupuesto por %1$s</string>
+    <string name="trip_detail_traveler_budget_low">Poco presupuesto disponible.</string>
+    <string name="trip_detail_traveler_budget_exceed">Presup. excedido por %1$s</string>
     <string name="trip_detail_search_default_value">Buscar destinos...</string>
     <!--Statistics-->
     <string name="statistics_notrips">Sin viajes encontrados</string>

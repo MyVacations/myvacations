@@ -13,6 +13,7 @@ import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 
 data class TripUiState(
+    val errorInScreen: Boolean = false,
     val id: String = "",
     val titleTrip: String = "",
     val placeTrip: Country = Country.SPAIN,

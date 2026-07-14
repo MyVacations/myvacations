@@ -31,7 +31,6 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
-
 class DashboardViewModel(
     private val selectAllNotificationsUseCase: SelectAllNotificationsUseCase,
     private val getSettingsUseCase: GetSettingsUseCase,

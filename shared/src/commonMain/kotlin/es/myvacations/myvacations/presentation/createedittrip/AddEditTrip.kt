@@ -74,6 +74,7 @@ import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.accept
 import myvacations.shared.generated.resources.cancel
 import myvacations.shared.generated.resources.edt_trip
+import myvacations.shared.generated.resources.error
 import myvacations.shared.generated.resources.new_trip_D_G
 import myvacations.shared.generated.resources.new_trip_add_expense
 import myvacations.shared.generated.resources.new_trip_budget
@@ -252,7 +253,7 @@ private fun AddTripScreenFormulary(
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 TextButton(onClick = {
-                    if ((uiState.titleTrip.isEmpty() || uiState.startDate == null || uiState.endDate == null || (uiState.mainCost == 0.0 || uiState.mainCost == null) || (uiState.startDate > uiState.endDate)).not()) {
+                    if (!uiState.errorInScreen && (uiState.titleTrip.isEmpty() || uiState.startDate == null || uiState.endDate == null || (uiState.mainCost == 0.0 || uiState.mainCost == null) || (uiState.startDate > uiState.endDate)).not()) {
                         onSave()
                         onDismiss()
                     } else {
@@ -297,7 +298,18 @@ private fun AddTripScreenFormulary(
                     Spacer(modifier = Modifier.height(16.dp))
                 }
                 item {
-                    TotalEstimatedCostView(uiState)
+                    if (uiState.errorInScreen) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = stringResource(Res.string.error),
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
+                    } else TotalEstimatedCostView(uiState)
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }

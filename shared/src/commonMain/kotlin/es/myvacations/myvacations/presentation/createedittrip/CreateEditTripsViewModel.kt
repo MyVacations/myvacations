@@ -25,6 +25,10 @@ import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.uuid.Uuid
 
+private const val MAX_NUMBER = 100_000.0
+private const val MAX_EXPENSE = 100_0.0
+
+
 class CreateEditTripsViewModel(
     private val saveTrip: SaveTripUseCase,
     private val getTripIdUseCase: GetTripByIdUseCase,
@@ -111,11 +115,19 @@ class CreateEditTripsViewModel(
     }
 
     fun updateMainCost(cost: String) {
-        _uiState.value = _uiState.value.copy(mainCost = cost.toSafeDouble())
+        val numberToProceed = cost.toSafeDouble()
+        _uiState.value = _uiState.value.copy(
+            errorInScreen = (MAX_NUMBER <= numberToProceed),
+            mainCost = numberToProceed
+        )
     }
 
     fun updateMainBudget(budget: String) {
-        _uiState.value = _uiState.value.copy(mainBudget = budget.toSafeDouble())
+        val numberToProceed = budget.toSafeDouble()
+        _uiState.value = _uiState.value.copy(
+            errorInScreen = (MAX_NUMBER <= numberToProceed),
+            mainBudget = numberToProceed
+        )
     }
 
     fun toggleOptionalExpenses() {
@@ -147,10 +159,12 @@ class CreateEditTripsViewModel(
         id: String,
         amount: String
     ) {
+        val numberToProceed = amount.toSafeDouble()
         _uiState.value = _uiState.value.copy(
+            errorInScreen = (MAX_EXPENSE <= numberToProceed),
             optionalExpenses = _uiState.value.optionalExpenses.map {
                 if (it.id == id) {
-                    it.copy(amount = amount.toSafeDouble())
+                    it.copy(amount = numberToProceed)
                 } else {
                     it
                 }

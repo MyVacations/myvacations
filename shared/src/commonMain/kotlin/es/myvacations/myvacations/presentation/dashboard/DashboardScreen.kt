@@ -44,7 +44,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import es.myvacations.myvacations.core.extensions.shortCurrency
 import es.myvacations.myvacations.core.utils.DateFormatter
-import es.myvacations.myvacations.presentation.events.AppNotificationUiState
 import es.myvacations.myvacations.presentation.settings.SettingsUiState
 import es.myvacations.myvacations.presentation.utils.DefaultDashboardTrip
 import es.myvacations.myvacations.presentation.utils.StatCard
