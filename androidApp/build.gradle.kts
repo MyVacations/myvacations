@@ -33,9 +33,9 @@ android {
     defaultConfig {
         applicationId = "es.myvacations.myvacations"
         minSdk = libs.versions.android.minSdk.get().toInt()
-        versionCode = LocalDate.now()
-            .format(DateTimeFormatter.ofPattern("yyyyMMdd"))
-            .toInt() + 0
+        versionCode = (LocalDate.now()
+            .format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "0")
+            .toInt()
         versionName = "0.0.1"
         multiDexEnabled = true
     }
