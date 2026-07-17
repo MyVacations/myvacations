@@ -134,60 +134,74 @@ fun TripsScreen(
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            LazyColumn {
-                val values = uiState.trips.filter {
-                    it.titleTrip.contains(searchValue, ignoreCase = true)
-                            && if (selectedFilterStatus != TripStatus.ALL) it.tripStatus == selectedFilterStatus else true
-                }.sortedWith(
-                    compareBy(
-                        { !it.titleTrip.startsWith(searchValue, ignoreCase = true) },
-                        { it.titleTrip.length }
-                    )
-                )
-                if (values.isNotEmpty()) {
-                    items(values) { trip ->
-                        TripCard(trip, onClick = { openTripDetail(trip.id) })
-                    }
-                    item { Spacer(modifier = Modifier.height(65.dp)) }
-                } else {
-                    item {
-                        Spacer(modifier = Modifier.height(65.dp))
-                        ElevatedCard(
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(24.dp)
-                        ) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(24.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
+            HeaderLazyElements(uiState, searchValue, selectedFilterStatus, openTripDetail)
+        }
+    }
+}
 
-                                Icon(
-                                    imageVector = Icons.Default.Luggage,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(48.dp),
-                                    tint = MaterialTheme.colorScheme.primary
-                                )
+@Composable
+fun HeaderLazyElements(
+    uiState: TripsUiState,
+    searchValue: String,
+    selectedFilterStatus: TripStatus,
+    openTripDetail: (String) -> Unit
+) {
+    LazyColumn {
+        val values = uiState.trips.filter {
+            it.titleTrip.contains(searchValue, ignoreCase = true)
+                    && (when (selectedFilterStatus) {
+                        TripStatus.FAVOURITE -> it.favourite
+                        TripStatus.ALL -> true
+                        else -> it.tripStatus == selectedFilterStatus
+                    })
+        }.sortedWith(
+            compareBy(
+                { !it.titleTrip.startsWith(searchValue, ignoreCase = true) },
+                { it.titleTrip.length }
+            )
+        ).sortedByDescending { it.startDate }
+        if (values.isNotEmpty()) {
+            items(values) { trip ->
+                TripCard(trip, onClick = { openTripDetail(trip.id) })
+            }
+            item { Spacer(modifier = Modifier.height(65.dp)) }
+        } else {
+            item {
+                Spacer(modifier = Modifier.height(65.dp))
+                ElevatedCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(24.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
 
-                                Spacer(Modifier.height(16.dp))
+                        Icon(
+                            imageVector = Icons.Default.Luggage,
+                            contentDescription = null,
+                            modifier = Modifier.size(48.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
 
-                                Text(
-                                    text = stringResource(Res.string.statistics_notrips),
-                                    style = MaterialTheme.typography.titleMedium,
-                                    fontWeight = FontWeight.Bold
-                                )
+                        Spacer(Modifier.height(16.dp))
 
-                                Spacer(Modifier.height(8.dp))
+                        Text(
+                            text = stringResource(Res.string.statistics_notrips),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
+                        )
 
-                                Text(
-                                    text = stringResource(Res.string.statistics_notrips_description),
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    textAlign = TextAlign.Center
-                                )
-                            }
-                        }
+                        Spacer(Modifier.height(8.dp))
+
+                        Text(
+                            text = stringResource(Res.string.statistics_notrips_description),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            textAlign = TextAlign.Center
+                        )
                     }
                 }
             }
@@ -300,9 +314,9 @@ fun TripCard(
         ) {
             Text(
                 text = "${
-                    DateFormatter.formatTripDate(trip.startDate ?: trip.today)
+                    DateFormatter.formatTripDate(trip.startDate)
                 } - ${
-                    DateFormatter.formatTripDate(trip.endDate ?: trip.today)
+                    DateFormatter.formatTripDate(trip.endDate)
                 }",
                 color = Color.White.copy(alpha = 0.9f),
                 style = MaterialTheme.typography.bodyMedium

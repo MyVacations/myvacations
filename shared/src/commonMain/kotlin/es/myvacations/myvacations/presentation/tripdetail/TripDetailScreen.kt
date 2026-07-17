@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -106,6 +107,9 @@ fun TripDetailScreen(
                         onEditClick = { onEditTripClick() },
                         onDeleteClick = {
                             dialogDelete.value = true
+                        },
+                        onFavouriteClick = {
+                            viewModel.updateFavourite(!uiState.tripUiState.favourite)
                         })
                 }
                 item {
@@ -161,12 +165,15 @@ fun TripDetailScreen(
                     }
 
                     TripDetailsTab.TRAVELER -> item {
+                        /*
                         TravelersScreen(
                             uiState,
                             viewModel::onTravelerNameChanged,
                             viewModel::onInsertTraveler,
                             viewModel::onDeleteTraveler
                         )
+
+                         */
                     }
                 }
             }
@@ -180,7 +187,8 @@ fun TripHeader(
     trip: TripDetailUiState = TripDetailUiState(),
     onBackClick: () -> Unit = {},
     onEditClick: () -> Unit = {},
-    onDeleteClick: () -> Unit = {}
+    onDeleteClick: () -> Unit = {},
+    onFavouriteClick: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier
@@ -206,63 +214,82 @@ fun TripHeader(
                     )
                 )
         )
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .statusBarsPadding()
-                .padding(10.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            HeaderActionButton(
-                icon = Icons.AutoMirrored.Filled.ArrowBack,
-                onClick = onBackClick
-            )
-
+        Column {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .statusBarsPadding()
+                    .padding(10.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-
                 HeaderActionButton(
-                    icon = Icons.Default.Edit,
-                    onClick = onEditClick
+                    icon = Icons.AutoMirrored.Filled.ArrowBack,
+                    onClick = onBackClick
                 )
-                Spacer(Modifier.width(8.dp))
-                HeaderActionButton(
-                    icon = Icons.Default.Delete,
-                    containerColor = Color(0xFFFF4D4D),
-                    onClick = onDeleteClick
-                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    HeaderActionButton(
+                        icon = Icons.Default.Edit,
+                        onClick = onEditClick
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    HeaderActionButton(
+                        icon = Icons.Default.Delete,
+                        containerColor = Color(0xFFFF4D4D),
+                        onClick = onDeleteClick
+                    )
+                }
             }
-        }
-
-        Column(
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(
+            Spacer(Modifier.weight(1f))
+            Row(
+                modifier = Modifier.padding(
                     start = 16.dp,
                     end = 16.dp,
                     bottom = 24.dp
-                )
-        ) {
-            StatusCard(trip.tripUiState.tripStatus)
-            Spacer(Modifier.height(8.dp))
+                ),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(
+                    modifier = Modifier
+                ) {
+                    StatusCard(trip.tripUiState.tripStatus)
+                    Spacer(Modifier.height(8.dp))
 
-            Text(
-                text = trip.tripUiState.titleTrip,
-                color = Color.White,
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = "${
-                    DateFormatter.formatTripDate(trip.tripUiState.startDate ?: trip.tripUiState.today)
-                } - ${
-                    DateFormatter.formatTripDate(trip.tripUiState.endDate ?: trip.tripUiState.today)
-                }",
-                color = Color.White.copy(alpha = 0.9f),
-                style = MaterialTheme.typography.bodyMedium
-            )
+                    Text(
+                        text = trip.tripUiState.titleTrip,
+                        color = Color.White,
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "${
+                            DateFormatter.formatTripDate(trip.tripUiState.startDate)
+                        } - ${
+                            DateFormatter.formatTripDate(trip.tripUiState.endDate)
+                        }",
+                        color = Color.White.copy(alpha = 0.9f),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+                Spacer(Modifier.weight(1f))
+                IconButton(
+                    onClick = onFavouriteClick,
+                    modifier = Modifier
+                        .size(42.dp)
+                        .background(
+                            color = Color.Black.copy(alpha = 0.35f),
+                            shape = CircleShape
+                        )
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        contentDescription = null,
+                        tint = if(trip.tripUiState.favourite) Color.Yellow else Color.White.copy(alpha = 0.7f)
+                    )
+                }
+            }
         }
     }
 }

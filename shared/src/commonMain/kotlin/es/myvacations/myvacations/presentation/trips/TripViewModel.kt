@@ -27,21 +27,20 @@ class TripViewModel(
 
     fun loadTrips() {
         viewModelScope.launch {
-            _uiState.update {
-                it.copy(isLoading = true)
-            }
             val startTime = Clock.System.now().toEpochMilliseconds()
             getTripsUseCase().collect { tripsDomain ->
                 val elapsed = Clock.System.now().toEpochMilliseconds() - startTime
-
                 val remaining = 1000 - elapsed
-
                 if (remaining > 0) {
                     delay(remaining.milliseconds)
                 }
-                _uiState.value = _uiState.value.copy(trips = tripsDomain.map { tripDomain ->
-                    tripDomain.toUiState()
-                },isLoading = false)
+                _uiState.update {
+                    it.copy(
+                        trips = tripsDomain.map { tripDomain ->
+                            tripDomain.toUiState()
+                        }, isLoading = false
+                    )
+                }
             }
         }
     }

@@ -64,24 +64,6 @@ fun OverViewScreen(uiState: TripDetailUiState) {
 
             OverviewInfoCard(
                 modifier = Modifier.weight(1f),
-                title = stringResource(Res.string.trip_detail_overview_traveldays),
-                value = uiState.tripUiState.daysTraveling.toString() + " " + stringResource(Res.string.trip_detail_overview_day),
-                icon = Icons.Default.Schedule
-            )
-        }
-
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            OverviewInfoCard(
-                modifier = Modifier.weight(1f),
-                title = stringResource(Res.string.trip_detail_overview_stayday),
-                value = uiState.tripUiState.totalDaysStaying.toString() + " " + stringResource(Res.string.trip_detail_overview_day),
-                icon = Icons.Default.LocationOn
-            )
-
-            OverviewInfoCard(
-                modifier = Modifier.weight(1f),
                 title = stringResource(Res.string.trip_detail_overview_travelers),
                 value = uiState.tripUiState.travelers.toString() + " " + stringResource(Res.string.trip_detail_overview_person),
                 icon = Icons.Default.People
@@ -185,20 +167,6 @@ private fun CostSummaryCard(
                 value = uiState.tripUiState.mainCost.toString() + " " + uiState.currency.toCurrencySymbol(),
                 highlight = true,
                 bold = true
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            SummaryRow(
-                title = stringResource(Res.string.trip_detail_overview_perperson),
-                value = uiState.tripUiState.costPerPerson.toString() + " " + uiState.currency.toCurrencySymbol()
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            SummaryRow(
-                title = stringResource(Res.string.trip_detail_traveler_costyou),
-                value = uiState.tripUiState.individualCost.toString() + " " + uiState.currency.toCurrencySymbol()
             )
         }
     }

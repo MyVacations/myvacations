@@ -7,6 +7,7 @@ import es.myvacations.myvacations.presentation.settings.SettingsViewModel
 import es.myvacations.myvacations.presentation.statistics.StatisticsViewModel
 import es.myvacations.myvacations.presentation.tripdetail.TripDetailsViewModel
 import es.myvacations.myvacations.presentation.trips.TripViewModel
+import es.myvacations.myvacations.presentation.utils.calendar.CalendarViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -54,4 +55,5 @@ val appModule = module {
     viewModel { StatisticsViewModel(getTripsUseCase = get()) }
 
     viewModel { ShowNotificationsViewModel(selectTripByIdUseCase = get(), selectAllNotificationsUseCase = get(), updateNotificationUseCase = get(), deleteNotificationUseCase = get(), appInfoRepository = get()) }
+    viewModel { CalendarViewModel() }
 }

@@ -22,21 +22,13 @@ fun TripUiState.toDomainModel() = TripDomain(
     id = id,
     title = titleTrip,
     place = placeTrip,
-    startDate = startDate
-        ?: Clock.System.now()
-            .toLocalDateTime(TimeZone.currentSystemDefault())
-            .date,
-
-    endDate = endDate
-        ?: Clock.System.now()
-            .toLocalDateTime(TimeZone.currentSystemDefault())
-            .date,
-    travelers = travelers,
-    daysTraveling = daysTraveling,
+    startDate = startDate,
+    endDate = endDate,
     mainCost = mainCost,
     mainBudget = mainBudget,
     optionalExpenses = optionalExpenses.map { expensesDomain -> expensesDomain.toDomainModel() },
-    cover = cover
+    cover = cover,
+    favourite = favourite
 )
 
 fun TripDomain.toUiState() = TripUiState(
@@ -45,12 +37,11 @@ fun TripDomain.toUiState() = TripUiState(
     placeTrip = place,
     startDate = startDate,
     endDate = endDate,
-    daysTraveling = daysTraveling,
-    travelers = travelers,
     mainCost = mainCost,
     mainBudget = mainBudget,
     cover = cover,
     optionalExpenses = optionalExpenses.map { expensesDomain -> expensesDomain.toUiState() },
+    favourite = favourite
 )
 
 fun List<TripDomain>.toUiStatsState() = DashboardStats(

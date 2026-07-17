@@ -47,11 +47,10 @@ class TripsRepositoryImpl(
             place = trip.place.name,
             startDate = trip.startDate.toString(),
             endDate = trip.endDate.toString(),
-            travelers = trip.travelers,
-            daysTraveling = trip.daysTraveling,
             mainCost = trip.mainCost,
             mainBudget = trip.mainBudget,
-            cover = trip.cover.name
+            cover = trip.cover.name,
+            favourite = trip.favourite
         )
 
         trip.optionalExpenses.forEach { expense ->
@@ -63,17 +62,6 @@ class TripsRepositoryImpl(
                 expense.amount
             )
         }
-
-        repeat(trip.travelers) {
-            if (it == 0) localDataSource.insertTravelers(
-                Uuid.random().toHexString(),
-                trip.id,
-                localDataSource.getNameSettings(),
-                true
-            ) else localDataSource.insertTravelers(
-                Uuid.random().toHexString(), trip.id, ""
-            )
-        }
     }
 
     override suspend fun updateTrip(trip: TripDomain) {
@@ -83,49 +71,22 @@ class TripsRepositoryImpl(
             place = trip.place.name,
             startDate = trip.startDate.toString(),
             endDate = trip.endDate.toString(),
-            travelers = trip.travelers,
-            daysTraveling = trip.daysTraveling,
             mainCost = trip.mainCost,
             mainBudget = trip.mainBudget,
-            cover = trip.cover.name
+            cover = trip.cover.name,
+            favourite = trip.favourite
         )
+
         val currentExpenses =
             localDataSource.getExpensesByTripId(trip.id)
 
-        val currentTravelersIndices =
-            localDataSource.selectTravelersForInternalQuery(trip.id).size
-
-
         val newExpenseIds =
             trip.optionalExpenses.map { it.id }.toSet()
-
-        val newTravelersIndices = trip.travelers
 
         currentExpenses.filter { it.id !in newExpenseIds }
             .forEach { expense ->
                 localDataSource.deleteExpense(expense.id, trip.id)
             }
-
-        val difference = currentTravelersIndices - newTravelersIndices
-
-        if (difference > 0) {
-            repeat(difference) {
-                val lastTraveler =
-                    localDataSource.selectTravelersForInternalQuery(trip.id).last()
-                localDataSource.deleteTraveler(
-                    lastTraveler.id,
-                    trip.id
-                )
-            }
-        } else if (difference < 0) {
-            repeat(-difference) {
-                localDataSource.insertTravelers(
-                    id = Uuid.random().toHexString(),
-                    tripId = trip.id,
-                    travelerName = ""
-                )
-            }
-        }
 
         trip.optionalExpenses.forEach { expense ->
             if (localDataSource.getExpensesByTripIdAndExpenseID(trip.id, expense.id)) {

@@ -14,13 +14,13 @@ import es.myvacations.myvacations.presentation.mapper.toUiState
 import es.myvacations.myvacations.presentation.utils.Currency
 import es.myvacations.myvacations.presentation.utils.TravelIcon
 import es.myvacations.myvacations.presentation.utils.TripExpenseUiState
+import es.myvacations.myvacations.presentation.utils.calendar.CalendarUiState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
-import kotlin.random.Random
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.uuid.Uuid
@@ -62,22 +62,22 @@ class CreateEditTripsViewModel(
                 if (remaining > 0) {
                     delay(remaining.milliseconds)
                 }
+
                 _uiState.update {
                     it.copy(
                         id = tripDomain?.id ?: "",
                         titleTrip = tripDomain?.title ?: "",
                         placeTrip = tripDomain?.place ?: Country.SPAIN,
-                        startDate = tripDomain?.startDate,
-                        endDate = tripDomain?.endDate,
-                        daysTraveling = tripDomain?.daysTraveling ?: 1,
-                        travelers = tripDomain?.travelers ?: 1,
+                        startDate = tripDomain?.startDate ?: CalendarUiState().selectedDate,
+                        endDate = tripDomain?.endDate ?: CalendarUiState().selectedDate,
                         mainCost = tripDomain?.mainCost ?: 0.0,
                         mainBudget = tripDomain?.mainBudget ?: 0.0,
                         cover = tripDomain?.cover ?: TripCover.BARCELONA,
-                        optionalExpensesExpanded = false,
+                        optionalExpensesExpanded = true,
                         optionalExpenses = tripDomain?.optionalExpenses?.map { expenseDomain -> expenseDomain.toUiState() }
                             ?: emptyList(),
-                        isLoading = false
+                        isLoading = false,
+                        favourite = tripDomain?.favourite ?: false
                     )
                 }
             }
@@ -91,118 +91,124 @@ class CreateEditTripsViewModel(
     }
 
     fun updateTripTitle(title: String) {
-        _uiState.value = _uiState.value.copy(titleTrip = title)
+        _uiState.update {
+            it.copy(titleTrip = title)
+        }
     }
 
     fun updateCountry(country: Country) {
-        _uiState.value = _uiState.value.copy(placeTrip = country)
+        _uiState.update {
+            it.copy(placeTrip = country)
+        }
     }
 
     fun updateStartDate(startDate: LocalDate) {
-        _uiState.value = _uiState.value.copy(startDate = startDate)
+        _uiState.update {
+            it.copy(
+                startDate = startDate,
+                endDate = when {
+                    (startDate > _uiState.value.endDate) || (startDate < _uiState.value.endDate) -> startDate
+                    else -> _uiState.value.endDate
+                }
+            )
+        }
     }
 
     fun updateEndDate(endDate: LocalDate) {
-        _uiState.value = _uiState.value.copy(endDate = endDate)
-    }
-
-    fun updateDaysTraveling(days: Int) {
-        _uiState.value = _uiState.value.copy(daysTraveling = days)
+        _uiState.update {
+            it.copy(
+                endDate = endDate,
+                errorStartDate = _uiState.value.startDate > endDate
+            )
+        }
     }
 
     fun updateTravelers(travelers: Int) {
-        _uiState.value = _uiState.value.copy(travelers = travelers)
+        _uiState.update {
+            it.copy(
+                travelers = travelers
+            )
+        }
     }
 
     fun updateMainCost(cost: String) {
         val numberToProceed = cost.toSafeDouble()
-        _uiState.value = _uiState.value.copy(
-            errorInScreen = (MAX_NUMBER <= numberToProceed),
-            mainCost = numberToProceed
-        )
+        _uiState.update {
+            it.copy(
+                errorInScreen = (MAX_NUMBER <= numberToProceed),
+                mainCost = numberToProceed
+            )
+        }
     }
 
     fun updateMainBudget(budget: String) {
         val numberToProceed = budget.toSafeDouble()
-        _uiState.value = _uiState.value.copy(
-            errorInScreen = (MAX_NUMBER <= numberToProceed),
-            mainBudget = numberToProceed
-        )
+        _uiState.update {
+            it.copy(
+                errorInScreen = (MAX_NUMBER <= numberToProceed),
+                mainBudget = numberToProceed
+            )
+        }
     }
 
     fun toggleOptionalExpenses() {
-        _uiState.value = _uiState.value.copy(
-            optionalExpensesExpanded = !_uiState.value.optionalExpensesExpanded
-        )
+        _uiState.update {
+            it.copy(optionalExpensesExpanded = !_uiState.value.optionalExpensesExpanded)
+        }
     }
 
     fun updateCover(cover: TripCover) {
-        _uiState.value = _uiState.value.copy(cover = cover)
+        _uiState.update {
+            it.copy(cover = cover)
+        }
     }
 
-    fun updateExpenseName(
-        id: String,
-        name: String
-    ) {
-        _uiState.value = _uiState.value.copy(
-            optionalExpenses = _uiState.value.optionalExpenses.map {
-                if (it.id == id) {
-                    it.copy(name = name)
-                } else {
-                    it
-                }
-            }
-        )
-    }
-
-    fun updateExpenseAmount(
-        id: String,
-        amount: String
-    ) {
-        val numberToProceed = amount.toSafeDouble()
-        _uiState.value = _uiState.value.copy(
-            errorInScreen = (MAX_EXPENSE <= numberToProceed),
-            optionalExpenses = _uiState.value.optionalExpenses.map {
-                if (it.id == id) {
-                    it.copy(amount = numberToProceed)
-                } else {
-                    it
-                }
-            }
-        )
-    }
-
-    fun updateExpenseIcon(
-        id: String,
-        icon: TravelIcon
-    ) {
-        _uiState.value = _uiState.value.copy(
-            optionalExpenses = _uiState.value.optionalExpenses.map { expense ->
-                if (expense.id == id) {
-                    expense.copy(icon = icon)
-                } else {
-                    expense
-                }
-            }
-        )
-    }
-
-    fun addExpense() {
-        _uiState.value = _uiState.value.copy(
-            optionalExpenses = _uiState.value.optionalExpenses + TripExpenseUiState(
-                id = Random.nextInt().toString(),
-                name = "",
-                icon = TravelIcon.RESTAURANT,
-                amount = 100.0,
-                currency = _uiState.value.currency
+    fun createExpense(id: String, name: String, amount: String, icon: TravelIcon) {
+        _uiState.update {
+            it.copy(
+                optionalExpenses = _uiState.value.optionalExpenses + TripExpenseUiState(
+                    id = id,
+                    name = name,
+                    amount = amount.toSafeDouble(),
+                    icon = icon
+                )
             )
-        )
+        }
+    }
+
+    fun updateExpense(id: String, name: String, amount: String, icon: TravelIcon) {
+        _uiState.update { uiState ->
+            uiState.copy(
+                optionalExpenses = _uiState.value.optionalExpenses.map {
+                    if (it.id == id) {
+                        it.copy(name = name, amount = amount.toSafeDouble(), icon = icon)
+                    } else {
+                        it
+                    }
+                }
+            )
+        }
+    }
+
+    fun updateErrorAmount(value: Boolean) {
+        _uiState.update {
+            it.copy(
+                optionalExpensesErrorAmount = value
+            )
+        }
     }
 
     fun deleteExpense(id: String) {
-        _uiState.value = _uiState.value.copy(
-            optionalExpenses = _uiState.value.optionalExpenses.filter { it.id != id }
-        )
+        _uiState.update {
+            it.copy(optionalExpenses = _uiState.value.optionalExpenses.filter { it.id != id })
+
+        }
+    }
+
+    fun updateFavourite(favourite: Boolean) {
+        _uiState.update {
+            it.copy(favourite = favourite)
+        }
     }
 
     fun clearUi() {
@@ -211,16 +217,17 @@ class CreateEditTripsViewModel(
                 id = "",
                 titleTrip = "",
                 placeTrip = Country.SPAIN,
-                startDate = null,
-                endDate = null,
-                daysTraveling = 1,
+                startDate = CalendarUiState().selectedDate,
+                errorStartDate = false,
+                endDate = CalendarUiState().selectedDate,
                 travelers = 1,
                 mainCost = 0.0,
                 mainBudget = 0.0,
                 cover = TripCover.BARCELONA,
-                optionalExpensesExpanded = false,
+                optionalExpensesExpanded = true,
                 editMode = false,
-                optionalExpenses = emptyList()
+                optionalExpenses = emptyList(),
+                favourite = false
             )
         }
     }

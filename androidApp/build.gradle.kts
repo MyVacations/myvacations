@@ -36,7 +36,7 @@ android {
         versionCode = (LocalDate.now()
             .format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "0")
             .toInt()
-        versionName = "0.0.1"
+        versionName = "0.0.2"
         multiDexEnabled = true
     }
     packaging {
@@ -67,6 +67,7 @@ android {
 
 tasks.register("r8Version") {
     description = "r8"
+    group = "r8"
     doLast {
         println("R8_VERSION_START:" + com.android.tools.r8.Version.getVersionString() + ":R8_VERSION_END")
     }

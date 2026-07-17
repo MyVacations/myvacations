@@ -12,10 +12,9 @@ data class TripDomain(
     val place: Country,
     val startDate: LocalDate,
     val endDate: LocalDate,
-    val travelers: Int,
-    val daysTraveling: Int,
     val mainCost: Double,
     val mainBudget: Double,
     val optionalExpenses: List<TripExpensesDomain>,
-    val cover: TripCover
+    val cover: TripCover,
+    val favourite: Boolean
 )

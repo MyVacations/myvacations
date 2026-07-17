@@ -13,6 +13,18 @@
     <string name="october">October</string>
     <string name="november">November</string>
     <string name="december">December</string>
+    <string name="january_">Jan</string>
+    <string name="february_">Feb</string>
+    <string name="march_">Mar</string>
+    <string name="april_">Apr</string>
+    <string name="may_">May</string>
+    <string name="june_">Jun</string>
+    <string name="july_">Jul</string>
+    <string name="august_">Aug</string>
+    <string name="september_">Sep</string>
+    <string name="october_">Oct</string>
+    <string name="november_">Nov</string>
+    <string name="december_">Dec</string>
     <!--DaysOfWeek-->
     <string name="monday">Mo</string>
     <string name="tuesday">Tu</string>
@@ -97,6 +109,7 @@
     <string name="trips_title">My Trips</string>
     <string name="statistics_title">Statistics</string>
     <!--Elementos utiles-->
+    <string name="today">Today</string>
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
@@ -173,11 +186,12 @@
     <string name="new_trip_trip_country_example">e.g. Spain</string>
     <string name="new_trip_start_date">Start Date</string>
     <string name="new_trip_end_date">End Date</string>
+    <string name="new_trip_select_date">Select a date</string>
     <string name="new_trip_duration">Total</string>
     <string name="new_trip_travelers">Travelers</string>
     <string name="new_trip_traveling_days">Traveling Days</string>
-    <string name="new_trip_cost">Total trip cost</string>
-    <string name="new_trip_budget">My budget (%1$s)</string>
+    <string name="new_trip_cost">Total trip cost | Max 99999.9 (%1$s)</string>
+    <string name="new_trip_budget">My budget | Max 99999.9 (%1$s)</string>
     <string name="new_trip_optional_expenses_example">Flights</string>
     <string name="new_trip_optional_expenses_none">None optional expenses</string>
     <string name="new_trip_my_expected_cost">Your Expected Cost</string>
@@ -185,17 +199,15 @@
     <string name="new_trip_notes">NOTES</string>
     <string name="new_trip_days">days</string>
     <string name="new_trip_add_expense">+ Add expense</string>
-    <string name="new_trip_food">Food</string>
+    <string name="new_trip_food">ex. Food</string>
     <string name="new_trip_expense">Expense</string>
     <string name="new_trip_optional_delete">Delete</string>
     <string name="new_trip_optional_name">Name</string>
     <string name="new_trip_optional_icon">Icon</string>
-    <string name="new_trip_optional_amount">Amount (%1$s)</string>
+    <string name="new_trip_optional_amount">Amount | Max 999.9 (%1$s)</string>
     <string name="new_trip_optional_name_error">Name is required</string>
     <string name="new_trip_optional_value_error">Amount is required</string>
-    <string name="new_trip_title_require">Title is required</string>
-    <string name="new_trip_start_date_require">Start date is required</string>
-    <string name="new_trip_end_date_require">End date is required</string>
+    <string name="new_trip_title_require">Title is required</string>>
     <string name="new_trip_cost_require">Cost is required</string>
     <string name="new_trip_cover_dialog_title">Select a cover</string>
     <!--LegendInside-->
@@ -234,6 +246,7 @@ Restaurants, cafés, groceries and drinks.
 Museums, tours, attractions and entertainment.
 </string>
     <!--TripDetail-->
+    <string name="trip_detail_favourite">Favourites</string>
     <string name="trip_detail_all">All</string>
     <string name="trip_detail_active">Active</string>
     <string name="trip_detail_upcoming">Upcoming</string>

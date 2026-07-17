@@ -46,7 +46,6 @@ fun DonutChart(
         mutableStateOf<Int?>(null)
     }
 
-
     Box(
         modifier = Modifier.fillMaxWidth().clickable(
             interactionSource = MutableInteractionSource(),
@@ -75,90 +74,117 @@ fun DonutChart(
             },
             labelConnector = {},
             holeContent = {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    PieChart(
-                        modifier = Modifier.fillMaxSize().padding(end = 3.dp),
-                        values = chartItems.map { it.value.toFloat() },
-                        holeSize = 0.72F,
-                        slice = { index ->
-                            val selected = selectedInternalSlice == index
-                            DefaultSlice(
-                                color = if (selected) chartItems[index].color.copy(alpha = 0.85f)
-                                else chartItems[index].color,
-                                border = if (selected) BorderStroke(5.dp, Color.White)
-                                else null,
-                                clickable = true,
-                                onClick = {
-                                    selectedInternalSlice =
-                                        if (selectedInternalSlice == index) null else index
-                                    selectedExternalSlice = null
-                                })
-                        },
-                        labelConnector = {})
-                }
+                PieChartHole(
+                    chartItems,
+                    selectedInternalSlice,
+                    updateIternalSlice = { selectedInternalSlice = it },
+                    updateExternalSlice = { selectedExternalSlice = it })
             })
+        SelectedScreen(uiState,selectedInternalSlice,selectedExternalSlice,budgetList,chartItems,total)
+    }
+}
 
-        Box(
-            modifier = Modifier.size(180.dp), contentAlignment = Alignment.Center
-        ) {
-            if (selectedExternalSlice != null) {
-                AnimatedContent(
-                    targetState = selectedExternalSlice, label = "SelectedSliceExternal"
-                ) { index ->
-                    if (index != null) {
-                        val item = budgetList[index]
-                        val percentage = (item.value / uiState.mainBudget) * 100
+@Composable
+fun SelectedScreen(
+    uiState: TripUiState,
+    selectedInternalSlice: Int?,
+    selectedExternalSlice: Int?,
+    budgetList: List<ChartItem>,
+    chartItems: List<ChartItem>,
+    total: Double
+) {
+    Box(
+        modifier = Modifier.size(180.dp), contentAlignment = Alignment.Center
+    ) {
+        if (selectedExternalSlice != null) {
+            AnimatedContent(
+                targetState = selectedExternalSlice, label = "SelectedSliceExternal"
+            ) { index ->
+                if (index != null) {
+                    val item = budgetList[index]
+                    val percentage = (item.value / uiState.mainBudget) * 100
 
-                        Card(
-                            modifier = Modifier.padding(top = 16.dp)
+                    Card(
+                        modifier = Modifier.padding(top = 16.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Row(
-                                modifier = Modifier.padding(16.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Text(
-                                        text = item.name, color = item.color
-                                    )
-                                    Spacer(Modifier.height(4.dp))
-                                    Text(item.value.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + " / " + percentage.roundTo1Decimals() + "%")
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text(
+                                    text = item.name, color = item.color
+                                )
+                                Spacer(Modifier.height(4.dp))
+                                Text(item.value.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + " / " + percentage.roundTo1Decimals() + "%")
 
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            if (selectedInternalSlice != null) {
-                AnimatedContent(
-                    targetState = selectedInternalSlice, label = "SelectedSliceInternal"
-                ) { index ->
-                    if (index != null) {
-                        val item = chartItems[index]
-                        val percentage = (item.value / total) * 100
-
-                        Card(
-                            modifier = Modifier.padding(top = 16.dp)
-                        ) {
-                            Row(
-                                modifier = Modifier.padding(16.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Text(
-                                        text = item.name, color = item.color
-                                    )
-                                    Spacer(Modifier.height(4.dp))
-                                    Text(item.value.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + " / " + percentage.roundTo1Decimals() + "%")
-                                }
                             }
                         }
                     }
                 }
             }
         }
+        if (selectedInternalSlice != null) {
+            AnimatedContent(
+                targetState = selectedInternalSlice, label = "SelectedSliceInternal"
+            ) { index ->
+                if (index != null) {
+                    val item = chartItems[index]
+                    val percentage = (item.value / total) * 100
+
+                    Card(
+                        modifier = Modifier.padding(top = 16.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Text(
+                                    text = item.name, color = item.color
+                                )
+                                Spacer(Modifier.height(4.dp))
+                                Text(item.value.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + " / " + percentage.roundTo1Decimals() + "%")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalKoalaPlotApi::class)
+@Composable
+fun PieChartHole(
+    chartItems: List<ChartItem>,
+    selectedInternalSlice: Int?,
+    updateIternalSlice: (Int?) -> Unit,
+    updateExternalSlice: (Int?) -> Unit
+) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        PieChart(
+            modifier = Modifier.fillMaxSize().padding(end = 3.dp),
+            values = chartItems.map { it.value.toFloat() },
+            holeSize = 0.72F,
+            slice = { index ->
+                val selected = selectedInternalSlice == index
+                DefaultSlice(
+                    color = if (selected) chartItems[index].color.copy(alpha = 0.85f)
+                    else chartItems[index].color,
+                    border = if (selected) BorderStroke(5.dp, Color.White)
+                    else null,
+                    clickable = true,
+                    onClick = {
+                        if (selectedInternalSlice == index) updateIternalSlice(null) else updateIternalSlice(
+                            index
+                        )
+                        updateExternalSlice(null)
+                    })
+            },
+            labelConnector = {})
     }
 }

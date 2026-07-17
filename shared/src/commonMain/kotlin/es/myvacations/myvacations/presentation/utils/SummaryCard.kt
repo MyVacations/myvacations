@@ -2,6 +2,7 @@ package es.myvacations.myvacations.presentation.utils
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +20,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -49,7 +51,6 @@ import myvacations.shared.generated.resources.new_trip_legend_travelers_title
 import myvacations.shared.generated.resources.new_trip_my_expected_budget
 import myvacations.shared.generated.resources.new_trip_my_expected_cost
 import myvacations.shared.generated.resources.trip_detail_expenses_legend
-import myvacations.shared.generated.resources.trip_detail_overview_person
 import org.jetbrains.compose.resources.stringResource
 
 @Preview(showBackground = true)
@@ -197,91 +198,170 @@ fun SummaryCard(
             containerColor = Color.Transparent
         )
     ) {
-        Column(
-            modifier = Modifier.padding(20.dp)
+        BoxWithConstraints {
+            val isCompact = maxWidth < 340.dp
+            if (isCompact) {
+                CompactLegendCard(uiState,legendOpen)
+            } else {
+                NotCompactLegendCard(uiState,legendOpen)
+            }
+        }
+    }
+}
+
+@Composable
+fun NotCompactLegendCard(uiState: TripUiState, legendOpen: MutableState<Boolean>) {
+    Column(
+        modifier = Modifier.padding(20.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text(
-                    text = stringResource(Res.string.new_trip_my_expected_cost),
-                    style = MaterialTheme.typography.bodySmall
-                )
-                Spacer(
-                    modifier = Modifier.weight(1f)
-                )
-                Text(
-                    text = stringResource(Res.string.new_trip_my_expected_budget),
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
-
+            Text(
+                text = stringResource(Res.string.new_trip_my_expected_cost),
+                style = MaterialTheme.typography.bodySmall
+            )
             Spacer(
-                modifier = Modifier.height(8.dp)
+                modifier = Modifier.weight(1f)
+            )
+        }
+
+        Spacer(
+            modifier = Modifier.height(8.dp)
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = uiState.individualCost.shortCurrency() + " " + uiState.currency.toCurrencySymbol(),
+                style = MaterialTheme.typography.headlineSmall,
+                color = Color(0xFF007C91)
+            )
+            Text(
+                text = if (uiState.totalOptionalExpenses != 0.0) " (" + uiState.costPerPerson.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + " + " + uiState.totalOptionalExpenses.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + ")" else "",
+                style = MaterialTheme.typography.labelMedium,
+            )
+            Spacer(
+                modifier = Modifier.weight(1f)
             )
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = uiState.individualCost.shortCurrency() + " " + uiState.currency.toCurrencySymbol(),
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = Color(0xFF007C91)
-                )
-                Text(
-                    text = if (uiState.totalOptionalExpenses != 0.0) " (" + uiState.costPerPerson.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + " + " + uiState.totalOptionalExpenses.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + ")" else "",
-                    style = MaterialTheme.typography.labelMedium,
-                )
-                Spacer(
-                    modifier = Modifier.weight(1f)
-                )
+            Text(
+                text = if (uiState.mainBudget != 0.0 && uiState.totalOptionalExpenses != 0.0) uiState.remainingBudget.shortCurrency() + " " + uiState.currency.toCurrencySymbol() else "-",
+                style = MaterialTheme.typography.headlineSmall,
+                color = when {
+                    (uiState.mainBudget == 0.0 || uiState.totalOptionalExpenses == 0.0) -> Color(
+                        0xFF007C91
+                    )
 
-                Text(
-                    text = if (uiState.mainBudget != 0.0 && uiState.totalOptionalExpenses != 0.0) uiState.remainingBudget.shortCurrency() + " " + uiState.currency.toCurrencySymbol() else "-",
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = when {
-                        (uiState.mainBudget == 0.0 || uiState.totalOptionalExpenses == 0.0) -> Color(
-                            0xFF007C91
-                        )
-
-                        uiState.lowBudget > 15.0 -> Color(0xFF11AC1F)
-                        uiState.remainingBudget < 0.0 -> Color.Red
-                        else -> Color(0xFFB45400)
-                    }
-                )
-
-                Text(
-                    text = if (uiState.mainBudget != 0.0 && uiState.totalOptionalExpenses != 0.0) " (" + uiState.mainBudget.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + " - " + uiState.totalOptionalExpenses.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + ")" else "",
-                    style = MaterialTheme.typography.labelMedium,
-                )
-            }
-
-            Spacer(
-                modifier = Modifier.height(8.dp)
+                    uiState.lowBudget > 15.0 -> Color(0xFF11AC1F)
+                    uiState.remainingBudget < 0.0 -> Color.Red
+                    else -> Color(0xFFB45400)
+                }
             )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = uiState.mainCost.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + " • " + uiState.travelers.toString() + " " + stringResource(
-                        Res.string.trip_detail_overview_person
-                    ),
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = Color(0xFF007C91)
-                )
-                Spacer(
-                    modifier = Modifier.weight(1f)
-                )
-                Text(
-                    text = stringResource(Res.string.trip_detail_expenses_legend),
-                    modifier = Modifier.clickable(onClick = {
-                        legendOpen.value = true
-                    }),
-                    style = MaterialTheme.typography.labelLarge
-                )
-            }
+            Text(
+                text = if (uiState.mainBudget != 0.0 && uiState.totalOptionalExpenses != 0.0) " (" + uiState.mainBudget.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + " - " + uiState.totalOptionalExpenses.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + ")" else "",
+                style = MaterialTheme.typography.labelMedium,
+            )
+        }
+
+        Spacer(
+            modifier = Modifier.height(8.dp)
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Spacer(
+                modifier = Modifier.weight(1f)
+            )
+            Text(
+                text = stringResource(Res.string.trip_detail_expenses_legend),
+                modifier = Modifier.clickable(onClick = {
+                    legendOpen.value = true
+                }),
+                style = MaterialTheme.typography.labelLarge
+            )
+        }
+    }
+}
+
+@Composable
+fun CompactLegendCard(uiState: TripUiState, legendOpen: MutableState<Boolean>) {
+    Column(
+        modifier = Modifier.padding(20.dp)
+    ) {
+        Text(
+            text = stringResource(Res.string.new_trip_my_expected_cost),
+            style = MaterialTheme.typography.bodySmall
+        )
+        Spacer(
+            modifier = Modifier.height(8.dp)
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = uiState.individualCost.shortCurrency() + " " + uiState.currency.toCurrencySymbol(),
+                style = MaterialTheme.typography.headlineSmall,
+                color = Color(0xFF007C91)
+            )
+            Text(
+                text = if (uiState.totalOptionalExpenses != 0.0) " (" + uiState.costPerPerson.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + " + " + uiState.totalOptionalExpenses.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + ")" else "",
+                style = MaterialTheme.typography.labelMedium,
+            )
+        }
+
+        Spacer(
+            modifier = Modifier.height(8.dp)
+        )
+        Text(
+            text =
+                stringResource(Res.string.new_trip_my_expected_budget),
+            style = MaterialTheme.typography.bodySmall
+        )
+        Spacer(
+            modifier = Modifier.height(8.dp)
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = if (uiState.mainBudget != 0.0 && uiState.totalOptionalExpenses != 0.0) uiState.remainingBudget.shortCurrency() + " " + uiState.currency.toCurrencySymbol() else "-",
+                style = MaterialTheme.typography.headlineSmall,
+                color = when {
+                    (uiState.mainBudget == 0.0 || uiState.totalOptionalExpenses == 0.0) -> Color(
+                        0xFF007C91
+                    )
+
+                    uiState.lowBudget > 15.0 -> Color(0xFF11AC1F)
+                    uiState.remainingBudget < 0.0 -> Color.Red
+                    else -> Color(0xFFB45400)
+                }
+            )
+            Text(
+                text = if (uiState.totalOptionalExpenses != 0.0) " (" + uiState.costPerPerson.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + " + " + uiState.totalOptionalExpenses.shortCurrency() + " " + uiState.currency.toCurrencySymbol() + ")" else "",
+                style = MaterialTheme.typography.labelMedium,
+            )
+        }
+        Spacer(
+            modifier = Modifier.height(8.dp)
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Spacer(Modifier.weight(1f))
+            Text(
+                text = stringResource(Res.string.trip_detail_expenses_legend),
+                modifier = Modifier.clickable(onClick = {
+                    legendOpen.value = true
+                }),
+                style = MaterialTheme.typography.labelLarge
+            )
         }
     }
 }

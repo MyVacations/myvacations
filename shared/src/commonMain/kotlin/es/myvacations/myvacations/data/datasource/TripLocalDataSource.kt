@@ -35,11 +35,10 @@ class TripLocalDataSource(
         place: String,
         startDate: String,
         endDate: String,
-        travelers: Int,
-        daysTraveling: Int,
         mainCost: Double,
         mainBudget: Double,
-        cover: String
+        cover: String,
+        favourite: Boolean
     ) {
         queries.insertTrip(
             id = id,
@@ -47,11 +46,12 @@ class TripLocalDataSource(
             place = place,
             startDate = startDate,
             endDate = endDate,
-            travelers = travelers.toLong(),
-            daysTraveling = daysTraveling.toLong(),
+            travelers = 0.toLong(),
+            daysTraveling = 0.toLong(),
             mainCost = mainCost,
             mainBudget = mainBudget,
-            cover = cover
+            cover = cover,
+            favourite = favourite
         )
     }
 
@@ -71,11 +71,10 @@ class TripLocalDataSource(
         place: String,
         startDate: String,
         endDate: String,
-        travelers: Int,
-        daysTraveling: Int,
         mainCost: Double,
         mainBudget: Double,
-        cover: String
+        cover: String,
+        favourite: Boolean
     ) {
         queries.updateTrip(
             id = id,
@@ -83,11 +82,12 @@ class TripLocalDataSource(
             place = place,
             startDate = startDate,
             endDate = endDate,
-            travelers = travelers.toLong(),
-            daysTraveling = daysTraveling.toLong(),
+            travelers = 0.toLong(),
+            daysTraveling = 0.toLong(),
             mainCost = mainCost,
             mainBudget = mainBudget,
-            cover = cover
+            cover = cover,
+            favourite = favourite
         )
     }
 

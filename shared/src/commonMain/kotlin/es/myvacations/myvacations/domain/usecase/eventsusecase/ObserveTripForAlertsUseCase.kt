@@ -194,8 +194,7 @@ class ObserveTripForAlertsUseCase(
                 cover != other.cover ||
                 startDate != other.startDate ||
                 endDate != other.endDate ||
-                mainBudget != other.mainBudget ||
-                travelers != other.travelers
+                mainBudget != other.mainBudget
     }
 
     private fun createNotification(

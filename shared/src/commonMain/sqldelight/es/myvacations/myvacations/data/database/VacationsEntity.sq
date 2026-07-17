@@ -8,7 +8,8 @@ CREATE TABLE TripData (
     daysTraveling INTEGER NOT NULL,
     mainCost REAL NOT NULL,
     mainBudget REAL NOT NULL,
-    cover TEXT NOT NULL
+    cover TEXT NOT NULL,
+    favourite INTEGER AS kotlin.Boolean NOT NULL
 );
 
 CREATE TABLE TripExpenseData (
@@ -86,10 +87,11 @@ INSERT INTO TripData(
     daysTraveling,
     mainCost,
     mainBudget,
-    cover
+    cover,
+    favourite
 )
 
-VALUES (?,?,?,?,?,?,?,?,?,?);
+VALUES (?,?,?,?,?,?,?,?,?,?, ?);
 
 insertExpense:
 INSERT INTO TripExpenseData(
@@ -113,7 +115,8 @@ SET
     daysTraveling = ?,
     mainCost = ?,
     mainBudget = ?,
-    cover = ?
+    cover = ?,
+    favourite = ?
 WHERE id = ?;
 
 updateTravelersAccount:

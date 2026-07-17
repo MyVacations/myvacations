@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -138,7 +139,6 @@ fun ShowNotificationsScreen(
         }
         Spacer(modifier = Modifier.height(8.dp))
         LazyColumn(modifier = Modifier.padding(horizontal = 16.dp)) {
-
             item {
                 Row(
                     modifier = Modifier
@@ -175,33 +175,18 @@ fun ShowNotificationsScreen(
             item {
                 Spacer(modifier = Modifier.height(8.dp))
             }
-            if (notificationsFilterNotRead.isNotEmpty()) {
-                items(notificationsFilterNotRead) { notification ->
-                    Spacer(modifier = Modifier.height(6.dp))
-                    NotificationItemScreen(notification = notification) {
-                        when (notification.type) {
-                            NotificationType.INFO_GENERIC_WELCOME, NotificationType.INFO_UPDATES -> showNotificationsViewModel.updateAsReadSelecting(
-                                notification
-                            )
-
-                            else -> {
-                                showNotificationsViewModel.updateAsReadSelecting(notification)
-                                onClick(notification.tripId)
-                            }
-                        }
-                    }
+            notificationsNotRead(notificationsFilterNotRead, functionItemsNotification = {
+                items(notificationsFilterNotRead.sortedByDescending { it.createdAt }) { notification ->
+                    InsideNotificationNotRead(notification, showNotificationsViewModel, onClick)
                 }
-                item {
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-            } else {
+            }, functionNoNotifications = {
                 item {
                     Spacer(
                         modifier = Modifier.fillMaxWidth()
                             .padding(horizontal = 16.dp, vertical = 16.dp)
                     )
                 }
-            }
+            })
             //OldOnes
             item {
                 Row(
@@ -237,66 +222,117 @@ fun ShowNotificationsScreen(
             item {
                 Spacer(modifier = Modifier.height(8.dp))
             }
-            if (notificationsFilterRead.isNotEmpty()) {
-
-                items(notificationsFilterRead) { notification ->
-                    val dismissState = rememberSwipeToDismissBoxState(
-                        initialValue = SwipeToDismissBoxValue.Settled,
-                        positionalThreshold = { distance -> distance * 0.5f }
-                    )
-                    val scale by animateFloatAsState(
-                        targetValue = if (dismissState.dismissDirection == SwipeToDismissBoxValue.EndToStart) {
-                            1.2f
-                        } else {
-                            1f
-                        },
-                        label = "DeleteScale"
-                    )
-                    LaunchedEffect(dismissState.currentValue) {
-                        if (dismissState.currentValue == SwipeToDismissBoxValue.EndToStart) {
-                            showNotificationsViewModel.deleteANotification(notification)
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(6.dp))
-                    SwipeToDismissBox(
-                        state = dismissState,
-                        enableDismissFromStartToEnd = false,
-                        enableDismissFromEndToStart = true,
-                        backgroundContent = {
-                            SwipeToDismissBoxBackground(scale, dismissState)
-                        }
-                    ) {
-                        NotificationItemScreen(true, notification) {
-                            if (notification.type != NotificationType.INFO_GENERIC_WELCOME && notification.type != NotificationType.INFO_UPDATES) onClick(
-                                notification.tripId
-                            )
-                        }
-                    }
+            notificationsRead(notificationsFilterRead, functionItemsNotification = {
+                items(notificationsFilterRead.sortedByDescending { it.createdAt }) { notification ->
+                    InsideNotificationRead(notification, showNotificationsViewModel,onClick)
                 }
-            } else {
+            }, functionNoNotifications = {
                 item {
                     Spacer(
                         modifier = Modifier.fillMaxWidth()
                             .padding(horizontal = 16.dp, vertical = 16.dp)
                     )
                 }
-            }
+            })
             item {
-                if (notificationsFilterNotRead.isEmpty() && notificationsFilterRead.isEmpty()) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 16.dp, vertical = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = stringResource(Res.string.notification_uptodate),
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                    }
-                }
+                ItemUiNoNotificationCard(notificationsFilterNotRead, notificationsFilterRead)
             }
+        }
+    }
+}
+
+@Composable
+fun InsideNotificationNotRead(
+    notification: AppNotificationUiState,
+    showNotificationsViewModel: ShowNotificationsViewModel,
+    onClick: (String) -> Unit,
+) {
+    NotificationItemScreen(notification = notification) {
+        when (notification.type) {
+            NotificationType.INFO_GENERIC_WELCOME, NotificationType.INFO_UPDATES -> showNotificationsViewModel.updateAsReadSelecting(
+                notification
+            )
+
+            else -> {
+                showNotificationsViewModel.updateAsReadSelecting(notification)
+                onClick(notification.tripId)
+            }
+        }
+    }
+    Spacer(modifier = Modifier.height(8.dp))
+}
+
+@Composable
+fun InsideNotificationRead(
+    notification: AppNotificationUiState,
+    showNotificationsViewModel: ShowNotificationsViewModel,
+    onClick: (String) -> Unit,
+) {
+    val dismissState = rememberSwipeToDismissBoxState(
+        initialValue = SwipeToDismissBoxValue.Settled,
+        positionalThreshold = { distance -> distance * 0.5f }
+    )
+    val scale by animateFloatAsState(
+        targetValue = if (dismissState.dismissDirection == SwipeToDismissBoxValue.EndToStart) {
+            1.2f
+        } else {
+            1f
+        },
+        label = "DeleteScale"
+    )
+    LaunchedEffect(dismissState.currentValue) {
+        if (dismissState.currentValue == SwipeToDismissBoxValue.EndToStart) {
+            showNotificationsViewModel.deleteANotification(notification)
+        }
+    }
+    Spacer(modifier = Modifier.height(6.dp))
+    SwipeToDismissBox(
+        state = dismissState,
+        enableDismissFromStartToEnd = false,
+        enableDismissFromEndToStart = true,
+        backgroundContent = {
+            SwipeToDismissBoxBackground(scale, dismissState)
+        }
+    ) {
+        NotificationItemScreen(true, notification) {
+            if (notification.type != NotificationType.INFO_GENERIC_WELCOME && notification.type != NotificationType.INFO_UPDATES) onClick(
+                notification.tripId
+            )
+        }
+    }
+}
+
+fun LazyListScope.notificationsNotRead(
+    notificationsFilterNotRead: List<AppNotificationUiState>,
+    functionItemsNotification: LazyListScope.() -> Unit,
+    functionNoNotifications: LazyListScope.() -> Unit
+) =
+    if (notificationsFilterNotRead.isNotEmpty()) functionItemsNotification() else functionNoNotifications()
+
+fun LazyListScope.notificationsRead(
+    notificationsFilterRead: List<AppNotificationUiState>,
+    functionItemsNotification: LazyListScope.() -> Unit,
+    functionNoNotifications: LazyListScope.() -> Unit
+) =
+    if (notificationsFilterRead.isNotEmpty()) functionItemsNotification() else functionNoNotifications()
+
+@Composable
+fun ItemUiNoNotificationCard(
+    notificationsFilterNotRead: List<AppNotificationUiState>,
+    notificationsFilterRead: List<AppNotificationUiState>
+) {
+    if (notificationsFilterNotRead.isEmpty() && notificationsFilterRead.isEmpty()) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp, vertical = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = stringResource(Res.string.notification_uptodate),
+                style = MaterialTheme.typography.titleMedium
+            )
         }
     }
 }
@@ -333,7 +369,7 @@ fun SwipeToDismissBoxBackground(
 
 @Composable
 private fun NotificationItemScreen(
-    read: Boolean = true,
+    read: Boolean = false,
     notification: AppNotificationUiState,
     changeClickable: () -> Unit = {}
 ) {

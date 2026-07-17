@@ -2,7 +2,9 @@ package es.myvacations.myvacations.presentation.tripdetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import es.myvacations.myvacations.domain.model.Country
 import es.myvacations.myvacations.domain.model.TravelersDomain
+import es.myvacations.myvacations.domain.model.TripCover
 import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseCase
 import es.myvacations.myvacations.domain.usecase.travelersusecase.DeleteTravelerUseCase
 import es.myvacations.myvacations.domain.usecase.travelersusecase.GetTravelersUseCase
@@ -16,6 +18,7 @@ import es.myvacations.myvacations.presentation.createedittrip.TripUiState
 import es.myvacations.myvacations.presentation.mapper.toDomainModel
 import es.myvacations.myvacations.presentation.mapper.toUiState
 import es.myvacations.myvacations.presentation.utils.Currency
+import es.myvacations.myvacations.presentation.utils.calendar.CalendarUiState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -93,6 +96,17 @@ class TripDetailsViewModel(
     fun deleteTrip(id: String) {
         viewModelScope.launch {
             deleteTripUseCase(id)
+        }
+    }
+
+    fun updateFavourite(favourite: Boolean) {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    tripUiState = it.tripUiState.copy(favourite = favourite)
+                )
+            }
+            editTrip.invoke(_uiState.value.tripUiState.copy(favourite = favourite).toDomainModel())
         }
     }
 

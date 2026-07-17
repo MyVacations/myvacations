@@ -16,6 +16,7 @@ data class StatisticsUiState(
             TripStatus.PLANNED -> trips.filter { it.tripStatus == TripStatus.PLANNED }
             TripStatus.ACTIVE -> trips.filter { it.tripStatus == TripStatus.ACTIVE }
             TripStatus.COMPLETE -> trips.filter { it.tripStatus == TripStatus.COMPLETE }
+            else -> emptyList()
         }
 
     fun tripsTaken(tripStatus: TripStatus) = filteredTrips(tripStatus)
@@ -25,8 +26,7 @@ data class StatisticsUiState(
     fun tripsTotalSpent(tripStatus: TripStatus) = filteredTrips(tripStatus).sumOf { it.mainCost }
 
     fun tripsDaysDuration(tripStatus: TripStatus) = filteredTrips(tripStatus).sumOf {
-        it.endDate?.let { other -> it.startDate?.daysUntil(other) }
-            ?: 0
+        it.endDate.let { other -> it.startDate.daysUntil(other) }
     }
 
     fun tripsCountriesInt(tripStatus: TripStatus) =
@@ -40,5 +40,6 @@ data class StatisticsUiState(
                 expenses.sumOf { it.amount }
             }
 
-    fun tripsPriciest(tripStatus: TripStatus) = filteredTrips(tripStatus).maxByOrNull { it.mainCost }
+    fun tripsPriciest(tripStatus: TripStatus) =
+        filteredTrips(tripStatus).maxByOrNull { it.mainCost }
 }
