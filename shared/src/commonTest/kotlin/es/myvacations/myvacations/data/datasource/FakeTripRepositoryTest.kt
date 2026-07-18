@@ -21,7 +21,11 @@ class FakeTripRepository : TripRepository {
         trips.add(trip)
     }
 
-    override fun getSpecificTrip(id: String): Flow<TripDomain> {
+    override fun getSpecificTrip(id: String): Flow<TripDomain?> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getSpecificTripWithoutFlow(id: String): TripDomain? {
         TODO("Not yet implemented")
     }
 

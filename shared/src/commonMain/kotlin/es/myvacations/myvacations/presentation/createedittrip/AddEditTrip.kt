@@ -822,7 +822,6 @@ fun ExtraExpensesView(
         }
 
         if (uiState.optionalExpensesExpanded) {
-            //TODO Arreglar
             uiState.optionalExpenses.forEach { expense ->
                 ExpenseItem(
                     expense,
@@ -871,7 +870,7 @@ fun AlertDialogExpense(
     val onExpenseName = remember { mutableStateOf(editExpense.name) }
     var textCost by rememberSaveable {
         mutableStateOf(
-            if (editExpense.amount == 0.0) "" else editExpense.toString()
+            if (editExpense.amount == 0.0) "" else editExpense.amount.toString()
         )
     }
     val onExpenseIcon = remember { mutableStateOf(editExpense.icon) }

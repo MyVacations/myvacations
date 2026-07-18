@@ -237,7 +237,7 @@ class CreateEditTripsViewModel(
             if (_uiState.value.editMode) editTrip.invoke(uiState.value.toDomainModel()) else saveTrip.invoke(
                 uiState.value.toDomainModel().copy(id = Uuid.random().toHexString())
             )
+            clearUi()
         }
     }
-
 }
