@@ -287,8 +287,8 @@ Museums, tours, attractions and entertainment.
     <string name="trip_detail_expenses_food">Food</string>
     <string name="trip_detail_expenses_entertainment">Entertainment</string>
     <string name="trip_detail_legend_remaining">Remaining budget vs. extra expenses</string>
-    <string name="trip_detail_legend_used">Budget used vs. extra expenses</string>
-    <string name="trip_detail_legend_exceed">Extra expenses exceeded the budget</string>
+    <string name="trip_detail_legend_used">Budget partially or fully spent</string>
+    <string name="trip_detail_legend_exceed">Budget exceeded</string>
     <string name="trip_detail_legend_maincost">Main cost (flights and accommodation)</string>
     <string name="trip_detail_legend_ubications">Locations (parks, beaches, landmarks...)</string>
     <string name="trip_detail_legend_transports">Transport (taxi, metro, bus...)</string>
@@ -302,9 +302,8 @@ Museums, tours, attractions and entertainment.
     <string name="trip_detail_traveler_costyou">Your cost + optional expenses</string>
     <string name="trip_detail_traveler_costperperson">Cost per person</string>
     <string name="trip_detail_traveler_budget_health">Budget status</string>
-    <string name="trip_detail_traveler_budget_healthy">You're within your budget.</string>
     <string name="trip_detail_traveler_budget_low">Your bud. is running low.</string>
-    <string name="trip_detail_traveler_budget_exceed">Bud. exceeded by %1$s</string>
+    <string name="trip_detail_budget_remaining">Remaining</string>
     <string name="trip_detail_traveler_newtraveler">+ Add Traveler</string>
     <string name="trip_detail_search_default_value">Search destinations...</string>
     <!--Statistics-->

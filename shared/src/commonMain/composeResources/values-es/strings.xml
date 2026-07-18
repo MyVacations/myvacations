@@ -289,8 +289,8 @@ Museos, excursiones, atracciones y actividades de ocio.
     <string name="trip_detail_expenses_entertainment">Entretenimiento</string>
     <string name="trip_detail_legend_remaining">Presupuesto restante para costes extra</string>
     <string name="trip_detail_legend_maincost">Coste principal (vuelos, hotel...)</string>
-    <string name="trip_detail_legend_used">Presupuesto utilizado en costes extra</string>
-    <string name="trip_detail_legend_exceed">Presupuesto excediendo costes extra</string>
+    <string name="trip_detail_legend_used">Presupuesto parcial o totalmente gastado</string>
+    <string name="trip_detail_legend_exceed">Presupuesto excedido</string>
     <string name="trip_detail_legend_ubications">Lugares (parques, playas, monumentos...)</string>
     <string name="trip_detail_legend_transports">Transportes (taxi, metro, autobús...)</string>
     <string name="trip_detail_legend_food">Comida (restaurantes, cafeterías...)</string>
@@ -303,10 +303,9 @@ Museos, excursiones, atracciones y actividades de ocio.
     <string name="trip_detail_traveler_costyou">Tu coste + coste adicional</string>
     <string name="trip_detail_traveler_costperperson">Coste por persona</string>
     <string name="trip_detail_traveler_newtraveler">+ Añadir viajero</string>
+    <string name="trip_detail_budget_remaining">Restante</string>
     <string name="trip_detail_traveler_budget_health">Estado del presupuesto</string>
-    <string name="trip_detail_traveler_budget_healthy">Estás dentro del presupuesto.</string>
     <string name="trip_detail_traveler_budget_low">Poco presupuesto disponible.</string>
-    <string name="trip_detail_traveler_budget_exceed">Presup. excedido por %1$s</string>
     <string name="trip_detail_search_default_value">Buscar destinos...</string>
     <!--Statistics-->
     <string name="statistics_notrips">Sin viajes encontrados</string>

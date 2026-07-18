@@ -5,7 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +21,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Star
@@ -26,6 +29,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -62,12 +66,8 @@ import myvacations.shared.generated.resources.cancel
 import myvacations.shared.generated.resources.trip_detail_budget
 import myvacations.shared.generated.resources.trip_detail_delete
 import myvacations.shared.generated.resources.trip_detail_delete_details
-import myvacations.shared.generated.resources.trip_detail_header_nobudget
 import myvacations.shared.generated.resources.trip_detail_header_spent
 import myvacations.shared.generated.resources.trip_detail_header_yourcost
-import myvacations.shared.generated.resources.trip_detail_traveler_budget_exceed
-import myvacations.shared.generated.resources.trip_detail_traveler_budget_healthy
-import myvacations.shared.generated.resources.trip_detail_traveler_budget_low
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -286,7 +286,9 @@ fun TripHeader(
                     Icon(
                         imageVector = Icons.Default.Star,
                         contentDescription = null,
-                        tint = if(trip.tripUiState.favourite) Color.Yellow else Color.White.copy(alpha = 0.7f)
+                        tint = if (trip.tripUiState.favourite) Color.Yellow else Color.White.copy(
+                            alpha = 0.7f
+                        )
                     )
                 }
             }
@@ -358,6 +360,7 @@ fun TripCostCard(
             }
 
             Column(
+                modifier = Modifier.width(IntrinsicSize.Max),
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
@@ -394,40 +397,45 @@ fun TripCostCard(
                         fontWeight = FontWeight.Bold
                     )
                 }
-
+                Spacer(modifier.weight(1f))
+                HorizontalDivider(
+                    modifier = Modifier.fillMaxWidth(),
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.outlineVariant
+                )
                 Spacer(modifier.weight(1f))
 
                 when {
                     uiState.tripUiState.mainBudget == 0.0 -> LegendItem(
                         Color.LightGray,
-                        stringResource(Res.string.trip_detail_header_nobudget),
+                        "0.0",
                         Color.White,
-                        MaterialTheme.typography.titleMedium
+                        MaterialTheme.typography.titleMedium,
+                        Icons.Filled.AttachMoney
                     )
 
                     uiState.tripUiState.lowBudget > 15.0 -> LegendItem(
                         Color(0xFF11AC1F),
-                        stringResource(Res.string.trip_detail_traveler_budget_healthy),
+                        if (uiState.tripUiState.mainBudget != 0.0 && uiState.tripUiState.totalOptionalExpenses != 0.0) uiState.tripUiState.remainingBudget.shortCurrency() + " " + uiState.currency.toCurrencySymbol() else "-",
                         Color.White,
-                        MaterialTheme.typography.titleMedium
+                        MaterialTheme.typography.titleMedium,
+                        Icons.Filled.AttachMoney
                     )
 
                     uiState.tripUiState.remainingBudget < 0.0 -> LegendItem(
                         Color.Red,
-                        stringResource(
-                            Res.string.trip_detail_traveler_budget_exceed,
-                            uiState.tripUiState.remainingBudget.times(-1)
-                                .shortCurrency() + " " + uiState.currency.toCurrencySymbol(),
-                        ),
+                        if (uiState.tripUiState.mainBudget != 0.0 && uiState.tripUiState.totalOptionalExpenses != 0.0) uiState.tripUiState.remainingBudget.shortCurrency() + " " + uiState.currency.toCurrencySymbol() else "-",
                         Color.White,
-                        MaterialTheme.typography.titleMedium
+                        MaterialTheme.typography.titleMedium,
+                        Icons.Filled.AttachMoney
                     )
 
                     else -> LegendItem(
                         Color(0xFFB45400),
-                        stringResource(Res.string.trip_detail_traveler_budget_low),
+                        if (uiState.tripUiState.mainBudget != 0.0 && uiState.tripUiState.totalOptionalExpenses != 0.0) uiState.tripUiState.remainingBudget.shortCurrency() + " " + uiState.currency.toCurrencySymbol() else "-",
                         Color.White,
-                        MaterialTheme.typography.titleMedium
+                        MaterialTheme.typography.titleMedium,
+                        Icons.Filled.AttachMoney
                     )
                 }
             }
