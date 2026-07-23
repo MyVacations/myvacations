@@ -36,7 +36,7 @@ android {
         versionCode = (LocalDate.now()
             .format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "0")
             .toInt()
-        versionName = "0.0.3"
+        versionName = "0.0.4"
         multiDexEnabled = true
     }
     packaging {
