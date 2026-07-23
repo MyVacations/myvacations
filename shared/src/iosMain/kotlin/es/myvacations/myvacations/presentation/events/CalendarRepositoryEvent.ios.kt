@@ -48,7 +48,7 @@ actual class GetDeviceCalendarRepository actual constructor() :
 
 @Composable
 actual fun CalendarPermissionHandler(
-    onUpdateResponse: (Boolean) -> Unit,
+    onUpdatePermission: (CalendarAddEventResult) -> Unit,
     dialogRequestingCalendarPermissions: Boolean
 ) {
     //Not used

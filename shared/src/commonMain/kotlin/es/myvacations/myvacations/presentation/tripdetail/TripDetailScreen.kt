@@ -48,6 +48,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -73,6 +74,7 @@ import es.myvacations.myvacations.presentation.utils.calendar.DeviceCalendar
 import es.myvacations.myvacations.presentation.utils.calendar.loadNameFromAccountType
 import es.myvacations.myvacations.presentation.utils.painter
 import es.myvacations.myvacations.presentation.utils.toCurrencySymbol
+import kotlinx.coroutines.launch
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.accept
 import myvacations.shared.generated.resources.cancel
@@ -80,6 +82,7 @@ import myvacations.shared.generated.resources.new_trip_add
 import myvacations.shared.generated.resources.new_trip_clear
 import myvacations.shared.generated.resources.new_trip_error
 import myvacations.shared.generated.resources.nocolors
+import myvacations.shared.generated.resources.notpermissioncalendar
 import myvacations.shared.generated.resources.snackbarCalendarSync
 import myvacations.shared.generated.resources.snackbarCalendarSyncDelete
 import myvacations.shared.generated.resources.snackbarCalendarSyncUpdate
@@ -107,6 +110,7 @@ fun TripDetailScreen(
     onEditTripClick: () -> Unit,
     onShowSnackbar: (String) -> Unit
 ) {
+    val scope = rememberCoroutineScope()
     val uiState by viewModel.uiState.collectAsState()
     val dialogDelete = remember { mutableStateOf(false) }
     val dialogRequestingAsyncPermission = remember { mutableStateOf(false) }
@@ -149,7 +153,6 @@ fun TripDetailScreen(
                 }
 
                 is CalendarAddEventResult.Error -> {
-
                     onShowSnackbar(
                         getString(Res.string.new_trip_error)
                     )
@@ -166,10 +169,21 @@ fun TripDetailScreen(
         }
     }
     CalendarPermissionHandler(
-        onUpdateResponse = {
-            viewModel.getCalendars()
-            dialogAvailableCalendars.value = true
-            dialogRequestingCalendarPermissions.value = false
+        onUpdatePermission = {
+            if (it is CalendarAddEventResult.PermissionDenied) {
+                dialogRequestingCalendarPermissions.value = false
+                scope.launch {
+                    onShowSnackbar(
+                        getString(
+                            Res.string.notpermissioncalendar
+                        )
+                    )
+                }
+            } else {
+                viewModel.getCalendars()
+                dialogAvailableCalendars.value = true
+                dialogRequestingCalendarPermissions.value = false
+            }
         },
         dialogRequestingCalendarPermissions = dialogRequestingCalendarPermissions.value
     )
@@ -194,7 +208,10 @@ fun TripDetailScreen(
         },
         updateDialog = { dialogRequestingAsyncPermission.value = it },
         dialogRequestingPermission = dialogRequestingAsyncPermission.value,
-        listColor = uiState.calendarStatus.let { it.calendarsAvailable.find { calendar -> it.calendarID == calendar.id.toString() }?.colorList ?: emptyList() }
+        listColor = uiState.calendarStatus.let {
+            it.calendarsAvailable.find { calendar -> it.calendarID == calendar.id.toString() }?.colorList
+                ?: emptyList()
+        }
     )
 
     DialogEditDeleteCalendarSync(
@@ -719,8 +736,7 @@ fun DialogScreenRequestingPermissionForCalendarSync(
                 Text(stringResource(Res.string.syncwith))
             },
             text = {
-                if(listColor.isNotEmpty())
-                {
+                if (listColor.isNotEmpty()) {
                     AppDropDown(
                         modifier = Modifier.fillMaxWidth(),
                         menuModifier = Modifier
@@ -745,8 +761,7 @@ fun DialogScreenRequestingPermissionForCalendarSync(
                             }
                         },
                     )
-                }
-                else{
+                } else {
                     Text(stringResource(Res.string.nocolors))
                 }
             },

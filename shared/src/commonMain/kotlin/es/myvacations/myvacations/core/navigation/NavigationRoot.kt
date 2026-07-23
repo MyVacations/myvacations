@@ -1,5 +1,6 @@
 package es.myvacations.myvacations.core.navigation
 
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -23,6 +24,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import es.myvacations.myvacations.presentation.createedittrip.AddEditTripScreen
 import es.myvacations.myvacations.presentation.dashboard.DashboardScreen
 import es.myvacations.myvacations.presentation.notifications.ShowNotificationsScreen
@@ -56,11 +58,6 @@ fun NavigationRoot(isLandscape: Boolean = false) {
 
     with(navigationState) {
         Scaffold(
-            snackbarHost = {
-                SnackbarHost(
-                    hostState = snackbarHostState
-                )
-            },
             bottomBar = {
                 if (navigationState.currentScreen.showBottomBarUi) BottomBarUi(this)
             },
@@ -78,7 +75,12 @@ fun NavigationRoot(isLandscape: Boolean = false) {
                         )
                     }
                 }
+            }, snackbarHost = {
+                SnackbarHost(
+                    hostState = snackbarHostState
+                )
             }
+
         ) { paddingValues ->
             Surface(
                 modifier = Modifier.padding(paddingValues)

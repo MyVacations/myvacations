@@ -31,9 +31,28 @@ actual class GetDeviceCalendarRepository actual constructor() :
 
     private var calendarObserver: ContentObserver? = null
 
+    actual override fun hasCalendarPermission(): Boolean {
+        try {
+            val readPermission = ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_CALENDAR
+            )
+
+            val writePermission = ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.WRITE_CALENDAR
+            )
+            return readPermission == PERMISSION_GRANTED &&
+                    writePermission == PERMISSION_GRANTED
+        } catch (e: Exception) {
+            return false
+        }
+    }
+
     actual override fun observeCalendarChanges(
         onChange: () -> Unit
     ) {
+        if (!hasCalendarPermission()) return
         if (calendarObserver != null) return
 
         calendarObserver = object : ContentObserver(
@@ -53,6 +72,7 @@ actual class GetDeviceCalendarRepository actual constructor() :
     }
 
     actual override fun stopObservingCalendarChanges() {
+        if (!hasCalendarPermission()) return
         calendarObserver?.let {
             context.contentResolver.unregisterContentObserver(it)
         }
@@ -61,6 +81,7 @@ actual class GetDeviceCalendarRepository actual constructor() :
     }
 
     private fun findAsyncWithCalendarId(tripId: String, id: String): Boolean {
+        if (!hasCalendarPermission()) return false
         val selection =
             "${CalendarContract.Events.CUSTOM_APP_URI} = ? AND " +
                     "${CalendarContract.Events.CALENDAR_ID} = ?"
@@ -187,24 +208,6 @@ actual class GetDeviceCalendarRepository actual constructor() :
         return calendars
     }
 
-    actual override fun hasCalendarPermission(): Boolean {
-        try {
-            val readPermission = ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.READ_CALENDAR
-            )
-
-            val writePermission = ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.WRITE_CALENDAR
-            )
-            return readPermission == PERMISSION_GRANTED &&
-                    writePermission == PERMISSION_GRANTED
-        } catch (e: Exception) {
-            return false
-        }
-    }
-
     actual override suspend fun eventExists(id: String): Boolean {
         if (!hasCalendarPermission()) return false
         val selection =
@@ -326,7 +329,7 @@ actual class GetDeviceCalendarRepository actual constructor() :
 
 @Composable
 actual fun CalendarPermissionHandler(
-    onUpdateResponse: (Boolean) -> Unit,
+    onUpdatePermission: (CalendarAddEventResult) -> Unit,
     dialogRequestingCalendarPermissions: Boolean
 ) {
     if (dialogRequestingCalendarPermissions) {
@@ -338,7 +341,8 @@ actual fun CalendarPermissionHandler(
 
             val writeGranted =
                 permissions[Manifest.permission.WRITE_CALENDAR] == true
-            onUpdateResponse(readGranted && writeGranted)
+
+            onUpdatePermission(if (!readGranted || !writeGranted) CalendarAddEventResult.PermissionDenied else CalendarAddEventResult.NoCalendarAvailable)
         }
 
         LaunchedEffect(Unit) {
