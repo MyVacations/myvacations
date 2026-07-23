@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <!--Colors-->
+    <string name="nocolors">Sin colores para este calendario</string>
+    <!--Formulary-->
+    <string name="syncawait">Los calendarios pueden tardar en actualizarse</string>
+    <string name="synceditdelete">¿Editar o eliminar sincronización?</string>
+    <string name="syncselectcalendar">Selecciona un calendario.</string>
+    <string name="syncselectcalendartitle">Cuenta: %1$s</string>
+    <string name="syncedit">Editar</string>
+    <string name="calendar_google">Calendario de Google</string>
+    <string name="calendar_exchange">Calendario de Exchange</string>
+    <string name="calendar_microsoft">Calendario de Microsoft</string>
+    <string name="calendar_dav">Calendario de DAV</string>
+    <string name="calendar_local">Calendario local</string>
+
+    <string name="titlecalendar">Viaje a %1$s | %2$s</string>
+    <string name="descriptioncalendar">Viaje a %1$s, planeado con MyVacations</string>
+    <string name="syncwith">Calendario</string>
+    <string name="syncwithnotnow">Ahora no</string>
+    <string name="notpermissioncalendartitle">¿Sin permisos?</string>
+    <string name="notpermissioncalendar">Sin permiso no se puede sincronizar con el calendario</string>
+    <string name="snackbarNoCalendarFind">No hay calendario disponible en este dispositivo</string>
+    <string name="snackbarCalendarSync">Calendario sincronizado correctamente.</string>
+    <string name="snackbarCalendarSyncUpdate">Calendario actualizado correctamente.</string>
+    <string name="snackbarCalendarSyncDelete">Desincronizado correctamente.</string>
+
     <!--Month-->
     <string name="january">Enero</string>
     <string name="february">Febrero</string>
@@ -175,6 +200,7 @@
     <string name="new_trip_clear">Borrar</string>
     <string name="new_trip_error">Error</string>
     <string name="new_trip_save_trip">Guardar</string>
+    <string name="new_trip_add">Añadir</string>
     <string name="new_trip_destination">DESTINO</string>
     <string name="new_trip_dates">FECHAS</string>
     <string name="new_trip_D_G">DURACIÓN Y GRUPO</string>

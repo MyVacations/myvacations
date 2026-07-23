@@ -158,7 +158,6 @@ fun SettingsScreen(
                     SettingsSection(
                         title = stringResource(Res.string.settings_about)
                     ) {
-
                         SettingsItem(
                             icon = Icons.Default.Shield,
                             title = stringResource(Res.string.settings_privacy),

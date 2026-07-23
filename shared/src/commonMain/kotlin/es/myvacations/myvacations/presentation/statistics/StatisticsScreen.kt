@@ -62,7 +62,7 @@ import es.myvacations.myvacations.core.extensions.roundTo1Decimals
 import es.myvacations.myvacations.core.extensions.shortCurrency
 import es.myvacations.myvacations.core.extensions.shortenTitle
 import es.myvacations.myvacations.domain.model.TripStatus
-import es.myvacations.myvacations.domain.model.displayName
+import es.myvacations.myvacations.domain.model.displayComposeName
 import es.myvacations.myvacations.domain.model.flag
 import es.myvacations.myvacations.domain.model.toName
 import es.myvacations.myvacations.presentation.createedittrip.TripUiState
@@ -531,7 +531,7 @@ fun NotEmptyScreen(
                                 modifier =
                                     Modifier.height(2.dp)
                             )
-                            priciest?.placeTrip?.displayName()?.let {
+                            priciest?.placeTrip?.displayComposeName()?.let {
                                 Text(
                                     text = it,
                                     style = MaterialTheme.typography.bodyMedium,

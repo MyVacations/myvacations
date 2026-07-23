@@ -9,9 +9,11 @@ import es.myvacations.myvacations.data.repository.TripsRepositoryImpl
 import es.myvacations.myvacations.domain.manager.DatabaseInitializer
 import es.myvacations.myvacations.domain.manager.NotificationObserverManager
 import es.myvacations.myvacations.domain.repository.AppInfoRepository
+import es.myvacations.myvacations.domain.repository.DeviceCalendarRepository
 import es.myvacations.myvacations.domain.repository.NotificationRepository
 import es.myvacations.myvacations.domain.repository.SettingsRepository
 import es.myvacations.myvacations.domain.repository.TripRepository
+import es.myvacations.myvacations.presentation.events.GetDeviceCalendarRepository
 import org.koin.dsl.module
 
 val dataModule = module {
@@ -23,4 +25,7 @@ val dataModule = module {
     single<AppInfoRepository> { AppInfoRepositoryImpl(get()) }
     single { DatabaseInitializer(get()) }
     single { NotificationObserverManager(get()) }
+    single<DeviceCalendarRepository> {
+        GetDeviceCalendarRepository()
+    }
 }
