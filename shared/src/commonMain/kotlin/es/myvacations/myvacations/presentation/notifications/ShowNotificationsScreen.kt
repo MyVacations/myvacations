@@ -76,8 +76,10 @@ fun ShowNotificationsScreen(
     onClick: (tripId: String) -> Unit = {}
 ) {
     val uiState by showNotificationsViewModel.uiState.collectAsState()
+
     SystemBackHandler()
     {
+        showNotificationsViewModel.cleanUi()
         onDismiss()
     }
 
@@ -224,7 +226,7 @@ fun ShowNotificationsScreen(
             }
             notificationsRead(notificationsFilterRead, functionItemsNotification = {
                 items(notificationsFilterRead.sortedByDescending { it.createdAt }) { notification ->
-                    InsideNotificationRead(notification, showNotificationsViewModel,onClick)
+                    InsideNotificationRead(notification, showNotificationsViewModel, onClick)
                 }
             }, functionNoNotifications = {
                 item {

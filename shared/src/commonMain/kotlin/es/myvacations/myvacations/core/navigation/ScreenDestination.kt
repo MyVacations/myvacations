@@ -1,6 +1,5 @@
 package es.myvacations.myvacations.core.navigation
 
-import es.myvacations.myvacations.presentation.events.AppNotificationUiState
 
 sealed interface ScreenDestination {
     val showBottomBarUi: Boolean

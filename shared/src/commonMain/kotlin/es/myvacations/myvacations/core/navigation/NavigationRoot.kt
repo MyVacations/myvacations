@@ -12,9 +12,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +33,7 @@ import es.myvacations.myvacations.presentation.splash.SplashScreen
 import es.myvacations.myvacations.presentation.statistics.StatisticsScreen
 import es.myvacations.myvacations.presentation.tripdetail.TripDetailScreen
 import es.myvacations.myvacations.presentation.trips.TripsScreen
+import kotlinx.coroutines.launch
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.dashboard
 import myvacations.shared.generated.resources.settings
@@ -39,6 +44,10 @@ import org.jetbrains.compose.resources.stringResource
 @Preview(showBackground = true)
 @Composable
 fun NavigationRoot(isLandscape: Boolean = false) {
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+    val scope = rememberCoroutineScope()
     val navigationState = rememberSaveable(
         saver = NavigationStateSaver
     ) {
@@ -47,6 +56,11 @@ fun NavigationRoot(isLandscape: Boolean = false) {
 
     with(navigationState) {
         Scaffold(
+            snackbarHost = {
+                SnackbarHost(
+                    hostState = snackbarHostState
+                )
+            },
             bottomBar = {
                 if (navigationState.currentScreen.showBottomBarUi) BottomBarUi(this)
             },
@@ -134,6 +148,10 @@ fun NavigationRoot(isLandscape: Boolean = false) {
                                 popBackStack()
                             }, onEditTripClick = {
                                 navigate(ScreenDestination.AddEdit(tripid))
+                            },onShowSnackbar = { message ->
+                                scope.launch {
+                                    snackbarHostState.showSnackbar(message)
+                                }
                             })
                     }
                 }
