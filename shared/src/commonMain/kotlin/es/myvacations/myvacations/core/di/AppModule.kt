@@ -35,8 +35,7 @@ val appModule = module {
             updateTravelers = get(),
             deleteTravelerUseCase = get(),
             insertTravelerUseCase = get(),
-            updateMainTravelerUseCase = get(),
-            calendarEventUseCase = get()
+            updateMainTravelerUseCase = get()
         )
     }
     viewModel {
@@ -44,8 +43,7 @@ val appModule = module {
             saveTrip = get(),
             getTripIdUseCase = get(),
             editTrip = get(),
-            getSettingsUseCase = get(),
-            calendarEventUseCase = get()
+            getSettingsUseCase = get()
         )
     }
     viewModel {

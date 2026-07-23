@@ -1,21 +1,16 @@
 package es.myvacations.myvacations.presentation.createedittrip
 
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import es.myvacations.myvacations.core.extensions.toSafeDouble
 import es.myvacations.myvacations.domain.model.Country
 import es.myvacations.myvacations.domain.model.TripCover
-import es.myvacations.myvacations.domain.model.displayName
-import es.myvacations.myvacations.domain.usecase.eventsusecase.AddEventToCalendarUseCase
 import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.GetTripByIdUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.SaveTripUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.UpdateTripUseCase
-import es.myvacations.myvacations.presentation.events.CalendarColor
 import es.myvacations.myvacations.presentation.mapper.toDomainModel
 import es.myvacations.myvacations.presentation.mapper.toUiState
-import es.myvacations.myvacations.presentation.utils.calendar.CalendarStatus
 import es.myvacations.myvacations.presentation.utils.Currency
 import es.myvacations.myvacations.presentation.utils.TravelIcon
 import es.myvacations.myvacations.presentation.utils.TripExpenseUiState
@@ -38,8 +33,7 @@ class CreateEditTripsViewModel(
     private val saveTrip: SaveTripUseCase,
     private val getTripIdUseCase: GetTripByIdUseCase,
     private val editTrip: UpdateTripUseCase,
-    private val getSettingsUseCase: GetSettingsUseCase,
-    private val calendarEventUseCase: AddEventToCalendarUseCase
+    private val getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(
@@ -51,28 +45,7 @@ class CreateEditTripsViewModel(
         viewModelScope.launch {
             getSettingsUseCase().collect { settings ->
                 _uiState.update {
-                    it.copy(
-                        currency = settings?.preferredCurrency ?: Currency.EURO,
-                    )
-                }
-            }
-        }
-    }
-
-    fun startSendingCalendarRequest(value: TripUiState) {
-        viewModelScope.launch {
-            value.let { state ->
-                state.let { trip ->
-                    calendarEventUseCase.invoke(
-                        calendarId = "",
-                        id = trip.id,
-                        title = trip.titleTrip,
-                        place = trip.placeTrip.displayName(),
-                        startDate = trip.startDate,
-                        endDate = trip.endDate,
-                        color = CalendarColor(),
-                        status = CalendarStatus.UPDATE
-                    )
+                    it.copy(currency = settings?.preferredCurrency ?: Currency.EURO)
                 }
             }
         }
@@ -104,7 +77,8 @@ class CreateEditTripsViewModel(
                         optionalExpenses = tripDomain?.optionalExpenses?.map { expenseDomain -> expenseDomain.toUiState() }
                             ?: emptyList(),
                         isLoading = false,
-                        favourite = tripDomain?.favourite ?: false)
+                        favourite = tripDomain?.favourite ?: false
+                    )
                 }
             }
         }
@@ -225,8 +199,8 @@ class CreateEditTripsViewModel(
     }
 
     fun deleteExpense(id: String) {
-        _uiState.update { tripUiState ->
-            tripUiState.copy(optionalExpenses = _uiState.value.optionalExpenses.filter { it.id != id })
+        _uiState.update {
+            it.copy(optionalExpenses = _uiState.value.optionalExpenses.filter { it.id != id })
 
         }
     }
@@ -238,15 +212,29 @@ class CreateEditTripsViewModel(
     }
 
     fun clearUi() {
-        _uiState.value = TripUiState()
+        _uiState.update {
+            it.copy(
+                id = "",
+                titleTrip = "",
+                placeTrip = Country.SPAIN,
+                startDate = CalendarUiState().selectedDate,
+                errorStartDate = false,
+                endDate = CalendarUiState().selectedDate,
+                travelers = 1,
+                mainCost = 0.0,
+                mainBudget = 0.0,
+                cover = TripCover.BARCELONA,
+                optionalExpensesExpanded = true,
+                editMode = false,
+                optionalExpenses = emptyList(),
+                favourite = false
+            )
+        }
     }
 
     fun saveTrip() {
         viewModelScope.launch {
-            if (_uiState.value.editMode) {
-                editTrip.invoke(uiState.value.toDomainModel())
-                startSendingCalendarRequest(uiState.value)
-            } else saveTrip.invoke(
+            if (_uiState.value.editMode) editTrip.invoke(uiState.value.toDomainModel()) else saveTrip.invoke(
                 uiState.value.toDomainModel().copy(id = Uuid.random().toHexString())
             )
             clearUi()

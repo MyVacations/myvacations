@@ -42,7 +42,6 @@ import myvacations.shared.generated.resources.united_arab_emirates
 import myvacations.shared.generated.resources.united_kingdom
 import myvacations.shared.generated.resources.united_states
 import myvacations.shared.generated.resources.vietnam
-import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 
 enum class Country {
@@ -89,7 +88,7 @@ enum class Country {
 }
 
 @Composable
-fun Country.displayComposeName(): String =
+fun Country.displayName(): String =
     when (this) {
         Country.SPAIN -> stringResource(Res.string.spain)
         Country.FRANCE -> stringResource(Res.string.france)
@@ -131,50 +130,6 @@ fun Country.displayComposeName(): String =
         Country.TUNISIA -> stringResource(Res.string.tunisia)
         Country.KENYA -> stringResource(Res.string.kenya)
         Country.TANZANIA -> stringResource(Res.string.tanzania)
-    }
-
-suspend fun Country.displayName(): String =
-    when (this) {
-        Country.SPAIN -> getString(Res.string.spain)
-        Country.FRANCE -> getString(Res.string.france)
-        Country.ITALY -> getString(Res.string.italy)
-        Country.PORTUGAL -> getString(Res.string.portugal)
-        Country.UNITED_KINGDOM -> getString(Res.string.united_kingdom)
-        Country.GERMANY -> getString(Res.string.germany)
-        Country.GREECE -> getString(Res.string.greece)
-        Country.CROATIA -> getString(Res.string.croatia)
-        Country.NETHERLANDS -> getString(Res.string.netherlands)
-        Country.SWITZERLAND -> getString(Res.string.switzerland)
-        Country.AUSTRIA -> getString(Res.string.austria)
-        Country.ICELAND -> getString(Res.string.iceland)
-        Country.NORWAY -> getString(Res.string.norway)
-        Country.IRELAND -> getString(Res.string.ireland)
-        Country.UNITED_STATES -> getString(Res.string.united_states)
-        Country.CANADA -> getString(Res.string.canada)
-        Country.MEXICO -> getString(Res.string.mexico)
-        Country.BRAZIL -> getString(Res.string.brazil)
-        Country.ARGENTINA -> getString(Res.string.argentina)
-        Country.PERU -> getString(Res.string.peru)
-        Country.JAPAN -> getString(Res.string.japan)
-        Country.THAILAND -> getString(Res.string.thailand)
-        Country.INDONESIA -> getString(Res.string.indonesia)
-        Country.VIETNAM -> getString(Res.string.vietnam)
-        Country.SINGAPORE -> getString(Res.string.singapore)
-        Country.SOUTH_KOREA -> getString(Res.string.south_korea)
-        Country.CHINA -> getString(Res.string.china)
-        Country.INDIA -> getString(Res.string.india)
-        Country.MALDIVES -> getString(Res.string.maldives)
-        Country.SRI_LANKA -> getString(Res.string.sri_lanka)
-        Country.AUSTRALIA -> getString(Res.string.australia)
-        Country.NEW_ZEALAND -> getString(Res.string.new_zealand)
-        Country.EGYPT -> getString(Res.string.egypt)
-        Country.MOROCCO -> getString(Res.string.morocco)
-        Country.SOUTH_AFRICA -> getString(Res.string.south_africa)
-        Country.UNITED_ARAB_EMIRATES -> getString(Res.string.united_arab_emirates)
-        Country.JORDAN -> getString(Res.string.jordan)
-        Country.TUNISIA -> getString(Res.string.tunisia)
-        Country.KENYA -> getString(Res.string.kenya)
-        Country.TANZANIA -> getString(Res.string.tanzania)
     }
 
 val Country.flag: String

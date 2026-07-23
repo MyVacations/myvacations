@@ -67,7 +67,7 @@ import es.myvacations.myvacations.core.extensions.toSafeDouble
 import es.myvacations.myvacations.core.navigation.SystemBackHandler
 import es.myvacations.myvacations.domain.model.Country
 import es.myvacations.myvacations.domain.model.TripCover
-import es.myvacations.myvacations.domain.model.displayComposeName
+import es.myvacations.myvacations.domain.model.displayName
 import es.myvacations.myvacations.domain.model.flag
 import es.myvacations.myvacations.presentation.utils.AppDatePickerDialog
 import es.myvacations.myvacations.presentation.utils.AppDropDown
@@ -113,8 +113,6 @@ import myvacations.shared.generated.resources.new_trip_title_require
 import myvacations.shared.generated.resources.new_trip_trip_country
 import myvacations.shared.generated.resources.new_trip_trip_title
 import myvacations.shared.generated.resources.new_trip_trip_title_example
-import myvacations.shared.generated.resources.notpermissioncalendar
-import myvacations.shared.generated.resources.notpermissioncalendartitle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.random.Random
@@ -130,12 +128,12 @@ fun AddEditTripScreen(
     val uiState by viewModel.uiState.collectAsState()
     SystemBackHandler {
         viewModel.clearUi()
-        onDismiss()
     }
-
     LaunchedEffect(tripId) {
         if (tripId.isEmpty()) return@LaunchedEffect
+
         viewModel.setLoading(true)
+
         viewModel.updateEditMode(tripId)
         viewModel.getTripById(tripId)
     }
@@ -163,7 +161,8 @@ fun AddEditTripScreen(
             onUpdateExpense = viewModel::updateExpense,
             onDeleteExpense = viewModel::deleteExpense,
             onSave = viewModel::saveTrip,
-            updateFavourite = viewModel::updateFavourite,
+            clearUI = viewModel::clearUi,
+            updateFavourite = viewModel::updateFavourite
         )
     }
 }
@@ -190,13 +189,13 @@ private fun AddTripScreenFormulary(
     onDeleteExpense: (String) -> Unit = {},
     onSave: () -> Unit = {},
     clearUI: () -> Unit = {},
-    updateFavourite: (Boolean) -> Unit = {},
+    updateFavourite: (Boolean) -> Unit = {}
 ) {
+    SystemBackHandler {
+        onDismiss()
+    }
     val dialogClear = remember { mutableStateOf(false) }
     val dialogSaveNotReady = remember { mutableStateOf(false) }
-
-    val onDismissMessage = remember { mutableStateOf(false) }
-
     Scaffold(
         modifier = Modifier.fillMaxSize().padding(top = 12.dp)
     ) { _ ->
@@ -236,29 +235,6 @@ private fun AddTripScreenFormulary(
                 }
             )
         }
-
-        if (onDismissMessage.value) {
-            AlertDialog(
-                onDismissRequest = { onDismissMessage.value = false },
-                title = { Text(stringResource(Res.string.notpermissioncalendartitle)) },
-                text = {
-                    //Agregar lista de colores aqui
-
-                    Text(stringResource(Res.string.notpermissioncalendar))
-                },
-                confirmButton = {
-                    Text(
-                        modifier = Modifier.clickable(onClick = {
-                            onDismissMessage.value = false
-                            onSave()
-                            onDismiss()
-                        }),
-                        text = stringResource(Res.string.accept)
-                    )
-                }
-            )
-        }
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -288,16 +264,12 @@ private fun AddTripScreenFormulary(
                     )
                 }
                 Spacer(modifier = Modifier.width(8.dp))
-
                 TextButton(onClick = {
-                    when {
-                        uiState.errorInScreen || uiState.titleTrip.isEmpty() || uiState.startDate == null || uiState.endDate == null || uiState.mainCost == 0.0 || uiState.mainCost == null || uiState.startDate > uiState.endDate -> dialogSaveNotReady.value =
-                            true
-
-                        else -> {
-                            onSave()
-                            onDismiss()
-                        }
+                    if (!uiState.errorInScreen && (uiState.titleTrip.isEmpty() || uiState.startDate == null || uiState.endDate == null || (uiState.mainCost == 0.0 || uiState.mainCost == null) || (uiState.startDate > uiState.endDate)).not()) {
+                        onSave()
+                        onDismiss()
+                    } else {
+                        dialogSaveNotReady.value = true
                     }
                 }) {
                     Text(stringResource(Res.string.new_trip_save_trip))
@@ -486,9 +458,7 @@ fun DestinationView(
             items = Country.entries,
             selectedItem = uiState.placeTrip,
             onItemSelected = onCountrySelected,
-            itemLabel = {
-                Text(text = it.flag + " " + it.displayComposeName())
-            }
+            itemLabel = { it.flag + " " + it.displayName() }
         )
         Spacer(modifier = Modifier.height(16.dp))
         Card(
@@ -1044,6 +1014,7 @@ fun ScreenElementsAlert(
                 editExpense.currency.toCurrencySymbol()
             )
         )
+
         Spacer(
             modifier = Modifier.height(8.dp)
         )

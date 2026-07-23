@@ -12,7 +12,6 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.daysUntil
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
-import kotlin.uuid.Uuid
 
 data class TripUiState(
     val errorInScreen: Boolean = false,

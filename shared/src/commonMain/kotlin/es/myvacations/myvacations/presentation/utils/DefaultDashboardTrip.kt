@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import es.myvacations.myvacations.core.extensions.shortCurrency
 import es.myvacations.myvacations.domain.model.TripStatus
-import es.myvacations.myvacations.domain.model.displayComposeName
+import es.myvacations.myvacations.domain.model.displayName
 import es.myvacations.myvacations.domain.model.flag
 import es.myvacations.myvacations.presentation.createedittrip.TripUiState
 import myvacations.shared.generated.resources.Res
@@ -88,7 +88,7 @@ fun DefaultDashboardTrip(
                 Text(
                     text = stringResource(
                         Res.string.subtitle_dashboard,
-                        trip.placeTrip.displayComposeName(),
+                        trip.placeTrip.displayName(),
                         trip.totalDays,
                         trip.travelers
                     ),

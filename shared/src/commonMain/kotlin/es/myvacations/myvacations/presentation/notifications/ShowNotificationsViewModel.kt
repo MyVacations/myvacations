@@ -29,10 +29,6 @@ class ShowNotificationsViewModel(
 
     val uiState = _uiState.asStateFlow()
 
-    fun cleanUi() {
-        _uiState.value = AppNotificationListUiState()
-    }
-
     init {
         loadNotifications()
     }
