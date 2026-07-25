@@ -39,7 +39,7 @@ data class TripUiState(
         .date
 
     val remainingDays: Int
-        get() = today.daysUntil(startDate ?: today)
+        get() = today.daysUntil(startDate)
 
     val daysPassed: Int
         get() = endDate.daysUntil(today) ?: 0

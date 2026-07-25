@@ -17,9 +17,6 @@ class MainActivity : ComponentActivity() {
         splash.setKeepOnScreenCondition {
             false
         }
-        onBackPressedDispatcher.addCallback(this) {
-            println("ANDROID BACK PRESSED")
-        }
 
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.dark(

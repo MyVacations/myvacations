@@ -1,6 +1,8 @@
 package es.myvacations.myvacations.presentation.utils
 
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class TripExpenseUiState(
     val id: String = "",
     val name: String = "",

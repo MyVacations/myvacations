@@ -7,6 +7,7 @@ import es.myvacations.myvacations.domain.usecase.eventsusecase.ObserveTripForAle
 import es.myvacations.myvacations.domain.usecase.eventsusecase.SelectAllNotificationsUseCase
 import es.myvacations.myvacations.domain.usecase.eventsusecase.SelectNotificationsInATripUseCase
 import es.myvacations.myvacations.domain.usecase.eventsusecase.UpdateNotificationUseCase
+import es.myvacations.myvacations.domain.usecase.eventsusecase.WidgetObserverUseCase
 import es.myvacations.myvacations.domain.usecase.expenseusecase.DeleteExpenseUseCase
 import es.myvacations.myvacations.domain.usecase.expenseusecase.UpdateExpenseUseCase
 import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseCase
@@ -18,10 +19,13 @@ import es.myvacations.myvacations.domain.usecase.travelersusecase.InsertTraveler
 import es.myvacations.myvacations.domain.usecase.travelersusecase.UpdateMainTravelerUseCase
 import es.myvacations.myvacations.domain.usecase.travelersusecase.UpdateTravelerUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.DeleteTripUseCase
+import es.myvacations.myvacations.domain.usecase.tripusecase.GetActiveTripUseCase
+import es.myvacations.myvacations.domain.usecase.tripusecase.GetExpenseActiveTripUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.GetTripByIdUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.GetTripsUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.SaveTripUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.UpdateTripUseCase
+import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -42,10 +46,13 @@ val domainModule = module {
     factory { UpdateTravelerUseCase(get()) }
     factory { UpdateMainTravelerUseCase(get()) }
     factory { InsertTravelerUseCase(get()) }
-    factory { ObserveTripForAlertsUseCase(get(), get(), get()) }
     factory { SelectAllNotificationsUseCase(get()) }
     factory { SelectNotificationsInATripUseCase(get()) }
     factory { UpdateNotificationUseCase(get()) }
     factory { DeleteNotificationUseCase(get()) }
     factory { AddEventToCalendarUseCase(get()) }
+    factoryOf(::ObserveTripForAlertsUseCase)
+    factoryOf(::WidgetObserverUseCase)
+    factoryOf(::GetActiveTripUseCase)
+    factoryOf(::GetExpenseActiveTripUseCase)
 }

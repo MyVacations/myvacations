@@ -23,7 +23,6 @@ actual fun initKoin() {
                 add(domainModule)
                 add(dataModule)
                 addAll(dataBaseModule())
-                add(firebaseModule)
             }
         )
     }

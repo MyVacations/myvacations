@@ -1,6 +1,5 @@
 package es.myvacations.myvacations.presentation.createedittrip
 
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import es.myvacations.myvacations.core.extensions.toSafeDouble
@@ -52,7 +51,7 @@ class CreateEditTripsViewModel(
             getSettingsUseCase().collect { settings ->
                 _uiState.update {
                     it.copy(
-                        currency = settings?.preferredCurrency ?: Currency.EURO,
+                        currency = settings?.preferedCurrency ?: Currency.EURO,
                     )
                 }
             }

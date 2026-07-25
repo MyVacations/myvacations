@@ -21,7 +21,7 @@ class TripLocalDataSource(
     fun getByIdWithoutFlow(id: String) =
         queries.selectTripById(id).executeAsOneOrNull()
 
-    fun getExpensesByTripId(tripId: String) = queries.selectExpenseByTripId(tripId).executeAsList()
+    fun getExpensesByTripId(tripId: String) = queries.selectExpenseByTripId(tripId).asFlow().mapToList(Dispatchers.IO)
 
     fun getExpensesByTripIdAndExpenseID(tripId: String, expenseId: String) =
         queries.selectExpenseByTripIdAndExpenseId(

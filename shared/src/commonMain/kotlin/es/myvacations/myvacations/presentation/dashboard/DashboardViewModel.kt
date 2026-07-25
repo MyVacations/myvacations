@@ -3,8 +3,6 @@ package es.myvacations.myvacations.presentation.dashboard
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import es.myvacations.myvacations.core.extensions.transformInInitials
-import es.myvacations.myvacations.domain.events.messageFor
-import es.myvacations.myvacations.domain.events.titleFor
 import es.myvacations.myvacations.domain.mapper.toUiModel
 import es.myvacations.myvacations.domain.usecase.GetDayPeriodUseCase
 import es.myvacations.myvacations.domain.usecase.eventsusecase.SelectAllNotificationsUseCase
@@ -152,12 +150,12 @@ class DashboardViewModel(
                         settings = settingsDomain?.toUiSettingsState() ?: SettingsUiState(),
                         upcomingTrips = _uiState.value.upcomingTrips.map { trip ->
                             trip.copy(
-                                currency = settingsDomain?.preferredCurrency ?: Currency.EURO
+                                currency = settingsDomain?.preferedCurrency ?: Currency.EURO
                             )
                         },
                         pastTrips = _uiState.value.pastTrips.map { trip ->
                             trip.copy(
-                                currency = settingsDomain?.preferredCurrency ?: Currency.EURO
+                                currency = settingsDomain?.preferedCurrency ?: Currency.EURO
                             )
                         },
                         isLoading = false

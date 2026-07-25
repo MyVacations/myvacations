@@ -652,12 +652,14 @@ fun ScreenPickerDialog(
     onEndDateChange: (LocalDate) -> Unit,
     onStartDateChange: (LocalDate) -> Unit,
 ) {
-    if (showDatePickerEnd.value) AppDatePickerDialog(
+    AppDatePickerDialog(
+        showDatePickerEnd.value,
         uiState.endDate,
         onDismiss = { showDatePickerEnd.value = false },
         onDateSelected = onEndDateChange
     )
-    if (showDatePickerStart.value) AppDatePickerDialog(
+    AppDatePickerDialog(
+        showDatePickerStart.value,
         uiState.startDate,
         onDismiss = { showDatePickerStart.value = false },
         onDateSelected = onStartDateChange

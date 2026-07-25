@@ -11,7 +11,7 @@ class DatabaseInitializer(
         initializeDatabaseSettingsUseCase(
             SettingsDomain(
                 username = "",
-                preferredCurrency = Currency.EURO,
+                preferedCurrency = Currency.EURO,
                 welcomeShown = true
             )
         )

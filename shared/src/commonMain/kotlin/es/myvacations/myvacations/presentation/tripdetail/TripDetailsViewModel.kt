@@ -1,6 +1,5 @@
 package es.myvacations.myvacations.presentation.tripdetail
 
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import es.myvacations.myvacations.domain.model.TravelersDomain
@@ -206,7 +205,7 @@ class TripDetailsViewModel(
         viewModelScope.launch {
             getSettingUseCase().collect { settings ->
                 _uiState.update {
-                    it.copy(currency = settings?.preferredCurrency ?: Currency.EURO)
+                    it.copy(currency = settings?.preferedCurrency ?: Currency.EURO)
                 }
             }
         }

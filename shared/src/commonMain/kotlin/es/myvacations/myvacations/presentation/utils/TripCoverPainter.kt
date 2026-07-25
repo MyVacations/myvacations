@@ -3,7 +3,13 @@ package es.myvacations.myvacations.presentation.utils
 import androidx.compose.runtime.Composable
 import es.myvacations.myvacations.domain.model.TripCover
 import myvacations.shared.generated.resources.Res
-import myvacations.shared.generated.resources.*
+import myvacations.shared.generated.resources.barcelona
+import myvacations.shared.generated.resources.beach
+import myvacations.shared.generated.resources.london
+import myvacations.shared.generated.resources.mountain
+import myvacations.shared.generated.resources.paris
+import myvacations.shared.generated.resources.roma
+import myvacations.shared.generated.resources.tokyo
 import org.jetbrains.compose.resources.painterResource
 
 @Composable

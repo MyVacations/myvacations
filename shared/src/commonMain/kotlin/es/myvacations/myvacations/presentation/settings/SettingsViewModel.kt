@@ -2,7 +2,6 @@ package es.myvacations.myvacations.presentation.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import es.myvacations.myvacations.domain.model.TravelersDomain
 import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseCase
 import es.myvacations.myvacations.domain.usecase.settingsusecase.UpdateSettingsUseCase
 import es.myvacations.myvacations.presentation.mapper.toDomainSettingsState
@@ -27,7 +26,7 @@ class SettingsViewModel(
             getSettingsUseCase().collect { settings ->
                 _uiState.value = _uiState.value.copy(
                     userName = settings?.username ?: "",
-                    currency = settings?.preferredCurrency ?: Currency.EURO,
+                    currency = settings?.preferedCurrency ?: Currency.EURO,
                     isLoading = false
                 )
             }

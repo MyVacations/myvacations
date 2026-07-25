@@ -3,6 +3,7 @@ package es.myvacations.myvacations.data.di
 import es.myvacations.myvacations.data.datasource.SettingsLocalDataSource
 import es.myvacations.myvacations.data.datasource.TripLocalDataSource
 import es.myvacations.myvacations.data.repository.AppInfoRepositoryImpl
+import es.myvacations.myvacations.data.repository.AppWidgetUpdaterRepository
 import es.myvacations.myvacations.data.repository.NotificationRepositoryImpl
 import es.myvacations.myvacations.data.repository.SettingsRepositoryImpl
 import es.myvacations.myvacations.data.repository.TripsRepositoryImpl
@@ -13,7 +14,8 @@ import es.myvacations.myvacations.domain.repository.DeviceCalendarRepository
 import es.myvacations.myvacations.domain.repository.NotificationRepository
 import es.myvacations.myvacations.domain.repository.SettingsRepository
 import es.myvacations.myvacations.domain.repository.TripRepository
-import es.myvacations.myvacations.presentation.events.GetDeviceCalendarRepository
+import es.myvacations.myvacations.data.repository.GetDeviceCalendarRepository
+import es.myvacations.myvacations.domain.repository.WidgetUpdater
 import org.koin.dsl.module
 
 val dataModule = module {
@@ -27,5 +29,8 @@ val dataModule = module {
     single { NotificationObserverManager(get()) }
     single<DeviceCalendarRepository> {
         GetDeviceCalendarRepository()
+    }
+    single<WidgetUpdater> {
+        AppWidgetUpdaterRepository()
     }
 }

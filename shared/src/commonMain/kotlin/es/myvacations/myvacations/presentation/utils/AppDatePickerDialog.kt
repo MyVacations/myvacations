@@ -178,7 +178,7 @@ fun HeaderCalendarUi(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Row(Modifier.clickable(onClick = {
-                    updateShowYearPicker(true)
+                    updateShowYearPicker(!showYearPicker)
                 })) {
                     Text("${month.yearMonth.month.toMonthString()} - ${month.yearMonth.year}")
                     Spacer(Modifier.width(8.dp))
@@ -240,77 +240,79 @@ fun DaysInCalendarHeader(showYearPicker: Boolean) {
 
 @Composable
 fun AppDatePickerDialog(
+    isVisible: Boolean,
     fromParentUi: LocalDate = LocalDate.now(),
     onDismiss: () -> Unit = { },
     onDateSelected: (LocalDate) -> Unit = {}
 ) {
+    if (isVisible) {
+        var isDateValid by remember { mutableStateOf(true) }
 
-    var isDateValid by remember { mutableStateOf(true) }
-
-    var selectedDate by remember {
-        mutableStateOf(fromParentUi)
-    }
-
-    var updateYearMonth by remember {
-        mutableStateOf(selectedDate.yearMonth)
-    }
-    val state = rememberCalendarState(
-        startMonth = MinDate.yearMonth,
-        endMonth = MaxDate.yearMonth,
-        firstVisibleMonth = updateYearMonth,
-        firstDayOfWeek = firstDayOfWeekFromLocale(),
-        outDateStyle = OutDateStyle.EndOfGrid
-    )
-
-    LaunchedEffect(updateYearMonth) {
-        state.animateScrollToMonth(updateYearMonth)
-    }
-
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    if (isDateValid) {
-                        onDateSelected(selectedDate)
-                        onDismiss()
-                    }
-                }
-            ) {
-                Text(
-                    color = MaterialTheme.colorScheme.primary.copy(
-                        alpha = if (isDateValid) 1f else 0.5f
-                    ), text = stringResource(Res.string.accept)
-                )
-            }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = {
-                    selectedDate = LocalDate.now()
-                    updateYearMonth = selectedDate.yearMonth
-                }
-            ) {
-                Text(stringResource(Res.string.today))
-            }
-            Spacer(Modifier.width(18.dp))
-            TextButton(
-                onClick = onDismiss
-            ) {
-                Text(stringResource(Res.string.cancel))
-            }
-        },
-        text = {
-            InsideTextAlert(
-                state, updateYearMonth, selectedDate, updateDate = {
-                    selectedDate = it
-                    updateYearMonth = it.yearMonth
-                }, updateDateValid = { isDateValid = it },
-                updateCalendarYear = {
-                    updateYearMonth = it.yearMonth
-                })
+        var selectedDate by remember {
+            mutableStateOf(fromParentUi)
         }
-    )
+
+        var updateYearMonth by remember {
+            mutableStateOf(selectedDate.yearMonth)
+        }
+        val state = rememberCalendarState(
+            startMonth = MinDate.yearMonth,
+            endMonth = MaxDate.yearMonth,
+            firstVisibleMonth = updateYearMonth,
+            firstDayOfWeek = firstDayOfWeekFromLocale(),
+            outDateStyle = OutDateStyle.EndOfGrid
+        )
+
+        LaunchedEffect(updateYearMonth) {
+            state.animateScrollToMonth(updateYearMonth)
+        }
+
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        if (isDateValid) {
+                            onDateSelected(selectedDate)
+                            onDismiss()
+                        }
+                    }
+                ) {
+                    Text(
+                        color = MaterialTheme.colorScheme.primary.copy(
+                            alpha = if (isDateValid) 1f else 0.5f
+                        ), text = stringResource(Res.string.accept)
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        selectedDate = LocalDate.now()
+                        updateYearMonth = selectedDate.yearMonth
+                    }
+                ) {
+                    Text(stringResource(Res.string.today))
+                }
+                Spacer(Modifier.width(18.dp))
+                TextButton(
+                    onClick = onDismiss
+                ) {
+                    Text(stringResource(Res.string.cancel))
+                }
+            },
+            text = {
+                InsideTextAlert(
+                    state, updateYearMonth, selectedDate, updateDate = {
+                        selectedDate = it
+                        updateYearMonth = it.yearMonth
+                    }, updateDateValid = { isDateValid = it },
+                    updateCalendarYear = {
+                        updateYearMonth = it.yearMonth
+                    })
+            }
+        )
+    }
 }
 
 @Composable

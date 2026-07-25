@@ -8,6 +8,9 @@ import androidx.compose.runtime.LaunchedEffect
 import es.myvacations.myvacations.core.navigation.NavigationRoot
 import es.myvacations.myvacations.domain.manager.DatabaseInitializer
 import es.myvacations.myvacations.domain.manager.NotificationObserverManager
+import es.myvacations.myvacations.domain.usecase.eventsusecase.WidgetObserverUseCase
+import io.github.aakira.napier.Napier
+import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
 
@@ -15,10 +18,16 @@ import org.koin.compose.koinInject
 fun App() {
     val initializer: DatabaseInitializer = koinInject()
     val manager: NotificationObserverManager = koinInject()
-
-    LaunchedEffect(Unit) {
+    val widget: WidgetObserverUseCase = koinInject()
+    LaunchedEffect(Unit)
+    {
         initializer.initialize()
-        manager.start()
+        launch {
+            manager.start()
+        }
+        launch {
+            widget.observe()
+        }
     }
 
     BoxWithConstraints {

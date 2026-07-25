@@ -4,7 +4,6 @@ import es.myvacations.myvacations.data.datasource.SettingsLocalDataSource
 import es.myvacations.myvacations.domain.mapper.toDomainModel
 import es.myvacations.myvacations.domain.model.SettingsDomain
 import es.myvacations.myvacations.domain.repository.SettingsRepository
-import es.myvacations.myvacations.presentation.settings.SettingsUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -20,14 +19,14 @@ class SettingsRepositoryImpl(private val localDataSource: SettingsLocalDataSourc
     override suspend fun insertDefaultSettings(settings: SettingsDomain) {
         localDataSource.insertDefaultSettings(
             settings.username,
-            settings.preferredCurrency.name
+            settings.preferedCurrency.name
         )
     }
 
     override suspend fun updateSettings(settings: SettingsDomain) {
         localDataSource.updateSettings(
             settings.username,
-            settings.preferredCurrency.name
+            settings.preferedCurrency.name
         )
         localDataSource.updateMainTraveler(settings.username)
     }

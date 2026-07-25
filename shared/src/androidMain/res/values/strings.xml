@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--WidgetTexts-->
+    <string name="notravel">No active travels find</string>
+    <string name="nexttravel">Next travel in %1$d day/s</string>
+    <string name="noexpenseorbudget">No expenses or budget added</string>
+    <string name="expensein">There are %1$d extra expenses</string>
+    <string name="addExpense">+ Add expense</string>
+    <string name="dollar">$</string>
+    <string name="euro">€</string>
+    <string name="yen">¥</string>
+    <string name="yuan">元</string>
+    <string name="peso">₱</string>
+    <string name="dollar_name">Dolar</string>
+    <string name="euro_name">Euro</string>
+    <string name="yen_name">Yen</string>
+    <string name="yuan_name">Yuan</string>
+    <string name="peso_name">Peso</string>
+</resources>

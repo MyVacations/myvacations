@@ -248,7 +248,7 @@ Representa el importe total que se espera que gastes durante el viaje. Se calcul
     <string name="new_trip_legend_budget_remaining_description">
 Muestra cuánto presupuesto personal te queda disponible después de restar tus gastos adicionales.
 </string>
-    <string name="new_trip_legend_travelers_title">Viajeros</string>
+    <string name="new_trip_legend__title">Grupo</string>
     <string name="new_trip_legend_travelers_description">
 El número de viajeros solo se utiliza para calcular la parte del coste del viaje que te corresponde. Los gastos adicionales son personales y no se reparten entre los viajeros.
 </string>
@@ -288,7 +288,7 @@ Museos, excursiones, atracciones y actividades de ocio.
     <string name="trip_detail_header_costperday">dia</string>
     <string name="trip_detail_overview">Resumen</string>
     <string name="trip_detail_budget">Presupuesto</string>
-    <string name="trip_detail_expenses">Costes</string>
+    <string name="trip_detail_expenses">Costes individuales</string>
     <string name="trip_detail_travelers">Viajeros</string>
     <string name="trip_detail_overview_total">DIAS TOTALES</string>
     <string name="trip_detail_overview_traveldays">DIAS VIAJANDO</string>

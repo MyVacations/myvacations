@@ -1,6 +1,8 @@
 package es.myvacations.myvacations.core.di
 
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
+import es.myvacations.myvacations.AndroidCrashReporter
+import es.myvacations.myvacations.core.firebase.CrashReporter
 import es.myvacations.myvacations.data.database.MyVacationsDatabase
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.Module
@@ -16,6 +18,9 @@ actual fun dataBaseModule(): List<Module> = listOf(
             )
 
             MyVacationsDatabase(driver)
+        }
+        single<CrashReporter> {
+            AndroidCrashReporter()
         }
     }
 )

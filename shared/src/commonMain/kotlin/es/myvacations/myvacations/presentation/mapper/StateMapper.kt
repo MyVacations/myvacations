@@ -14,9 +14,6 @@ import es.myvacations.myvacations.presentation.events.AppNotificationUiState
 import es.myvacations.myvacations.presentation.settings.SettingsUiState
 import es.myvacations.myvacations.presentation.tripdetail.TravelerUiState
 import es.myvacations.myvacations.presentation.utils.TripExpenseUiState
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
-import kotlin.time.Clock
 
 fun TripUiState.toDomainModel() = TripDomain(
     id = id,
@@ -82,12 +79,12 @@ fun List<TripDomain>.toUiPastTripState() = filter { tripDomain ->
 
 fun SettingsDomain.toUiSettingsState() = SettingsUiState(
     userName = username,
-    currency = preferredCurrency
+    currency = preferedCurrency
 )
 
 fun SettingsUiState.toDomainSettingsState() = SettingsDomain(
     username = userName,
-    preferredCurrency = currency,
+    preferedCurrency = currency,
     welcomeShown = false
 )
 
