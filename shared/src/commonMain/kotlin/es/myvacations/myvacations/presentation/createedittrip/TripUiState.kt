@@ -12,7 +12,6 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.daysUntil
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
-import kotlin.uuid.Uuid
 
 data class TripUiState(
     val errorInScreen: Boolean = false,
@@ -38,8 +37,11 @@ data class TripUiState(
         .toLocalDateTime(TimeZone.currentSystemDefault())
         .date
 
-    val remainingDays: Int
+    val remainingDaysForStart: Int
         get() = today.daysUntil(startDate)
+
+    val remainingDaysOfTravel: Int
+        get() = today.daysUntil(endDate)
 
     val daysPassed: Int
         get() = endDate.daysUntil(today) ?: 0

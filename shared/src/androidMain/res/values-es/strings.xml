@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--WidgetTexts-->
+    <string name="actualtrip">Viaje actual:</string>
     <string name="notravel">No hay ningún viaje activo</string>
-    <string name="nexttravel">Next travel in %1$d day/s</string>
+    <string name="nexttravel">Próximo viaje en %1$d día/s</string>
     <string name="noexpenseorbudget">Sin gasto o presupuesto agregados</string>
+
+    <string name="nodaysleft">Último día</string>
+    <string name="daysleft">%1$dd restante/s</string>
+    <string name="budgetremaining">Presupuesto restante: %1$.1f%2$s</string>
+    <string name="budgetlow">Presupuesto bajo</string>
+    <string name="nobudget">No queda presupuesto</string>
+    <string name="budgetexceed">%1$.1f%2$s excedido</string>
     <string name="expensein">Hay %1$d gasto/s extra</string>
+    <string name="watchtravel">Ver viaje</string>
     <string name="addExpense">+ Añadir coste</string>
     <string name="dollar">$</string>
     <string name="euro">€</string>
@@ -16,4 +25,44 @@
     <string name="yen_name">Yen</string>
     <string name="yuan_name">Yuan</string>
     <string name="peso_name">Peso</string>
+    <string name="spain">España</string>
+    <string name="france">Francia</string>
+    <string name="italy">Italia</string>
+    <string name="portugal">Portugal</string>
+    <string name="united_kingdom">Reino Unido</string>
+    <string name="germany">Alemania</string>
+    <string name="greece">Grecia</string>
+    <string name="croatia">Croacia</string>
+    <string name="netherlands">Países Bajos</string>
+    <string name="switzerland">Suiza</string>
+    <string name="austria">Austria</string>
+    <string name="iceland">Islandia</string>
+    <string name="norway">Noruega</string>
+    <string name="ireland">Irlanda</string>
+    <string name="united_states">Estados Unidos</string>
+    <string name="canada">Canadá</string>
+    <string name="mexico">México</string>
+    <string name="brazil">Brasil</string>
+    <string name="argentina">Argentina</string>
+    <string name="peru">Perú</string>
+    <string name="japan">Japón</string>
+    <string name="thailand">Tailandia</string>
+    <string name="indonesia">Indonesia</string>
+    <string name="vietnam">Vietnam</string>
+    <string name="singapore">Singapur</string>
+    <string name="south_korea">Corea del Sur</string>
+    <string name="china">China</string>
+    <string name="india">India</string>
+    <string name="maldives">Maldivas</string>
+    <string name="sri_lanka">Sri Lanka</string>
+    <string name="australia">Australia</string>
+    <string name="new_zealand">Nueva Zelanda</string>
+    <string name="egypt">Egipto</string>
+    <string name="morocco">Marruecos</string>
+    <string name="south_africa">Sudáfrica</string>
+    <string name="united_arab_emirates">Emiratos Árabes Unidos</string>
+    <string name="jordan">Jordania</string>
+    <string name="tunisia">Túnez</string>
+    <string name="kenya">Kenia</string>
+    <string name="tanzania">Tanzania</string>
 </resources>

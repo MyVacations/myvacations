@@ -1,6 +1,5 @@
 package es.myvacations.myvacations.core.navigation
 
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -18,13 +17,13 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import es.myvacations.myvacations.presentation.createedittrip.AddEditTripScreen
 import es.myvacations.myvacations.presentation.dashboard.DashboardScreen
 import es.myvacations.myvacations.presentation.notifications.ShowNotificationsScreen
@@ -45,7 +44,11 @@ import org.jetbrains.compose.resources.stringResource
 
 @Preview(showBackground = true)
 @Composable
-fun NavigationRoot(isLandscape: Boolean = false) {
+fun NavigationRoot(
+    isLandscape: Boolean = false,
+    tripIdFromWidget: String = "",
+    widgetAction: String = ""
+) {
     val snackbarHostState = remember {
         SnackbarHostState()
     }
@@ -54,6 +57,23 @@ fun NavigationRoot(isLandscape: Boolean = false) {
         saver = NavigationStateSaver
     ) {
         NavigationState()
+    }
+
+    LaunchedEffect(
+        tripIdFromWidget,
+        widgetAction
+    ) {
+        if (
+            navigationState.currentScreen != ScreenDestination.Splash &&
+            tripIdFromWidget.isNotBlank() &&
+            widgetAction.isNotBlank()
+        ) {
+            loadWidgetScreenNav(
+                navigationState,
+                tripIdFromWidget,
+                widgetAction
+            )
+        }
     }
 
     with(navigationState) {
@@ -87,7 +107,7 @@ fun NavigationRoot(isLandscape: Boolean = false) {
             ) {
                 when (currentScreen) {
                     ScreenDestination.Splash -> SplashScreen(onFinished = {
-                        navigate(ScreenDestination.Dashboard)
+                        loadWidgetScreenNav(navigationState, tripIdFromWidget, widgetAction)
                     })
 
                     ScreenDestination.Dashboard -> DashboardScreen(
@@ -138,7 +158,9 @@ fun NavigationRoot(isLandscape: Boolean = false) {
 
                     is ScreenDestination.AddEdit -> {
                         val tripid = (currentScreen as ScreenDestination.AddEdit).tripId
-                        AddEditTripScreen(tripid, onDismiss = {
+                        val selectedExpenseFromWidget = (currentScreen as ScreenDestination.AddEdit).selectedExpenseFromWidget
+
+                        AddEditTripScreen(tripid,selectedExpenseFromWidget, onDismiss = {
                             popBackStack()
                         })
                     }
@@ -150,7 +172,7 @@ fun NavigationRoot(isLandscape: Boolean = false) {
                                 popBackStack()
                             }, onEditTripClick = {
                                 navigate(ScreenDestination.AddEdit(tripid))
-                            },onShowSnackbar = { message ->
+                            }, onShowSnackbar = { message ->
                                 scope.launch {
                                     snackbarHostState.showSnackbar(message)
                                 }
@@ -160,6 +182,44 @@ fun NavigationRoot(isLandscape: Boolean = false) {
             }
         }
 
+    }
+}
+
+fun loadWidgetScreenNav(
+    navigationState: NavigationState,
+    tripIdFromWidget: String,
+    widgetAction: String
+) {
+    when (widgetAction) {
+        "add_expense" if tripIdFromWidget.isNotBlank() -> {
+            if (tripIdFromWidget.isBlank()) return navigationState.navigate(
+                ScreenDestination.Dashboard
+            )
+
+            navigationState.navigate(ScreenDestination.Dashboard)
+
+            navigationState.navigate(
+                ScreenDestination.TripDetail(tripIdFromWidget)
+            )
+
+            navigationState.navigate(
+                ScreenDestination.AddEdit(tripIdFromWidget, true)
+            )
+        }
+        "trip_detail" if tripIdFromWidget.isNotBlank() -> {
+            if (tripIdFromWidget.isBlank()) return navigationState.navigate(
+                ScreenDestination.Dashboard
+            )
+            navigationState.navigate(ScreenDestination.Dashboard)
+            navigationState.navigate(
+                ScreenDestination.TripDetail(
+                    tripId = tripIdFromWidget
+                )
+            )
+        }
+        else -> {
+            navigationState.navigate(ScreenDestination.Dashboard)
+        }
     }
 }
 

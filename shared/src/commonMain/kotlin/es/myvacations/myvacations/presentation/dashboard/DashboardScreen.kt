@@ -285,9 +285,9 @@ fun ActualTripCard(
                 )
                 Text(
                     text = "${
-                        DateFormatter.formatTripDate(trip.startDate ?: trip.today)
+                        DateFormatter.formatTripDate(trip.startDate)
                     } - ${
-                        DateFormatter.formatTripDate(trip.endDate ?: trip.today)
+                        DateFormatter.formatTripDate(trip.endDate)
                     }",
                     color = Color.White.copy(alpha = 0.9f),
                     style = MaterialTheme.typography.bodyMedium

@@ -9,13 +9,15 @@ import es.myvacations.myvacations.core.navigation.NavigationRoot
 import es.myvacations.myvacations.domain.manager.DatabaseInitializer
 import es.myvacations.myvacations.domain.manager.NotificationObserverManager
 import es.myvacations.myvacations.domain.usecase.eventsusecase.WidgetObserverUseCase
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
 
 @Composable
-fun App() {
+fun App(
+    tripId: String,
+    value: String,
+) {
     val initializer: DatabaseInitializer = koinInject()
     val manager: NotificationObserverManager = koinInject()
     val widget: WidgetObserverUseCase = koinInject()
@@ -34,7 +36,7 @@ fun App() {
         val isLandscape = maxWidth > maxHeight
         MaterialTheme(
             colorScheme = darkColorScheme(), content = {
-                NavigationRoot(isLandscape)
+                NavigationRoot(isLandscape, tripId,value)
             })
     }
 }

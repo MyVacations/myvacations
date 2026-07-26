@@ -1,10 +1,12 @@
 package es.myvacations.myvacations
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.window.ComposeUIViewController
 import es.myvacations.myvacations.core.di.initKoin
-import es.myvacations.myvacations.data.database.di.platformModule
 
 fun MainViewController() = ComposeUIViewController {
     initKoin()
-    App()
+    val tripId = mutableStateOf("")
+    val widgetAction = mutableStateOf("")
+    App(tripId.value,widgetAction.value)
 }

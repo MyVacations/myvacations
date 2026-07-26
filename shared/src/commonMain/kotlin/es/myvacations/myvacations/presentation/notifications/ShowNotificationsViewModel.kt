@@ -72,7 +72,7 @@ class ShowNotificationsViewModel(
     }
 
     fun deleteAllNotificationsAvailable(notifications: List<AppNotificationUiState>) {
-        notifications.forEach { notification ->
+        notifications.filter { it.read }.forEach { notification ->
             deleteANotification(notification)
         }
     }

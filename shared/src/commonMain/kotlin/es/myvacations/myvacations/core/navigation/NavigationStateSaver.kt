@@ -14,7 +14,7 @@ fun ScreenDestination.toSavedValue(): String =
         ScreenDestination.ShowPrivacyPolitic -> "showPrivacyPolitic"
         ScreenDestination.ShowHelpAndSupport -> "showHelpAndSupport"
         ScreenDestination.ShowNotifications -> "showNotifications"
-        is ScreenDestination.AddEdit -> "addEditTrip:$tripId"
+        is ScreenDestination.AddEdit ->  "addEditTrip:${tripId}:${selectedExpenseFromWidget}"
         is ScreenDestination.TripDetail -> "tripDetail:$tripId"
     }
 
@@ -29,9 +29,17 @@ fun String.toScreenDestination(): ScreenDestination =
         this == "showHelpAndSupport" -> ScreenDestination.ShowHelpAndSupport
         this == "showNotifications" -> ScreenDestination.ShowNotifications
 
-        startsWith("addEditTrip:") -> ScreenDestination.AddEdit(
-            removePrefix("addEditTrip:")
-        )
+        startsWith("addEditTrip:") -> {
+            val parts = split(":")
+
+            ScreenDestination.AddEdit(
+                tripId = parts.getOrNull(1).orEmpty(),
+                selectedExpenseFromWidget = parts
+                    .getOrNull(2)
+                    ?.toBooleanStrictOrNull()
+                    ?: false
+            )
+        }
 
         startsWith("tripDetail:") ->
             ScreenDestination.TripDetail(

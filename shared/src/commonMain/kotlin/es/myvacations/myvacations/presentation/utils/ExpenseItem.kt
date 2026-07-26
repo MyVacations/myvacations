@@ -18,8 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,12 +31,14 @@ import org.jetbrains.compose.resources.stringResource
 fun ExpenseItem(
     expense: TripExpenseUiState = TripExpenseUiState(),
     onDelete: () -> Unit = {},
-    openEditDialog: MutableState<Boolean> = mutableStateOf(false)
+    onEdit: () -> Unit = {}
 ) {
     val colorOfIcon = expense.icon.toImageVector().iconColor()
 
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Surface(
@@ -56,16 +56,16 @@ fun ExpenseItem(
                 )
             }
         }
-        Spacer(
-            modifier = Modifier.width(16.dp)
-        )
+
+        Spacer(Modifier.width(16.dp))
 
         Column(
             modifier = Modifier.weight(1f)
         ) {
-
             Text(
-                text = expense.name.ifBlank { stringResource(Res.string.new_trip_food) },
+                text = expense.name.ifBlank {
+                    stringResource(Res.string.new_trip_food)
+                },
                 style = MaterialTheme.typography.titleMedium
             )
 
@@ -77,9 +77,11 @@ fun ExpenseItem(
         }
 
         IconButton(
-            onClick = { openEditDialog.value = true }) {
+            onClick = onEdit
+        ) {
             Icon(
-                imageVector = Icons.Default.Edit, contentDescription = "Edit"
+                imageVector = Icons.Default.Edit,
+                contentDescription = "Edit"
             )
         }
 

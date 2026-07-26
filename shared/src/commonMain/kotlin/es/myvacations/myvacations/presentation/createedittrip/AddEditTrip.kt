@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -124,6 +125,7 @@ const val maxTextLength = 30
 @Composable
 fun AddEditTripScreen(
     tripId: String,
+    selectedExpenseFromWidget: Boolean = false,
     onDismiss: () -> Unit,
     viewModel: CreateEditTripsViewModel = koinViewModel()
 ) {
@@ -164,6 +166,7 @@ fun AddEditTripScreen(
             onDeleteExpense = viewModel::deleteExpense,
             onSave = viewModel::saveTrip,
             updateFavourite = viewModel::updateFavourite,
+            selectedExpenseFromWidget = selectedExpenseFromWidget
         )
     }
 }
@@ -191,11 +194,17 @@ private fun AddTripScreenFormulary(
     onSave: () -> Unit = {},
     clearUI: () -> Unit = {},
     updateFavourite: (Boolean) -> Unit = {},
+    selectedExpenseFromWidget: Boolean = false
 ) {
     val dialogClear = remember { mutableStateOf(false) }
     val dialogSaveNotReady = remember { mutableStateOf(false) }
 
     val onDismissMessage = remember { mutableStateOf(false) }
+    val listState = rememberLazyListState()
+    if (selectedExpenseFromWidget) LaunchedEffect(listState)
+    {
+        listState.animateScrollToItem(listState.layoutInfo.totalItemsCount - 1)
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize().padding(top = 12.dp)
@@ -304,6 +313,7 @@ private fun AddTripScreenFormulary(
                 }
             }
             LazyColumn(
+                state = listState,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = 8.dp)
@@ -343,6 +353,7 @@ private fun AddTripScreenFormulary(
                         onDeleteExpense = onDeleteExpense,
                         onCreateExpense = onCreateExpense,
                         onUpdateExpense = onUpdateExpense,
+                        selectedExpenseFromWidget = selectedExpenseFromWidget
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
@@ -807,7 +818,8 @@ fun ExtraExpensesView(
     onDeleteExpense: (String) -> Unit = {},
     onCreateExpense: (String, String, String, TravelIcon) -> Unit = { _, _, _, _ -> },
     onUpdateExpense: (String, String, String, TravelIcon) -> Unit = { _, _, _, _ -> },
-    onUpdateErrorAmount: (Boolean) -> Unit = {}
+    onUpdateErrorAmount: (Boolean) -> Unit = {},
+    selectedExpenseFromWidget: Boolean = false
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -838,12 +850,57 @@ fun ExtraExpensesView(
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
-        val openEditDialog = remember { mutableStateOf(false) }
-        val openAddingNew = remember { mutableStateOf(false) }
 
-        if (uiState.optionalExpenses.isEmpty()) {
+        var selectedExpense by remember {
+            mutableStateOf<TripExpenseUiState?>(null)
+        }
+
+        val openEditDialog = remember {
+            mutableStateOf(selectedExpenseFromWidget)
+        }
+
+        val openAddingNew = remember {
+            mutableStateOf(selectedExpenseFromWidget)
+        }
+
+        if (uiState.optionalExpensesExpanded) {
+
+            uiState.optionalExpenses.forEach { expense ->
+
+                ExpenseItem(
+                    expense = expense,
+                    onDelete = {
+                        onDeleteExpense(expense.id)
+                    },
+                    onEdit = {
+                        selectedExpense = expense
+                        openAddingNew.value = false
+                        openEditDialog.value = true
+                    }
+                )
+            }
+
+            Spacer(
+                modifier = Modifier.height(12.dp)
+            )
+
+            TextButton(
+                onClick = {
+                    selectedExpense = null
+                    openAddingNew.value = true
+                    openEditDialog.value = true
+                }
+            ) {
+                Text(
+                    stringResource(Res.string.new_trip_add_expense)
+                )
+            }
+        }
+
+        if (openEditDialog.value) {
             AlertDialogExpense(
                 uiState = uiState,
+                editExpense = selectedExpense,
                 onUpdateErrorAmount = onUpdateErrorAmount,
                 onCreateExpense = onCreateExpense,
                 onUpdateExpense = onUpdateExpense,
@@ -851,39 +908,6 @@ fun ExtraExpensesView(
                 onDelete = onDeleteExpense,
                 addingNewOne = openAddingNew
             )
-        }
-
-        if (uiState.optionalExpensesExpanded) {
-            uiState.optionalExpenses.forEach { expense ->
-                ExpenseItem(
-                    expense,
-                    onDelete = { onDeleteExpense(expense.id) },
-                    openEditDialog
-                )
-
-                AlertDialogExpense(
-                    uiState = uiState,
-                    editExpense = expense,
-                    onUpdateErrorAmount = onUpdateErrorAmount,
-                    onCreateExpense = onCreateExpense,
-                    onUpdateExpense = onUpdateExpense,
-                    openEditDialog = openEditDialog,
-                    onDelete = onDeleteExpense,
-                    addingNewOne = openAddingNew
-                )
-            }
-            Spacer(
-                modifier = Modifier.height(12.dp)
-            )
-            TextButton(
-                onClick =
-                    {
-                        openAddingNew.value = true
-                        openEditDialog.value = true
-                    }
-            ) {
-                Text(stringResource(Res.string.new_trip_add_expense))
-            }
         }
     }
 }
@@ -895,91 +919,141 @@ fun AlertDialogExpense(
     onCreateExpense: (String, String, String, TravelIcon) -> Unit = { _, _, _, _ -> },
     onUpdateExpense: (String, String, String, TravelIcon) -> Unit = { _, _, _, _ -> },
     openEditDialog: MutableState<Boolean> = mutableStateOf(false),
-    editExpense: TripExpenseUiState = TripExpenseUiState(),
+    editExpense: TripExpenseUiState? = null,
     onDelete: (String) -> Unit = {},
     addingNewOne: MutableState<Boolean> = mutableStateOf(false)
 ) {
-    val onExpenseName = remember { mutableStateOf(editExpense.name) }
-    var textCost by rememberSaveable {
+    val onExpenseName = remember(editExpense?.id) {
+        mutableStateOf(editExpense?.name.orEmpty())
+    }
+
+    var textCost by rememberSaveable(editExpense?.id) {
         mutableStateOf(
-            if (editExpense.amount == 0.0) "" else editExpense.amount.toString()
+            editExpense
+                ?.amount
+                ?.takeIf { it != 0.0 }
+                ?.toString()
+                .orEmpty()
         )
     }
-    val onExpenseIcon = remember { mutableStateOf(editExpense.icon) }
-    if (openEditDialog.value) {
-        AlertDialog(
-            onDismissRequest = {
-                addingNewOne.value = false
-                openEditDialog.value = false
-            }, title = {
-                Text(stringResource(Res.string.new_trip_expense))
-            },
 
-            text = {
-                ScreenElementsAlert(
-                    uiState, onExpenseName, editExpense, textCost,
-                    onExpenseIcon,
-                    updateName = {
-                        onExpenseName.value = it
-                    },
-                    updateCost = {
-                        textCost = it
-                        if (textCost.toSafeDouble() > 999.9) onUpdateErrorAmount(true) else onUpdateErrorAmount(
-                            false
-                        )
-                    },
-                    updateIcon = {
-                        onExpenseIcon.value = it
-                    }
-                )
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        onClickFromConfirm(
-                            onExpenseName,
-                            textCost,
-                            uiState,
-                            addingNewOne,
-                            onCreateExpense,
-                            onExpenseIcon,
-                            onUpdateExpense,
-                            editExpense,
-                            updateDialog = {
-                                openEditDialog.value = false
-                                addingNewOne.value = false
-                            })
-                    }) {
-                    Text(
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = if ((onExpenseName.value.isBlank() || (textCost == "0.0" || textCost == "0" || textCost == "0." || textCost.isEmpty()) || uiState.optionalExpensesErrorAmount).not()) 1f else 0.5f),
-                        text = stringResource(Res.string.new_trip_save_trip)
+    val onExpenseIcon = remember(editExpense?.id) {
+        mutableStateOf(
+            editExpense?.icon ?: TravelIcon.PLACE
+        )
+    }
+
+    AlertDialog(
+        onDismissRequest = {
+            addingNewOne.value = false
+            openEditDialog.value = false
+        },
+
+        title = {
+            Text(
+                stringResource(Res.string.new_trip_expense)
+            )
+        },
+
+        text = {
+            ScreenElementsAlert(
+                uiState = uiState,
+                onExpenseName = onExpenseName,
+                editExpense = editExpense ?: TripExpenseUiState(),
+                textCost = textCost,
+                onExpenseIcon = onExpenseIcon,
+                updateName = {
+                    onExpenseName.value = it
+                },
+                updateCost = {
+                    textCost = it
+
+                    onUpdateErrorAmount(
+                        textCost.toSafeDouble() > 999.9
                     )
+                },
+                updateIcon = {
+                    onExpenseIcon.value = it
                 }
-            },
+            )
+        },
 
-            dismissButton = {
-                Row {
-                    if (!addingNewOne.value) {
-                        TextButton(
-                            onClick = { onDelete(editExpense.id) }
-                        ) {
-                            Text(
-                                stringResource(Res.string.new_trip_optional_delete),
-                                color = MaterialTheme.colorScheme.error
-                            )
-                        }
-                    }
-
-                    TextButton(
-                        onClick = {
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onClickFromConfirm(
+                        onExpenseName = onExpenseName,
+                        textCost = textCost,
+                        uiState = uiState,
+                        addingNewOne = addingNewOne,
+                        onCreateExpense = onCreateExpense,
+                        onExpenseIcon = onExpenseIcon,
+                        onUpdateExpense = onUpdateExpense,
+                        editExpense = editExpense ?: TripExpenseUiState(),
+                        updateDialog = {
                             openEditDialog.value = false
                             addingNewOne.value = false
-                        }) {
-                        Text(stringResource(Res.string.cancel))
+                        }
+                    )
+                }
+            ) {
+                Text(
+                    text = stringResource(
+                        Res.string.new_trip_save_trip
+                    ),
+                    color = MaterialTheme.colorScheme.primary.copy(
+                        alpha = if (
+                            (
+                                    onExpenseName.value.isBlank() ||
+                                            textCost == "0.0" ||
+                                            textCost == "0" ||
+                                            textCost == "0." ||
+                                            textCost.isEmpty() ||
+                                            uiState.optionalExpensesErrorAmount
+                                    ).not()
+                        ) {
+                            1f
+                        } else {
+                            0.5f
+                        }
+                    )
+                )
+            }
+        },
+
+        dismissButton = {
+            Row {
+                if (!addingNewOne.value && editExpense != null) {
+                    TextButton(
+                        onClick = {
+                            onDelete(editExpense.id)
+
+                            openEditDialog.value = false
+                            addingNewOne.value = false
+                        }
+                    ) {
+                        Text(
+                            text = stringResource(
+                                Res.string.new_trip_optional_delete
+                            ),
+                            color = MaterialTheme.colorScheme.error
+                        )
                     }
                 }
-            })
-    }
+
+                TextButton(
+                    onClick = {
+                        openEditDialog.value = false
+                        addingNewOne.value = false
+                    }
+                ) {
+                    Text(
+                        stringResource(Res.string.cancel)
+                    )
+                }
+            }
+        }
+    )
 }
 
 @Composable

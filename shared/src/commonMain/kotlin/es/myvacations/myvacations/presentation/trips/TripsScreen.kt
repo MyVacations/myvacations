@@ -294,7 +294,7 @@ fun TripCard(
                         Text(
                             text = stringResource(
                                 Res.string.in_x_days,
-                                trip.remainingDays
+                                trip.remainingDaysForStart
                             ),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
