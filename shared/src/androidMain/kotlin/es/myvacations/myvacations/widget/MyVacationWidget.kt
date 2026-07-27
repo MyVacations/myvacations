@@ -93,7 +93,6 @@ class MyVacationWidget : GlanceAppWidget() {
                 favourite = preferences[ActiveTripFavouriteKey] ?: false
             )
             else null
-
             WidgetContentFromState(
                 context,
                 trip
@@ -300,8 +299,8 @@ class MyVacationWidget : GlanceAppWidget() {
                                         style = TextStyle(
                                             fontSize = 12.sp,
                                             color = ColorProvider(
-                                                day = Color(0xA8B6B6FF),
-                                                night = Color(0xA8B6B6FF)
+                                                day = Color(0xE0E0E0FF),
+                                                night = Color(0xE0E0E0FF)
                                             )
                                         )
                                     )
@@ -316,8 +315,8 @@ class MyVacationWidget : GlanceAppWidget() {
                                         style = TextStyle(
                                             fontSize = 10.sp,
                                             color = ColorProvider(
-                                                day = Color(0xA8B6B6FF),
-                                                night = Color(0xA8B6B6FF)
+                                                day = Color(0xE0E0E0FF),
+                                                night = Color(0xE0E0E0FF)
                                             )
                                         )
                                     )
@@ -400,8 +399,8 @@ class MyVacationWidget : GlanceAppWidget() {
                                             night = Color.Transparent
                                         ),
                                         contentColor = ColorProvider(
-                                            day = Color(0xA8B6B6FF),
-                                            night = Color(0xA8B6B6FF)
+                                            day = Color(0xE0E0E0FF),
+                                            night = Color(0xE0E0E0FF)
                                         )
                                     )
                                 )

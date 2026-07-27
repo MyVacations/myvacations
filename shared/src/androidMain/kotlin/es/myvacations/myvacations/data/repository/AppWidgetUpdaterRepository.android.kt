@@ -21,7 +21,6 @@ actual class AppWidgetUpdaterRepository :
         val glanceIds = manager.getGlanceIds(
             MyVacationWidget::class.java
         )
-
         val getTripsInOrder =
             trip
                 ?.filter { it.tripStatus == TripStatus.ACTIVE }
@@ -63,17 +62,9 @@ actual class AppWidgetUpdaterRepository :
                     preferences.remove(ActiveTripFavouriteKey)
                 }
             }
-            Napier.d(
-                tag = "DateChangeObserver",
-                message = "LLAMANDO UPDATE -> glanceId=$glanceId"
-            )
             MyVacationWidget().update(
                 context = context,
                 id = glanceId
-            )
-            Napier.d(
-                tag = "DateChangeObserver",
-                message = "UPDATE TERMINADO -> glanceId=$glanceId"
             )
         }
     }

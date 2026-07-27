@@ -127,7 +127,8 @@ fun AddEditTripScreen(
     tripId: String,
     selectedExpenseFromWidget: Boolean = false,
     onDismiss: () -> Unit,
-    viewModel: CreateEditTripsViewModel = koinViewModel()
+    viewModel: CreateEditTripsViewModel = koinViewModel(),
+    updateSelectedExpenseFromWidget: (Boolean) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
     SystemBackHandler {
@@ -166,7 +167,8 @@ fun AddEditTripScreen(
             onDeleteExpense = viewModel::deleteExpense,
             onSave = viewModel::saveTrip,
             updateFavourite = viewModel::updateFavourite,
-            selectedExpenseFromWidget = selectedExpenseFromWidget
+            selectedExpenseFromWidget = selectedExpenseFromWidget,
+            updateSelectedExpenseFromWidget = updateSelectedExpenseFromWidget,
         )
     }
 }
@@ -194,7 +196,8 @@ private fun AddTripScreenFormulary(
     onSave: () -> Unit = {},
     clearUI: () -> Unit = {},
     updateFavourite: (Boolean) -> Unit = {},
-    selectedExpenseFromWidget: Boolean = false
+    selectedExpenseFromWidget: Boolean = false,
+    updateSelectedExpenseFromWidget: (Boolean) -> Unit = {}
 ) {
     val dialogClear = remember { mutableStateOf(false) }
     val dialogSaveNotReady = remember { mutableStateOf(false) }
@@ -353,7 +356,8 @@ private fun AddTripScreenFormulary(
                         onDeleteExpense = onDeleteExpense,
                         onCreateExpense = onCreateExpense,
                         onUpdateExpense = onUpdateExpense,
-                        selectedExpenseFromWidget = selectedExpenseFromWidget
+                        selectedExpenseFromWidget = selectedExpenseFromWidget,
+                        updateSelectedExpenseFromWidgetRemember = updateSelectedExpenseFromWidget
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
@@ -819,7 +823,8 @@ fun ExtraExpensesView(
     onCreateExpense: (String, String, String, TravelIcon) -> Unit = { _, _, _, _ -> },
     onUpdateExpense: (String, String, String, TravelIcon) -> Unit = { _, _, _, _ -> },
     onUpdateErrorAmount: (Boolean) -> Unit = {},
-    selectedExpenseFromWidget: Boolean = false
+    selectedExpenseFromWidget: Boolean = false,
+    updateSelectedExpenseFromWidgetRemember: (Boolean) -> Unit = {}
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -855,6 +860,7 @@ fun ExtraExpensesView(
             mutableStateOf<TripExpenseUiState?>(null)
         }
 
+
         val openEditDialog = remember {
             mutableStateOf(selectedExpenseFromWidget)
         }
@@ -866,7 +872,6 @@ fun ExtraExpensesView(
         if (uiState.optionalExpensesExpanded) {
 
             uiState.optionalExpenses.forEach { expense ->
-
                 ExpenseItem(
                     expense = expense,
                     onDelete = {
@@ -906,7 +911,8 @@ fun ExtraExpensesView(
                 onUpdateExpense = onUpdateExpense,
                 openEditDialog = openEditDialog,
                 onDelete = onDeleteExpense,
-                addingNewOne = openAddingNew
+                addingNewOne = openAddingNew,
+                updateSelectedExpenseFromWidgetRemember = updateSelectedExpenseFromWidgetRemember
             )
         }
     }
@@ -921,7 +927,8 @@ fun AlertDialogExpense(
     openEditDialog: MutableState<Boolean> = mutableStateOf(false),
     editExpense: TripExpenseUiState? = null,
     onDelete: (String) -> Unit = {},
-    addingNewOne: MutableState<Boolean> = mutableStateOf(false)
+    addingNewOne: MutableState<Boolean> = mutableStateOf(false),
+    updateSelectedExpenseFromWidgetRemember: (Boolean) -> Unit
 ) {
     val onExpenseName = remember(editExpense?.id) {
         mutableStateOf(editExpense?.name.orEmpty())
@@ -945,6 +952,7 @@ fun AlertDialogExpense(
 
     AlertDialog(
         onDismissRequest = {
+            updateSelectedExpenseFromWidgetRemember(false)
             addingNewOne.value = false
             openEditDialog.value = false
         },
@@ -991,6 +999,7 @@ fun AlertDialogExpense(
                         onUpdateExpense = onUpdateExpense,
                         editExpense = editExpense ?: TripExpenseUiState(),
                         updateDialog = {
+                            updateSelectedExpenseFromWidgetRemember(false)
                             openEditDialog.value = false
                             addingNewOne.value = false
                         }
@@ -1027,7 +1036,7 @@ fun AlertDialogExpense(
                     TextButton(
                         onClick = {
                             onDelete(editExpense.id)
-
+                            updateSelectedExpenseFromWidgetRemember(false)
                             openEditDialog.value = false
                             addingNewOne.value = false
                         }
@@ -1043,6 +1052,7 @@ fun AlertDialogExpense(
 
                 TextButton(
                     onClick = {
+                        updateSelectedExpenseFromWidgetRemember(false)
                         openEditDialog.value = false
                         addingNewOne.value = false
                     }

@@ -5,6 +5,7 @@ import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseC
 import es.myvacations.myvacations.domain.usecase.tripusecase.GetActiveTripUseCase
 import es.myvacations.myvacations.presentation.mapper.toUiState
 import es.myvacations.myvacations.presentation.utils.Currency
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
@@ -27,6 +28,7 @@ class WidgetObserverUseCase(
             }
 
         }.collect { trips ->
+            Napier.d(tag = "Pruebas", message = "Inicio UseCase $trips")
             widgetUpdater.update(trips)
         }
     }

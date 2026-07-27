@@ -8,7 +8,8 @@ import androidx.compose.runtime.LaunchedEffect
 import es.myvacations.myvacations.core.navigation.NavigationRoot
 import es.myvacations.myvacations.domain.manager.DatabaseInitializer
 import es.myvacations.myvacations.domain.manager.NotificationObserverManager
-import es.myvacations.myvacations.domain.usecase.eventsusecase.WidgetObserverUseCase
+import es.myvacations.myvacations.domain.manager.WidgetObserverManager
+import es.myvacations.myvacations.presentation.utils.WidgetUtils
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
@@ -20,15 +21,17 @@ fun App(
 ) {
     val initializer: DatabaseInitializer = koinInject()
     val manager: NotificationObserverManager = koinInject()
-    val widget: WidgetObserverUseCase = koinInject()
+    val widgetObserverManager: WidgetObserverManager = koinInject()
     LaunchedEffect(Unit)
     {
         initializer.initialize()
         launch {
             manager.start()
         }
-        launch {
-            widget.observe()
+        if (WidgetUtils.hasActiveWidget()) {
+            launch {
+                widgetObserverManager.start()
+            }
         }
     }
 
@@ -36,7 +39,7 @@ fun App(
         val isLandscape = maxWidth > maxHeight
         MaterialTheme(
             colorScheme = darkColorScheme(), content = {
-                NavigationRoot(isLandscape, tripId,value)
+                NavigationRoot(isLandscape, tripId, value)
             })
     }
 }
