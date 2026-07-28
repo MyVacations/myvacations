@@ -348,6 +348,7 @@ Museums, tours, attractions and entertainment.
     <string name="settings_version">Version</string>
     <string name="settings_privacy">Privacy Policy</string>
     <string name="settings_support">Help &amp; Support</string>
+    <string name="settings_onboarding">Onboarding</string>
     <!--Privacity-->
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_last_update">Last updated: June 29, 2026</string>
@@ -426,4 +427,29 @@ Found a problem or have a suggestion? You can contact the developer using the fo
 </string>
     <string name="contact_email">support.myvacations@gmail.com</string>
     <string name="support_email_subject">Soporte MyVacations</string>
+
+    <!--Onboarding-->
+    <string name="onboarding_trips_title">Organize your trips</string>
+    <string name="onboarding_trips_description">Save your upcoming trips and keep all the important information in one place.</string>
+
+    <string name="onboarding_budget_title">Keep your spending on track</string>
+    <string name="onboarding_budget_description">Set a budget, track your expenses, and see how much you have left to spend.</string>
+
+    <string name="onboarding_control_title">Everything under control</string>
+    <string name="onboarding_control_description">View statistics, receive alerts, and sync your trips with your calendar.</string>
+
+    <string name="onboarding_widget_title">Your trip at a glance</string>
+    <string name="onboarding_widget_description">Check your current trip and quickly add expenses from your home screen widget.</string>
+
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_start">Get started</string>
+    <string name="onboarding_budget_rest">Budget remaining: 20€</string>
+    <string name="onboarding_budget">Budget rest: </string>
+    <string name="onboarding_rest">1d left</string>
+    <string name="onboarding_extraexpense">• There are 2d extra expenses</string>
+    <string name="onboarding_budgetrest">Budget remaining: 20€</string>
+    <string name="onboarding_addexpense">+ Add expense</string>
+    <string name="onboarding_travel">Watch travel</string>
+
 </resources>

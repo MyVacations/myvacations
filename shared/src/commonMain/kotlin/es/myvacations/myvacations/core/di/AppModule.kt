@@ -1,8 +1,10 @@
 package es.myvacations.myvacations.core.di
 
+import es.myvacations.myvacations.core.navigation.NavigationViewModel
 import es.myvacations.myvacations.presentation.createedittrip.CreateEditTripsViewModel
 import es.myvacations.myvacations.presentation.dashboard.DashboardViewModel
 import es.myvacations.myvacations.presentation.notifications.ShowNotificationsViewModel
+import es.myvacations.myvacations.presentation.onboarding.OnboardingViewModel
 import es.myvacations.myvacations.presentation.settings.SettingsViewModel
 import es.myvacations.myvacations.presentation.statistics.StatisticsViewModel
 import es.myvacations.myvacations.presentation.tripdetail.TripDetailsViewModel
@@ -16,6 +18,8 @@ val appModule = module {
     //crashReporter = get()
 
     // ViewModels
+    viewModel { NavigationViewModel(get()) }
+    viewModel { OnboardingViewModel(get()) }
     viewModel {
         DashboardViewModel(
             selectAllNotificationsUseCase = get(),
@@ -51,11 +55,20 @@ val appModule = module {
     viewModel {
         SettingsViewModel(
             getSettingsUseCase = get(),
-            updateSettingsUseCase = get()
+            updateSettingsUseCase = get(),
+            updateWelcomeShowUseCase = get()
         )
     }
     viewModel { StatisticsViewModel(getTripsUseCase = get()) }
 
-    viewModel { ShowNotificationsViewModel(selectTripByIdUseCase = get(), selectAllNotificationsUseCase = get(), updateNotificationUseCase = get(), deleteNotificationUseCase = get(), appInfoRepository = get()) }
+    viewModel {
+        ShowNotificationsViewModel(
+            selectTripByIdUseCase = get(),
+            selectAllNotificationsUseCase = get(),
+            updateNotificationUseCase = get(),
+            deleteNotificationUseCase = get(),
+            appInfoRepository = get()
+        )
+    }
     viewModel { CalendarViewModel() }
 }

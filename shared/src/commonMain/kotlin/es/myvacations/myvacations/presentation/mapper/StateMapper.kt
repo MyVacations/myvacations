@@ -79,13 +79,14 @@ fun List<TripDomain>.toUiPastTripState() = filter { tripDomain ->
 
 fun SettingsDomain.toUiSettingsState() = SettingsUiState(
     userName = username,
-    currency = preferedCurrency
+    currency = preferredCurrency
 )
 
 fun SettingsUiState.toDomainSettingsState() = SettingsDomain(
     username = userName,
-    preferedCurrency = currency,
-    welcomeShown = false
+    preferredCurrency = currency,
+    welcomeShow = false,
+    firstLogin = false
 )
 
 fun TripExpensesDomain.toUiState() = TripExpenseUiState(

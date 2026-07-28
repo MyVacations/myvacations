@@ -63,9 +63,9 @@ import androidx.compose.ui.unit.dp
 import es.myvacations.myvacations.core.extensions.shortCurrency
 import es.myvacations.myvacations.core.navigation.SystemBackHandler
 import es.myvacations.myvacations.core.utils.DateFormatter
+import es.myvacations.myvacations.data.repository.CalendarPermissionHandler
 import es.myvacations.myvacations.domain.repository.CalendarAddEventResult
 import es.myvacations.myvacations.presentation.events.CalendarColor
-import es.myvacations.myvacations.data.repository.CalendarPermissionHandler
 import es.myvacations.myvacations.presentation.utils.AppDropDown
 import es.myvacations.myvacations.presentation.utils.LegendItem
 import es.myvacations.myvacations.presentation.utils.StatusCard
@@ -298,18 +298,19 @@ fun TripDetailScreen(
                     TripDetailsTab.EXPENSES -> item {
                         ExpensesScreen(uiState)
                     }
+                    /*
+                                        TripDetailsTab.TRAVELER -> item {
 
-                    TripDetailsTab.TRAVELER -> item {
-                        /*
-                        TravelersScreen(
-                            uiState,
-                            viewModel::onTravelerNameChanged,
-                            viewModel::onInsertTraveler,
-                            viewModel::onDeleteTraveler
-                        )
+                                            TravelersScreen(
+                                                uiState,
+                                                viewModel::onTravelerNameChanged,
+                                                viewModel::onInsertTraveler,
+                                                viewModel::onDeleteTraveler
+                                            )
 
-                         */
-                    }
+
+                                        }
+                     */
                 }
             }
         }
@@ -723,12 +724,12 @@ fun EmptyLegendItem(uiState: TripDetailUiState) {
 @Composable
 fun DialogScreenRequestingPermissionForCalendarSync(
     startSendingCalendarRequest: () -> Unit,
-    updateColor: (CalendarColor) -> Unit,
+    updateColor: (CalendarColor?) -> Unit,
     updateDialog: (Boolean) -> Unit,
     dialogRequestingPermission: Boolean,
     listColor: List<CalendarColor> = emptyList()
 ) {
-    val colorToUpdate = remember { mutableStateOf(CalendarColor()) }
+    val colorToUpdate = remember { mutableStateOf<CalendarColor?>(null) }
     if (dialogRequestingPermission) {
         AlertDialog(
             onDismissRequest = { updateDialog(false) },

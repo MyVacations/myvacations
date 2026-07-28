@@ -22,7 +22,7 @@ class AddEventToCalendarUseCase(
         place: String,
         startDate: LocalDate,
         endDate: LocalDate,
-        color: CalendarColor,
+        color: CalendarColor?,
         status: CalendarStatus
     ) = deviceCalendarRepository.addEditDeleteEvent(
             calendarId = calendarId,

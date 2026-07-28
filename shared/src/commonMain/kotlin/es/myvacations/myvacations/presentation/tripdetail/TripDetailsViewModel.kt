@@ -95,7 +95,7 @@ class TripDetailsViewModel(
         }
     }
 
-    fun updateColor(color: CalendarColor) {
+    fun updateColor(color: CalendarColor?) {
         _uiState.update {
             it.copy(
                 calendarStatus = it.calendarStatus.copy(
@@ -205,7 +205,7 @@ class TripDetailsViewModel(
         viewModelScope.launch {
             getSettingUseCase().collect { settings ->
                 _uiState.update {
-                    it.copy(currency = settings?.preferedCurrency ?: Currency.EURO)
+                    it.copy(currency = settings?.preferredCurrency ?: Currency.EURO)
                 }
             }
         }

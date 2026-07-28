@@ -150,12 +150,12 @@ class DashboardViewModel(
                         settings = settingsDomain?.toUiSettingsState() ?: SettingsUiState(),
                         upcomingTrips = _uiState.value.upcomingTrips.map { trip ->
                             trip.copy(
-                                currency = settingsDomain?.preferedCurrency ?: Currency.EURO
+                                currency = settingsDomain?.preferredCurrency ?: Currency.EURO
                             )
                         },
                         pastTrips = _uiState.value.pastTrips.map { trip ->
                             trip.copy(
-                                currency = settingsDomain?.preferedCurrency ?: Currency.EURO
+                                currency = settingsDomain?.preferredCurrency ?: Currency.EURO
                             )
                         },
                         isLoading = false

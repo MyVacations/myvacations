@@ -13,6 +13,7 @@ import es.myvacations.myvacations.domain.usecase.expenseusecase.UpdateExpenseUse
 import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseCase
 import es.myvacations.myvacations.domain.usecase.settingsusecase.InitializeDatabaseSettingsUseCase
 import es.myvacations.myvacations.domain.usecase.settingsusecase.UpdateSettingsUseCase
+import es.myvacations.myvacations.domain.usecase.settingsusecase.UpdateWelcomeShowUseCase
 import es.myvacations.myvacations.domain.usecase.travelersusecase.DeleteTravelerUseCase
 import es.myvacations.myvacations.domain.usecase.travelersusecase.GetTravelersUseCase
 import es.myvacations.myvacations.domain.usecase.travelersusecase.InsertTravelerUseCase
@@ -41,6 +42,7 @@ val domainModule = module {
     factory { GetSettingsUseCase(get()) }
     factory { InitializeDatabaseSettingsUseCase(get()) }
     factory { UpdateSettingsUseCase(get()) }
+    factory { UpdateWelcomeShowUseCase(get()) }
     factory { DeleteTravelerUseCase(get()) }
     factory { GetTravelersUseCase(get()) }
     factory { UpdateTravelerUseCase(get()) }

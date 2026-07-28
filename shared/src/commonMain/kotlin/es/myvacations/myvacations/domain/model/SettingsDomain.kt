@@ -4,6 +4,7 @@ import es.myvacations.myvacations.presentation.utils.Currency
 
 data class SettingsDomain(
     val username: String,
-    val preferedCurrency: Currency,
-    val welcomeShown: Boolean
+    val preferredCurrency: Currency,
+    val welcomeShow: Boolean,
+    val firstLogin: Boolean
 )

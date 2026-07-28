@@ -7,6 +7,7 @@ import kotlinx.serialization.json.Json
 fun ScreenDestination.toSavedValue(): String =
     when (this) {
         ScreenDestination.Splash -> "splash"
+        ScreenDestination.Onboarding -> "onboarding"
         ScreenDestination.Dashboard -> "dashboard"
         ScreenDestination.Trips -> "trips"
         ScreenDestination.Statistics -> "statistics"
@@ -21,6 +22,7 @@ fun ScreenDestination.toSavedValue(): String =
 fun String.toScreenDestination(): ScreenDestination =
     when {
         this == "splash" -> ScreenDestination.Splash
+        this == "onboarding" -> ScreenDestination.Onboarding
         this == "dashboard" -> ScreenDestination.Dashboard
         this == "trips" -> ScreenDestination.Trips
         this == "statistics" -> ScreenDestination.Statistics

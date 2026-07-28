@@ -286,7 +286,6 @@ class MyVacationWidget : GlanceAppWidget() {
                                             )
                                         )
                                     )
-
                                     Spacer(
                                         modifier = GlanceModifier.width(4.dp)
                                     )

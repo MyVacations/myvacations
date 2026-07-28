@@ -19,19 +19,23 @@ class SettingsRepositoryImpl(private val localDataSource: SettingsLocalDataSourc
     override suspend fun insertDefaultSettings(settings: SettingsDomain) {
         localDataSource.insertDefaultSettings(
             settings.username,
-            settings.preferedCurrency.name
+            settings.preferredCurrency.name
         )
     }
 
     override suspend fun updateSettings(settings: SettingsDomain) {
         localDataSource.updateSettings(
             settings.username,
-            settings.preferedCurrency.name
+            settings.preferredCurrency.name
         )
         localDataSource.updateMainTraveler(settings.username)
     }
 
-    override suspend fun updateWelcomeShown() {
-        localDataSource.updateWelcomeShown()
+    override suspend fun updateFirstLogin() {
+        localDataSource.updateFirstLogin()
+    }
+
+    override suspend fun updateWelcomeShow(boolean: Boolean) {
+        localDataSource.updateWelcomeShow(boolean)
     }
 }

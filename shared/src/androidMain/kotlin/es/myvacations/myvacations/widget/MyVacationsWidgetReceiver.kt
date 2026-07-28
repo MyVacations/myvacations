@@ -6,6 +6,7 @@ import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import es.myvacations.myvacations.data.repository.WidgetMidnightScheduler
 import es.myvacations.myvacations.domain.manager.WidgetObserverManager
+import io.github.aakira.napier.Napier
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

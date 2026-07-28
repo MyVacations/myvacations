@@ -349,6 +349,7 @@ Museos, excursiones, atracciones y actividades de ocio.
     <string name="settings_version">Versión</string>
     <string name="settings_privacy">Política de privacidad</string>
     <string name="settings_support">Ayuda y Soporte</string>
+    <string name="settings_onboarding">Onboarding</string>
     <!--Privacity-->
     <string name="privacy_policy">Política de privacidad</string>
     <string name="privacy_last_update">Última actualización: 29 de junio de 2026</string>
@@ -427,4 +428,28 @@ No. La aplicación está diseñada para funcionar completamente sin conexión a 
 </string>
     <string name="contact_email">support.myvacations@gmail.com</string>
     <string name="support_email_subject">Support MyVacations</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_trips_title">Organiza tus viajes</string>
+    <string name="onboarding_trips_description">Guarda tus próximos viajes y consulta toda la información importante en un solo lugar.</string>
+
+    <string name="onboarding_budget_title">Controla tus gastos</string>
+    <string name="onboarding_budget_description">Define un presupuesto, registra tus gastos y descubre cuánto te queda disponible.</string>
+
+    <string name="onboarding_control_title">Todo bajo control</string>
+    <string name="onboarding_control_description">Consulta estadísticas, recibe avisos y sincroniza tus viajes con el calendario.</string>
+
+    <string name="onboarding_widget_title">Tu viaje siempre a mano</string>
+    <string name="onboarding_widget_description">Consulta tu viaje actual y añade gastos rápidamente desde el widget de tu pantalla de inicio.</string>
+
+    <string name="onboarding_next">Siguiente</string>
+    <string name="onboarding_skip">Saltar</string>
+    <string name="onboarding_start">Empezar</string>
+    <string name="onboarding_budget_rest">Te quedan: 20€</string>
+    <string name="onboarding_budget">Presupuesto restante: </string>
+    <string name="onboarding_rest">1d restante</string>
+    <string name="onboarding_extraexpense">• Hay 2 gasto/s extra</string>
+    <string name="onboarding_budgetrest">Presupuesto restante: 20€</string>
+    <string name="onboarding_addexpense">+ Añadir gasto</string>
+    <string name="onboarding_travel">Ver viaje</string>
 </resources>

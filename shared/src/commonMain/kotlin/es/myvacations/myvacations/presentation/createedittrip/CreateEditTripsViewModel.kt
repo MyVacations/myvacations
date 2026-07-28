@@ -51,7 +51,7 @@ class CreateEditTripsViewModel(
             getSettingsUseCase().collect { settings ->
                 _uiState.update {
                     it.copy(
-                        currency = settings?.preferedCurrency ?: Currency.EURO,
+                        currency = settings?.preferredCurrency ?: Currency.EURO,
                     )
                 }
             }
@@ -69,7 +69,7 @@ class CreateEditTripsViewModel(
                         place = trip.placeTrip.displayName(),
                         startDate = trip.startDate,
                         endDate = trip.endDate,
-                        color = CalendarColor(),
+                        color = null,
                         status = CalendarStatus.UPDATE
                     )
                 }

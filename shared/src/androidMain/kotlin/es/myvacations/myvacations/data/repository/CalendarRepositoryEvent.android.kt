@@ -237,7 +237,7 @@ actual class GetDeviceCalendarRepository actual constructor() :
         place: String,
         startDate: LocalDate,
         endDate: LocalDate,
-        color: CalendarColor,
+        color: CalendarColor?,
         status: CalendarStatus
     ): CalendarAddEventResult {
         try {
@@ -274,7 +274,7 @@ actual class GetDeviceCalendarRepository actual constructor() :
                     getString(Res.string.descriptioncalendar, place)
                 )
                 put(CalendarContract.Events.EVENT_LOCATION, place)
-                put(CalendarContract.Events.EVENT_COLOR_KEY, color.key)
+                if(color != null) put(CalendarContract.Events.EVENT_COLOR_KEY, color.key)
                 // Evento de día completo
                 put(CalendarContract.Events.ALL_DAY, 1)
 

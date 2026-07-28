@@ -18,6 +18,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -28,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import es.myvacations.myvacations.presentation.createedittrip.AddEditTripScreen
 import es.myvacations.myvacations.presentation.dashboard.DashboardScreen
 import es.myvacations.myvacations.presentation.notifications.ShowNotificationsScreen
+import es.myvacations.myvacations.presentation.onboarding.OnboardingScreen
 import es.myvacations.myvacations.presentation.privacyandfaq.HelpSupportScreen
 import es.myvacations.myvacations.presentation.privacyandfaq.PolicyScreen
 import es.myvacations.myvacations.presentation.settings.SettingsScreen
@@ -42,14 +45,21 @@ import myvacations.shared.generated.resources.settings
 import myvacations.shared.generated.resources.statistics
 import myvacations.shared.generated.resources.trips
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
+
+data class NavigationStateUi(
+    val welcomeShow: Boolean = false
+)
 
 @Preview(showBackground = true)
 @Composable
 fun NavigationRoot(
     isLandscape: Boolean = false,
     tripIdFromWidget: String = "",
-    widgetAction: String = ""
+    widgetAction: String = "",
+    navigationViewModel: NavigationViewModel = koinViewModel()
 ) {
+    val uiState by navigationViewModel.uiState.collectAsState()
     val snackbarHostState = remember {
         SnackbarHostState()
     }
@@ -108,6 +118,14 @@ fun NavigationRoot(
             ) {
                 when (currentScreen) {
                     ScreenDestination.Splash -> SplashScreen(onFinished = {
+                        if (uiState.welcomeShow) navigate(ScreenDestination.Onboarding) else loadWidgetScreenNav(
+                            navigationState,
+                            tripIdFromWidget,
+                            widgetAction
+                        )
+                    })
+
+                    ScreenDestination.Onboarding -> OnboardingScreen(onFinished = {
                         loadWidgetScreenNav(navigationState, tripIdFromWidget, widgetAction)
                     })
 
@@ -133,6 +151,10 @@ fun NavigationRoot(
                         },
                         onHelpAndSupport = {
                             navigate(ScreenDestination.ShowHelpAndSupport)
+                        },
+                        resetApp = {
+                            clearBackStack()
+                            navigate(ScreenDestination.Onboarding)
                         })
 
                     ScreenDestination.ShowPrivacyPolitic -> {
@@ -159,9 +181,10 @@ fun NavigationRoot(
 
                     is ScreenDestination.AddEdit -> {
                         val tripid = (currentScreen as ScreenDestination.AddEdit).tripId
-                        val selectedExpenseFromWidget = remember { mutableStateOf((currentScreen as ScreenDestination.AddEdit).selectedExpenseFromWidget) }
+                        val selectedExpenseFromWidget =
+                            remember { mutableStateOf((currentScreen as ScreenDestination.AddEdit).selectedExpenseFromWidget) }
 
-                        AddEditTripScreen(tripid,selectedExpenseFromWidget.value, onDismiss = {
+                        AddEditTripScreen(tripid, selectedExpenseFromWidget.value, onDismiss = {
                             popBackStack()
                         }, updateSelectedExpenseFromWidget = {
                             selectedExpenseFromWidget.value = it
@@ -208,6 +231,7 @@ fun loadWidgetScreenNav(
                 ScreenDestination.AddEdit(tripIdFromWidget, true)
             )
         }
+
         "trip_detail" if tripIdFromWidget.isNotBlank() -> {
             if (tripIdFromWidget.isBlank()) return navigationState.navigate(
                 ScreenDestination.Dashboard
@@ -219,6 +243,7 @@ fun loadWidgetScreenNav(
                 )
             )
         }
+
         else -> {
             navigationState.navigate(ScreenDestination.Dashboard)
         }

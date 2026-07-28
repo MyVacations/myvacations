@@ -44,7 +44,7 @@ class ObserveTripForAlertsUseCase(
                 trip = TripUiState().toDomainModel(),
                 status = NotificationType.INFO_GENERIC_WELCOME,
             )
-            appInfoRepository.markWelcomeShown()
+            appInfoRepository.updateFirstLogin()
         }
 
         if (appInfoRepository.messageSeen()) {

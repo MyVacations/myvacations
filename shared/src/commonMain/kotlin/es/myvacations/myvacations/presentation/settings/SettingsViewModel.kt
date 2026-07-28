@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseCase
 import es.myvacations.myvacations.domain.usecase.settingsusecase.UpdateSettingsUseCase
+import es.myvacations.myvacations.domain.usecase.settingsusecase.UpdateWelcomeShowUseCase
 import es.myvacations.myvacations.presentation.mapper.toDomainSettingsState
 import es.myvacations.myvacations.presentation.utils.Currency
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +14,8 @@ import kotlinx.coroutines.launch
 
 class SettingsViewModel(
     private val getSettingsUseCase: GetSettingsUseCase,
-    private val updateSettingsUseCase: UpdateSettingsUseCase
+    private val updateSettingsUseCase: UpdateSettingsUseCase,
+    private val updateWelcomeShowUseCase: UpdateWelcomeShowUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState = _uiState.asStateFlow()
@@ -26,7 +28,7 @@ class SettingsViewModel(
             getSettingsUseCase().collect { settings ->
                 _uiState.value = _uiState.value.copy(
                     userName = settings?.username ?: "",
-                    currency = settings?.preferedCurrency ?: Currency.EURO,
+                    currency = settings?.preferredCurrency ?: Currency.EURO,
                     isLoading = false
                 )
             }
@@ -48,6 +50,12 @@ class SettingsViewModel(
                 settings.copy(userName = name)
             }
             updateSettingsUseCase.invoke(uiState.value.toDomainSettingsState())
+        }
+    }
+
+    fun updateShowTrue() {
+        viewModelScope.launch {
+            updateWelcomeShowUseCase()
         }
     }
 }

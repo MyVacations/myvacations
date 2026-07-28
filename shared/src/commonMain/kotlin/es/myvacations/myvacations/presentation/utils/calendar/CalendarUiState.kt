@@ -13,7 +13,7 @@ data class CalendarUiState(
     ),
     val calendarID: String = "",
     val calendarPermission: Boolean = false,
-    val colorForCalendar: CalendarColor = CalendarColor(),
+    val colorForCalendar: CalendarColor? = null,
     val calendarSync: Boolean = false,
     val calendarsAvailable: List<DeviceCalendar> = emptyList(),
     val calendarStatus: CalendarStatus = CalendarStatus.INSERT

@@ -22,7 +22,7 @@ expect class GetDeviceCalendarRepository() : DeviceCalendarRepository {
         place: String,
         startDate: LocalDate,
         endDate: LocalDate,
-        color: CalendarColor,
+        color: CalendarColor?,
         status: CalendarStatus
     ): CalendarAddEventResult
 }

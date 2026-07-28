@@ -8,12 +8,12 @@ import myvacations.shared.generated.resources.trip_detail_travelers
 import org.jetbrains.compose.resources.stringResource
 
 enum class TripDetailsTab {
-    OVERVIEW, EXPENSES, TRAVELER
+    OVERVIEW, EXPENSES
 }
 
 @Composable
 fun TripDetailsTab.toTripDetailName(): String = when (this) {
     TripDetailsTab.OVERVIEW -> stringResource(Res.string.trip_detail_overview)
     TripDetailsTab.EXPENSES -> stringResource(Res.string.trip_detail_expenses)
-    TripDetailsTab.TRAVELER -> stringResource(Res.string.trip_detail_travelers)
+    //TripDetailsTab.TRAVELER -> stringResource(Res.string.trip_detail_travelers)
 }
