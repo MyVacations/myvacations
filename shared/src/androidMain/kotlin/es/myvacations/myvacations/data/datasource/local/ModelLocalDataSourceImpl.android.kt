@@ -7,7 +7,6 @@ import es.myvacations.myvacations.data.datasource.local.ModelFiles.TOKENIZER
 import es.myvacations.myvacations.data.datasource.local.ModelFiles.VERSION
 import es.myvacations.myvacations.data.datasource.local.ModelFiles.ZIP
 import es.myvacations.myvacations.data.datasource.remote.ModelLocalDataSource
-import io.github.aakira.napier.Napier
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.readAvailable
 import kotlinx.coroutines.CoroutineDispatcher
@@ -99,9 +98,7 @@ actual class ModelLocalDataSourceImpl actual constructor(private val dispatcher:
     }
 
     actual override suspend fun deleteZip(): Boolean {
-        Napier.d(tag = "MODEL", message =  ">>> deleteZip() llamado")
         if (!zipFile.exists()) {
-            Napier.d("ZIP no existe")
             return false
         }
 

@@ -4,15 +4,19 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import es.myvacations.myvacations.core.extensions.roundTo1Decimals
 import es.myvacations.myvacations.core.extensions.shortCurrency
@@ -32,12 +37,13 @@ import io.github.koalaplot.core.pie.PieChart
 import io.github.koalaplot.core.util.ExperimentalKoalaPlotApi
 
 @OptIn(ExperimentalKoalaPlotApi::class)
+@Preview(showBackground = true)
 @Composable
 fun DonutChart(
     uiState: TripUiState = TripUiState(),
-    budgetList: List<ChartItem> = emptyList(),
-    chartItems: List<ChartItem> = emptyList(),
-    total: Double
+    budgetList: List<ChartItem> = listOf(ChartItem(name = "a", value = 1.0, color = Color.Green, icon = Icons.Default.Sync, currency = Currency.EURO)),
+    chartItems: List<ChartItem> = listOf(ChartItem(name = "a", value = 1.0, color = Color.Red, icon = Icons.Default.Sync, currency = Currency.EURO)),
+    total: Double = 1.0
 ) {
     var selectedInternalSlice by remember {
         mutableStateOf<Int?>(null)
@@ -47,7 +53,7 @@ fun DonutChart(
     }
 
     Box(
-        modifier = Modifier.fillMaxWidth().clickable(
+        modifier = Modifier.fillMaxSize().clickable(
             interactionSource = MutableInteractionSource(),
             indication = null
         ) {
@@ -56,7 +62,6 @@ fun DonutChart(
         }, contentAlignment = Alignment.Center
     ) {
         PieChart(
-            modifier = Modifier.fillMaxWidth(),
             holeSize = 0.82f,
             values = budgetList.map { it.value.toFloat() },
             slice = { index ->
@@ -162,12 +167,13 @@ fun PieChartHole(
     updateIternalSlice: (Int?) -> Unit,
     updateExternalSlice: (Int?) -> Unit
 ) {
-    Box(
+    Column(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         PieChart(
-            modifier = Modifier.fillMaxSize().padding(end = 3.dp),
+            modifier = Modifier.padding(top = 3.dp),
             values = chartItems.map { it.value.toFloat() },
             holeSize = 0.72F,
             slice = { index ->

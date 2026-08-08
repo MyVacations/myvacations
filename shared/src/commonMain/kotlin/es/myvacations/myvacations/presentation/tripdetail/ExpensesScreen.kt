@@ -60,7 +60,7 @@ fun ExpensesScreen(uiState: TripDetailUiState = TripDetailUiState()) {
     val legendOpen = remember { mutableStateOf(false) }
 
     val budgetList = when {
-        uiState.tripUiState.mainBudget == 0.0 -> emptyList<ChartItem>()
+        uiState.tripUiState.mainBudget == 0.0 -> emptyList()
 
         uiState.tripUiState.lowBudget == 0.0 -> listOf(
             ChartItem(
@@ -227,7 +227,8 @@ fun ExpensesScreen(uiState: TripDetailUiState = TripDetailUiState()) {
         }
         Column(
             modifier = Modifier.padding(20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = stringResource(Res.string.trip_detail_expenses_distribution),
