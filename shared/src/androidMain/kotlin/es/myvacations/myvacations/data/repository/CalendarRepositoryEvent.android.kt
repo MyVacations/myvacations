@@ -329,7 +329,7 @@ actual class GetDeviceCalendarRepository actual constructor() :
 }
 
 @Composable
-actual fun CalendarPermissionHandler(
+actual fun CalendarReadWrittePermissionHandler(
     onUpdatePermission: (CalendarAddEventResult) -> Unit,
     dialogRequestingCalendarPermissions: Boolean
 ) {

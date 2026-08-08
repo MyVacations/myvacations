@@ -2,6 +2,8 @@ package es.myvacations.myvacations.presentation.statistics
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import es.myvacations.myvacations.core.firebase.AnalyticsEvent
+import es.myvacations.myvacations.core.firebase.AnalyticsReporter
 import es.myvacations.myvacations.domain.model.TripStatus
 import es.myvacations.myvacations.domain.usecase.tripusecase.GetTripsUseCase
 import es.myvacations.myvacations.presentation.mapper.toUiState
@@ -15,13 +17,17 @@ import kotlinx.coroutines.launch
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
 
-class StatisticsViewModel(private val getTripsUseCase: GetTripsUseCase) : ViewModel() {
+class StatisticsViewModel(private val getTripsUseCase: GetTripsUseCase,private val analytics: AnalyticsReporter) : ViewModel() {
     private val _uiState = MutableStateFlow(
         StatisticsUiState()
     )
     val uiState = _uiState.asStateFlow()
 
     init {
+        analytics.logEvent(
+            AnalyticsEvent.SCREEN_VIEW,
+            mapOf("screen" to "statistics")
+        )
         loadTrips()
     }
 

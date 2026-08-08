@@ -13,7 +13,9 @@ class DatabaseInitializer(
                 username = "",
                 preferredCurrency = Currency.EURO,
                 welcomeShow = true,
-                firstLogin = true
+                iaTutorial = true,
+                firstLogin = true,
+                modelStage = null
             )
         )
     }

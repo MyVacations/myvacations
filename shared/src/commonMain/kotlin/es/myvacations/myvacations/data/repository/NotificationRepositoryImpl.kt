@@ -1,6 +1,6 @@
 package es.myvacations.myvacations.data.repository
 
-import es.myvacations.myvacations.data.datasource.TripLocalDataSource
+import es.myvacations.myvacations.data.datasource.local.TripLocalDataSource
 import es.myvacations.myvacations.domain.events.AppNotificationDomain
 import es.myvacations.myvacations.domain.mapper.toDomainModel
 import es.myvacations.myvacations.domain.repository.NotificationRepository

@@ -38,7 +38,9 @@ CREATE TABLE SettingsData (
     name TEXT NOT NULL,
     currency TEXT NOT NULL,
     welcomeShow INTEGER AS kotlin.Boolean NOT NULL,
-    firstLogin INTEGER AS kotlin.Boolean NOT NULL
+    iaTutorial INTEGER AS kotlin.Boolean NOT NULL,
+    firstLogin INTEGER AS kotlin.Boolean NOT NULL,
+    modelStage TEXT
 );
 
 CREATE TABLE NotificationData (
@@ -151,10 +153,14 @@ INSERT OR IGNORE INTO SettingsData(
     name,
     currency,
     welcomeShow,
-    firstLogin
+    iaTutorial,
+    firstLogin,
+    modelStage
 )
 VALUES (
     "settings",
+    ?,
+    ?,
     ?,
     ?,
     ?,
@@ -180,10 +186,22 @@ SET
     welcomeShow = ?
 WHERE id = "settings";
 
+updateIATutorial:
+UPDATE SettingsData
+SET
+    iaTutorial = ?
+WHERE id = "settings";
+
 updateFirstLogin:
 UPDATE SettingsData
 SET
     firstLogin = ?
+WHERE id = "settings";
+
+updateDownloadStage:
+UPDATE SettingsData
+SET
+    modelStage = ?
 WHERE id = "settings";
 
 selectTravelers:

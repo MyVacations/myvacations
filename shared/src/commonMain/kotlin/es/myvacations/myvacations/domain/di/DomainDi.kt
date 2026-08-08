@@ -1,6 +1,7 @@
 package es.myvacations.myvacations.domain.di
 
 import es.myvacations.myvacations.domain.usecase.GetDayPeriodUseCase
+import es.myvacations.myvacations.domain.usecase.chatbot.ClassifyIntentUseCase
 import es.myvacations.myvacations.domain.usecase.eventsusecase.AddEventToCalendarUseCase
 import es.myvacations.myvacations.domain.usecase.eventsusecase.DeleteNotificationUseCase
 import es.myvacations.myvacations.domain.usecase.eventsusecase.ObserveTripForAlertsUseCase
@@ -10,6 +11,7 @@ import es.myvacations.myvacations.domain.usecase.eventsusecase.UpdateNotificatio
 import es.myvacations.myvacations.domain.usecase.eventsusecase.WidgetObserverUseCase
 import es.myvacations.myvacations.domain.usecase.expenseusecase.DeleteExpenseUseCase
 import es.myvacations.myvacations.domain.usecase.expenseusecase.UpdateExpenseUseCase
+import es.myvacations.myvacations.domain.usecase.chatbot.latestmodelrelease.EnsureModelInstalledUseCase
 import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseCase
 import es.myvacations.myvacations.domain.usecase.settingsusecase.InitializeDatabaseSettingsUseCase
 import es.myvacations.myvacations.domain.usecase.settingsusecase.UpdateSettingsUseCase
@@ -53,8 +55,10 @@ val domainModule = module {
     factory { UpdateNotificationUseCase(get()) }
     factory { DeleteNotificationUseCase(get()) }
     factory { AddEventToCalendarUseCase(get()) }
+    factory { ClassifyIntentUseCase(get()) }
     factoryOf(::ObserveTripForAlertsUseCase)
     factoryOf(::WidgetObserverUseCase)
     factoryOf(::GetActiveTripUseCase)
     factoryOf(::GetExpenseActiveTripUseCase)
+    factory { EnsureModelInstalledUseCase(get()) }
 }

@@ -1,5 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <!--IA-->
+    <string name="download_interrupted">Download interrupted</string>
+    <string name="installation_interrupted_extraction">Installation was interrupted during extraction.</string>
+    <string name="installation_interrupted_verification">Installation was interrupted during verification.</string>
+    <string name="continue_installation">Continue installation</string>
+    <string name="install_model">Install model</string>
+    <string name="new_version_available">A new version is available: %1$s</string>
+    <string name="update_model">Update model</string>
+    <string name="downloading_model">Downloading model...</string>
+    <string name="extracting">Extracting...</string>
+    <string name="completed">Completed</string>
+    <string name="download_failed">Download failed</string>
+    <string name="retry">Retry?</string>
+    <string name="discover_places_with_ai">Discover places with AI</string>
+
+    <!--Categories-->
+    <string name="analytics_prediction">Prediction</string>
+    <string name="analytics_feedback">Feedback</string>
+    <string name="analytics_correction">Correction</string>
+    <string name="analytics_positive">Positive</string>
+    <string name="analytics_negative">Negative</string>
+    <string name="analytics_restaurant">Restaurant</string>
+    <string name="analytics_cafe">Cafe</string>
+    <string name="analytics_fast_food">Fast food</string>
+    <string name="analytics_bar">Bar</string>
+    <string name="analytics_pub">Pub</string>
+    <string name="analytics_supermarket">Supermarket</string>
+    <string name="analytics_pharmacy">Pharmacy</string>
+    <string name="analytics_hospital">Hospital</string>
+    <string name="analytics_fuel">Fuel station</string>
+    <string name="analytics_mall">Shopping mall</string>
+    <string name="analytics_museum">Museum</string>
+    <string name="analytics_gallery">Art gallery</string>
+    <string name="analytics_attraction">Tourist attraction</string>
+    <string name="analytics_garden">Garden</string>
+    <string name="analytics_park">Park</string>
+    <string name="analytics_viewpoint">Viewpoint</string>
+    <string name="analytics_cinema">Cinema</string>
+    <string name="analytics_theatre">Theatre</string>
+    <string name="analytics_none">None</string>
     <!--Colors-->
     <string name="nocolors">No colors for this calendar</string>
     <!--Formulary-->
@@ -130,6 +170,7 @@
     <string name="trips">Trips</string>
     <string name="statistics">Statistics</string>
     <string name="settings">Settings</string>
+    <string name="chatbot">Chatbot</string>
     <!-- Titulos de pantalla -->
     <string name="trips_title">My Trips</string>
     <string name="statistics_title">Statistics</string>
@@ -451,5 +492,6 @@ Found a problem or have a suggestion? You can contact the developer using the fo
     <string name="onboarding_budgetrest">Budget remaining: 20€</string>
     <string name="onboarding_addexpense">+ Add expense</string>
     <string name="onboarding_travel">Watch travel</string>
-
+<!--ChatBot-->
+    <string name="chatbot_place_notfind">Sorry ,I can’t find what you want in a 5 kilometers </string>
 </resources>

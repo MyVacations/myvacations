@@ -2,6 +2,7 @@ package es.myvacations.myvacations.core.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.Dashboard
@@ -27,6 +28,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
+import es.myvacations.myvacations.presentation.chatbot.ChatScreen
 import es.myvacations.myvacations.presentation.createedittrip.AddEditTripScreen
 import es.myvacations.myvacations.presentation.dashboard.DashboardScreen
 import es.myvacations.myvacations.presentation.notifications.ShowNotificationsScreen
@@ -40,6 +43,7 @@ import es.myvacations.myvacations.presentation.tripdetail.TripDetailScreen
 import es.myvacations.myvacations.presentation.trips.TripsScreen
 import kotlinx.coroutines.launch
 import myvacations.shared.generated.resources.Res
+import myvacations.shared.generated.resources.chatbot
 import myvacations.shared.generated.resources.dashboard
 import myvacations.shared.generated.resources.settings
 import myvacations.shared.generated.resources.statistics
@@ -157,6 +161,7 @@ fun NavigationRoot(
                             navigate(ScreenDestination.Onboarding)
                         })
 
+                    ScreenDestination.ChatScreen -> ChatScreen()
                     ScreenDestination.ShowPrivacyPolitic -> {
                         PolicyScreen(onDismiss = {
                             popBackStack()
@@ -252,6 +257,7 @@ fun loadWidgetScreenNav(
 
 @Composable
 private fun BottomBarUi(state: NavigationState = NavigationState()) {
+    val navtextSize = 10.sp
     with(state) {
         NavigationBar {
             NavigationBarItem(
@@ -265,7 +271,7 @@ private fun BottomBarUi(state: NavigationState = NavigationState()) {
                         contentDescription = null
                     )
                 },
-                label = { Text(stringResource(Res.string.dashboard)) }
+                label = { Text(stringResource(Res.string.dashboard), fontSize = navtextSize) }
             )
             NavigationBarItem(
                 selected = currentScreen == ScreenDestination.Trips,
@@ -273,7 +279,7 @@ private fun BottomBarUi(state: NavigationState = NavigationState()) {
                     navigateBottomBar(ScreenDestination.Trips)
                 },
                 icon = { Icon(imageVector = Icons.Default.Map, contentDescription = null) },
-                label = { Text(stringResource(Res.string.trips)) }
+                label = { Text(stringResource(Res.string.trips), fontSize = navtextSize) }
             )
             NavigationBarItem(
                 selected = currentScreen == ScreenDestination.Statistics,
@@ -286,7 +292,20 @@ private fun BottomBarUi(state: NavigationState = NavigationState()) {
                         contentDescription = null
                     )
                 },
-                label = { Text(stringResource(Res.string.statistics)) }
+                label = { Text(stringResource(Res.string.statistics), fontSize = navtextSize) }
+            )
+            NavigationBarItem(
+                selected = currentScreen == ScreenDestination.ChatScreen,
+                onClick = {
+                    navigateBottomBar(ScreenDestination.ChatScreen)
+                },
+                icon = {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.Chat,
+                        contentDescription = null
+                    )
+                },
+                label = { Text(stringResource(Res.string.chatbot), fontSize = navtextSize) }
             )
             NavigationBarItem(
                 selected = currentScreen == ScreenDestination.Settings,
@@ -299,7 +318,7 @@ private fun BottomBarUi(state: NavigationState = NavigationState()) {
                         contentDescription = null
                     )
                 },
-                label = { Text(stringResource(Res.string.settings)) }
+                label = { Text(stringResource(Res.string.settings), fontSize = navtextSize) }
             )
         }
     }

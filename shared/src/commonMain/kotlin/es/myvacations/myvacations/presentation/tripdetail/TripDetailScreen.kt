@@ -63,7 +63,7 @@ import androidx.compose.ui.unit.dp
 import es.myvacations.myvacations.core.extensions.shortCurrency
 import es.myvacations.myvacations.core.navigation.SystemBackHandler
 import es.myvacations.myvacations.core.utils.DateFormatter
-import es.myvacations.myvacations.data.repository.CalendarPermissionHandler
+import es.myvacations.myvacations.data.repository.CalendarReadWrittePermissionHandler
 import es.myvacations.myvacations.domain.repository.CalendarAddEventResult
 import es.myvacations.myvacations.presentation.events.CalendarColor
 import es.myvacations.myvacations.presentation.utils.AppDropDown
@@ -168,7 +168,7 @@ fun TripDetailScreen(
             viewModel.stopObservingCalendarChanges()
         }
     }
-    CalendarPermissionHandler(
+    CalendarReadWrittePermissionHandler(
         onUpdatePermission = {
             if (it is CalendarAddEventResult.PermissionDenied) {
                 dialogRequestingCalendarPermissions.value = false

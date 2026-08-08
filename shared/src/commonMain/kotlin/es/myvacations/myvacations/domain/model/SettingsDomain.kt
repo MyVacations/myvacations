@@ -6,5 +6,7 @@ data class SettingsDomain(
     val username: String,
     val preferredCurrency: Currency,
     val welcomeShow: Boolean,
-    val firstLogin: Boolean
+    val iaTutorial: Boolean,
+    val firstLogin: Boolean,
+    val modelStage: ModelInstallStage?
 )

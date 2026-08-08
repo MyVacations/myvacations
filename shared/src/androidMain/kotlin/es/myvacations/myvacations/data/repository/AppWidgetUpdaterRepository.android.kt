@@ -11,7 +11,7 @@ import es.myvacations.myvacations.widget.MyVacationWidget
 import io.github.aakira.napier.Napier
 import kotlinx.serialization.json.Json
 
-actual class AppWidgetUpdaterRepository :
+actual class AppWidgetUpdaterRepositoryImpl :
     WidgetUpdater {
 
     actual override suspend fun update(trip: List<TripUiState>?) {

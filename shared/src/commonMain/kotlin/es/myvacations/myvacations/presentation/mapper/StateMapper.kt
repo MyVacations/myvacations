@@ -1,19 +1,44 @@
 package es.myvacations.myvacations.presentation.mapper
 
+import androidx.compose.runtime.Composable
 import es.myvacations.myvacations.core.extensions.roundTo2Decimals
 import es.myvacations.myvacations.domain.events.AppNotificationDomain
 import es.myvacations.myvacations.domain.mapper.calculateStatus
+import es.myvacations.myvacations.domain.model.ChatMessageDomain
 import es.myvacations.myvacations.domain.model.SettingsDomain
 import es.myvacations.myvacations.domain.model.TravelersDomain
 import es.myvacations.myvacations.domain.model.TripDomain
 import es.myvacations.myvacations.domain.model.TripExpensesDomain
 import es.myvacations.myvacations.domain.model.TripStatus
+import es.myvacations.myvacations.domain.repository.AIRepository
+import es.myvacations.myvacations.presentation.chatbot.ChatMessageUiState
 import es.myvacations.myvacations.presentation.createedittrip.TripUiState
 import es.myvacations.myvacations.presentation.dashboard.DashboardStats
 import es.myvacations.myvacations.presentation.events.AppNotificationUiState
 import es.myvacations.myvacations.presentation.settings.SettingsUiState
 import es.myvacations.myvacations.presentation.tripdetail.TravelerUiState
 import es.myvacations.myvacations.presentation.utils.TripExpenseUiState
+import myvacations.shared.generated.resources.Res
+import myvacations.shared.generated.resources.analytics_attraction
+import myvacations.shared.generated.resources.analytics_bar
+import myvacations.shared.generated.resources.analytics_cafe
+import myvacations.shared.generated.resources.analytics_cinema
+import myvacations.shared.generated.resources.analytics_fast_food
+import myvacations.shared.generated.resources.analytics_fuel
+import myvacations.shared.generated.resources.analytics_gallery
+import myvacations.shared.generated.resources.analytics_garden
+import myvacations.shared.generated.resources.analytics_hospital
+import myvacations.shared.generated.resources.analytics_mall
+import myvacations.shared.generated.resources.analytics_museum
+import myvacations.shared.generated.resources.analytics_none
+import myvacations.shared.generated.resources.analytics_park
+import myvacations.shared.generated.resources.analytics_pharmacy
+import myvacations.shared.generated.resources.analytics_pub
+import myvacations.shared.generated.resources.analytics_restaurant
+import myvacations.shared.generated.resources.analytics_supermarket
+import myvacations.shared.generated.resources.analytics_theatre
+import myvacations.shared.generated.resources.analytics_viewpoint
+import org.jetbrains.compose.resources.stringResource
 
 fun TripUiState.toDomainModel() = TripDomain(
     id = id,
@@ -86,7 +111,9 @@ fun SettingsUiState.toDomainSettingsState() = SettingsDomain(
     username = userName,
     preferredCurrency = currency,
     welcomeShow = false,
-    firstLogin = false
+    iaTutorial = false,
+    firstLogin = false,
+    modelStage = null
 )
 
 fun TripExpensesDomain.toUiState() = TripExpenseUiState(
@@ -136,3 +163,34 @@ fun AppNotificationDomain.toUiState() = AppNotificationUiState(
     read = read,
     createdAt = createdAt
 )
+
+fun ChatMessageDomain.toUiState() = ChatMessageUiState(
+    text = text,
+    fromBot = fromBot
+)
+
+@Composable
+fun AIRepository.toNameLabel() = this.load().idToLabel.map { label ->
+    when (label) {
+        "ATTRACTION" -> stringResource(Res.string.analytics_attraction)
+        "BAR" -> stringResource(Res.string.analytics_bar)
+        "CAFE" -> stringResource(Res.string.analytics_cafe)
+        "CINEMA" -> stringResource(Res.string.analytics_cinema)
+        "FAST_FOOD" -> stringResource(Res.string.analytics_fast_food)
+        "FUEL" -> stringResource(Res.string.analytics_fuel)
+        "GALLERY" -> stringResource(Res.string.analytics_gallery)
+        "GARDEN" -> stringResource(Res.string.analytics_garden)
+        "HOSPITAL" -> stringResource(Res.string.analytics_hospital)
+        "MALL" -> stringResource(Res.string.analytics_mall)
+        "MUSEUM" -> stringResource(Res.string.analytics_museum)
+        "NONE" -> stringResource(Res.string.analytics_none)
+        "PARK" -> stringResource(Res.string.analytics_park)
+        "PHARMACY" -> stringResource(Res.string.analytics_pharmacy)
+        "PUB" -> stringResource(Res.string.analytics_pub)
+        "RESTAURANT" -> stringResource(Res.string.analytics_restaurant)
+        "SUPERMARKET" -> stringResource(Res.string.analytics_supermarket)
+        "THEATRE" -> stringResource(Res.string.analytics_theatre)
+        "VIEWPOINT" -> stringResource(Res.string.analytics_viewpoint)
+        else -> stringResource(Res.string.analytics_none)
+    }
+}

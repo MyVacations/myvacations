@@ -12,6 +12,7 @@ fun ScreenDestination.toSavedValue(): String =
         ScreenDestination.Trips -> "trips"
         ScreenDestination.Statistics -> "statistics"
         ScreenDestination.Settings -> "settings"
+        ScreenDestination.ChatScreen -> "chatScreen"
         ScreenDestination.ShowPrivacyPolitic -> "showPrivacyPolitic"
         ScreenDestination.ShowHelpAndSupport -> "showHelpAndSupport"
         ScreenDestination.ShowNotifications -> "showNotifications"
@@ -27,6 +28,7 @@ fun String.toScreenDestination(): ScreenDestination =
         this == "trips" -> ScreenDestination.Trips
         this == "statistics" -> ScreenDestination.Statistics
         this == "settings" -> ScreenDestination.Settings
+        this == "chatScreen" -> ScreenDestination.ChatScreen
         this == "showPrivacyPolitic" -> ScreenDestination.ShowPrivacyPolitic
         this == "showHelpAndSupport" -> ScreenDestination.ShowHelpAndSupport
         this == "showNotifications" -> ScreenDestination.ShowNotifications

@@ -1,5 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <!--IA-->
+    <string name="download_interrupted">La descarga se interrumpió</string>
+    <string name="installation_interrupted_extraction">La instalación se interrumpió durante la extracción.</string>
+    <string name="installation_interrupted_verification">La instalación se interrumpió durante la verificación.</string>
+    <string name="continue_installation">Continuar instalación</string>
+    <string name="install_model">Instalar modelo</string>
+    <string name="new_version_available">Hay una nueva versión disponible: %1$s</string>
+    <string name="update_model">Actualizar modelo</string>
+    <string name="downloading_model">Descargando modelo...</string>
+    <string name="extracting">Extrayendo...</string>
+    <string name="completed">Completado</string>
+    <string name="download_failed">Error al descargar</string>
+    <string name="retry">¿Reintentar?</string>
+    <string name="discover_places_with_ai">Descubre lugares con IA</string>
+
+    <!--Categories-->
+    <string name="analytics_prediction">Predicción</string>
+    <string name="analytics_feedback">Valoración</string>
+    <string name="analytics_correction">Corrección</string>
+    <string name="analytics_positive">Positivo</string>
+    <string name="analytics_negative">Negativo</string>
+    <string name="analytics_restaurant">Restaurante</string>
+    <string name="analytics_cafe">Cafetería</string>
+    <string name="analytics_fast_food">Comida rápida</string>
+    <string name="analytics_bar">Bar</string>
+    <string name="analytics_pub">Pub</string>
+    <string name="analytics_supermarket">Supermercado</string>
+    <string name="analytics_pharmacy">Farmacia</string>
+    <string name="analytics_hospital">Hospital</string>
+    <string name="analytics_fuel">Gasolinera</string>
+    <string name="analytics_mall">Centro comercial</string>
+    <string name="analytics_museum">Museo</string>
+    <string name="analytics_gallery">Galería de arte</string>
+    <string name="analytics_attraction">Atracción turística</string>
+    <string name="analytics_garden">Jardín</string>
+    <string name="analytics_park">Parque</string>
+    <string name="analytics_viewpoint">Mirador</string>
+    <string name="analytics_cinema">Cine</string>
+    <string name="analytics_theatre">Teatro</string>
+    <string name="analytics_none">No aparece</string>
     <!--Colors-->
     <string name="nocolors">Sin colores para este calendario</string>
     <!--Formulary-->
@@ -130,6 +170,7 @@
     <string name="trips">Viajes</string>
     <string name="statistics">Estadísticas</string>
     <string name="settings">Ajustes</string>
+    <string name="chatbot">Chatbot</string>
     <!-- Titulos de pantalla -->
     <string name="trips_title">Mis Viajes</string>
     <string name="statistics_title">Estadisticas</string>
@@ -452,4 +493,6 @@ No. La aplicación está diseñada para funcionar completamente sin conexión a 
     <string name="onboarding_budgetrest">Presupuesto restante: 20€</string>
     <string name="onboarding_addexpense">+ Añadir gasto</string>
     <string name="onboarding_travel">Ver viaje</string>
+    <!--ChatBot-->
+    <string name="chatbot_place_notfind">Lo siento, no he podido encontrar tu destino en un radio de 5 kilómetros</string>
 </resources>

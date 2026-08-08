@@ -28,7 +28,7 @@ expect class GetDeviceCalendarRepository() : DeviceCalendarRepository {
 }
 
 @Composable
-expect fun CalendarPermissionHandler(
+expect fun CalendarReadWrittePermissionHandler(
     onUpdatePermission: (CalendarAddEventResult) -> Unit,
     dialogRequestingCalendarPermissions: Boolean
 )

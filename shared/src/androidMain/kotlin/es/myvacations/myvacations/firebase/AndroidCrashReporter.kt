@@ -1,4 +1,4 @@
-package es.myvacations.myvacations
+package es.myvacations.myvacations.firebase
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import es.myvacations.myvacations.core.firebase.CrashReporter

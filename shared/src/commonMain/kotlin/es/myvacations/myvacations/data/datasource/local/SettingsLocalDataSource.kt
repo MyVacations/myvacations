@@ -1,4 +1,4 @@
-package es.myvacations.myvacations.data.datasource
+package es.myvacations.myvacations.data.datasource.local
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToOne
@@ -17,11 +17,13 @@ class SettingsLocalDataSource(
     fun insertDefaultSettings(
         name: String,
         currency: String
-    ) = queries.insertDefaultUser(name, currency, welcomeShow = true, firstLogin = true)
+    ) = queries.insertDefaultUser(name, currency, welcomeShow = true, firstLogin = true, iaTutorial = true, modelStage = null)
 
     fun updateFirstLogin() = queries.updateFirstLogin(firstLogin = false)
 
     fun updateWelcomeShow(boolean: Boolean) = queries.updateWelcome(welcomeShow = boolean)
+
+    fun updateIATutorialSettings(boolean: Boolean) = queries.updateIATutorial(iaTutorial = boolean)
 
     fun updateSettings(
         name: String,
@@ -30,5 +32,9 @@ class SettingsLocalDataSource(
 
     fun updateMainTraveler(travelerName: String) {
         queries.updateMainUser(travelerName = travelerName)
+    }
+
+    fun updateDownloadStage(stage: String?) {
+        queries.updateDownloadStage(stage)
     }
 }

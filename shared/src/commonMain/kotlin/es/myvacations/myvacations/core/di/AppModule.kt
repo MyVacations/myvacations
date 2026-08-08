@@ -1,6 +1,7 @@
 package es.myvacations.myvacations.core.di
 
 import es.myvacations.myvacations.core.navigation.NavigationViewModel
+import es.myvacations.myvacations.presentation.chatbot.ChatViewModel
 import es.myvacations.myvacations.presentation.createedittrip.CreateEditTripsViewModel
 import es.myvacations.myvacations.presentation.dashboard.DashboardViewModel
 import es.myvacations.myvacations.presentation.notifications.ShowNotificationsViewModel
@@ -59,7 +60,7 @@ val appModule = module {
             updateWelcomeShowUseCase = get()
         )
     }
-    viewModel { StatisticsViewModel(getTripsUseCase = get()) }
+    viewModel { StatisticsViewModel(getTripsUseCase = get(), analytics = get()) }
 
     viewModel {
         ShowNotificationsViewModel(
@@ -71,4 +72,13 @@ val appModule = module {
         )
     }
     viewModel { CalendarViewModel() }
+
+    viewModel {
+        ChatViewModel(
+            ensureModelInstalledUseCase = get(),
+            classifyIntentUseCase = get(),
+            repository = get(),
+            analytics = get()
+        )
+    }
 }

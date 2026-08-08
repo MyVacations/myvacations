@@ -35,6 +35,11 @@ sealed interface ScreenDestination {
         override val showFloatingButton = false
     }
 
+    data object ChatScreen : ScreenDestination {
+        override val showBottomBarUi: Boolean = true
+        override val showFloatingButton = false
+    }
+
     data object ShowPrivacyPolitic : ScreenDestination {
         override val showBottomBarUi: Boolean = false
         override val showFloatingButton = false
@@ -58,4 +63,5 @@ sealed interface ScreenDestination {
         override val showBottomBarUi: Boolean = false
         override val showFloatingButton = false
     }
+
 }

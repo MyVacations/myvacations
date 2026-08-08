@@ -9,4 +9,6 @@ interface SettingsRepository {
     suspend fun updateSettings(settings: SettingsDomain)
     suspend fun updateFirstLogin()
     suspend fun updateWelcomeShow(boolean: Boolean)
+    suspend fun updateIATutorialSettings(boolean: Boolean)
+    suspend fun updateDownloadStage(stage: String?)
 }

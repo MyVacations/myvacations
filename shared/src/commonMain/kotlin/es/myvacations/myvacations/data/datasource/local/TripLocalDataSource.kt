@@ -1,4 +1,4 @@
-package es.myvacations.myvacations.data.datasource
+package es.myvacations.myvacations.data.datasource.local
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList

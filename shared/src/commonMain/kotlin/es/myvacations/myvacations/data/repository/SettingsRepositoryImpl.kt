@@ -1,6 +1,6 @@
 package es.myvacations.myvacations.data.repository
 
-import es.myvacations.myvacations.data.datasource.SettingsLocalDataSource
+import es.myvacations.myvacations.data.datasource.local.SettingsLocalDataSource
 import es.myvacations.myvacations.domain.mapper.toDomainModel
 import es.myvacations.myvacations.domain.model.SettingsDomain
 import es.myvacations.myvacations.domain.repository.SettingsRepository
@@ -38,4 +38,13 @@ class SettingsRepositoryImpl(private val localDataSource: SettingsLocalDataSourc
     override suspend fun updateWelcomeShow(boolean: Boolean) {
         localDataSource.updateWelcomeShow(boolean)
     }
+
+    override suspend fun updateIATutorialSettings(boolean: Boolean) {
+        localDataSource.updateIATutorialSettings(boolean)
+    }
+
+    override suspend fun updateDownloadStage(stage: String?) {
+        localDataSource.updateDownloadStage(stage)
+    }
+
 }
