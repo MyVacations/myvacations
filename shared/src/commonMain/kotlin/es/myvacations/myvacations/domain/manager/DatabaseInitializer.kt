@@ -12,7 +12,10 @@ class DatabaseInitializer(
             SettingsDomain(
                 username = "",
                 preferredCurrency = Currency.EURO,
-                welcomeShown = true
+                welcomeShow = true,
+                iaTutorial = true,
+                firstLogin = true,
+                modelStage = null
             )
         )
     }

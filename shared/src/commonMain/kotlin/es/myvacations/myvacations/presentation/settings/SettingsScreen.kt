@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.Tour
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -63,6 +64,7 @@ import myvacations.shared.generated.resources.currency
 import myvacations.shared.generated.resources.guest_user
 import myvacations.shared.generated.resources.settings
 import myvacations.shared.generated.resources.settings_about
+import myvacations.shared.generated.resources.settings_onboarding
 import myvacations.shared.generated.resources.settings_preferences
 import myvacations.shared.generated.resources.settings_privacy
 import myvacations.shared.generated.resources.settings_support
@@ -74,7 +76,8 @@ import org.koin.compose.viewmodel.koinViewModel
 fun SettingsScreen(
     viewModel: SettingsViewModel = koinViewModel(),
     onPolicyScreen: () -> Unit,
-    onHelpAndSupport: () -> Unit
+    onHelpAndSupport: () -> Unit,
+    resetApp: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var appDropDown by remember {
@@ -151,6 +154,16 @@ fun SettingsScreen(
                                 )
                             }
                         }
+                        HorizontalDivider()
+                        SettingsItem(
+                            icon = Icons.Default.Tour,
+                            title = stringResource(Res.string.settings_onboarding),
+                            showArrow = true,
+                            onClick = {
+                                viewModel.updateShowTrue()
+                                resetApp()
+                            }
+                        )
                     }
                 }
                 item {
@@ -158,7 +171,6 @@ fun SettingsScreen(
                     SettingsSection(
                         title = stringResource(Res.string.settings_about)
                     ) {
-
                         SettingsItem(
                             icon = Icons.Default.Shield,
                             title = stringResource(Res.string.settings_privacy),

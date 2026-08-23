@@ -2,6 +2,7 @@ package es.myvacations.myvacations.core.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.Dashboard
@@ -12,16 +13,27 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
+import es.myvacations.myvacations.presentation.chatbot.ChatScreen
 import es.myvacations.myvacations.presentation.createedittrip.AddEditTripScreen
 import es.myvacations.myvacations.presentation.dashboard.DashboardScreen
 import es.myvacations.myvacations.presentation.notifications.ShowNotificationsScreen
+import es.myvacations.myvacations.presentation.onboarding.OnboardingScreen
 import es.myvacations.myvacations.presentation.privacyandfaq.HelpSupportScreen
 import es.myvacations.myvacations.presentation.privacyandfaq.PolicyScreen
 import es.myvacations.myvacations.presentation.settings.SettingsScreen
@@ -29,20 +41,54 @@ import es.myvacations.myvacations.presentation.splash.SplashScreen
 import es.myvacations.myvacations.presentation.statistics.StatisticsScreen
 import es.myvacations.myvacations.presentation.tripdetail.TripDetailScreen
 import es.myvacations.myvacations.presentation.trips.TripsScreen
+import kotlinx.coroutines.launch
 import myvacations.shared.generated.resources.Res
+import myvacations.shared.generated.resources.chatbot
 import myvacations.shared.generated.resources.dashboard
 import myvacations.shared.generated.resources.settings
 import myvacations.shared.generated.resources.statistics
 import myvacations.shared.generated.resources.trips
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
+
+data class NavigationStateUi(
+    val welcomeShow: Boolean = false
+)
 
 @Preview(showBackground = true)
 @Composable
-fun NavigationRoot(isLandscape: Boolean = false) {
+fun NavigationRoot(
+    isLandscape: Boolean = false,
+    tripIdFromWidget: String = "",
+    widgetAction: String = "",
+    navigationViewModel: NavigationViewModel = koinViewModel()
+) {
+    val uiState by navigationViewModel.uiState.collectAsState()
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+    val scope = rememberCoroutineScope()
     val navigationState = rememberSaveable(
         saver = NavigationStateSaver
     ) {
         NavigationState()
+    }
+
+    LaunchedEffect(
+        tripIdFromWidget,
+        widgetAction
+    ) {
+        if (
+            navigationState.currentScreen != ScreenDestination.Splash &&
+            tripIdFromWidget.isNotBlank() &&
+            widgetAction.isNotBlank()
+        ) {
+            loadWidgetScreenNav(
+                navigationState,
+                tripIdFromWidget,
+                widgetAction
+            )
+        }
     }
 
     with(navigationState) {
@@ -64,14 +110,27 @@ fun NavigationRoot(isLandscape: Boolean = false) {
                         )
                     }
                 }
+            }, snackbarHost = {
+                SnackbarHost(
+                    hostState = snackbarHostState
+                )
             }
+
         ) { paddingValues ->
             Surface(
                 modifier = Modifier.padding(paddingValues)
             ) {
                 when (currentScreen) {
                     ScreenDestination.Splash -> SplashScreen(onFinished = {
-                        navigate(ScreenDestination.Dashboard)
+                        if (uiState.welcomeShow) navigate(ScreenDestination.Onboarding) else loadWidgetScreenNav(
+                            navigationState,
+                            tripIdFromWidget,
+                            widgetAction
+                        )
+                    })
+
+                    ScreenDestination.Onboarding -> OnboardingScreen(onFinished = {
+                        loadWidgetScreenNav(navigationState, tripIdFromWidget, widgetAction)
                     })
 
                     ScreenDestination.Dashboard -> DashboardScreen(
@@ -96,8 +155,13 @@ fun NavigationRoot(isLandscape: Boolean = false) {
                         },
                         onHelpAndSupport = {
                             navigate(ScreenDestination.ShowHelpAndSupport)
+                        },
+                        resetApp = {
+                            clearBackStack()
+                            navigate(ScreenDestination.Onboarding)
                         })
 
+                    ScreenDestination.ChatScreen -> ChatScreen()
                     ScreenDestination.ShowPrivacyPolitic -> {
                         PolicyScreen(onDismiss = {
                             popBackStack()
@@ -122,8 +186,13 @@ fun NavigationRoot(isLandscape: Boolean = false) {
 
                     is ScreenDestination.AddEdit -> {
                         val tripid = (currentScreen as ScreenDestination.AddEdit).tripId
-                        AddEditTripScreen(tripid, onDismiss = {
+                        val selectedExpenseFromWidget =
+                            remember { mutableStateOf((currentScreen as ScreenDestination.AddEdit).selectedExpenseFromWidget) }
+
+                        AddEditTripScreen(tripid, selectedExpenseFromWidget.value, onDismiss = {
                             popBackStack()
+                        }, updateSelectedExpenseFromWidget = {
+                            selectedExpenseFromWidget.value = it
                         })
                     }
 
@@ -134,17 +203,67 @@ fun NavigationRoot(isLandscape: Boolean = false) {
                                 popBackStack()
                             }, onEditTripClick = {
                                 navigate(ScreenDestination.AddEdit(tripid))
+                            }, onShowSnackbar = { message ->
+                                scope.launch {
+                                    snackbarHostState.showSnackbar(message)
+                                }
                             })
                     }
                 }
             }
         }
+    }
+}
 
+fun loadWidgetScreenNav(
+    navigationState: NavigationState,
+    tripIdFromWidget: String,
+    widgetAction: String
+) {
+    when (widgetAction) {
+        "add_expense" if tripIdFromWidget.isNotBlank() -> {
+            if (tripIdFromWidget.isBlank()) return navigationState.navigate(
+                ScreenDestination.Dashboard
+            )
+
+            navigationState.navigate(ScreenDestination.Dashboard)
+
+            navigationState.navigate(
+                ScreenDestination.TripDetail(tripIdFromWidget)
+            )
+
+            navigationState.navigate(
+                ScreenDestination.AddEdit(tripIdFromWidget, true)
+            )
+        }
+
+        "trip_detail" if tripIdFromWidget.isNotBlank() -> {
+            if (tripIdFromWidget.isBlank()) return navigationState.navigate(
+                ScreenDestination.Dashboard
+            )
+            navigationState.navigate(ScreenDestination.Dashboard)
+            navigationState.navigate(
+                ScreenDestination.TripDetail(
+                    tripId = tripIdFromWidget
+                )
+            )
+        }
+
+        "chat" -> {
+            return navigationState.navigate(
+                ScreenDestination.ChatScreen
+            )
+        }
+
+        else -> {
+            navigationState.navigate(ScreenDestination.Dashboard)
+        }
     }
 }
 
 @Composable
 private fun BottomBarUi(state: NavigationState = NavigationState()) {
+    val navtextSize = 10.sp
     with(state) {
         NavigationBar {
             NavigationBarItem(
@@ -158,7 +277,7 @@ private fun BottomBarUi(state: NavigationState = NavigationState()) {
                         contentDescription = null
                     )
                 },
-                label = { Text(stringResource(Res.string.dashboard)) }
+                label = { Text(stringResource(Res.string.dashboard), fontSize = navtextSize) }
             )
             NavigationBarItem(
                 selected = currentScreen == ScreenDestination.Trips,
@@ -166,7 +285,7 @@ private fun BottomBarUi(state: NavigationState = NavigationState()) {
                     navigateBottomBar(ScreenDestination.Trips)
                 },
                 icon = { Icon(imageVector = Icons.Default.Map, contentDescription = null) },
-                label = { Text(stringResource(Res.string.trips)) }
+                label = { Text(stringResource(Res.string.trips), fontSize = navtextSize) }
             )
             NavigationBarItem(
                 selected = currentScreen == ScreenDestination.Statistics,
@@ -179,7 +298,20 @@ private fun BottomBarUi(state: NavigationState = NavigationState()) {
                         contentDescription = null
                     )
                 },
-                label = { Text(stringResource(Res.string.statistics)) }
+                label = { Text(stringResource(Res.string.statistics), fontSize = navtextSize) }
+            )
+            NavigationBarItem(
+                selected = currentScreen == ScreenDestination.ChatScreen,
+                onClick = {
+                    navigateBottomBar(ScreenDestination.ChatScreen)
+                },
+                icon = {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.Chat,
+                        contentDescription = null
+                    )
+                },
+                label = { Text(stringResource(Res.string.chatbot), fontSize = navtextSize) }
             )
             NavigationBarItem(
                 selected = currentScreen == ScreenDestination.Settings,
@@ -192,7 +324,7 @@ private fun BottomBarUi(state: NavigationState = NavigationState()) {
                         contentDescription = null
                     )
                 },
-                label = { Text(stringResource(Res.string.settings)) }
+                label = { Text(stringResource(Res.string.settings), fontSize = navtextSize) }
             )
         }
     }

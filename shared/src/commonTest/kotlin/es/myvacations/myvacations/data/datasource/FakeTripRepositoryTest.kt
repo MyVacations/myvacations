@@ -2,6 +2,7 @@ package es.myvacations.myvacations.data.datasource
 
 import es.myvacations.myvacations.domain.model.TravelersDomain
 import es.myvacations.myvacations.domain.model.TripDomain
+import es.myvacations.myvacations.domain.model.TripExpensesDomain
 import es.myvacations.myvacations.domain.repository.TripRepository
 import es.myvacations.myvacations.domain.usecase.tripusecase.SaveTripUseCase
 import es.myvacations.myvacations.presentation.utils.DefaultTrip
@@ -21,7 +22,15 @@ class FakeTripRepository : TripRepository {
         trips.add(trip)
     }
 
-    override fun getSpecificTrip(id: String): Flow<TripDomain> {
+    override fun getSpecificTrip(id: String): Flow<TripDomain?> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getSpecificTripWithoutFlow(id: String): TripDomain? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getExpensesByTripId(tripId: String): Flow<List<TripExpensesDomain>> {
         TODO("Not yet implemented")
     }
 

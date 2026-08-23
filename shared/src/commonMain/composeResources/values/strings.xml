@@ -1,5 +1,133 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <!--IA-->
+    <string name="download_interrupted">Download interrupted</string>
+    <string name="installation_interrupted_extraction">Installation was interrupted during extraction.</string>
+    <string name="installation_interrupted_verification">Installation was interrupted during verification.</string>
+    <string name="continue_installation">Continue installation</string>
+    <string name="install_model">Install model</string>
+    <string name="new_version_available">A new version is available: %1$s</string>
+    <string name="update_model">Update model</string>
+    <string name="downloading_model">Downloading model...</string>
+    <string name="extracting">Extracting...</string>
+    <string name="completed">Completed</string>
+    <string name="download_failed">Download failed</string>
+    <string name="retry">Retry?</string>
+    <string name="discover_places_with_ai">Discover places with AI</string>
+    <string name="notpermissionexplain">Without permissions you can’t use this tool \nEnable location in the application settings</string>
+    <string name="preciseubication">Fine location necessarily</string>
+    <string name="activethefinelocation">Active the fine location for use the map</string>
+    <string name="outoflimits">Out of limits, get closer to 500 metres</string>
+    <string name="botheader">I found some places near you that might fit with what you asked for:</string>
+    <string name="bothdescription">Places found:</string>
+    <string name="boterror1">I don’t understand what kind of place you are looking for.\nTry to tell me something like "I want an italian restaurant" or "I am looking for a museum"</string>
+    <string name="boterror2">I couldn't search places right now.\nTry again later.</string>
+    <string name="buttonRetry">Retry</string>
+    <string name="placesTitle">¿What kind of place are you looking for?</string>
+    <string name="placesheader">Nearest places</string>
+    <string name="examplePlace">I am looking for a restaurant near me</string>
+    <string name="gotomap">Go to map</string>
+    <string name="delete1chat">Delete current chat</string>
+    <string name="deleteallchats">Delete all chats</string>
+    <string name="feedback">Is this helpful?</string>
+    <!-- AI Chat Tutorial -->
+    <string name="ai_tutorial_skip">Skip</string>
+    <string name="ai_tutorial_continue">Continue</string>
+    <string name="ai_tutorial_back">Back</string>
+    <string name="ai_tutorial_start">Start</string>
+
+    <string name="ai_tutorial_intro_title">Your travel assistant</string>
+    <string name="ai_tutorial_intro_description">Tell the assistant what you need and it will look for places that may interest you nearby.</string>
+    <string name="ai_tutorial_intro_user_message">What can I do this afternoon?</string>
+    <string name="ai_tutorial_intro_bot_message">I found some places that might interest you.</string>
+
+    <string name="ai_tutorial_examples_title">Write what you are looking for</string>
+    <string name="ai_tutorial_examples_description">You don't need to use categories. Write your request in your own words.</string>
+    <string name="ai_tutorial_example_pizza">I want to eat pizza</string>
+    <string name="ai_tutorial_example_coffee">I want to have a coffee</string>
+    <string name="ai_tutorial_example_japanese">I want Japanese food</string>
+    <string name="ai_tutorial_example_hungry">I'm hungry</string>
+
+    <string name="ai_tutorial_results_title">Find places nearby</string>
+    <string name="ai_tutorial_results_description">The assistant searches for places related to your request and shows the closest results.</string>
+
+    <string name="ai_tutorial_map_title">Explore the map</string>
+    <string name="ai_tutorial_map_description">Explore the places directly on the map, move it, zoom in and out, and select any place.</string>
+
+    <string name="ai_tutorial_details_title">Discover each place</string>
+    <string name="ai_tutorial_details_description">Check the available information about a place, such as its address, distance, phone number or website.</string>
+
+    <string name="ai_tutorial_navigation_title">Get to your destination</string>
+    <string name="ai_tutorial_navigation_description">Tap \"Get directions\" to open the place in your maps application.</string>
+
+    <string name="ai_tutorial_restaurant_flati">Restaurante Flati</string>
+    <string name="ai_tutorial_abades_loja">Abades Loja</string>
+    <string name="ai_tutorial_bar_andalucia">Bar Andalucía</string>
+
+    <string name="ai_tutorial_restaurant">Restaurant</string>
+    <string name="ai_tutorial_bar">Bar</string>
+    <string name="ai_tutorial_regional">Regional</string>
+
+    <string name="ai_tutorial_address">Avenida de Andalucía</string>
+    <string name="ai_tutorial_phone">+34 958 000 000</string>
+    <string name="ai_tutorial_website">restauranteflati.com</string>
+
+    <string name="ai_tutorial_distance_350m">350 m</string>
+    <string name="ai_tutorial_distance_720m">720 m</string>
+    <string name="ai_tutorial_distance_1_1km">1.1 km</string>
+
+    <string name="ai_tutorial_get_directions">Get directions</string>
+
+    <!--Categories-->
+    <string name="analytics_prediction">Prediction</string>
+    <string name="analytics_feedback">Feedback</string>
+    <string name="analytics_correction">Correction</string>
+    <string name="analytics_positive">Positive</string>
+    <string name="analytics_negative">Negative</string>
+    <string name="analytics_restaurant">Restaurant</string>
+    <string name="analytics_cafe">Cafe</string>
+    <string name="analytics_fast_food">Fast food</string>
+    <string name="analytics_bar">Bar</string>
+    <string name="analytics_pub">Pub</string>
+    <string name="analytics_supermarket">Supermarket</string>
+    <string name="analytics_pharmacy">Pharmacy</string>
+    <string name="analytics_hospital">Hospital</string>
+    <string name="analytics_fuel">Fuel station</string>
+    <string name="analytics_mall">Shopping mall</string>
+    <string name="analytics_museum">Museum</string>
+    <string name="analytics_gallery">Art gallery</string>
+    <string name="analytics_attraction">Tourist attraction</string>
+    <string name="analytics_garden">Garden</string>
+    <string name="analytics_park">Park</string>
+    <string name="analytics_viewpoint">Viewpoint</string>
+    <string name="analytics_cinema">Cinema</string>
+    <string name="analytics_theatre">Theatre</string>
+    <string name="analytics_none">None</string>
+    <!--Colors-->
+    <string name="nocolors">No colors for this calendar</string>
+    <!--Formulary-->
+    <string name="syncawait">Calendars may take a few moments to update.</string>
+    <string name="formulary_destination">Destination</string>
+    <string name="synceditdelete">Edit or delete sync?</string>
+    <string name="syncedit">Edit</string>
+    <string name="syncselectcalendar">Select a calendar.</string>
+    <string name="syncselectcalendartitle">Account: %1$s</string>
+    <string name="calendar_google">Google Calendar</string>
+    <string name="calendar_exchange">Exchange Calendar</string>
+    <string name="calendar_microsoft">Microsoft Calendar</string>
+    <string name="calendar_dav">DAV Calendar</string>
+    <string name="calendar_local">Local Calendar</string>
+
+    <string name="titlecalendar">Trip to %1$s | %2$s</string>
+    <string name="descriptioncalendar">Trip to %1$s, planned with MyVacations</string>
+    <string name="syncwith">Calendar</string>
+    <string name="syncwithnotnow">Not now</string>
+    <string name="notpermissioncalendartitle">No permission?</string>
+    <string name="notpermissioncalendar">Without permission, the calendar cannot be synced.</string>
+    <string name="snackbarNoCalendarFind">No calendar is available on this device</string>
+    <string name="snackbarCalendarSync">Calendar synced successfully.</string>
+    <string name="snackbarCalendarSyncUpdate">Calendar sync updated successfully</string>
+    <string name="snackbarCalendarSyncDelete">Successfully unsynced.</string>
     <!--Month-->
     <string name="january">January</string>
     <string name="february">February</string>
@@ -13,6 +141,18 @@
     <string name="october">October</string>
     <string name="november">November</string>
     <string name="december">December</string>
+    <string name="january_">Jan</string>
+    <string name="february_">Feb</string>
+    <string name="march_">Mar</string>
+    <string name="april_">Apr</string>
+    <string name="may_">May</string>
+    <string name="june_">Jun</string>
+    <string name="july_">Jul</string>
+    <string name="august_">Aug</string>
+    <string name="september_">Sep</string>
+    <string name="october_">Oct</string>
+    <string name="november_">Nov</string>
+    <string name="december_">Dec</string>
     <!--DaysOfWeek-->
     <string name="monday">Mo</string>
     <string name="tuesday">Tu</string>
@@ -93,13 +233,16 @@
     <string name="trips">Trips</string>
     <string name="statistics">Statistics</string>
     <string name="settings">Settings</string>
+    <string name="chatbot">Chatbot</string>
     <!-- Titulos de pantalla -->
     <string name="trips_title">My Trips</string>
     <string name="statistics_title">Statistics</string>
     <!--Elementos utiles-->
+    <string name="today">Today</string>
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
+    <string name="error">There was an error, check numbers</string>
     <!--Dashboard-->
     <string name="guest_user">Guest</string>
     <string name="greetings_morning">Good morning %1$s 👋</string>
@@ -161,6 +304,7 @@
     <string name="new_trip_save_trip">Save</string>
     <string name="new_trip_clear">Clear</string>
     <string name="new_trip_error">Error</string>
+    <string name="new_trip_add">Add</string>
     <string name="new_trip_destination">DESTINATION</string>
     <string name="new_trip_dates">DATES</string>
     <string name="new_trip_D_G">DURATION &amp; GROUP</string>
@@ -172,11 +316,12 @@
     <string name="new_trip_trip_country_example">e.g. Spain</string>
     <string name="new_trip_start_date">Start Date</string>
     <string name="new_trip_end_date">End Date</string>
+    <string name="new_trip_select_date">Select a date</string>
     <string name="new_trip_duration">Total</string>
     <string name="new_trip_travelers">Travelers</string>
     <string name="new_trip_traveling_days">Traveling Days</string>
-    <string name="new_trip_cost">Total trip cost</string>
-    <string name="new_trip_budget">My budget (%1$s)</string>
+    <string name="new_trip_cost">Total trip cost | Max 99999.9 (%1$s)</string>
+    <string name="new_trip_budget">My budget | Max 99999.9 (%1$s)</string>
     <string name="new_trip_optional_expenses_example">Flights</string>
     <string name="new_trip_optional_expenses_none">None optional expenses</string>
     <string name="new_trip_my_expected_cost">Your Expected Cost</string>
@@ -184,17 +329,15 @@
     <string name="new_trip_notes">NOTES</string>
     <string name="new_trip_days">days</string>
     <string name="new_trip_add_expense">+ Add expense</string>
-    <string name="new_trip_food">Food</string>
+    <string name="new_trip_food">ex. Food</string>
     <string name="new_trip_expense">Expense</string>
     <string name="new_trip_optional_delete">Delete</string>
     <string name="new_trip_optional_name">Name</string>
     <string name="new_trip_optional_icon">Icon</string>
-    <string name="new_trip_optional_amount">Amount (%1$s)</string>
+    <string name="new_trip_optional_amount">Amount | Max 999.9 (%1$s)</string>
     <string name="new_trip_optional_name_error">Name is required</string>
     <string name="new_trip_optional_value_error">Amount is required</string>
-    <string name="new_trip_title_require">Title is required</string>
-    <string name="new_trip_start_date_require">Start date is required</string>
-    <string name="new_trip_end_date_require">End date is required</string>
+    <string name="new_trip_title_require">Title is required</string>>
     <string name="new_trip_cost_require">Cost is required</string>
     <string name="new_trip_cover_dialog_title">Select a cover</string>
     <!--LegendInside-->
@@ -233,6 +376,7 @@ Restaurants, cafés, groceries and drinks.
 Museums, tours, attractions and entertainment.
 </string>
     <!--TripDetail-->
+    <string name="trip_detail_favourite">Favourites</string>
     <string name="trip_detail_all">All</string>
     <string name="trip_detail_active">Active</string>
     <string name="trip_detail_upcoming">Upcoming</string>
@@ -273,8 +417,8 @@ Museums, tours, attractions and entertainment.
     <string name="trip_detail_expenses_food">Food</string>
     <string name="trip_detail_expenses_entertainment">Entertainment</string>
     <string name="trip_detail_legend_remaining">Remaining budget vs. extra expenses</string>
-    <string name="trip_detail_legend_used">Budget used vs. extra expenses</string>
-    <string name="trip_detail_legend_exceed">Extra expenses exceeded the budget</string>
+    <string name="trip_detail_legend_used">Budget partially or fully spent</string>
+    <string name="trip_detail_legend_exceed">Budget exceeded</string>
     <string name="trip_detail_legend_maincost">Main cost (flights and accommodation)</string>
     <string name="trip_detail_legend_ubications">Locations (parks, beaches, landmarks...)</string>
     <string name="trip_detail_legend_transports">Transport (taxi, metro, bus...)</string>
@@ -288,9 +432,8 @@ Museums, tours, attractions and entertainment.
     <string name="trip_detail_traveler_costyou">Your cost + optional expenses</string>
     <string name="trip_detail_traveler_costperperson">Cost per person</string>
     <string name="trip_detail_traveler_budget_health">Budget status</string>
-    <string name="trip_detail_traveler_budget_healthy">You're within your budget.</string>
-    <string name="trip_detail_traveler_budget_low">Your budget is running low.</string>
-    <string name="trip_detail_traveler_budget_exceed">You exceeded your budget by %1$s</string>
+    <string name="trip_detail_traveler_budget_low">Your bud. is running low.</string>
+    <string name="trip_detail_budget_remaining">Remaining</string>
     <string name="trip_detail_traveler_newtraveler">+ Add Traveler</string>
     <string name="trip_detail_search_default_value">Search destinations...</string>
     <!--Statistics-->
@@ -309,6 +452,7 @@ Museums, tours, attractions and entertainment.
     <string name="settings_version">Version</string>
     <string name="settings_privacy">Privacy Policy</string>
     <string name="settings_support">Help &amp; Support</string>
+    <string name="settings_onboarding">Onboarding</string>
     <!--Privacity-->
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_last_update">Last updated: June 29, 2026</string>
@@ -387,4 +531,30 @@ Found a problem or have a suggestion? You can contact the developer using the fo
 </string>
     <string name="contact_email">support.myvacations@gmail.com</string>
     <string name="support_email_subject">Soporte MyVacations</string>
+
+    <!--Onboarding-->
+    <string name="onboarding_trips_title">Organize your trips</string>
+    <string name="onboarding_trips_description">Save your upcoming trips and keep all the important information in one place.</string>
+
+    <string name="onboarding_budget_title">Keep your spending on track</string>
+    <string name="onboarding_budget_description">Set a budget, track your expenses, and see how much you have left to spend.</string>
+
+    <string name="onboarding_control_title">Everything under control</string>
+    <string name="onboarding_control_description">View statistics, receive alerts, and sync your trips with your calendar.</string>
+
+    <string name="onboarding_widget_title">Your trip at a glance</string>
+    <string name="onboarding_widget_description">Check your current trip and quickly add expenses from your home screen widget.</string>
+
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_start">Get started</string>
+    <string name="onboarding_budget_rest">Budget remaining: 20€</string>
+    <string name="onboarding_budget">Budget rest: </string>
+    <string name="onboarding_rest">1d left</string>
+    <string name="onboarding_extraexpense">• There are 2d extra expenses</string>
+    <string name="onboarding_budgetrest">Budget remaining: 20€</string>
+    <string name="onboarding_addexpense">+ Add expense</string>
+    <string name="onboarding_travel">Watch travel</string>
+    <!--ChatBot-->
+    <string name="chatbot_place_notfind">Sorry ,I can’t find what you want in a 5 kilometers </string>
 </resources>

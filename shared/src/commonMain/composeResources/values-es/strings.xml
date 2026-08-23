@@ -1,5 +1,133 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <!--IA-->
+    <string name="download_interrupted">La descarga se interrumpió</string>
+    <string name="installation_interrupted_extraction">La instalación se interrumpió durante la extracción.</string>
+    <string name="installation_interrupted_verification">La instalación se interrumpió durante la verificación.</string>
+    <string name="continue_installation">Continuar instalación</string>
+    <string name="install_model">Instalar modelo</string>
+    <string name="new_version_available">Hay una nueva versión disponible: %1$s</string>
+    <string name="update_model">Actualizar modelo</string>
+    <string name="downloading_model">Descargando modelo...</string>
+    <string name="extracting">Extrayendo...</string>
+    <string name="completed">Completado</string>
+    <string name="download_failed">Error al descargar</string>
+    <string name="retry">¿Reintentar?</string>
+    <string name="discover_places_with_ai">Descubre lugares con IA</string>
+    <string name="notpermissionexplain">Sin permisos no se puede usar esta herramienta \nActiva la ubicación en ajustes de la aplicación</string>
+    <string name="preciseubication">Ubicación precisa necesaria</string>
+    <string name="outoflimits">Fuera de los límites, acércate a menos de 500 metros</string>
+    <string name="activethefinelocation">Activa la ubicación precisa para utilizar el mapa</string>
+    <string name="botheader">He encontrado algunos sitios cerca que podrían encajar con lo que me pides:</string>
+    <string name="bothdescription">Lugares encontrados:</string>
+    <string name="boterror1">No he entendido qué tipo de lugar buscas.\nPrueba a decirme algo como "quiero un restaurante italiano" o "busco un museo"</string>
+    <string name="boterror2">No he podido buscar lugares en este momento.\nInténtalo de nuevo.</string>
+    <string name="buttonRetry">Reintentar</string>
+    <string name="placesTitle">¿Que lugar buscas?</string>
+    <string name="placesheader">Lugares más cercanos:</string>
+    <string name="examplePlace">Busco un restaurante cerca de mí</string>
+    <string name="gotomap">Ir al mapa</string>
+    <string name="delete1chat">Borrar el chat actual</string>
+    <string name="deleteallchats">Borrar todos los chats</string>
+    <string name="feedback">¿La búsqueda es acertada?</string>
+
+    <!--Categories-->
+    <string name="analytics_prediction">Predicción</string>
+    <string name="analytics_feedback">Valoración</string>
+    <string name="analytics_correction">Corrección</string>
+    <string name="analytics_positive">Positivo</string>
+    <string name="analytics_negative">Negativo</string>
+    <string name="analytics_restaurant">Restaurante</string>
+    <string name="analytics_cafe">Cafetería</string>
+    <string name="analytics_fast_food">Comida rápida</string>
+    <string name="analytics_bar">Bar</string>
+    <string name="analytics_pub">Pub</string>
+    <string name="analytics_supermarket">Supermercado</string>
+    <string name="analytics_pharmacy">Farmacia</string>
+    <string name="analytics_hospital">Hospital</string>
+    <string name="analytics_fuel">Gasolinera</string>
+    <string name="analytics_mall">Centro comercial</string>
+    <string name="analytics_museum">Museo</string>
+    <string name="analytics_gallery">Galería de arte</string>
+    <string name="analytics_attraction">Atracción turística</string>
+    <string name="analytics_garden">Jardín</string>
+    <string name="analytics_park">Parque</string>
+    <string name="analytics_viewpoint">Mirador</string>
+    <string name="analytics_cinema">Cine</string>
+    <string name="analytics_theatre">Teatro</string>
+    <string name="analytics_none">No aparece</string>
+        <!-- Tutorial del chat IA -->
+        <string name="ai_tutorial_skip">Saltar</string>
+        <string name="ai_tutorial_continue">Continuar</string>
+        <string name="ai_tutorial_back">Atrás</string>
+        <string name="ai_tutorial_start">Empezar</string>
+
+        <string name="ai_tutorial_intro_title">Tu asistente de viaje</string>
+        <string name="ai_tutorial_intro_description">Cuéntale qué necesitas y buscará lugares que puedan interesarte cerca de ti.</string>
+        <string name="ai_tutorial_intro_user_message">¿Qué puedo hacer esta tarde?</string>
+        <string name="ai_tutorial_intro_bot_message">He encontrado algunos lugares que podrían interesarte.</string>
+
+        <string name="ai_tutorial_examples_title">Escribe lo que buscas</string>
+        <string name="ai_tutorial_examples_description">No necesitas utilizar categorías. Escribe tu petición con tus propias palabras.</string>
+        <string name="ai_tutorial_example_pizza">Quiero comer pizza</string>
+        <string name="ai_tutorial_example_coffee">Quiero tomar un café</string>
+        <string name="ai_tutorial_example_japanese">Quiero comida japonesa</string>
+        <string name="ai_tutorial_example_hungry">Tengo hambre</string>
+
+        <string name="ai_tutorial_results_title">Encuentra lugares cerca de ti</string>
+        <string name="ai_tutorial_results_description">El asistente busca lugares relacionados con tu petición y muestra los resultados más próximos.</string>
+
+        <string name="ai_tutorial_map_title">Explora el mapa</string>
+        <string name="ai_tutorial_map_description">Explora los lugares directamente sobre el mapa, muévelo, haz zoom y selecciona cualquiera de ellos.</string>
+
+        <string name="ai_tutorial_details_title">Conoce cada lugar</string>
+        <string name="ai_tutorial_details_description">Consulta la información disponible del lugar, como su dirección, distancia, teléfono o página web.</string>
+
+        <string name="ai_tutorial_navigation_title">Llega a tu destino</string>
+        <string name="ai_tutorial_navigation_description">Pulsa «Cómo llegar» para abrir el lugar en tu aplicación de mapas.</string>
+
+        <string name="ai_tutorial_restaurant_flati">Restaurante Flati</string>
+        <string name="ai_tutorial_abades_loja">Abades Loja</string>
+        <string name="ai_tutorial_bar_andalucia">Bar Andalucía</string>
+
+        <string name="ai_tutorial_restaurant">Restaurante</string>
+        <string name="ai_tutorial_bar">Bar</string>
+        <string name="ai_tutorial_regional">Regional</string>
+
+        <string name="ai_tutorial_address">Avenida de Andalucía</string>
+        <string name="ai_tutorial_phone">+34 958 000 000</string>
+        <string name="ai_tutorial_website">restauranteflati.com</string>
+
+        <string name="ai_tutorial_distance_350m">350 m</string>
+        <string name="ai_tutorial_distance_720m">720 m</string>
+        <string name="ai_tutorial_distance_1_1km">1,1 km</string>
+
+        <string name="ai_tutorial_get_directions">Cómo llegar</string>
+    <!--Colors-->
+    <string name="nocolors">Sin colores para este calendario</string>
+    <!--Formulary-->
+    <string name="syncawait">Los calendarios pueden tardar en actualizarse</string>
+    <string name="synceditdelete">¿Editar o eliminar sincronización?</string>
+    <string name="syncselectcalendar">Selecciona un calendario.</string>
+    <string name="syncselectcalendartitle">Cuenta: %1$s</string>
+    <string name="syncedit">Editar</string>
+    <string name="calendar_google">Calendario de Google</string>
+    <string name="calendar_exchange">Calendario de Exchange</string>
+    <string name="calendar_microsoft">Calendario de Microsoft</string>
+    <string name="calendar_dav">Calendario de DAV</string>
+    <string name="calendar_local">Calendario local</string>
+
+    <string name="titlecalendar">Viaje a %1$s | %2$s</string>
+    <string name="descriptioncalendar">Viaje a %1$s, planeado con MyVacations</string>
+    <string name="syncwith">Calendario</string>
+    <string name="syncwithnotnow">Ahora no</string>
+    <string name="notpermissioncalendartitle">¿Sin permisos?</string>
+    <string name="notpermissioncalendar">Sin permiso no se puede sincronizar con el calendario</string>
+    <string name="snackbarNoCalendarFind">No hay calendario disponible en este dispositivo</string>
+    <string name="snackbarCalendarSync">Calendario sincronizado correctamente.</string>
+    <string name="snackbarCalendarSyncUpdate">Calendario actualizado correctamente.</string>
+    <string name="snackbarCalendarSyncDelete">Desincronizado correctamente.</string>
+
     <!--Month-->
     <string name="january">Enero</string>
     <string name="february">Febrero</string>
@@ -13,6 +141,18 @@
     <string name="october">Octubre</string>
     <string name="november">Noviembre</string>
     <string name="december">Diciembre</string>
+    <string name="january_">Ene</string>
+    <string name="february_">Feb</string>
+    <string name="march_">Mar</string>
+    <string name="april_">Abr</string>
+    <string name="may_">May</string>
+    <string name="june_">Jun</string>
+    <string name="july_">Jul</string>
+    <string name="august_">Ago</string>
+    <string name="september_">Sep</string>
+    <string name="october_">Oct</string>
+    <string name="november_">Nov</string>
+    <string name="december_">Dic</string>
     <!--DaysOfWeek-->
     <string name="monday">Lu</string>
     <string name="tuesday">Ma</string>
@@ -93,13 +233,16 @@
     <string name="trips">Viajes</string>
     <string name="statistics">Estadísticas</string>
     <string name="settings">Ajustes</string>
+    <string name="chatbot">Chatbot</string>
     <!-- Titulos de pantalla -->
     <string name="trips_title">Mis Viajes</string>
     <string name="statistics_title">Estadisticas</string>
     <!--Elementos utiles-->
+    <string name="today">Hoy</string>
     <string name="accept">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="close">Cerrar</string>
+    <string name="error">Hubo un error, comprueba los números</string>
     <!--Dashboard-->
     <string name="guest_user">Invitado</string>
     <string name="greetings_morning">Buenos días %1$s 👋</string>
@@ -155,12 +298,13 @@
 
     <!--NewTrip-->
     <string name="new_trip_clear_formulary">¿Limpiar formulario?</string>
-    <string name="new_trip_complete_formulary">Completa el formulario para crear un nuevo viaje</string>
+    <string name="new_trip_complete_formulary">Revisa el formulario para crear un nuevo viaje</string>
     <string name="new_trip_title">Nuevo viaje</string>
     <string name="edt_trip">Editar viaje</string>
     <string name="new_trip_clear">Borrar</string>
     <string name="new_trip_error">Error</string>
     <string name="new_trip_save_trip">Guardar</string>
+    <string name="new_trip_add">Añadir</string>
     <string name="new_trip_destination">DESTINO</string>
     <string name="new_trip_dates">FECHAS</string>
     <string name="new_trip_D_G">DURACIÓN Y GRUPO</string>
@@ -172,29 +316,29 @@
     <string name="new_trip_trip_cover">País</string>
     <string name="new_trip_start_date">Fecha de inicio</string>
     <string name="new_trip_end_date">Fecha de fin</string>
+    <string name="new_trip_select_date">Selecciona una fecha</string>
     <string name="new_trip_duration">Duración</string>
     <string name="new_trip_travelers">Viajeros</string>
     <string name="new_trip_traveling_days">Dias viajando</string>
-    <string name="new_trip_cost">Precio total del viaje</string>
-    <string name="new_trip_budget">Mi presupuesto (%1$s)</string>
+    <string name="new_trip_cost">Precio total del viaje | Max 99999.9 (%1$s)</string>
+    <string name="new_trip_budget">Mi presupuesto | Max 99999.9 (%1$s)</string>
     <string name="new_trip_optional_expenses_example">Comida</string>
     <string name="new_trip_optional_expenses_none">Ningún coste opcional</string>
     <string name="new_trip_my_expected_cost">Mi coste previsto</string>
     <string name="new_trip_my_expected_budget">Mi presupuesto vs. costes opcionales</string>
+    <string name="new_trip_my_expected_budget_short">Presup. vs. costes opcio.</string>
     <string name="new_trip_notes">NOTAS</string>
     <string name="new_trip_days">dias</string>
     <string name="new_trip_add_expense">+ Añadir coste</string>
-    <string name="new_trip_food">Comida</string>
+    <string name="new_trip_food">ej.Comida</string>
     <string name="new_trip_expense">Gasto</string>
     <string name="new_trip_optional_delete">Borrar</string>
     <string name="new_trip_optional_name">Nombre</string>
     <string name="new_trip_optional_icon">Icono</string>
-    <string name="new_trip_optional_amount">Cantidad (%1$s)</string>
+    <string name="new_trip_optional_amount">Cantidad | Max 999.9 (%1$s)</string>
     <string name="new_trip_optional_name_error">Se requiere un nombre</string>
     <string name="new_trip_optional_value_error">Se requiere un valor</string>
     <string name="new_trip_title_require">Se requiere un titulo</string>
-    <string name="new_trip_start_date_require">Se requiere una fecha de inicio</string>
-    <string name="new_trip_end_date_require">Se requiere una fecha de fin</string>
     <string name="new_trip_cost_require">Se requiere un coste</string>
     <string name="new_trip_cover_dialog_title">Selecciona una portada</string>
     <!--LegendInside-->
@@ -208,7 +352,7 @@ Representa el importe total que se espera que gastes durante el viaje. Se calcul
     <string name="new_trip_legend_budget_remaining_description">
 Muestra cuánto presupuesto personal te queda disponible después de restar tus gastos adicionales.
 </string>
-    <string name="new_trip_legend_travelers_title">Viajeros</string>
+    <string name="new_trip_legend__title">Grupo</string>
     <string name="new_trip_legend_travelers_description">
 El número de viajeros solo se utiliza para calcular la parte del coste del viaje que te corresponde. Los gastos adicionales son personales y no se reparten entre los viajeros.
 </string>
@@ -233,6 +377,7 @@ Restaurantes, cafeterías, supermercados y bebidas.
 Museos, excursiones, atracciones y actividades de ocio.
 </string>
     <!--TripDetail-->
+    <string name="trip_detail_favourite">Favoritos</string>
     <string name="trip_detail_all">Todos</string>
     <string name="trip_detail_active">Activo</string>
     <string name="trip_detail_upcoming">Planeado</string>
@@ -247,7 +392,7 @@ Museos, excursiones, atracciones y actividades de ocio.
     <string name="trip_detail_header_costperday">dia</string>
     <string name="trip_detail_overview">Resumen</string>
     <string name="trip_detail_budget">Presupuesto</string>
-    <string name="trip_detail_expenses">Costes</string>
+    <string name="trip_detail_expenses">Costes individuales</string>
     <string name="trip_detail_travelers">Viajeros</string>
     <string name="trip_detail_overview_total">DIAS TOTALES</string>
     <string name="trip_detail_overview_traveldays">DIAS VIAJANDO</string>
@@ -274,8 +419,8 @@ Museos, excursiones, atracciones y actividades de ocio.
     <string name="trip_detail_expenses_entertainment">Entretenimiento</string>
     <string name="trip_detail_legend_remaining">Presupuesto restante para costes extra</string>
     <string name="trip_detail_legend_maincost">Coste principal (vuelos, hotel...)</string>
-    <string name="trip_detail_legend_used">Presupuesto utilizado en costes extra</string>
-    <string name="trip_detail_legend_exceed">Presupuesto excediendo costes extra</string>
+    <string name="trip_detail_legend_used">Presupuesto parcial o totalmente gastado</string>
+    <string name="trip_detail_legend_exceed">Presupuesto excedido</string>
     <string name="trip_detail_legend_ubications">Lugares (parques, playas, monumentos...)</string>
     <string name="trip_detail_legend_transports">Transportes (taxi, metro, autobús...)</string>
     <string name="trip_detail_legend_food">Comida (restaurantes, cafeterías...)</string>
@@ -288,10 +433,9 @@ Museos, excursiones, atracciones y actividades de ocio.
     <string name="trip_detail_traveler_costyou">Tu coste + coste adicional</string>
     <string name="trip_detail_traveler_costperperson">Coste por persona</string>
     <string name="trip_detail_traveler_newtraveler">+ Añadir viajero</string>
+    <string name="trip_detail_budget_remaining">Restante</string>
     <string name="trip_detail_traveler_budget_health">Estado del presupuesto</string>
-    <string name="trip_detail_traveler_budget_healthy">Estás dentro del presupuesto.</string>
-    <string name="trip_detail_traveler_budget_low">Te queda poco presupuesto disponible.</string>
-    <string name="trip_detail_traveler_budget_exceed">Has excedido el presupuesto por %1$s</string>
+    <string name="trip_detail_traveler_budget_low">Poco presupuesto disponible.</string>
     <string name="trip_detail_search_default_value">Buscar destinos...</string>
     <!--Statistics-->
     <string name="statistics_notrips">Sin viajes encontrados</string>
@@ -309,6 +453,7 @@ Museos, excursiones, atracciones y actividades de ocio.
     <string name="settings_version">Versión</string>
     <string name="settings_privacy">Política de privacidad</string>
     <string name="settings_support">Ayuda y Soporte</string>
+    <string name="settings_onboarding">Onboarding</string>
     <!--Privacity-->
     <string name="privacy_policy">Política de privacidad</string>
     <string name="privacy_last_update">Última actualización: 29 de junio de 2026</string>
@@ -387,4 +532,30 @@ No. La aplicación está diseñada para funcionar completamente sin conexión a 
 </string>
     <string name="contact_email">support.myvacations@gmail.com</string>
     <string name="support_email_subject">Support MyVacations</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_trips_title">Organiza tus viajes</string>
+    <string name="onboarding_trips_description">Guarda tus próximos viajes y consulta toda la información importante en un solo lugar.</string>
+
+    <string name="onboarding_budget_title">Controla tus gastos</string>
+    <string name="onboarding_budget_description">Define un presupuesto, registra tus gastos y descubre cuánto te queda disponible.</string>
+
+    <string name="onboarding_control_title">Todo bajo control</string>
+    <string name="onboarding_control_description">Consulta estadísticas, recibe avisos y sincroniza tus viajes con el calendario.</string>
+
+    <string name="onboarding_widget_title">Tu viaje siempre a mano</string>
+    <string name="onboarding_widget_description">Consulta tu viaje actual y añade gastos rápidamente desde el widget de tu pantalla de inicio.</string>
+
+    <string name="onboarding_next">Siguiente</string>
+    <string name="onboarding_skip">Saltar</string>
+    <string name="onboarding_start">Empezar</string>
+    <string name="onboarding_budget_rest">Te quedan: 20€</string>
+    <string name="onboarding_budget">Presupuesto restante: </string>
+    <string name="onboarding_rest">1d restante</string>
+    <string name="onboarding_extraexpense">• Hay 2 gasto/s extra</string>
+    <string name="onboarding_budgetrest">Presupuesto restante: 20€</string>
+    <string name="onboarding_addexpense">+ Añadir gasto</string>
+    <string name="onboarding_travel">Ver viaje</string>
+    <!--ChatBot-->
+    <string name="chatbot_place_notfind">Lo siento, no he podido encontrar tu destino en un radio de 5 kilómetros</string>
 </resources>

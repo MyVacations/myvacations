@@ -7,5 +7,8 @@ interface SettingsRepository {
     fun getSettings(): Flow<SettingsDomain?>
     suspend fun insertDefaultSettings(settings: SettingsDomain)
     suspend fun updateSettings(settings: SettingsDomain)
-    suspend fun updateWelcomeShown()
+    suspend fun updateFirstLogin()
+    suspend fun updateWelcomeShow(boolean: Boolean)
+    suspend fun updateIATutorialSettings(boolean: Boolean)
+    suspend fun updateDownloadStage(stage: String?)
 }

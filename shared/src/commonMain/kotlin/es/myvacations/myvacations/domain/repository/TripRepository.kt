@@ -2,12 +2,14 @@ package es.myvacations.myvacations.domain.repository
 
 import es.myvacations.myvacations.domain.model.TravelersDomain
 import es.myvacations.myvacations.domain.model.TripDomain
+import es.myvacations.myvacations.domain.model.TripExpensesDomain
 import kotlinx.coroutines.flow.Flow
 
 interface TripRepository {
     fun getTrips(): Flow<List<TripDomain>>
     fun getSpecificTrip(id: String): Flow<TripDomain?>
     fun getSpecificTripWithoutFlow(id: String): TripDomain?
+    fun getExpensesByTripId(tripId: String): Flow<List<TripExpensesDomain>>
     suspend fun addTrip(trip: TripDomain)
     suspend fun updateTrip(trip: TripDomain)
     suspend fun updateExpense(trip: TripDomain)

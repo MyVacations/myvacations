@@ -12,14 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -79,68 +78,9 @@ fun SplashScreen(
                 contentDescription = null
             )
         }
-        Canvas(
-            modifier = Modifier.matchParentSize()
-        ) {
 
-            val path = Path()
+        PaintCanvas(Modifier.matchParentSize(), trail, planeAlpha)
 
-            if (trail.isNotEmpty()) {
-
-                path.moveTo(
-                    center.x + trail.first().x - 170f,
-                    center.y + trail.first().y + 70f
-                )
-                trail.drop(1).forEach { point ->
-
-                    for (i in 1 until trail.size) {
-
-                        val previous = trail[i - 1]
-                        val current = trail[i]
-
-                        val midX = (previous.x + current.x) / 2f
-                        val midY = (previous.y + current.y) / 2f
-
-                        path.quadraticTo(
-                            center.x + previous.x - 170f,
-                            center.y + previous.y + 70f,
-                            center.x + midX - 170f,
-                            center.y + midY + 70f
-                        )
-                    }
-                }
-                for (i in 1 until trail.size) {
-
-                    val start = Offset(
-                        center.x + trail[i - 1].x - 170f,
-                        center.y + trail[i - 1].y + 70f
-                    )
-
-                    val end = Offset(
-                        center.x + trail[i].x - 170f,
-                        center.y + trail[i].y + 70f
-                    )
-
-                    val factor = i.toFloat() / trail.size
-                    val alpha = (factor * factor * factor * 0.8f) * planeAlpha
-                    drawLine(
-                        color = Color.White.copy(alpha = alpha * 0.15f),
-                        start = start,
-                        end = end,
-                        strokeWidth = 18f * factor * factor,
-                        cap = StrokeCap.Round
-                    )
-                    drawLine(
-                        color = Color.White.copy(alpha = alpha),
-                        start = start,
-                        end = end,
-                        strokeWidth = 1f + factor * 7f,
-                        cap = StrokeCap.Round
-                    )
-
-                }
-            }
-        }
         Image(
             painter = painterResource(Res.drawable.logo_plane),
             modifier = Modifier
@@ -155,8 +95,7 @@ fun SplashScreen(
         {
             trail.add(position)
             blurTrail.add(position)
-            if(blurTrail.size > 10)
-            {
+            if (blurTrail.size > 10) {
                 blurTrail.removeAt(0)
             }
             if (trail.size > 50) {
@@ -174,3 +113,72 @@ fun SplashScreen(
         onFinished()
     }
 }
+
+@Composable
+fun PaintCanvas(
+    modifier: Modifier,
+    trail: SnapshotStateList<Offset>,
+    planeAlpha: Float
+) {
+    Canvas(
+        modifier = modifier
+    ) {
+        val path = Path()
+
+        if (trail.isNotEmpty()) {
+            path.moveTo(
+                center.x + trail.first().x - 170f,
+                center.y + trail.first().y + 70f
+            )
+            trail.drop(1).forEach { _ ->
+
+                for (i in 1 until trail.size) {
+
+                    val previous = trail[i - 1]
+                    val current = trail[i]
+
+                    val midX = (previous.x + current.x) / 2f
+                    val midY = (previous.y + current.y) / 2f
+
+                    path.quadraticTo(
+                        center.x + previous.x - 170f,
+                        center.y + previous.y + 70f,
+                        center.x + midX - 170f,
+                        center.y + midY + 70f
+                    )
+                }
+            }
+            for (i in 1 until trail.size) {
+
+                val start = Offset(
+                    center.x + trail[i - 1].x - 170f,
+                    center.y + trail[i - 1].y + 70f
+                )
+
+                val end = Offset(
+                    center.x + trail[i].x - 170f,
+                    center.y + trail[i].y + 70f
+                )
+
+                val factor = i.toFloat() / trail.size
+                val alpha = (factor * factor * factor * 0.8f) * planeAlpha
+                drawLine(
+                    color = Color.White.copy(alpha = alpha * 0.15f),
+                    start = start,
+                    end = end,
+                    strokeWidth = 18f * factor * factor,
+                    cap = StrokeCap.Round
+                )
+                drawLine(
+                    color = Color.White.copy(alpha = alpha),
+                    start = start,
+                    end = end,
+                    strokeWidth = 1f + factor * 7f,
+                    cap = StrokeCap.Round
+                )
+
+            }
+        }
+    }
+}
+

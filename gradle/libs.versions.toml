@@ -1,41 +1,60 @@
 [versions]
-agp = "9.2.1"
+agp = "9.3.1"
 coreSplashscreen = "1.2.0"
+firebaseBom = "34.18.0"
+firebaseAdMob = "25.4.0"
+googleUmp = "4.0.0"
+googleFirebasePluginCrashlytics = "3.0.8"
 google-services = "4.5.0"
 android-compileSdk = "37"
 android-minSdk = "24"
 androidx-activity = "1.13.0"
-androidx-appcompat = "1.7.1"
+androidx-appcompat = "1.8.0"
 androidx-core = "1.19.0"
 androidx-espresso = "3.7.0"
-androidx-lifecycle = "2.11.0-rc01"
+androidx-lifecycle = "2.11.0"
 androidx-testExt = "1.3.0"
 androidx-navigation = "2.9.2"
 composeMultiplatform = "1.11.1"
 composeIcons = "1.7.3"
 core = "1.7.0"
 desugar_jdk_libs = "2.1.5"
+jtsCore = "1.20.0"
 junit = "4.13.2"
-kotlin = "2.4.0"
+kotlin = "2.4.10"
 material3 = "1.9.0"
 koin = "4.2.2"
 coroutines = "1.11.0"
+onnxruntimeAndroid = "1.20.0" #No actualizar , incompatible con extensions
+onnxruntimeextensionAndroid = "0.13.0"
 serialization = "1.11.0"
 sqldelight = "2.3.2"
 datetime = "0.8.0-0.6.x-compat"
 napier = "2.7.1"
-foundation = "1.11.4"
+foundation = "1.12.0"
 calendar-jvm = "2.10.1"
-koalaplot = "0.11.2"
-firebaseAnalytics = "23.2.0"
-firebaseCrashlytics = "20.1.0"
-googleFirebaseCrashlytics = "3.0.7"
+koalaplot = "0.12.1"
+glance = "1.3.0-alpha02"
+playServicesLocation = "21.4.0"
+ktor = "3.5.2"
+maplibre = "0.14.0"
+workRuntimeKtx = "2.11.2"
 
 [libraries]
 # Firebase
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebaseAnalytics" }
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-appcheck = { module = "com.google.firebase:firebase-appcheck" }
+firebase-appcheck-playintegrity = { module = "com.google.firebase:firebase-appcheck-playintegrity" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+firebase-auth = { module = "com.google.firebase:firebase-auth" }
+firebase-functions = { module = "com.google.firebase:firebase-functions" }
+firebase-appcheck-debug = { module = "com.google.firebase:firebase-appcheck-debug" }
+firebase-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "firebaseAdMob" }
+google-ump = { module = "com.google.android.ump:user-messaging-platform", version.ref = "googleUmp" }
+
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "coroutines" }
 androidx-core = { module = "androidx.test:core", version.ref = "core" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -81,6 +100,21 @@ androidx-foundation = { group = "androidx.compose.foundation", name = "foundatio
 calendar = { module = "com.kizitonwose.calendar:compose-multiplatform", version.ref = "calendar-jvm" }
 #Donut
 koalaplot = { module = "io.github.koalaplot:koalaplot-core", version.ref = "koalaplot" }
+#Glance
+glance = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
+#Location
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+#KTOR
+ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+#ONNX
+onnxruntime-android = { module = "com.microsoft.onnxruntime:onnxruntime-android", version.ref = "onnxruntimeAndroid" }
+onnxruntime-extensions-android = { module = "com.microsoft.onnxruntime:onnxruntime-extensions-android", version.ref = "onnxruntimeextensionAndroid" }
+#MAP
+maplibre-compose = { module = "org.maplibre.compose:maplibre-compose", version.ref = "maplibre" }
+androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntimeKtx" }
 
 [plugins]
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
@@ -91,4 +125,4 @@ composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "k
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
-google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "googleFirebaseCrashlytics" }
+google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "googleFirebasePluginCrashlytics" }

@@ -1,43 +1,76 @@
 package es.myvacations.myvacations.data.repository
 
-import es.myvacations.myvacations.data.datasource.TripLocalDataSource
+import es.myvacations.myvacations.data.datasource.local.TripLocalDataSource
 import es.myvacations.myvacations.domain.mapper.toDomainModel
 import es.myvacations.myvacations.domain.model.TravelersDomain
 import es.myvacations.myvacations.domain.model.TripDomain
+import es.myvacations.myvacations.domain.model.TripExpensesDomain
 import es.myvacations.myvacations.domain.repository.TripRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlin.uuid.Uuid
 
 class TripsRepositoryImpl(
-    private val localDataSource: TripLocalDataSource
+    private val localDataSource: TripLocalDataSource,
 ) : TripRepository {
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun getTrips(): Flow<List<TripDomain>> {
-        return localDataSource.getAllTrips().map { entities ->
-            entities.map { entity ->
-                entity.toDomainModel().copy(
-                    optionalExpenses = localDataSource.getExpensesByTripId(entity.id)
-                        .map { expense ->
-                            expense.toDomainModel()
+        return localDataSource.getAllTrips()
+            .flatMapLatest { entities ->
+                if (entities.isEmpty()) {
+                    flowOf(emptyList())
+                } else {
+                    combine(
+                        entities.map { entity ->
+                            localDataSource
+                                .getExpensesByTripId(entity.id)
+                                .map { expenses ->
+                                    entity.toDomainModel().copy(
+                                        optionalExpenses = expenses.map {
+                                            it.toDomainModel()
+                                        }
+                                    )
+                                }
                         }
-                )
+                    ) { trips ->
+                        trips.toList()
+                    }
+                }
             }
-        }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun getSpecificTrip(id: String): Flow<TripDomain?> {
-        return localDataSource.getById(id).map { entity ->
-            entity?.toDomainModel()?.copy(
-                optionalExpenses = localDataSource.getExpensesByTripId(entity.id)
-                    .map { expense ->
-                        expense.toDomainModel()
-                    }
-            )
-        }
+        return localDataSource.getById(id)
+            .flatMapLatest { entity ->
+                if (entity == null) {
+                    flowOf(null)
+                } else {
+                    getExpensesByTripId(entity.id)
+                        .map { expenses ->
+                            entity.toDomainModel().copy(
+                                optionalExpenses = expenses
+                            )
+                        }
+                }
+            }
     }
 
     override fun getSpecificTripWithoutFlow(id: String): TripDomain? {
         return localDataSource.getByIdWithoutFlow(id)?.toDomainModel()
+    }
+
+    override fun getExpensesByTripId(tripId: String): Flow<List<TripExpensesDomain>> {
+        return localDataSource.getExpensesByTripId(tripId).map { expensesData ->
+            expensesData.map { expense ->
+                expense.toDomainModel()
+            }
+
+        }
     }
 
     override suspend fun addTrip(trip: TripDomain) {
@@ -47,11 +80,10 @@ class TripsRepositoryImpl(
             place = trip.place.name,
             startDate = trip.startDate.toString(),
             endDate = trip.endDate.toString(),
-            travelers = trip.travelers,
-            daysTraveling = trip.daysTraveling,
             mainCost = trip.mainCost,
             mainBudget = trip.mainBudget,
-            cover = trip.cover.name
+            cover = trip.cover.name,
+            favourite = trip.favourite
         )
 
         trip.optionalExpenses.forEach { expense ->
@@ -63,17 +95,6 @@ class TripsRepositoryImpl(
                 expense.amount
             )
         }
-
-        repeat(trip.travelers) {
-            if (it == 0) localDataSource.insertTravelers(
-                Uuid.random().toHexString(),
-                trip.id,
-                localDataSource.getNameSettings(),
-                true
-            ) else localDataSource.insertTravelers(
-                Uuid.random().toHexString(), trip.id, ""
-            )
-        }
     }
 
     override suspend fun updateTrip(trip: TripDomain) {
@@ -83,49 +104,24 @@ class TripsRepositoryImpl(
             place = trip.place.name,
             startDate = trip.startDate.toString(),
             endDate = trip.endDate.toString(),
-            travelers = trip.travelers,
-            daysTraveling = trip.daysTraveling,
             mainCost = trip.mainCost,
             mainBudget = trip.mainBudget,
-            cover = trip.cover.name
+            cover = trip.cover.name,
+            favourite = trip.favourite
         )
+
         val currentExpenses =
-            localDataSource.getExpensesByTripId(trip.id)
-
-        val currentTravelersIndices =
-            localDataSource.selectTravelersForInternalQuery(trip.id).size
-
+            localDataSource
+                .getExpensesByTripId(trip.id)
+                .first()
 
         val newExpenseIds =
             trip.optionalExpenses.map { it.id }.toSet()
-
-        val newTravelersIndices = trip.travelers
 
         currentExpenses.filter { it.id !in newExpenseIds }
             .forEach { expense ->
                 localDataSource.deleteExpense(expense.id, trip.id)
             }
-
-        val difference = currentTravelersIndices - newTravelersIndices
-
-        if (difference > 0) {
-            repeat(difference) {
-                val lastTraveler =
-                    localDataSource.selectTravelersForInternalQuery(trip.id).last()
-                localDataSource.deleteTraveler(
-                    lastTraveler.id,
-                    trip.id
-                )
-            }
-        } else if (difference < 0) {
-            repeat(-difference) {
-                localDataSource.insertTravelers(
-                    id = Uuid.random().toHexString(),
-                    tripId = trip.id,
-                    travelerName = ""
-                )
-            }
-        }
 
         trip.optionalExpenses.forEach { expense ->
             if (localDataSource.getExpensesByTripIdAndExpenseID(trip.id, expense.id)) {

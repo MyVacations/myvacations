@@ -39,11 +39,20 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
+            implementation(libs.androidx.work.runtime.ktx)
+            implementation(project.dependencies.platform(libs.firebase.bom))
+            implementation(libs.firebase.analytics)
+            implementation(libs.firebase.crashlytics)
+            implementation(libs.firebase.functions)
+            implementation(libs.firebase.ads)
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.sqldelight.android.driver)
             implementation(libs.koin.android)
-            //implementation(libs.firebase.analytics)
-            implementation(libs.firebase.crashlytics)
+            implementation(libs.glance)
+            implementation(libs.play.services.location)
+            implementation(libs.ktor.okhttp)
+            implementation(libs.onnxruntime.android)
+            implementation(libs.onnxruntime.extensions.android)
         }
         iosMain.dependencies {
             implementation(libs.sqldelight.native.driver)
@@ -68,12 +77,15 @@ kotlin {
             implementation(libs.napier)
             implementation(libs.calendar)
             implementation(libs.koalaplot)
+            implementation(libs.ktor.core)
+            implementation(libs.ktor.serialization)
+            implementation(libs.ktor.negotiation)
+            implementation(libs.maplibre.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
         }
-
     }
 }
 

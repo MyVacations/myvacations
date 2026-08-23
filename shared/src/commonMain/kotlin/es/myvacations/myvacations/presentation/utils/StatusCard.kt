@@ -12,11 +12,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import es.myvacations.myvacations.domain.model.TripStatus
 import es.myvacations.myvacations.domain.model.toName
-import myvacations.shared.generated.resources.Res
-import myvacations.shared.generated.resources.trip_detail_active
-import myvacations.shared.generated.resources.trip_detail_past
-import myvacations.shared.generated.resources.trip_detail_upcoming
-import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun StatusCard(

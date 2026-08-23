@@ -22,12 +22,11 @@ fun TripData.toDomainModel() = TripDomain(
     place = Country.valueOf(place),
     startDate = LocalDate.parse(startDate),
     endDate = LocalDate.parse(endDate),
-    travelers = travelers.toInt(),
-    daysTraveling = daysTraveling.toInt(),
     mainCost = mainCost,
     mainBudget = mainBudget,
     optionalExpenses = emptyList(),
-    cover = TripCover.valueOf(cover)
+    cover = TripCover.valueOf(cover),
+    favourite = favourite
 )
 
 fun TripExpenseData.toDomainModel() = TripExpensesDomain(

@@ -3,8 +3,6 @@ package es.myvacations.myvacations.presentation.dashboard
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import es.myvacations.myvacations.core.extensions.transformInInitials
-import es.myvacations.myvacations.domain.events.messageFor
-import es.myvacations.myvacations.domain.events.titleFor
 import es.myvacations.myvacations.domain.mapper.toUiModel
 import es.myvacations.myvacations.domain.usecase.GetDayPeriodUseCase
 import es.myvacations.myvacations.domain.usecase.eventsusecase.SelectAllNotificationsUseCase
@@ -31,7 +29,6 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
-
 class DashboardViewModel(
     private val selectAllNotificationsUseCase: SelectAllNotificationsUseCase,
     private val getSettingsUseCase: GetSettingsUseCase,

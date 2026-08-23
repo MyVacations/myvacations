@@ -8,7 +8,8 @@ CREATE TABLE TripData (
     daysTraveling INTEGER NOT NULL,
     mainCost REAL NOT NULL,
     mainBudget REAL NOT NULL,
-    cover TEXT NOT NULL
+    cover TEXT NOT NULL,
+    favourite INTEGER AS kotlin.Boolean NOT NULL
 );
 
 CREATE TABLE TripExpenseData (
@@ -36,7 +37,10 @@ CREATE TABLE SettingsData (
     id TEXT NOT NULL PRIMARY KEY,
     name TEXT NOT NULL,
     currency TEXT NOT NULL,
-    welcomeShow INTEGER AS kotlin.Boolean NOT NULL
+    welcomeShow INTEGER AS kotlin.Boolean NOT NULL,
+    iaTutorial INTEGER AS kotlin.Boolean NOT NULL,
+    firstLogin INTEGER AS kotlin.Boolean NOT NULL,
+    modelStage TEXT
 );
 
 CREATE TABLE NotificationData (
@@ -45,6 +49,26 @@ CREATE TABLE NotificationData (
     type TEXT NOT NULL,
     createdAt TEXT NOT NULL,
     read INTEGER AS kotlin.Boolean NOT NULL
+);
+
+CREATE TABLE ChatMessageData (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    userText TEXT NOT NULL,
+    userElementsFound TEXT NOT NULL,
+    userRetryOn INTEGER AS kotlin.Boolean NOT NULL,
+    mainLocationLongitude REAL NOT NULL,
+    mainLocationLatitude REAL NOT NULL,
+    botText TEXT,
+    botElementsFound TEXT,
+    botRetryOn INTEGER AS kotlin.Boolean,
+    whatAsk TEXT NOT NULL,
+    label TEXT NOT NULL,
+    subcategory TEXT NOT NULL,
+    labelConfidence REAL NOT NULL,
+    subcategoryConfidence REAL NOT NULL,
+    elementsSizeFound INTEGER NOT NULL,
+    time TEXT NOT NULL,
+    feedbackDone INTEGER AS kotlin.Boolean NOT NULL
 );
 
 CREATE INDEX expense_tripId_idx ON TripExpenseData(tripId);
@@ -86,10 +110,11 @@ INSERT INTO TripData(
     daysTraveling,
     mainCost,
     mainBudget,
-    cover
+    cover,
+    favourite
 )
 
-VALUES (?,?,?,?,?,?,?,?,?,?);
+VALUES (?,?,?,?,?,?,?,?,?,?, ?);
 
 insertExpense:
 INSERT INTO TripExpenseData(
@@ -113,7 +138,8 @@ SET
     daysTraveling = ?,
     mainCost = ?,
     mainBudget = ?,
-    cover = ?
+    cover = ?,
+    favourite = ?
 WHERE id = ?;
 
 updateTravelersAccount:
@@ -146,10 +172,16 @@ INSERT OR IGNORE INTO SettingsData(
     id,
     name,
     currency,
-    welcomeShow
+    welcomeShow,
+    iaTutorial,
+    firstLogin,
+    modelStage
 )
 VALUES (
     "settings",
+    ?,
+    ?,
+    ?,
     ?,
     ?,
     ?
@@ -172,6 +204,24 @@ updateWelcome:
 UPDATE SettingsData
 SET
     welcomeShow = ?
+WHERE id = "settings";
+
+updateIATutorial:
+UPDATE SettingsData
+SET
+    iaTutorial = ?
+WHERE id = "settings";
+
+updateFirstLogin:
+UPDATE SettingsData
+SET
+    firstLogin = ?
+WHERE id = "settings";
+
+updateDownloadStage:
+UPDATE SettingsData
+SET
+    modelStage = ?
 WHERE id = "settings";
 
 selectTravelers:
@@ -238,3 +288,57 @@ WHERE id = ? AND tripId = ?;
 deleteNotification:
 DELETE FROM NotificationData
 WHERE id = ? AND tripId = ?;
+
+selectAllMessages:
+SELECT * FROM ChatMessageData;
+
+insertMessage:
+INSERT INTO ChatMessageData(
+    userText,
+    userElementsFound,
+    userRetryOn,
+    mainLocationLongitude,
+    mainLocationLatitude,
+    botText,
+    botElementsFound,
+    botRetryOn,
+    whatAsk,
+    label,
+    subcategory,
+    labelConfidence,
+    subcategoryConfidence,
+    elementsSizeFound,
+    time,
+    feedbackDone
+)
+VALUES (
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?
+);
+
+updateFeedback:
+UPDATE ChatMessageData
+SET
+    feedbackDone = ?
+WHERE id = ?;
+
+deleteMessage:
+DELETE FROM ChatMessageData
+WHERE id = ?;
+
+deleteAllMessages:
+DELETE FROM ChatMessageData;

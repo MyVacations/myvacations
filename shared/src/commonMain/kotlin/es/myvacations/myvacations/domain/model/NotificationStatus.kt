@@ -7,10 +7,6 @@ import myvacations.shared.generated.resources.notification_filter_budgets
 import myvacations.shared.generated.resources.notification_filter_expenses
 import myvacations.shared.generated.resources.notification_filter_info
 import myvacations.shared.generated.resources.notification_filter_trips
-import myvacations.shared.generated.resources.trip_detail_active
-import myvacations.shared.generated.resources.trip_detail_all
-import myvacations.shared.generated.resources.trip_detail_past
-import myvacations.shared.generated.resources.trip_detail_upcoming
 import org.jetbrains.compose.resources.stringResource
 
 enum class NotificationStatus {

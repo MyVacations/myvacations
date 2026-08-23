@@ -1,18 +1,19 @@
 package es.myvacations.myvacations.presentation.utils
 
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,35 +22,39 @@ fun <T> AppDropDown(
     items: List<T>,
     selectedItem: T?,
     onItemSelected: (T) -> Unit,
-    itemLabel: @Composable (T) -> String,
+    itemLabel: @Composable (T) -> Unit,
     modifier: Modifier = Modifier,
+    menuModifier: Modifier = Modifier,
 ) {
     var expanded by remember {
         mutableStateOf(false)
     }
 
     ExposedDropdownMenuBox(
+        modifier = modifier,
         expanded = expanded,
         onExpandedChange = {
             expanded = !expanded
         }
     ) {
-        OutlinedTextField(
-            value = selectedItem?.let { itemLabel(it) } ?: "",
-            onValueChange = {},
-            readOnly = true,
-            modifier = modifier
+        Row(
+            modifier = Modifier
                 .menuAnchor(
                     type = ExposedDropdownMenuAnchorType.PrimaryNotEditable,
                     enabled = true
                 )
                 .fillMaxWidth(),
-            trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(expanded)
-            }
-        )
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            itemLabel(selectedItem ?: items.first())
+
+            Spacer(Modifier.weight(1f))
+
+            ExposedDropdownMenuDefaults.TrailingIcon(expanded)
+        }
 
         ExposedDropdownMenu(
+            modifier = menuModifier,
             expanded = expanded,
             onDismissRequest = {
                 expanded = false
@@ -58,7 +63,7 @@ fun <T> AppDropDown(
             items.forEach { item ->
                 DropdownMenuItem(
                     text = {
-                        Text(itemLabel(item))
+                        itemLabel(item)
                     },
                     onClick = {
                         onItemSelected(item)

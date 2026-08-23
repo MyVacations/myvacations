@@ -2,7 +2,7 @@ package es.myvacations.myvacations.core.firebase
 
 interface AnalyticsReporter {
     fun logEvent(
-        name: String,
+        event: AnalyticsEvent,
         params: Map<String, Any?> = emptyMap()
     )
 }

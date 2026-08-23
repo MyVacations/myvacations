@@ -1,11 +1,14 @@
 package es.myvacations.myvacations.core.extensions
 
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.format.char
 import kotlinx.datetime.toInstant
 import kotlin.time.Clock
 
-
+val MinDate = LocalDate(1900,1,1)
+val MaxDate = LocalDate(2100,12,31)
 fun LocalDateTime.toRelativeTime(
     nowString: String,
     minutesAgo: (Long) -> String,
@@ -34,4 +37,42 @@ fun LocalDateTime.toRelativeTime(
                 "${month.toString().padStart(2, '0')}/" +
                 year
     }
+}
+
+fun String.formatDateInput(): String {
+    val digits = this.filter { it.isDigit() }.take(8)
+
+    return buildString {
+        digits.forEachIndexed { index, c ->
+            append(c)
+            if ((index == 1 || index == 3) && index != digits.lastIndex) {
+                append('/')
+            }
+        }
+    }
+}
+
+fun String.validateDate(): Boolean {
+    return try {
+        // Intenta parsear la fecha con el formato del componente
+        val parts = this.split("/")
+        if (parts.size != 3) return false
+
+        val day = parts[0].toInt()
+        val month = parts[1].toInt()
+        val year = parts[2].toInt()
+        if (year < MinDate.year) return false
+        LocalDate(year, month, day)
+        true
+    } catch (e: Exception) {
+        false
+    }
+}
+
+fun kmpDateFormat() = LocalDate.Format {
+    day()
+    char('/')
+    monthNumber()
+    char('/')
+    year()
 }

@@ -11,15 +11,15 @@ class AppInfoRepositoryImpl(
         return settingsRepository
             .getSettings()
             .first()
-            ?.welcomeShown == true
+            ?.firstLogin == true
     }
 
     override suspend fun messageFromServer(): String {
         return ""
     }
 
-    override suspend fun markWelcomeShown() {
-        settingsRepository.updateWelcomeShown()
+    override suspend fun updateFirstLogin() {
+        settingsRepository.updateFirstLogin()
     }
 
     override suspend fun messageSeen(): Boolean {

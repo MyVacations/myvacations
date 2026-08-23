@@ -1,10 +1,9 @@
 package es.myvacations.myvacations.data.repository
 
-import es.myvacations.myvacations.data.datasource.SettingsLocalDataSource
+import es.myvacations.myvacations.data.datasource.local.SettingsLocalDataSource
 import es.myvacations.myvacations.domain.mapper.toDomainModel
 import es.myvacations.myvacations.domain.model.SettingsDomain
 import es.myvacations.myvacations.domain.repository.SettingsRepository
-import es.myvacations.myvacations.presentation.settings.SettingsUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -32,7 +31,20 @@ class SettingsRepositoryImpl(private val localDataSource: SettingsLocalDataSourc
         localDataSource.updateMainTraveler(settings.username)
     }
 
-    override suspend fun updateWelcomeShown() {
-        localDataSource.updateWelcomeShown()
+    override suspend fun updateFirstLogin() {
+        localDataSource.updateFirstLogin()
     }
+
+    override suspend fun updateWelcomeShow(boolean: Boolean) {
+        localDataSource.updateWelcomeShow(boolean)
+    }
+
+    override suspend fun updateIATutorialSettings(boolean: Boolean) {
+        localDataSource.updateIATutorialSettings(boolean)
+    }
+
+    override suspend fun updateDownloadStage(stage: String?) {
+        localDataSource.updateDownloadStage(stage)
+    }
+
 }
