@@ -31,4 +31,12 @@ actual class AppWidgetUpdaterRepositoryImpl :
         TODO("Not yet implemented")
     }
 
+    actual override suspend fun noModelInstallOrUpdate() {
+        TODO("Not yet implemented")
+    }
+
+    actual override suspend fun outOfLimits() {
+        TODO("Not yet implemented")
+    }
+
 }

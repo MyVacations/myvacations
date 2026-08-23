@@ -2,6 +2,7 @@ package es.myvacations.myvacations.domain.di
 
 import es.myvacations.myvacations.domain.repository.PlacesRepository
 import es.myvacations.myvacations.domain.usecase.GetDayPeriodUseCase
+import es.myvacations.myvacations.domain.usecase.chatbot.AdsUseCase
 import es.myvacations.myvacations.domain.usecase.chatbot.ClassifyIntentUseCase
 import es.myvacations.myvacations.domain.usecase.chatbot.MapAndLocationUseCase
 import es.myvacations.myvacations.domain.usecase.chatbot.latestmodelrelease.EnsureModelInstalledUseCase
@@ -72,4 +73,10 @@ val domainModule = module {
             placesRepository = get<PlacesRepository>()
         )
     }
+    factory {
+        AdsUseCase(
+            get()
+        )
+    }
+
 }

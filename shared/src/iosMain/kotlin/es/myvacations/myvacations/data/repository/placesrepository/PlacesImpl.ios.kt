@@ -4,6 +4,7 @@ import es.myvacations.myvacations.domain.model.Prediction
 import es.myvacations.myvacations.domain.repository.PlacesEventResult
 import es.myvacations.myvacations.domain.repository.PlacesRepository
 import es.myvacations.myvacations.presentation.chatbot.ChatMessageUiState
+import es.myvacations.myvacations.presentation.chatbot.LocationUiState
 import kotlinx.coroutines.flow.Flow
 
 actual class PlacesImpl actual constructor() :
@@ -12,7 +13,10 @@ actual class PlacesImpl actual constructor() :
         TODO("Not yet implemented")
     }
 
-    actual override suspend fun addMessage(message: ChatMessageUiState) {
+    actual override suspend fun addMessage(
+        message: ChatMessageUiState,
+        userLocation: LocationUiState
+    ) {
         TODO("Not yet implemented")
     }
 

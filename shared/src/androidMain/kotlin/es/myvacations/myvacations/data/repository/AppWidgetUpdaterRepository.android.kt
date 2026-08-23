@@ -14,7 +14,36 @@ import es.myvacations.myvacations.presentation.createedittrip.TripUiState
 import es.myvacations.myvacations.widget.MapBitmapGenerator
 import es.myvacations.myvacations.widget.MyVacationWidget
 import es.myvacations.myvacations.widget.PlacesWidget
+import io.github.aakira.napier.Napier
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+
+@Serializable
+sealed interface WidgetEventResult {
+
+    @Serializable
+    data class MapFile(
+        val file: String
+    ) : WidgetEventResult
+
+    @Serializable
+    data object Loading : WidgetEventResult
+
+    @Serializable
+    data object LocationNoPermissions : WidgetEventResult
+
+    @Serializable
+    data object EmptyModel : WidgetEventResult
+
+    @Serializable
+    data object NotInstalledUpdatedModel : WidgetEventResult
+
+    @Serializable
+    data object OutOfLimits : WidgetEventResult
+
+    @Serializable
+    data object Error : WidgetEventResult
+}
 
 actual class AppWidgetUpdaterRepositoryImpl :
     WidgetUpdater {
@@ -128,15 +157,13 @@ actual class AppWidgetUpdaterRepositoryImpl :
                 context = context,
                 glanceId = glanceId
             ) { preferences ->
-                preferences[ActiveLocationPermissionsKey] = widgetElement != null
-                preferences[ActiveLoadingLocationKey] = false
-                preferences[ActiveErrorLocationKey] = false
-                preferences[ActiveNoMessagesKey] = false
-                preferences[ActiveNoModelKey] = false
+                val json = Json.encodeToString<WidgetEventResult>(
+                    WidgetEventResult.MapFile(mapUri.toString())
+                )
                 if (mapFile != null) {
-                    preferences[ActiveMapFileKey] = mapUri.toString()
+                    preferences[WidgetEventPreferencesKey] = json
                 } else {
-                    preferences.remove(ActiveMapFileKey)
+                    preferences.remove(WidgetEventPreferencesKey)
                 }
             }
 
@@ -160,7 +187,12 @@ actual class AppWidgetUpdaterRepositoryImpl :
                 context = context,
                 glanceId = glanceId
             ) { preferences ->
-                preferences[ActiveLocationPermissionsKey] = hasLocationPermission
+                val json = Json.encodeToString<WidgetEventResult>(
+                    WidgetEventResult.LocationNoPermissions
+                )
+
+                if (!hasLocationPermission) preferences[WidgetEventPreferencesKey] =
+                    json
             }
             PlacesWidget().update(
                 context = context,
@@ -182,10 +214,10 @@ actual class AppWidgetUpdaterRepositoryImpl :
                 context = context,
                 glanceId = glanceId
             ) { preferences ->
-                preferences[ActiveLoadingLocationKey] = true
-                preferences[ActiveErrorLocationKey] = false
-                preferences[ActiveNoMessagesKey] = false
-                preferences[ActiveNoModelKey] = false
+                val json = Json.encodeToString<WidgetEventResult>(
+                    WidgetEventResult.Loading
+                )
+                preferences[WidgetEventPreferencesKey] = json
             }
             PlacesWidget().update(
                 context = context,
@@ -207,10 +239,10 @@ actual class AppWidgetUpdaterRepositoryImpl :
                 context = context,
                 glanceId = glanceId
             ) { preferences ->
-                preferences[ActiveLoadingLocationKey] = false
-                preferences[ActiveErrorLocationKey] = true
-                preferences[ActiveNoMessagesKey] = false
-                preferences[ActiveNoModelKey] = false
+                val json = Json.encodeToString<WidgetEventResult>(
+                    WidgetEventResult.Error
+                )
+                preferences[WidgetEventPreferencesKey] = json
             }
             PlacesWidget().update(
                 context = context,
@@ -232,10 +264,11 @@ actual class AppWidgetUpdaterRepositoryImpl :
                 context = context,
                 glanceId = glanceId
             ) { preferences ->
-                preferences[ActiveLoadingLocationKey] = false
-                preferences[ActiveErrorLocationKey] = false
-                preferences[ActiveNoMessagesKey] = true
-                preferences[ActiveNoModelKey] = false
+                val json = Json.encodeToString<WidgetEventResult>(
+                    WidgetEventResult.EmptyModel
+                )
+                Napier.d(tag = "pruebas", message = json)
+                preferences[WidgetEventPreferencesKey] = json
             }
             PlacesWidget().update(
                 context = context,
@@ -257,10 +290,35 @@ actual class AppWidgetUpdaterRepositoryImpl :
                 context = context,
                 glanceId = glanceId
             ) { preferences ->
-                preferences[ActiveLoadingLocationKey] = false
-                preferences[ActiveErrorLocationKey] = false
-                preferences[ActiveNoMessagesKey] = false
-                preferences[ActiveNoModelKey] = true
+                val json = Json.encodeToString<WidgetEventResult>(
+                    WidgetEventResult.NotInstalledUpdatedModel
+                )
+                preferences[WidgetEventPreferencesKey] = json
+            }
+            PlacesWidget().update(
+                context = context,
+                id = glanceId
+            )
+        }
+    }
+
+    actual override suspend fun outOfLimits() {
+        val context = AndroidContextHolder.context
+        val manager = GlanceAppWidgetManager(context)
+
+        val glanceIds = manager.getGlanceIds(
+            PlacesWidget::class.java
+        )
+
+        glanceIds.forEach { glanceId ->
+            updateAppWidgetState(
+                context = context,
+                glanceId = glanceId
+            ) { preferences ->
+                val json = Json.encodeToString<WidgetEventResult>(
+                    WidgetEventResult.OutOfLimits
+                )
+                preferences[WidgetEventPreferencesKey] = json
             }
             PlacesWidget().update(
                 context = context,

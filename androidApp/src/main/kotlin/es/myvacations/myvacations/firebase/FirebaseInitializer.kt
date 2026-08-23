@@ -2,7 +2,6 @@ package es.myvacations.myvacations.firebase
 
 import android.content.Context
 import android.util.Log
-import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
@@ -32,12 +31,5 @@ object FirebaseInitializer {
         }
 
         FirebaseAuth.getInstance()
-
-        //Burocracia antes de inicializarlo
-        /*
-        Obtener el consentimiento de los usuarios del Espacio Económico Europeo (EEE)
-        Configurar cualquier marca específica de la solicitud (como tagForChildDirectedTreatment o tag_for_under_age_of_consent)
-         */
-        //MobileAds.initialize(context)
     }
 }

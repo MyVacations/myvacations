@@ -74,4 +74,7 @@
     <string name="no_messages_title">No has creado ningún chat</string>
     <string name="no_messages_description">Pulsa para ir al chat</string>
     <string name="no_model_install">El modelo no está descargado o actualizado</string>
+    <string name="out_of_limits">Has salido de los límites del mapa</string>
+    <string name="tap_to_start">Pulsa para iniciar</string>
+    <string name="only_1_widget">Solo se permite un widget</string>
 </resources>

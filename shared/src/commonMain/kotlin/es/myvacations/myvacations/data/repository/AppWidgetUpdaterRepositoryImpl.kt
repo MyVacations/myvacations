@@ -12,4 +12,5 @@ expect class AppWidgetUpdaterRepositoryImpl(): WidgetUpdater {
     override suspend fun updateLocationError()
     override suspend fun noMessagesLoad()
     override suspend fun noModelInstallOrUpdate()
+    override suspend fun outOfLimits()
 }

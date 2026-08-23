@@ -170,6 +170,9 @@ fun ChatbotorTutorial(
         onSearch = { fromUser, isRetry ->
             viewModel.sendASearch(fromUser, isRetry)
         },
+        retryLocation = {
+            viewModel.getMainLocation()
+        },
         getNearestPlaces = viewModel::getNearestPlaces,
         openTutorial = viewModel::enableTutorial,
         messageList = uiState.messages,
@@ -209,6 +212,7 @@ fun ChatBotScreenInfo(onContinue: () -> Unit) {
 fun ChatBotScreen(
     uiState: ChatUiState,
     onSearch: (String, Boolean) -> Unit,
+    retryLocation: () -> Unit,
     getNearestPlaces: (List<ElementsFoundUiState>) -> List<ElementsFoundUiState>,
     openTutorial: () -> Unit,
     messageList: List<ChatMessageUiState>,
@@ -336,9 +340,9 @@ fun ChatBotScreen(
                         val message = sortedMessages[page]
 
                         LaunchedEffect(
-                            message.id
+                            message.id,uiState.updatedLocation
                         ) {
-                            if(message.bot != null) mapLocationCheck(message)
+                            if (message.bot != null) mapLocationCheck(message)
                         }
 
                         LazyColumn(
@@ -368,8 +372,9 @@ fun ChatBotScreen(
                                 item {
                                     BotMessage(
                                         uiState,
-                                        message.bot,
+                                        message,
                                         retry = {
+                                            retryLocation()
                                             onSearch(
                                                 message.user.text,
                                                 message.bot.retryOn
@@ -397,7 +402,7 @@ fun ChatBotScreen(
                                         message.bot.elementsFound
                                     )
                                 ) { place ->
-                                    ItemPlace(uiState,place, openPlaceDetails = {
+                                    ItemPlace(uiState, place, openPlaceDetails = {
                                         elementDetail = it
                                     })
                                 }
@@ -753,7 +758,7 @@ fun PageNumberIndicatorScreen(
 @Composable
 fun BotMessage(
     uiState: ChatUiState,
-    botMessage: ChatElements,
+    chatMessage: ChatMessageUiState,
     retry: () -> Unit,
     updateDialogRequestingLocationPermissions: () -> Unit,
     itemSelected: (ElementsFoundUiState) -> Unit
@@ -798,19 +803,18 @@ fun BotMessage(
     ) {
         Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
             Text(
-                text = botMessage.text
+                text = chatMessage.bot?.text ?: ""
             )
             Spacer(modifier = Modifier.height(8.dp))
-            if (botMessage.text.isEmpty()) {
+            if (chatMessage.bot?.text?.isEmpty() == true) {
                 MapScreen(
                     uiState,
-                    uiState.updatedLocation,
-                    botMessage.elementsFound,
+                    chatMessage,
                     updateDialogRequestingLocationPermissions,
                     itemSelected
                 )
             }
-            if (botMessage.retryOn) {
+            if (chatMessage.bot?.retryOn == true) {
                 Button(onClick = retry)
                 {
                     Text(stringResource(Res.string.buttonRetry))

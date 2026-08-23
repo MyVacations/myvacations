@@ -1,6 +1,7 @@
 package es.myvacations.myvacations.core.di
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -69,5 +70,6 @@ actual fun dataBaseModule(): List<Module> = listOf(
         single {
             LocationForegroundService()
         }
+
     }
 )

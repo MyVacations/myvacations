@@ -7,4 +7,5 @@
     android:updatePeriodMillis="0"
     android:label="@string/places_widget_name"
     android:previewImage="@drawable/widget_map_preview"
-    android:initialLayout="@layout/widget_map_preview" />
+    android:initialLayout="@layout/widget_map_preview"
+    android:configure="es.myvacations.myvacations.widget.MyPlacesWidgetConfigurationActivity" />

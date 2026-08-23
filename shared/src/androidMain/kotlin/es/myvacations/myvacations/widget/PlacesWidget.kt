@@ -42,15 +42,12 @@ import androidx.glance.state.PreferencesGlanceStateDefinition
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
-import es.myvacations.myvacations.data.repository.ActiveErrorLocationKey
-import es.myvacations.myvacations.data.repository.ActiveLoadingLocationKey
-import es.myvacations.myvacations.data.repository.ActiveLocationPermissionsKey
-import es.myvacations.myvacations.data.repository.ActiveMapFileKey
-import es.myvacations.myvacations.data.repository.ActiveNoMessagesKey
-import es.myvacations.myvacations.data.repository.ActiveNoModelKey
 import es.myvacations.myvacations.data.repository.LocationForegroundService
+import es.myvacations.myvacations.data.repository.WidgetEventPreferencesKey
+import es.myvacations.myvacations.data.repository.WidgetEventResult
 import es.myvacations.myvacations.domain.usecase.eventsusecase.PlacesWidgetObserverUseCase
 import es.myvacations.myvacations.shared.R
+import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.java.KoinJavaComponent
 
@@ -62,28 +59,21 @@ class PlacesWidget : GlanceAppWidget(),
         id: GlanceId
     ) {
         provideContent {
-
             val preferences = currentState<Preferences>()
+            val eventJson = preferences[WidgetEventPreferencesKey]
 
-            val permission = preferences[ActiveLocationPermissionsKey] ?: true
-            val loading = preferences[ActiveLoadingLocationKey] ?: false
-            val error = preferences[ActiveErrorLocationKey] ?: false
-            val nomessages = preferences[ActiveNoMessagesKey] ?: false
-            val nomodel = preferences[ActiveNoModelKey] ?: false
-
-            val mapUri =
-                preferences[ActiveMapFileKey]
-                    ?.takeIf { it.isNotEmpty() }
-                    ?.let(Uri::parse)
+            val widgetEventResult =
+                eventJson?.let {
+                    runCatching {
+                        Json.decodeFromString<WidgetEventResult>(it)
+                    }.getOrElse {
+                        WidgetEventResult.Error
+                    }
+                } ?: WidgetEventResult.Error
 
             WidgetContent(
                 context,
-                permission,
-                mapUri,
-                loading,
-                error,
-                nomessages,
-                nomodel
+                widgetEventResult
             )
         }
     }
@@ -91,20 +81,19 @@ class PlacesWidget : GlanceAppWidget(),
     @Composable
     private fun WidgetContent(
         context: Context,
-        permission: Boolean,
-        mapUri: Uri?,
-        loading: Boolean,
-        error: Boolean,
-        nomessages: Boolean,
-        nomodel: Boolean,
+        widgetEventResult: WidgetEventResult,
     ) {
-        when {
-            loading -> LocationLoadingWidget()
-            nomodel -> NoModelDownload(context)
-            nomessages -> NoActiveMessages(context)
-            error -> LocationErrorWidget(context)
-            !permission -> LocationPermissionContent(context)
-            else -> {
+        when (widgetEventResult) {
+            WidgetEventResult.Loading -> LocationLoadingWidget()
+            WidgetEventResult.NotInstalledUpdatedModel -> NoModelDownload(context)
+            WidgetEventResult.EmptyModel -> NoActiveMessages(context)
+            WidgetEventResult.Error -> LocationErrorWidget(context)
+            WidgetEventResult.LocationNoPermissions -> LocationPermissionContent(context)
+            WidgetEventResult.OutOfLimits -> OutOfLimitsContent(context)
+            is WidgetEventResult.MapFile -> {
+                val mapUri = widgetEventResult.file.takeIf { it.isNotEmpty() }
+                    ?.let(Uri::parse)
+
                 Box(
                     modifier = GlanceModifier
                         .fillMaxSize()
@@ -127,6 +116,36 @@ class PlacesWidget : GlanceAppWidget(),
                         )
                     }
                 }
+            }
+        }
+    }
+
+    @Composable
+    fun OutOfLimitsContent(context: Context) {
+        Box(
+            modifier = GlanceModifier
+                .fillMaxSize()
+                .background(
+                    ColorProvider(
+                        day = Color(0xFF101114),
+                        night = Color(0xFF101114)
+                    )
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = context.getString(
+                        R.string.out_of_limits
+                    ),
+                    style = TextStyle(
+                        color = ColorProvider(day = Color.LightGray, night = Color.LightGray),
+                        fontSize = 14.sp
+                    )
+                )
             }
         }
     }
@@ -158,13 +177,15 @@ class PlacesWidget : GlanceAppWidget(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-
                     Text(
                         text = context.getString(
                             R.string.no_model_install
                         ),
                         style = TextStyle(
-                            color = ColorProvider(day = Color.LightGray, night = Color.LightGray),
+                            color = ColorProvider(
+                                day = Color.LightGray,
+                                night = Color.LightGray
+                            ),
                             fontSize = 14.sp
                         )
                     )
@@ -217,7 +238,10 @@ class PlacesWidget : GlanceAppWidget(),
                             R.string.no_messages_description
                         ),
                         style = TextStyle(
-                            color = ColorProvider(day = Color.LightGray, night = Color.LightGray),
+                            color = ColorProvider(
+                                day = Color.LightGray,
+                                night = Color.LightGray
+                            ),
                             fontSize = 14.sp
                         )
                     )
@@ -345,7 +369,7 @@ class PlacesWidget : GlanceAppWidget(),
                     )
                 )
                 .clickable(
-                    onClick = actionRunCallback<RefreshPlacesWidgetAction>()
+                    actionRunCallback<RefreshPlacesWidgetAction>()
                 ),
             contentAlignment = Alignment.Center
         ) {
@@ -355,19 +379,7 @@ class PlacesWidget : GlanceAppWidget(),
             ) {
                 Text(
                     text = context.getString(
-                        R.string.location_error
-                    ),
-                    style = TextStyle(
-                        color = ColorProvider(day = Color.White, night = Color.White),
-                        fontSize = 16.sp
-                    )
-                )
-
-                Spacer(GlanceModifier.height(8.dp))
-
-                Text(
-                    text = context.getString(
-                        R.string.location_retry
+                        R.string.tap_to_start
                     ),
                     style = TextStyle(
                         color = ColorProvider(day = Color.LightGray, night = Color.LightGray),
@@ -380,29 +392,30 @@ class PlacesWidget : GlanceAppWidget(),
 }
 
 class RefreshPlacesWidgetAction : ActionCallback {
-
     override suspend fun onAction(
         context: Context,
         glanceId: GlanceId,
         parameters: ActionParameters
     ) {
-        // 1. Refresco inmediato
-        val useCase: PlacesWidgetObserverUseCase by
-        KoinJavaComponent.inject(
-            PlacesWidgetObserverUseCase::class.java
-        )
+        try {
+            val useCase: PlacesWidgetObserverUseCase by
+            KoinJavaComponent.inject(
+                PlacesWidgetObserverUseCase::class.java
+            )
 
-        useCase.refreshWidget()
+            useCase.refreshWidget()
 
-        // 2. Arrancar GPS continuo
-        val serviceIntent = Intent(
-            context,
-            LocationForegroundService::class.java
-        )
+        } finally {
 
-        ContextCompat.startForegroundService(
-            context,
-            serviceIntent
-        )
+            val serviceIntent = Intent(
+                context,
+                LocationForegroundService::class.java
+            )
+
+            ContextCompat.startForegroundService(
+                context,
+                serviceIntent
+            )
+        }
     }
 }

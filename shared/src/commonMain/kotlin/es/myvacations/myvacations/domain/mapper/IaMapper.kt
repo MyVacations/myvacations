@@ -13,6 +13,7 @@ import kotlinx.serialization.json.Json
 
 val json = Json {
     ignoreUnknownKeys = true
+    classDiscriminator = "type"
 }
 
 fun ChatMessageData.toUiMapper(): ChatMessageUiState {
@@ -35,7 +36,7 @@ fun ChatMessageData.toUiMapper(): ChatMessageUiState {
             )
         },
         time = LocalDateTime.parse(time),
-        mainLocation = LocationUiState(mainLocationLatitude, mainLocationLongitude, 5000),
+        locationFor500m = LocationUiState(mainLocationLatitude, mainLocationLongitude, 5000),
         feedback = FeedbackState(
             whatAsk = whatAsk,
             label = label,

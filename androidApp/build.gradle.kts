@@ -23,6 +23,8 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.firebase.ads)
+    implementation(libs.koin.core)
+    implementation(libs.koin.compose)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.foundation)
     implementation(projects.shared)
@@ -44,7 +46,7 @@ android {
         versionCode = (LocalDate.now()
             .format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "0")
             .toInt()
-        versionName = "0.0.4"
+        versionName = "1.0.0"
         multiDexEnabled = true
     }
     packaging {

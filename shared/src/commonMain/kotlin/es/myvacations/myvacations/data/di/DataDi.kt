@@ -6,6 +6,7 @@ import es.myvacations.myvacations.data.datasource.local.SettingsLocalDataSource
 import es.myvacations.myvacations.data.datasource.local.TripLocalDataSource
 import es.myvacations.myvacations.data.datasource.remote.ModelLocalDataSource
 import es.myvacations.myvacations.data.datasource.remote.ModelRemoteDataSource
+import es.myvacations.myvacations.data.repository.AdsRepositoryImpl
 import es.myvacations.myvacations.data.repository.AiRepositoryImpl
 import es.myvacations.myvacations.data.repository.AppInfoRepositoryImpl
 import es.myvacations.myvacations.data.repository.AppWidgetUpdaterRepositoryImpl
@@ -20,6 +21,7 @@ import es.myvacations.myvacations.domain.manager.DatabaseInitializer
 import es.myvacations.myvacations.domain.manager.NotificationObserverManager
 import es.myvacations.myvacations.domain.manager.TripsWidgetObserverManager
 import es.myvacations.myvacations.domain.repository.AIRepository
+import es.myvacations.myvacations.domain.repository.AdsController
 import es.myvacations.myvacations.domain.repository.AppInfoRepository
 import es.myvacations.myvacations.domain.repository.DeviceCalendarRepository
 import es.myvacations.myvacations.domain.repository.MapRepository
@@ -87,5 +89,12 @@ val dataModule = module {
 
     single<PlacesRepository> {
         PlacesImpl()
+    }
+    single<AdsRepositoryImpl> {
+        AdsRepositoryImpl()
+    }
+
+    single<AdsController> {
+        get<AdsRepositoryImpl>()
     }
 }

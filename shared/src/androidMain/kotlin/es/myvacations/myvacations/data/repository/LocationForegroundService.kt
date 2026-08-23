@@ -6,17 +6,21 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
 import android.os.Looper
 import androidx.annotation.RequiresPermission
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import es.myvacations.myvacations.core.utils.AndroidContextHolder
 import es.myvacations.myvacations.domain.model.locations.LocationDomain
 import es.myvacations.myvacations.domain.usecase.eventsusecase.PlacesWidgetObserverUseCase
 import es.myvacations.myvacations.shared.R
@@ -72,13 +76,30 @@ class LocationForegroundService : Service(), KoinComponent {
         flags: Int,
         startId: Int
     ): Int {
+        if (
+            ContextCompat.checkSelfPermission(
+                AndroidContextHolder.context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startForeground(
+                    NOTIFICATION_ID,
+                    createNotification(),
+                    ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION
+                )
+            } else {
+                startForeground(
+                    NOTIFICATION_ID,
+                    createNotification()
+                )
+            }
+            startLocationUpdates()
+        } else {
+            return START_NOT_STICKY
+        }
 
-        startForeground(
-            NOTIFICATION_ID,
-            createNotification()
-        )
 
-        startLocationUpdates()
 
         return START_STICKY
     }

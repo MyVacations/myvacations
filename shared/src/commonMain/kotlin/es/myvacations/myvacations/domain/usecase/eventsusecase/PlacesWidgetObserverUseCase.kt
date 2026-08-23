@@ -10,6 +10,9 @@ import es.myvacations.myvacations.domain.usecase.chatbot.overpass.PlacesUseCase
 import es.myvacations.myvacations.presentation.chatbot.WidgetPlace
 import es.myvacations.myvacations.presentation.utils.distanceInMeters
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withTimeoutOrNull
+import kotlin.coroutines.cancellation.CancellationException
+import kotlin.time.Duration.Companion.milliseconds
 
 class PlacesWidgetObserverUseCase(
     private val widgetUpdater: WidgetUpdater,
@@ -20,42 +23,91 @@ class PlacesWidgetObserverUseCase(
     var lastWidgetLocation: LocationDomain? = null
 
     suspend fun refreshWidget() {
-        widgetUpdater.updateLocationLoading()
-
-        if(!ensureModelInstalledUseCase.checkModelStatus() || ensureModelInstalledUseCase.isUpdateAvailable())
-        {
-            widgetUpdater.noModelInstallOrUpdate()
-            return
-        }
-
-        when (val locationEvent = locationUseCase.getCurrentLocation()) {
-
-            is LocationEventResult.PermissionDenied -> {
-                widgetUpdater.updateLocationPermission(false)
-                return
-            }
-
-            is LocationEventResult.Success -> {
-                widgetUpdater.updateLocationPermission(true)
-
-                val widgetPlace = getWidgetPlace(
-                    locationEvent.locationDomain
-                )
-
-                if (widgetPlace != null) {
-                    widgetUpdater.updatePlacesWidget(widgetPlace)
-                }
-                else {
-                    widgetUpdater.noMessagesLoad()
-                }
-
-                return
-            }
-
-            else -> {
+        if (!refreshWidgetInternal()) {
+            if (!refreshWidgetInternal()) {
                 widgetUpdater.updateLocationError()
             }
         }
+    }
+
+    private suspend fun refreshWidgetInternal(): Boolean {
+
+        val result = withTimeoutOrNull(20_000L.milliseconds) {
+
+            try {
+
+                widgetUpdater.updateLocationLoading()
+
+                val modelInstalled =
+                    ensureModelInstalledUseCase.checkModelStatus()
+
+                val updateAvailable =
+                    ensureModelInstalledUseCase.isUpdateAvailable()
+
+                if (!modelInstalled || updateAvailable) {
+
+                    widgetUpdater.noModelInstallOrUpdate()
+
+                    return@withTimeoutOrNull true
+                }
+
+                when (
+                    val locationEvent =
+                        locationUseCase.getCurrentLocation()
+                ) {
+
+                    is LocationEventResult.PermissionDenied -> {
+
+                        widgetUpdater.updateLocationPermission(false)
+                    }
+
+                    is LocationEventResult.Success -> {
+
+                        widgetUpdater.updateLocationPermission(true)
+
+                        val widgetPlace =
+                            getWidgetPlace(
+                                locationEvent.locationDomain
+                            )
+
+                        if (widgetPlace != null) {
+
+                            widgetUpdater.updatePlacesWidget(
+                                widgetPlace
+                            )
+
+                        } else {
+
+                            widgetUpdater.noMessagesLoad()
+                        }
+                    }
+
+                    else -> {
+
+                        widgetUpdater.updateLocationError()
+                    }
+                }
+
+                true
+
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+
+                widgetUpdater.updateLocationError()
+
+                false
+            }
+        }
+
+        if (result == null) {
+
+            widgetUpdater.updateLocationError()
+
+            return false
+        }
+
+        return result
     }
 
     suspend fun updateForLocation(
@@ -100,7 +152,7 @@ class PlacesWidgetObserverUseCase(
         } else {
             lastMessage.bot?.elementsFound?.let { elementsFound ->
                 WidgetPlace(
-                    mainLocation = lastMessage.mainLocation,
+                    mainLocation = lastMessage.locationFor500m,
                     elementsFound = elementsFound
                 )
             }
@@ -137,13 +189,13 @@ class PlacesWidgetObserverUseCase(
                 elementsFound = lastMessage.bot.elementsFound
             )
         } else {
+            widgetUpdater.outOfLimits()
             lastMessage.bot?.elementsFound?.let { elementsFound ->
                 WidgetPlace(
-                    mainLocation = lastMessage.mainLocation,
+                    mainLocation = lastMessage.locationFor500m,
                     elementsFound = elementsFound
                 )
             }
         }
     }
-
 }

@@ -6,6 +6,7 @@ import androidx.annotation.RequiresPermission
 import com.google.firebase.analytics.FirebaseAnalytics
 import es.myvacations.myvacations.core.firebase.AnalyticsEvent
 import es.myvacations.myvacations.core.firebase.AnalyticsReporter
+import io.github.aakira.napier.Napier
 
 class AndroidAnalyticsReporter(
     private val firebaseAnalytics : FirebaseAnalytics

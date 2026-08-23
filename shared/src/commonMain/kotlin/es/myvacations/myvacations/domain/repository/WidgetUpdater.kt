@@ -11,4 +11,5 @@ interface WidgetUpdater {
     suspend fun updateLocationError()
     suspend fun noMessagesLoad()
     suspend fun noModelInstallOrUpdate()
+    suspend fun outOfLimits()
 }

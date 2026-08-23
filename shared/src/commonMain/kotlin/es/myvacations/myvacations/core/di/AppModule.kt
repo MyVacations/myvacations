@@ -79,6 +79,7 @@ val appModule = module {
             classifyIntentUseCase = get(),
             locationUseCase = get(),
             placesUseCase = get(),
+            adsUseCase = get(),
             repository = get(),
             analytics = get()
         )
