@@ -1,7 +1,6 @@
 package es.myvacations.myvacations.core.di
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -14,7 +13,6 @@ import es.myvacations.myvacations.data.datasource.remote.IntentClassifier
 import es.myvacations.myvacations.data.datasource.remote.ModelVerifier
 import es.myvacations.myvacations.data.repository.AndroidIntentClassifier
 import es.myvacations.myvacations.data.repository.AndroidModelVerifier
-import es.myvacations.myvacations.data.repository.LocationForegroundService
 import es.myvacations.myvacations.data.repository.ModelServiceRepositoryImpl
 import es.myvacations.myvacations.domain.repository.ModelRepository
 import es.myvacations.myvacations.firebase.AndroidAnalyticsReporter
@@ -66,10 +64,5 @@ actual fun dataBaseModule(): List<Module> = listOf(
                 settingsRepository = get()
             )
         }
-
-        single {
-            LocationForegroundService()
-        }
-
     }
 )

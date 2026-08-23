@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Chronometer
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_update_timer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:countDown="true"
+    android:format="%s"
+    android:textSize="12sp"
+    android:textColor="@android:color/black" />

@@ -2,6 +2,7 @@ package es.myvacations.myvacations.data.repository
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.doublePreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 
 val ActiveTripIdKey = stringPreferencesKey("active_trip_id")
@@ -15,3 +16,5 @@ val ActiveTripCoverKey = stringPreferencesKey("active_trip_cover")
 val ActiveTripExpensesKey = stringPreferencesKey("active_trip_expenses")
 val ActiveTripFavouriteKey = booleanPreferencesKey("active_trip_favourite")
 val WidgetEventPreferencesKey = stringPreferencesKey("widgetEventPreferences")
+val WidgetNextUpdatePreferencesKey =
+    longPreferencesKey("widget_next_update")

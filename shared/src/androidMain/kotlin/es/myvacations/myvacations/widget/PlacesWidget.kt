@@ -3,20 +3,23 @@ package es.myvacations.myvacations.widget
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.SystemClock
 import android.provider.Settings
+import android.widget.RemoteViews
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.datastore.preferences.core.Preferences
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalContext
 import androidx.glance.action.ActionParameters
 import androidx.glance.action.clickable
+import androidx.glance.appwidget.AndroidRemoteViews
 import androidx.glance.appwidget.CircularProgressIndicator
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.ImageProvider
@@ -38,13 +41,15 @@ import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.layout.width
+import androidx.glance.layout.wrapContentHeight
+import androidx.glance.layout.wrapContentWidth
 import androidx.glance.state.PreferencesGlanceStateDefinition
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
-import es.myvacations.myvacations.data.repository.LocationForegroundService
 import es.myvacations.myvacations.data.repository.WidgetEventPreferencesKey
 import es.myvacations.myvacations.data.repository.WidgetEventResult
+import es.myvacations.myvacations.data.repository.WidgetNextUpdatePreferencesKey
 import es.myvacations.myvacations.domain.usecase.eventsusecase.PlacesWidgetObserverUseCase
 import es.myvacations.myvacations.shared.R
 import kotlinx.serialization.json.Json
@@ -61,7 +66,7 @@ class PlacesWidget : GlanceAppWidget(),
         provideContent {
             val preferences = currentState<Preferences>()
             val eventJson = preferences[WidgetEventPreferencesKey]
-
+            val timer = preferences[WidgetNextUpdatePreferencesKey] ?: System.currentTimeMillis()
             val widgetEventResult =
                 eventJson?.let {
                     runCatching {
@@ -73,7 +78,8 @@ class PlacesWidget : GlanceAppWidget(),
 
             WidgetContent(
                 context,
-                widgetEventResult
+                widgetEventResult,
+                timer
             )
         }
     }
@@ -82,6 +88,7 @@ class PlacesWidget : GlanceAppWidget(),
     private fun WidgetContent(
         context: Context,
         widgetEventResult: WidgetEventResult,
+        timer: Long,
     ) {
         when (widgetEventResult) {
             WidgetEventResult.Loading -> LocationLoadingWidget()
@@ -114,6 +121,22 @@ class PlacesWidget : GlanceAppWidget(),
                             contentDescription = "Mapa",
                             modifier = GlanceModifier.fillMaxSize()
                         )
+                        Box(
+                            modifier = GlanceModifier.fillMaxSize().padding(horizontal = 16.dp),
+                            contentAlignment = Alignment.TopEnd
+                        ) {
+                            Row {
+                                UpdateTimer(timer)
+                                Spacer(GlanceModifier.width(4.dp))
+                                Text(style = TextStyle(
+                                    fontSize = 12.sp
+                                ),
+                                    text = context.getString(
+                                        R.string.ortapme
+                                    )
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -389,6 +412,41 @@ class PlacesWidget : GlanceAppWidget(),
             }
         }
     }
+
+    @Composable
+    private fun UpdateTimer(nextUpdate: Long) {
+
+        val remoteViews = RemoteViews(
+            LocalContext.current.packageName,
+            R.layout.widget_update_timer
+        )
+
+        val remaining =
+            (nextUpdate - System.currentTimeMillis())
+                .coerceAtLeast(0L)
+
+        val base =
+            SystemClock.elapsedRealtime() + remaining
+
+        remoteViews.setChronometer(
+            R.id.widget_update_timer,
+            base,
+            null,
+            true
+        )
+
+        remoteViews.setChronometerCountDown(
+            R.id.widget_update_timer,
+            true
+        )
+
+        AndroidRemoteViews(
+            remoteViews = remoteViews,
+            modifier = GlanceModifier
+                .wrapContentWidth()
+                .wrapContentHeight()
+        )
+    }
 }
 
 class RefreshPlacesWidgetAction : ActionCallback {
@@ -397,25 +455,11 @@ class RefreshPlacesWidgetAction : ActionCallback {
         glanceId: GlanceId,
         parameters: ActionParameters
     ) {
-        try {
-            val useCase: PlacesWidgetObserverUseCase by
-            KoinJavaComponent.inject(
-                PlacesWidgetObserverUseCase::class.java
-            )
+        val useCase: PlacesWidgetObserverUseCase by
+        KoinJavaComponent.inject(
+            PlacesWidgetObserverUseCase::class.java
+        )
 
-            useCase.refreshWidget()
-
-        } finally {
-
-            val serviceIntent = Intent(
-                context,
-                LocationForegroundService::class.java
-            )
-
-            ContextCompat.startForegroundService(
-                context,
-                serviceIntent
-            )
-        }
+        useCase.refreshWidget()
     }
 }

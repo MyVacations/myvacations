@@ -77,4 +77,5 @@
     <string name="out_of_limits">Has salido de los límites del mapa</string>
     <string name="tap_to_start">Pulsa para iniciar</string>
     <string name="only_1_widget">Solo se permite un widget</string>
+    <string name="ortapme"> | O Pulsame</string>
 </resources>

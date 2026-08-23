@@ -22,29 +22,11 @@ class LocationPermissionWorker(
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
 
-        val preferences =
-            applicationContext.getSharedPreferences(
-                "places_widget",
-                Context.MODE_PRIVATE
-            )
-
-        val previousPermission =
-            preferences.getBoolean(
-                "location_permission",
-                false
-            )
-
-        if (previousPermission != hasPermission) {
-
-            preferences.edit {
-                putBoolean(
-                    "location_permission",
-                    hasPermission
-                )
-            }
-
-            refreshPlacesWidget()
+        if (!hasPermission) {
+            return Result.success()
         }
+
+        refreshPlacesWidget()
 
         return Result.success()
     }

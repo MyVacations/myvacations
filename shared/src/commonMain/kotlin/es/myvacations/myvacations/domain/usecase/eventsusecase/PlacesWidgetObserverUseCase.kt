@@ -20,8 +20,6 @@ class PlacesWidgetObserverUseCase(
     private val locationUseCase: MapAndLocationUseCase,
     private val ensureModelInstalledUseCase: EnsureModelInstalledUseCase,
 ) {
-    var lastWidgetLocation: LocationDomain? = null
-
     suspend fun refreshWidget() {
         if (!refreshWidgetInternal()) {
             if (!refreshWidgetInternal()) {
@@ -108,57 +106,6 @@ class PlacesWidgetObserverUseCase(
         }
 
         return result
-    }
-
-    suspend fun updateForLocation(
-        currentLocation: LocationDomain
-    ) {
-        val previousLocation = lastWidgetLocation
-
-        if (previousLocation != null) {
-
-            val distance = distanceInMeters(
-                userLatitude = currentLocation.latitude,
-                userLongitude = currentLocation.longitude,
-                latitude = previousLocation.latitude,
-                longitude = previousLocation.longitude
-            )
-
-            if (distance < 20) {
-                return
-            }
-        }
-
-        val messages = placesUseCase.getMessages().first()
-        val lastMessage = messages.maxByOrNull { it.time }
-
-        if (lastMessage == null) return
-
-        val hasNearbyPlace =
-            lastMessage.bot?.elementsFound?.any { place ->
-                distanceInMeters(
-                    userLatitude = currentLocation.latitude,
-                    userLongitude = currentLocation.longitude,
-                    latitude = place.latitude,
-                    longitude = place.longitude
-                ) <= 500
-            } == true
-
-        val widgetPlace = if (hasNearbyPlace) {
-            WidgetPlace(
-                mainLocation = currentLocation.toUiMapper(),
-                elementsFound = lastMessage.bot.elementsFound
-            )
-        } else {
-            lastMessage.bot?.elementsFound?.let { elementsFound ->
-                WidgetPlace(
-                    mainLocation = lastMessage.locationFor500m,
-                    elementsFound = elementsFound
-                )
-            }
-        }
-        widgetUpdater.updatePlacesWidget(widgetPlace)
-        lastWidgetLocation = currentLocation
     }
 
     suspend fun update() {

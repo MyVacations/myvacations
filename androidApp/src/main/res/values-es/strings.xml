@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MyVacations</string>
+    <string name="widget_trip_name">Mi Viaje</string>
+    <string name="widget_map_name">Mis Planes</string>
 </resources>

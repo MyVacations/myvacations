@@ -2,11 +2,12 @@ package es.myvacations.myvacations.firebase
 
 import android.content.Context
 import android.util.Log
+import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
 import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import es.myvacations.myvacations.BuildConfig
 
 object FirebaseInitializer {
@@ -30,6 +31,9 @@ object FirebaseInitializer {
             )
         }
 
-        FirebaseAuth.getInstance()
+        if (Firebase.auth.currentUser == null) {
+            Firebase.auth.signInAnonymously()
+        }
+
     }
 }

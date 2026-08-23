@@ -41,7 +41,6 @@ actual object WidgetUtils {
         KoinJavaComponent.inject(
             PlacesWidgetObserverUseCase::class.java
         )
-
         useCase.refreshWidget()
     }
 }

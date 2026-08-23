@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
-import es.myvacations.myvacations.data.repository.LocationForegroundService
 import es.myvacations.myvacations.data.repository.WidgetMidnightScheduler
 import es.myvacations.myvacations.data.repository.WidgetPermissionScheduler
 import es.myvacations.myvacations.domain.usecase.eventsusecase.PlacesWidgetObserverUseCase
@@ -48,13 +47,6 @@ class MyPlacesWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
 
             WidgetMidnightScheduler.cancel(context)
             WidgetPermissionScheduler.cancel(context)
-
-            val intent = Intent(
-                context,
-                LocationForegroundService::class.java
-            )
-
-            context.stopService(intent)
         }
     }
 }

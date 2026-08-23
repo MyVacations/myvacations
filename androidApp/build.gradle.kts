@@ -31,7 +31,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.compose.uiToolingPreview)
     implementation(libs.compose.navigation)
-    debugImplementation(libs.firebase.appcheck.debug)
+    implementation(libs.firebase.appcheck.debug)
     debugImplementation(libs.compose.uiTooling)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
@@ -44,7 +44,7 @@ android {
         applicationId = "es.myvacations.myvacations"
         minSdk = libs.versions.android.minSdk.get().toInt()
         versionCode = (LocalDate.now()
-            .format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "0")
+            .format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "2")
             .toInt()
         versionName = "1.0.0"
         multiDexEnabled = true
