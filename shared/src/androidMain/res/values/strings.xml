@@ -65,4 +65,13 @@
     <string name="tunisia">Tunisia</string>
     <string name="kenya">Kenya</string>
     <string name="tanzania">Tanzania</string>
+    <string name="trips_widget_name">Trips</string>
+    <string name="places_widget_name">Map</string>
+    <string name="location_error">Could not get your location</string>
+    <string name="location_retry">Tap to retry</string>
+    <string name="location_permission_message">Enable location permission to show the map.</string>
+    <string name="location_permission_required">Location permission required</string>
+    <string name="no_messages_title">You don\'t have any chat</string>
+    <string name="no_messages_description">Tap to go to chat</string>
+    <string name="no_model_install">The Model is not downloaded or updated</string>
 </resources>

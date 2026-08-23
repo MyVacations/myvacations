@@ -3,11 +3,13 @@
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
     <application
         android:name=".MainApplication"
         android:allowBackup="false"
@@ -25,9 +27,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".widget.MyVacationsWidgetReceiver"
+        <receiver android:name=".widget.MyTripsWidgetReceiver"
             android:permission="android.permission.BIND_APPWIDGET"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/widget_trip_name">
 
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -35,9 +38,23 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/my_vacations_widget_info" />
+                android:resource="@xml/my_trips_widget_info" />
 
         </receiver>
+        <receiver android:name=".widget.MyPlacesWidgetReceiver"
+            android:permission="android.permission.BIND_APPWIDGET"
+            android:exported="true"
+            android:label="@string/widget_map_name">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/my_plans_widget_info" />
+        </receiver>
+
         <receiver
             android:name=".data.repository.DateChangedReceiver"
             android:exported="false">
@@ -48,5 +65,18 @@
             </intent-filter>
 
         </receiver>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        <service
+            android:name=".data.repository.LocationForegroundService"
+            android:foregroundServiceType="location"
+            android:exported="true" />
     </application>
 </manifest>

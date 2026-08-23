@@ -11,13 +11,12 @@ import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseC
 import es.myvacations.myvacations.domain.usecase.tripusecase.GetTripByIdUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.SaveTripUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.UpdateTripUseCase
-import es.myvacations.myvacations.presentation.events.CalendarColor
 import es.myvacations.myvacations.presentation.mapper.toDomainModel
 import es.myvacations.myvacations.presentation.mapper.toUiState
-import es.myvacations.myvacations.presentation.utils.calendar.CalendarStatus
 import es.myvacations.myvacations.presentation.utils.Currency
 import es.myvacations.myvacations.presentation.utils.TravelIcon
 import es.myvacations.myvacations.presentation.utils.TripExpenseUiState
+import es.myvacations.myvacations.presentation.utils.calendar.CalendarStatus
 import es.myvacations.myvacations.presentation.utils.calendar.CalendarUiState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

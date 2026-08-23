@@ -15,13 +15,21 @@ kotlin {
         jvmTarget = JvmTarget.JVM_21
     }
 }
+
 dependencies {
+    implementation(project.dependencies.platform(libs.firebase.bom))
+    implementation(libs.firebase.appcheck)
+    implementation(libs.firebase.appcheck.playintegrity)
+    implementation(libs.firebase.auth)
+    implementation(libs.kotlinx.coroutines.play.services)
+    implementation(libs.firebase.ads)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.foundation)
     implementation(projects.shared)
     implementation(libs.androidx.activity.compose)
     implementation(libs.compose.uiToolingPreview)
     implementation(libs.compose.navigation)
+    debugImplementation(libs.firebase.appcheck.debug)
     debugImplementation(libs.compose.uiTooling)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
@@ -63,6 +71,22 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
         isCoreLibraryDesugaringEnabled = true
     }
+    buildFeatures {
+        buildConfig = true
+    }
+
+    flavorDimensions += listOf("enviroment")
+    productFlavors {
+        create("dev") {
+            dimension = "enviroment"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+        }
+        create("pro") {
+            dimension = "enviroment"
+        }
+    }
+
 }
 
 tasks.register("r8Version") {

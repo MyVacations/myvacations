@@ -1,8 +1,8 @@
 package es.myvacations.myvacations.presentation.utils
 
-import es.myvacations.myvacations.domain.model.TripDomain
 import es.myvacations.myvacations.domain.model.Country
 import es.myvacations.myvacations.domain.model.TripCover
+import es.myvacations.myvacations.domain.model.TripDomain
 import kotlinx.datetime.LocalDate
 
 object DefaultTrip {

@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 
-class WidgetObserverUseCase(
+class TripsWidgetObserverUseCase(
     private val widgetUpdater: WidgetUpdater,
     private val getActiveTripUseCase: GetActiveTripUseCase,
     private val getSettingsUseCase: GetSettingsUseCase
@@ -17,7 +17,7 @@ class WidgetObserverUseCase(
     suspend fun observe() {
         combine(
             getActiveTripUseCase(),
-            getSettingsUseCase().distinctUntilChanged()
+            getSettingsUseCase().distinctUntilChanged(),
         ) { trips, settings ->
 
             trips.map { trip ->
@@ -27,11 +27,11 @@ class WidgetObserverUseCase(
             }
 
         }.collect { trips ->
-            widgetUpdater.update(trips)
+            widgetUpdater.updateTripWidget(trips)
         }
     }
 
-    suspend fun update() {
+    suspend fun updateTrips() {
         val trips = getActiveTripUseCase().first()
         val settings = getSettingsUseCase().first()
 
@@ -41,6 +41,6 @@ class WidgetObserverUseCase(
             )
         }
 
-        widgetUpdater.update(tripsUi)
+        widgetUpdater.updateTripWidget(tripsUi)
     }
 }

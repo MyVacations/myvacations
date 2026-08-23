@@ -14,6 +14,69 @@
     <string name="download_failed">Download failed</string>
     <string name="retry">Retry?</string>
     <string name="discover_places_with_ai">Discover places with AI</string>
+    <string name="notpermissionexplain">Without permissions you can’t use this tool \nEnable location in the application settings</string>
+    <string name="preciseubication">Fine location necessarily</string>
+    <string name="activethefinelocation">Active the fine location for use the map</string>
+    <string name="outoflimits">Out of limits, get closer to 500 metres</string>
+    <string name="botheader">I found some places near you that might fit with what you asked for:</string>
+    <string name="bothdescription">Places found:</string>
+    <string name="boterror1">I don’t understand what kind of place you are looking for.\nTry to tell me something like "I want an italian restaurant" or "I am looking for a museum"</string>
+    <string name="boterror2">I couldn't search places right now.\nTry again later.</string>
+    <string name="buttonRetry">Retry</string>
+    <string name="placesTitle">¿What kind of place are you looking for?</string>
+    <string name="placesheader">Nearest places</string>
+    <string name="examplePlace">I am looking for a restaurant near me</string>
+    <string name="gotomap">Go to map</string>
+    <string name="delete1chat">Delete current chat</string>
+    <string name="deleteallchats">Delete all chats</string>
+    <string name="feedback">Is this helpful?</string>
+    <!-- AI Chat Tutorial -->
+    <string name="ai_tutorial_skip">Skip</string>
+    <string name="ai_tutorial_continue">Continue</string>
+    <string name="ai_tutorial_back">Back</string>
+    <string name="ai_tutorial_start">Start</string>
+
+    <string name="ai_tutorial_intro_title">Your travel assistant</string>
+    <string name="ai_tutorial_intro_description">Tell the assistant what you need and it will look for places that may interest you nearby.</string>
+    <string name="ai_tutorial_intro_user_message">What can I do this afternoon?</string>
+    <string name="ai_tutorial_intro_bot_message">I found some places that might interest you.</string>
+
+    <string name="ai_tutorial_examples_title">Write what you are looking for</string>
+    <string name="ai_tutorial_examples_description">You don't need to use categories. Write your request in your own words.</string>
+    <string name="ai_tutorial_example_pizza">I want to eat pizza</string>
+    <string name="ai_tutorial_example_coffee">I want to have a coffee</string>
+    <string name="ai_tutorial_example_japanese">I want Japanese food</string>
+    <string name="ai_tutorial_example_hungry">I'm hungry</string>
+
+    <string name="ai_tutorial_results_title">Find places nearby</string>
+    <string name="ai_tutorial_results_description">The assistant searches for places related to your request and shows the closest results.</string>
+
+    <string name="ai_tutorial_map_title">Explore the map</string>
+    <string name="ai_tutorial_map_description">Explore the places directly on the map, move it, zoom in and out, and select any place.</string>
+
+    <string name="ai_tutorial_details_title">Discover each place</string>
+    <string name="ai_tutorial_details_description">Check the available information about a place, such as its address, distance, phone number or website.</string>
+
+    <string name="ai_tutorial_navigation_title">Get to your destination</string>
+    <string name="ai_tutorial_navigation_description">Tap \"Get directions\" to open the place in your maps application.</string>
+
+    <string name="ai_tutorial_restaurant_flati">Restaurante Flati</string>
+    <string name="ai_tutorial_abades_loja">Abades Loja</string>
+    <string name="ai_tutorial_bar_andalucia">Bar Andalucía</string>
+
+    <string name="ai_tutorial_restaurant">Restaurant</string>
+    <string name="ai_tutorial_bar">Bar</string>
+    <string name="ai_tutorial_regional">Regional</string>
+
+    <string name="ai_tutorial_address">Avenida de Andalucía</string>
+    <string name="ai_tutorial_phone">+34 958 000 000</string>
+    <string name="ai_tutorial_website">restauranteflati.com</string>
+
+    <string name="ai_tutorial_distance_350m">350 m</string>
+    <string name="ai_tutorial_distance_720m">720 m</string>
+    <string name="ai_tutorial_distance_1_1km">1.1 km</string>
+
+    <string name="ai_tutorial_get_directions">Get directions</string>
 
     <!--Categories-->
     <string name="analytics_prediction">Prediction</string>
@@ -492,6 +555,6 @@ Found a problem or have a suggestion? You can contact the developer using the fo
     <string name="onboarding_budgetrest">Budget remaining: 20€</string>
     <string name="onboarding_addexpense">+ Add expense</string>
     <string name="onboarding_travel">Watch travel</string>
-<!--ChatBot-->
+    <!--ChatBot-->
     <string name="chatbot_place_notfind">Sorry ,I can’t find what you want in a 5 kilometers </string>
 </resources>

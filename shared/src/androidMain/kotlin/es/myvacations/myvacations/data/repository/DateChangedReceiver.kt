@@ -3,8 +3,7 @@ package es.myvacations.myvacations.data.repository
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import es.myvacations.myvacations.domain.manager.WidgetObserverManager
-import io.github.aakira.napier.Napier
+import es.myvacations.myvacations.domain.manager.TripsWidgetObserverManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,9 +27,9 @@ class DateChangedReceiver : BroadcastReceiver() {
 
                 CoroutineScope(Dispatchers.Default).launch {
                     try {
-                        val widgetObserverManager: WidgetObserverManager =
+                        val tripsWidgetObserverManager: TripsWidgetObserverManager =
                             GlobalContext.get().get()
-                        widgetObserverManager.update()
+                        tripsWidgetObserverManager.update()
                     } finally {
                         pendingResult.finish()
                     }

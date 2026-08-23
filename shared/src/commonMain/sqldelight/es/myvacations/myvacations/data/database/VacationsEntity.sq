@@ -51,6 +51,26 @@ CREATE TABLE NotificationData (
     read INTEGER AS kotlin.Boolean NOT NULL
 );
 
+CREATE TABLE ChatMessageData (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    userText TEXT NOT NULL,
+    userElementsFound TEXT NOT NULL,
+    userRetryOn INTEGER AS kotlin.Boolean NOT NULL,
+    mainLocationLongitude REAL NOT NULL,
+    mainLocationLatitude REAL NOT NULL,
+    botText TEXT,
+    botElementsFound TEXT,
+    botRetryOn INTEGER AS kotlin.Boolean,
+    whatAsk TEXT NOT NULL,
+    label TEXT NOT NULL,
+    subcategory TEXT NOT NULL,
+    labelConfidence REAL NOT NULL,
+    subcategoryConfidence REAL NOT NULL,
+    elementsSizeFound INTEGER NOT NULL,
+    time TEXT NOT NULL,
+    feedbackDone INTEGER AS kotlin.Boolean NOT NULL
+);
+
 CREATE INDEX expense_tripId_idx ON TripExpenseData(tripId);
 CREATE INDEX traveler_tripId_idx ON TripTravelersData(tripId);
 CREATE INDEX notification_date_idx
@@ -268,3 +288,57 @@ WHERE id = ? AND tripId = ?;
 deleteNotification:
 DELETE FROM NotificationData
 WHERE id = ? AND tripId = ?;
+
+selectAllMessages:
+SELECT * FROM ChatMessageData;
+
+insertMessage:
+INSERT INTO ChatMessageData(
+    userText,
+    userElementsFound,
+    userRetryOn,
+    mainLocationLongitude,
+    mainLocationLatitude,
+    botText,
+    botElementsFound,
+    botRetryOn,
+    whatAsk,
+    label,
+    subcategory,
+    labelConfidence,
+    subcategoryConfidence,
+    elementsSizeFound,
+    time,
+    feedbackDone
+)
+VALUES (
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?
+);
+
+updateFeedback:
+UPDATE ChatMessageData
+SET
+    feedbackDone = ?
+WHERE id = ?;
+
+deleteMessage:
+DELETE FROM ChatMessageData
+WHERE id = ?;
+
+deleteAllMessages:
+DELETE FROM ChatMessageData;

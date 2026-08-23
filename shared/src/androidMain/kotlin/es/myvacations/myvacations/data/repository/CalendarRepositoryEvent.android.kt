@@ -274,7 +274,7 @@ actual class GetDeviceCalendarRepository actual constructor() :
                     getString(Res.string.descriptioncalendar, place)
                 )
                 put(CalendarContract.Events.EVENT_LOCATION, place)
-                if(color != null) put(CalendarContract.Events.EVENT_COLOR_KEY, color.key)
+                if (color != null) put(CalendarContract.Events.EVENT_COLOR_KEY, color.key)
                 // Evento de día completo
                 put(CalendarContract.Events.ALL_DAY, 1)
 
@@ -333,20 +333,21 @@ actual fun CalendarReadWrittePermissionHandler(
     onUpdatePermission: (CalendarAddEventResult) -> Unit,
     dialogRequestingCalendarPermissions: Boolean
 ) {
-    if (dialogRequestingCalendarPermissions) {
-        val launcher = rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.RequestMultiplePermissions()
-        ) { permissions ->
-            val readGranted =
-                permissions[Manifest.permission.READ_CALENDAR] == true
 
-            val writeGranted =
-                permissions[Manifest.permission.WRITE_CALENDAR] == true
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        val readGranted =
+            permissions[Manifest.permission.READ_CALENDAR] == true
 
-            onUpdatePermission(if (!readGranted || !writeGranted) CalendarAddEventResult.PermissionDenied else CalendarAddEventResult.NoCalendarAvailable)
-        }
+        val writeGranted =
+            permissions[Manifest.permission.WRITE_CALENDAR] == true
 
-        LaunchedEffect(Unit) {
+        onUpdatePermission(if (!readGranted || !writeGranted) CalendarAddEventResult.PermissionDenied else CalendarAddEventResult.NoCalendarAvailable)
+    }
+
+    LaunchedEffect(dialogRequestingCalendarPermissions) {
+        if (dialogRequestingCalendarPermissions) {
             launcher.launch(
                 arrayOf(
                     Manifest.permission.READ_CALENDAR,

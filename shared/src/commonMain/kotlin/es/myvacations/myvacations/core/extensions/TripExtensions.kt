@@ -1,5 +1,8 @@
 package es.myvacations.myvacations.core.extensions
 
+fun Double.roundTo4Decimals(): Double =
+    kotlin.math.round(this * 10000) / 10000.0
+
 fun Double.roundTo2Decimals(): Double =
     kotlin.math.round(this * 100) / 100.0
 

@@ -249,6 +249,12 @@ fun loadWidgetScreenNav(
             )
         }
 
+        "chat" -> {
+            return navigationState.navigate(
+                ScreenDestination.ChatScreen
+            )
+        }
+
         else -> {
             navigationState.navigate(ScreenDestination.Dashboard)
         }

@@ -1,10 +1,6 @@
 package es.myvacations.myvacations.domain.model
 
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.daysUntil
-import kotlinx.datetime.toLocalDateTime
-import kotlin.time.Clock
 
 data class TripDomain(
     val id: String,

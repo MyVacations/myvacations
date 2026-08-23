@@ -11,16 +11,16 @@ import es.myvacations.myvacations.domain.repository.AppInfoRepository
 import es.myvacations.myvacations.domain.repository.NotificationRepository
 import es.myvacations.myvacations.domain.repository.TripRepository
 import es.myvacations.myvacations.presentation.utils.TravelIcon
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.LocalDate
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -262,6 +262,10 @@ class ObserveTripForAlertsUseCaseTest {
             return tripsFlow.value.find { it.id == id }
         }
 
+        override fun getExpensesByTripId(tripId: String): Flow<List<TripExpensesDomain>> {
+            TODO("Not yet implemented")
+        }
+
         override suspend fun addTrip(trip: TripDomain) {
             tripsFlow.value = tripsFlow.value + trip
         }
@@ -321,10 +325,10 @@ class ObserveTripForAlertsUseCaseTest {
 
         override suspend fun isFirstLogin(): Boolean = firstLogin
         override suspend fun messageFromServer(): String = serverMessage
-        override suspend fun markWelcomeShown() {
-            welcomeShownCalled = true
-            firstLogin = false
+        override suspend fun updateFirstLogin() {
+            TODO("Not yet implemented")
         }
+
         override suspend fun messageSeen(): Boolean = msgSeen
     }
 }

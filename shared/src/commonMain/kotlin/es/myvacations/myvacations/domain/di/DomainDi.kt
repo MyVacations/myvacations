@@ -1,17 +1,21 @@
 package es.myvacations.myvacations.domain.di
 
+import es.myvacations.myvacations.domain.repository.PlacesRepository
 import es.myvacations.myvacations.domain.usecase.GetDayPeriodUseCase
 import es.myvacations.myvacations.domain.usecase.chatbot.ClassifyIntentUseCase
+import es.myvacations.myvacations.domain.usecase.chatbot.MapAndLocationUseCase
+import es.myvacations.myvacations.domain.usecase.chatbot.latestmodelrelease.EnsureModelInstalledUseCase
+import es.myvacations.myvacations.domain.usecase.chatbot.overpass.PlacesUseCase
 import es.myvacations.myvacations.domain.usecase.eventsusecase.AddEventToCalendarUseCase
 import es.myvacations.myvacations.domain.usecase.eventsusecase.DeleteNotificationUseCase
 import es.myvacations.myvacations.domain.usecase.eventsusecase.ObserveTripForAlertsUseCase
+import es.myvacations.myvacations.domain.usecase.eventsusecase.PlacesWidgetObserverUseCase
 import es.myvacations.myvacations.domain.usecase.eventsusecase.SelectAllNotificationsUseCase
 import es.myvacations.myvacations.domain.usecase.eventsusecase.SelectNotificationsInATripUseCase
+import es.myvacations.myvacations.domain.usecase.eventsusecase.TripsWidgetObserverUseCase
 import es.myvacations.myvacations.domain.usecase.eventsusecase.UpdateNotificationUseCase
-import es.myvacations.myvacations.domain.usecase.eventsusecase.WidgetObserverUseCase
 import es.myvacations.myvacations.domain.usecase.expenseusecase.DeleteExpenseUseCase
 import es.myvacations.myvacations.domain.usecase.expenseusecase.UpdateExpenseUseCase
-import es.myvacations.myvacations.domain.usecase.chatbot.latestmodelrelease.EnsureModelInstalledUseCase
 import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseCase
 import es.myvacations.myvacations.domain.usecase.settingsusecase.InitializeDatabaseSettingsUseCase
 import es.myvacations.myvacations.domain.usecase.settingsusecase.UpdateSettingsUseCase
@@ -57,8 +61,15 @@ val domainModule = module {
     factory { AddEventToCalendarUseCase(get()) }
     factory { ClassifyIntentUseCase(get()) }
     factoryOf(::ObserveTripForAlertsUseCase)
-    factoryOf(::WidgetObserverUseCase)
+    factoryOf(::TripsWidgetObserverUseCase)
+    factoryOf(::PlacesWidgetObserverUseCase)
     factoryOf(::GetActiveTripUseCase)
     factoryOf(::GetExpenseActiveTripUseCase)
     factory { EnsureModelInstalledUseCase(get()) }
+    factory { MapAndLocationUseCase(get()) }
+    factory {
+        PlacesUseCase(
+            placesRepository = get<PlacesRepository>()
+        )
+    }
 }

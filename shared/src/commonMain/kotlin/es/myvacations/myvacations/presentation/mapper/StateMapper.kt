@@ -4,20 +4,20 @@ import androidx.compose.runtime.Composable
 import es.myvacations.myvacations.core.extensions.roundTo2Decimals
 import es.myvacations.myvacations.domain.events.AppNotificationDomain
 import es.myvacations.myvacations.domain.mapper.calculateStatus
-import es.myvacations.myvacations.domain.model.ChatMessageDomain
 import es.myvacations.myvacations.domain.model.SettingsDomain
 import es.myvacations.myvacations.domain.model.TravelersDomain
 import es.myvacations.myvacations.domain.model.TripDomain
 import es.myvacations.myvacations.domain.model.TripExpensesDomain
 import es.myvacations.myvacations.domain.model.TripStatus
 import es.myvacations.myvacations.domain.repository.AIRepository
-import es.myvacations.myvacations.presentation.chatbot.ChatMessageUiState
 import es.myvacations.myvacations.presentation.createedittrip.TripUiState
 import es.myvacations.myvacations.presentation.dashboard.DashboardStats
 import es.myvacations.myvacations.presentation.events.AppNotificationUiState
 import es.myvacations.myvacations.presentation.settings.SettingsUiState
 import es.myvacations.myvacations.presentation.tripdetail.TravelerUiState
 import es.myvacations.myvacations.presentation.utils.TripExpenseUiState
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.number
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.analytics_attraction
 import myvacations.shared.generated.resources.analytics_bar
@@ -164,10 +164,11 @@ fun AppNotificationDomain.toUiState() = AppNotificationUiState(
     createdAt = createdAt
 )
 
-fun ChatMessageDomain.toUiState() = ChatMessageUiState(
-    text = text,
-    fromBot = fromBot
-)
+fun LocalDateTime.toLocalUserString(): String {
+    return "$day - ${month.number} - $year, " +
+            "${hour.toString().padStart(2, '0')}:" +
+            minute.toString().padStart(2, '0')
+}
 
 @Composable
 fun AIRepository.toNameLabel() = this.load().idToLabel.map { label ->

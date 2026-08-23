@@ -1,8 +1,6 @@
 package es.myvacations.myvacations.core.navigation
 
 import androidx.compose.runtime.saveable.Saver
-import es.myvacations.myvacations.presentation.events.AppNotificationUiState
-import kotlinx.serialization.json.Json
 
 fun ScreenDestination.toSavedValue(): String =
     when (this) {

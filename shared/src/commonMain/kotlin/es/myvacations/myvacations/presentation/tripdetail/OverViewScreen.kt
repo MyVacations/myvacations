@@ -13,9 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.People
-import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -34,16 +32,11 @@ import es.myvacations.myvacations.presentation.utils.toCurrencySymbol
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.trip_detail_overview_aditionalexpenses
 import myvacations.shared.generated.resources.trip_detail_overview_day
-import myvacations.shared.generated.resources.trip_detail_overview_perday
-import myvacations.shared.generated.resources.trip_detail_overview_perperson
 import myvacations.shared.generated.resources.trip_detail_overview_person
-import myvacations.shared.generated.resources.trip_detail_overview_stayday
 import myvacations.shared.generated.resources.trip_detail_overview_total
 import myvacations.shared.generated.resources.trip_detail_overview_total_low
-import myvacations.shared.generated.resources.trip_detail_overview_traveldays
 import myvacations.shared.generated.resources.trip_detail_overview_travelers
 import myvacations.shared.generated.resources.trip_detail_overview_tripcost
-import myvacations.shared.generated.resources.trip_detail_traveler_costyou
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

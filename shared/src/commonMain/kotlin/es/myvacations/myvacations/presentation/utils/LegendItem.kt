@@ -19,9 +19,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import myvacations.shared.generated.resources.Res
-import myvacations.shared.generated.resources.trip_detail_budget
 import myvacations.shared.generated.resources.trip_detail_budget_remaining
-import myvacations.shared.generated.resources.trip_detail_header_spent
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

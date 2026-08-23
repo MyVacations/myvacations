@@ -14,6 +14,22 @@
     <string name="download_failed">Error al descargar</string>
     <string name="retry">¿Reintentar?</string>
     <string name="discover_places_with_ai">Descubre lugares con IA</string>
+    <string name="notpermissionexplain">Sin permisos no se puede usar esta herramienta \nActiva la ubicación en ajustes de la aplicación</string>
+    <string name="preciseubication">Ubicación precisa necesaria</string>
+    <string name="outoflimits">Fuera de los límites, acércate a menos de 500 metros</string>
+    <string name="activethefinelocation">Activa la ubicación precisa para utilizar el mapa</string>
+    <string name="botheader">He encontrado algunos sitios cerca que podrían encajar con lo que me pides:</string>
+    <string name="bothdescription">Lugares encontrados:</string>
+    <string name="boterror1">No he entendido qué tipo de lugar buscas.\nPrueba a decirme algo como "quiero un restaurante italiano" o "busco un museo"</string>
+    <string name="boterror2">No he podido buscar lugares en este momento.\nInténtalo de nuevo.</string>
+    <string name="buttonRetry">Reintentar</string>
+    <string name="placesTitle">¿Que lugar buscas?</string>
+    <string name="placesheader">Lugares más cercanos:</string>
+    <string name="examplePlace">Busco un restaurante cerca de mí</string>
+    <string name="gotomap">Ir al mapa</string>
+    <string name="delete1chat">Borrar el chat actual</string>
+    <string name="deleteallchats">Borrar todos los chats</string>
+    <string name="feedback">¿La búsqueda es acertada?</string>
 
     <!--Categories-->
     <string name="analytics_prediction">Predicción</string>
@@ -40,6 +56,53 @@
     <string name="analytics_cinema">Cine</string>
     <string name="analytics_theatre">Teatro</string>
     <string name="analytics_none">No aparece</string>
+        <!-- Tutorial del chat IA -->
+        <string name="ai_tutorial_skip">Saltar</string>
+        <string name="ai_tutorial_continue">Continuar</string>
+        <string name="ai_tutorial_back">Atrás</string>
+        <string name="ai_tutorial_start">Empezar</string>
+
+        <string name="ai_tutorial_intro_title">Tu asistente de viaje</string>
+        <string name="ai_tutorial_intro_description">Cuéntale qué necesitas y buscará lugares que puedan interesarte cerca de ti.</string>
+        <string name="ai_tutorial_intro_user_message">¿Qué puedo hacer esta tarde?</string>
+        <string name="ai_tutorial_intro_bot_message">He encontrado algunos lugares que podrían interesarte.</string>
+
+        <string name="ai_tutorial_examples_title">Escribe lo que buscas</string>
+        <string name="ai_tutorial_examples_description">No necesitas utilizar categorías. Escribe tu petición con tus propias palabras.</string>
+        <string name="ai_tutorial_example_pizza">Quiero comer pizza</string>
+        <string name="ai_tutorial_example_coffee">Quiero tomar un café</string>
+        <string name="ai_tutorial_example_japanese">Quiero comida japonesa</string>
+        <string name="ai_tutorial_example_hungry">Tengo hambre</string>
+
+        <string name="ai_tutorial_results_title">Encuentra lugares cerca de ti</string>
+        <string name="ai_tutorial_results_description">El asistente busca lugares relacionados con tu petición y muestra los resultados más próximos.</string>
+
+        <string name="ai_tutorial_map_title">Explora el mapa</string>
+        <string name="ai_tutorial_map_description">Explora los lugares directamente sobre el mapa, muévelo, haz zoom y selecciona cualquiera de ellos.</string>
+
+        <string name="ai_tutorial_details_title">Conoce cada lugar</string>
+        <string name="ai_tutorial_details_description">Consulta la información disponible del lugar, como su dirección, distancia, teléfono o página web.</string>
+
+        <string name="ai_tutorial_navigation_title">Llega a tu destino</string>
+        <string name="ai_tutorial_navigation_description">Pulsa «Cómo llegar» para abrir el lugar en tu aplicación de mapas.</string>
+
+        <string name="ai_tutorial_restaurant_flati">Restaurante Flati</string>
+        <string name="ai_tutorial_abades_loja">Abades Loja</string>
+        <string name="ai_tutorial_bar_andalucia">Bar Andalucía</string>
+
+        <string name="ai_tutorial_restaurant">Restaurante</string>
+        <string name="ai_tutorial_bar">Bar</string>
+        <string name="ai_tutorial_regional">Regional</string>
+
+        <string name="ai_tutorial_address">Avenida de Andalucía</string>
+        <string name="ai_tutorial_phone">+34 958 000 000</string>
+        <string name="ai_tutorial_website">restauranteflati.com</string>
+
+        <string name="ai_tutorial_distance_350m">350 m</string>
+        <string name="ai_tutorial_distance_720m">720 m</string>
+        <string name="ai_tutorial_distance_1_1km">1,1 km</string>
+
+        <string name="ai_tutorial_get_directions">Cómo llegar</string>
     <!--Colors-->
     <string name="nocolors">Sin colores para este calendario</string>
     <!--Formulary-->

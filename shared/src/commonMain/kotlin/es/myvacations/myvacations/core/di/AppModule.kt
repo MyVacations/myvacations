@@ -77,6 +77,8 @@ val appModule = module {
         ChatViewModel(
             ensureModelInstalledUseCase = get(),
             classifyIntentUseCase = get(),
+            locationUseCase = get(),
+            placesUseCase = get(),
             repository = get(),
             analytics = get()
         )

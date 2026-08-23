@@ -16,7 +16,9 @@ class EnsureModelInstalledUseCase(
         repository.checkPendingInstallation()
     }
 
-    private suspend fun checkModelStatus() = repository.isInstalled()
+    suspend fun checkModelStatus() = repository.isInstalled()
+
+    suspend fun isUpdateAvailable() = repository.isUpdateAvailable()
 
     suspend fun refreshState() {
         checkPendingInstallation()
@@ -42,7 +44,7 @@ class EnsureModelInstalledUseCase(
                     return
                 }
 
-                if (checkModelStatus() && !repository.isUpdateAvailable()) {
+                if (checkModelStatus() && !isUpdateAvailable()) {
                     return
                 }
 

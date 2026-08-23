@@ -1094,7 +1094,7 @@ fun ScreenElementsAlert(
                     updateName(filtered)
                 }
             },
-            keyboardOptions = KeyboardOptions.Default.copy(capitalization = KeyboardCapitalization.Words),
+            keyboardOptions = KeyboardOptions.Default.copy(capitalization = KeyboardCapitalization.Sentences),
             singleLine = true,
             textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.White),
             modifier = Modifier.fillMaxWidth(),

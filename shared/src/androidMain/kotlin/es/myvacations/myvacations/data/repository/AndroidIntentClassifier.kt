@@ -7,13 +7,11 @@ import ai.onnxruntime.extensions.OrtxPackage
 import es.myvacations.myvacations.core.utils.AndroidContextHolder
 import es.myvacations.myvacations.data.datasource.remote.IntentClassifier
 import es.myvacations.myvacations.domain.model.LabelPrediction
-import es.myvacations.myvacations.domain.model.ModelMetadata
 import es.myvacations.myvacations.domain.model.Prediction
 import es.myvacations.myvacations.domain.model.PredictionResult
 import es.myvacations.myvacations.domain.model.RestaurantTypePrediction
 import es.myvacations.myvacations.domain.model.SubcategoryPrediction
 import es.myvacations.myvacations.domain.repository.AIRepository
-import io.github.aakira.napier.Napier
 import java.io.File
 import java.nio.LongBuffer
 

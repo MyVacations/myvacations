@@ -7,11 +7,11 @@ import android.graphics.RectF
 import android.graphics.Typeface
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.core.graphics.createBitmap
 import es.myvacations.myvacations.domain.model.Country
 import es.myvacations.myvacations.domain.model.TripCover
 import es.myvacations.myvacations.presentation.utils.Currency
 import es.myvacations.myvacations.shared.R
-import androidx.core.graphics.createBitmap
 
 
 @DrawableRes

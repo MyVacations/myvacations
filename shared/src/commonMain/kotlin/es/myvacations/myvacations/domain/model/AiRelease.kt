@@ -17,8 +17,10 @@ sealed interface ModelState {
 
     data object Ready : ModelState
 
-    data class WaitingConnection(val progress: Float = 0f, val totalForDownload: Double? = null,
-                                 val downloaded: Double? = null) : ModelState
+    data class WaitingConnection(
+        val progress: Float = 0f, val totalForDownload: Double? = null,
+        val downloaded: Double? = null
+    ) : ModelState
 
     data class ResumeInstallation(
         val stage: ModelInstallStage,
@@ -74,11 +76,6 @@ data class RestaurantTypePrediction(
 
 data class PredictionResult(
     val prediction: Prediction
-)
-
-data class ChatMessageDomain(
-    val text: String,
-    val fromBot: Boolean
 )
 
 data class ConfidenceResult(
