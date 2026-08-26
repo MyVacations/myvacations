@@ -61,6 +61,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -78,6 +79,7 @@ import es.myvacations.myvacations.domain.repository.LocationEventResult
 import es.myvacations.myvacations.domain.repository.LocationEventResult.PermissionOk
 import es.myvacations.myvacations.presentation.createedittrip.maxTextLength
 import es.myvacations.myvacations.presentation.mapper.toLocalUserString
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import myvacations.shared.generated.resources.Res
 import myvacations.shared.generated.resources.buttonRetry
@@ -94,6 +96,7 @@ import myvacations.shared.generated.resources.placesheader
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun ChatScreen() {
@@ -225,6 +228,13 @@ fun ChatBotScreen(
     negativeFeedback: (ChatMessageUiState) -> Unit,
     mapLocationCheck: (ChatMessageUiState) -> Unit
 ) {
+    val sortedMessages = remember(messageList) {
+        messageList.sortedByDescending { it.time }
+    }
+    val pagerState = rememberPagerState(
+        initialPage = 0,
+        pageCount = { sortedMessages.size }
+    )
     Scaffold(
         modifier = Modifier.padding(16.dp),
         topBar = {
@@ -240,7 +250,10 @@ fun ChatBotScreen(
         bottomBar = {
             if (messageList.isNotEmpty()) ChatElement(
                 uiState,
-                sendText = onSearch,
+                sendText = { fromUser, isRetry ->
+                    pagerState.requestScrollToPage(0)
+                    onSearch(fromUser, isRetry)
+                },
                 onTextChange = onTextChange
             )
         }
@@ -280,15 +293,6 @@ fun ChatBotScreen(
                 )
             }
         } else {
-            val sortedMessages = remember(messageList) {
-                messageList.sortedByDescending { it.time }
-            }
-
-            val pagerState = rememberPagerState(
-                initialPage = 0,
-                pageCount = { sortedMessages.size }
-            )
-
             LaunchedEffect(sortedMessages.size) {
                 if (
                     sortedMessages.isNotEmpty() &&
@@ -338,11 +342,20 @@ fun ChatBotScreen(
                     ) { page ->
 
                         val message = sortedMessages[page]
-
+                        var loadMap by remember { mutableStateOf(false) }
                         LaunchedEffect(
-                            message.id,uiState.updatedLocation
+                            message.id, uiState.updatedLocation
                         ) {
                             if (message.bot != null) mapLocationCheck(message)
+                        }
+
+                        var timeoutReached by remember(message.time) {
+                            mutableStateOf(false)
+                        }
+
+                        LaunchedEffect(message.time) {
+                            delay(15_000L.milliseconds)
+                            timeoutReached = true
                         }
 
                         LazyColumn(
@@ -368,28 +381,72 @@ fun ChatBotScreen(
                                 UserMessage(message.user.text)
                             }
                             item { Spacer(modifier = Modifier.height(16.dp)) }
-                            if (!message.isItemLoading && message.bot != null) {
-                                item {
+
+                            val map: @Composable () -> Unit = {
+                                MapScreen(
+                                    uiState = uiState,
+                                    chatMessage = message,
+                                    updateDialogRequestingLocationPermissions = updateDialogRequestingLocationPermissions,
+                                    itemSelected = { elementDetail = it },
+                                    loadMapUpdate = { loadMap = true }
+                                )
+                            }
+                            item {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier.padding(start = 16.dp)
+                                ) {
+                                    Surface(
+                                        modifier = Modifier.size(48.dp),
+                                        border = BorderStroke(
+                                            1.dp,
+                                            MaterialTheme.colorScheme.outline
+                                        ),
+                                        shape = CircleShape,
+                                        color = Color(0xFF1F2332),
+                                    ) {
+                                        Icon(
+                                            modifier = Modifier.border(
+                                                BorderStroke(
+                                                    1.dp,
+                                                    MaterialTheme.colorScheme.outline
+                                                )
+                                            ).padding(8.dp),
+                                            painter = painterResource(Res.drawable.icono),
+                                            contentDescription = "ProfileBotIcon",
+                                            tint = Color.Unspecified
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text("MyVacations Bot")
+                                }
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Box(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    contentAlignment = Alignment.Center
+                                ) {
                                     BotMessage(
-                                        uiState,
+                                        modifier = Modifier.alpha(if (loadMap) 1f else 0f),
                                         message,
                                         retry = {
                                             retryLocation()
                                             onSearch(
                                                 message.user.text,
-                                                message.bot.retryOn
+                                                message.bot?.retryOn ?: true
                                             )
                                         },
-                                        updateDialogRequestingLocationPermissions,
-                                        itemSelected = {
-                                            elementDetail = it
-                                        }
+                                        map = map
                                     )
-                                }
 
+                                    if (!loadMap) {
+                                        CircularProgressIndicator()
+                                    }
+                                }
+                            }
+                            if (message.bot != null && loadMap) {
                                 item {
                                     Spacer(Modifier.height(16.dp))
-                                    if (!message.bot.retryOn) {
+                                    if (!message.bot.retryOn && message.bot.text == "") {
                                         Text(
                                             modifier = Modifier.padding(8.dp),
                                             text = stringResource(Res.string.placesheader)
@@ -406,7 +463,7 @@ fun ChatBotScreen(
                                         elementDetail = it
                                     })
                                 }
-                                if (!message.feedback.feedbackDone) {
+                                if (!message.feedback.feedbackDone && message.bot.text == "") {
                                     item {
                                         Feedback(
                                             message,
@@ -417,15 +474,6 @@ fun ChatBotScreen(
                                     item { Spacer(Modifier.height(62.dp)) }
                                 } else {
                                     item { Spacer(Modifier.height(62.dp)) }
-                                }
-                            } else {
-                                item {
-                                    Box(
-                                        modifier = Modifier.fillMaxSize(),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        CircularProgressIndicator()
-                                    }
                                 }
                             }
                         }
@@ -757,67 +805,34 @@ fun PageNumberIndicatorScreen(
 
 @Composable
 fun BotMessage(
-    uiState: ChatUiState,
+    modifier: Modifier,
     chatMessage: ChatMessageUiState,
     retry: () -> Unit,
-    updateDialogRequestingLocationPermissions: () -> Unit,
-    itemSelected: (ElementsFoundUiState) -> Unit
+    map: @Composable () -> Unit,
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(start = 16.dp)
-    ) {
+    Box(modifier) {
         Surface(
-            modifier = Modifier.size(48.dp),
-            border = BorderStroke(
-                1.dp,
-                MaterialTheme.colorScheme.outline
+            shape = RoundedCornerShape(
+                topStart = 4.dp,
+                topEnd = 16.dp,
+                bottomStart = 16.dp,
+                bottomEnd = 16.dp
             ),
-            shape = CircleShape,
-            color = Color(0xFF1F2332),
+            color = MaterialTheme.colorScheme.secondaryContainer
         ) {
-            Icon(
-                modifier = Modifier.border(
-                    BorderStroke(
-                        1.dp,
-                        MaterialTheme.colorScheme.outline
-                    )
-                ).padding(8.dp),
-                painter = painterResource(Res.drawable.icono),
-                contentDescription = "ProfileBotIcon",
-                tint = Color.Unspecified
-            )
-        }
-        Spacer(modifier = Modifier.width(6.dp))
-        Text("MyVacations Bot")
-    }
-    Spacer(modifier = Modifier.height(8.dp))
-    Surface(
-        shape = RoundedCornerShape(
-            topStart = 4.dp,
-            topEnd = 16.dp,
-            bottomStart = 16.dp,
-            bottomEnd = 16.dp
-        ),
-        color = MaterialTheme.colorScheme.secondaryContainer
-    ) {
-        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-            Text(
-                text = chatMessage.bot?.text ?: ""
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            if (chatMessage.bot?.text?.isEmpty() == true) {
-                MapScreen(
-                    uiState,
-                    chatMessage,
-                    updateDialogRequestingLocationPermissions,
-                    itemSelected
+            Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+                Text(
+                    text = chatMessage.bot?.text ?: ""
                 )
-            }
-            if (chatMessage.bot?.retryOn == true) {
-                Button(onClick = retry)
-                {
-                    Text(stringResource(Res.string.buttonRetry))
+                Spacer(modifier = Modifier.height(8.dp))
+                if (chatMessage.bot?.text?.isEmpty() == true) {
+                    map()
+                }
+                if (chatMessage.bot?.retryOn == true) {
+                    Button(onClick = retry)
+                    {
+                        Text(stringResource(Res.string.buttonRetry))
+                    }
                 }
             }
         }

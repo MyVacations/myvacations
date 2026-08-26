@@ -23,13 +23,9 @@ import org.maplibre.android.snapshotter.MapSnapshotter
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.math.PI
-import kotlin.math.acos
-import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.ln
-import kotlin.math.max
 import kotlin.math.pow
-import kotlin.math.sqrt
 import kotlin.math.tan
 
 object MapBitmapGenerator {
@@ -98,7 +94,7 @@ object MapBitmapGenerator {
 
             snapshotter.start(
                 { snapshot ->
-
+                    if (!continuation.isActive) return@start
                     val file = File(
                         context.cacheDir,
                         "widget_map_${System.currentTimeMillis()}.png"
@@ -216,14 +212,16 @@ object MapBitmapGenerator {
                     continuation.resume(file) { _, _, _ -> }
                 },
                 { error ->
-                    println("MAP SNAPSHOT ERROR: $error")
+                    if (!continuation.isActive) return@start
 
                     continuation.resume(null) { _, _, _ -> }
                 }
             )
 
             continuation.invokeOnCancellation {
-                snapshotter.cancel()
+                runCatching {
+                    snapshotter.cancel()
+                }
             }
         }
     }

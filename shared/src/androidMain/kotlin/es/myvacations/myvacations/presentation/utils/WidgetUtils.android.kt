@@ -10,7 +10,7 @@ import org.koin.java.KoinJavaComponent
 
 actual object WidgetUtils {
 
-    actual fun hasActiveTripsWidget(): Boolean  {
+    actual fun hasActiveTripsWidget(): Boolean {
         val appWidgetManager = AppWidgetManager.getInstance(AndroidContextHolder.context)
 
         val componentName = ComponentName(
@@ -36,11 +36,11 @@ actual object WidgetUtils {
             .isNotEmpty()
     }
 
-    actual suspend fun refreshPlacesWidget() {
+    actual suspend fun refreshPlacesWidget(): Boolean {
         val useCase: PlacesWidgetObserverUseCase by
         KoinJavaComponent.inject(
             PlacesWidgetObserverUseCase::class.java
         )
-        useCase.refreshWidget()
+        return useCase.refreshWidget()
     }
 }

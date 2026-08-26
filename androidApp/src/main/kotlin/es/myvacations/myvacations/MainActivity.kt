@@ -1,6 +1,5 @@
 package es.myvacations.myvacations
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -48,7 +47,7 @@ class MainActivity : ComponentActivity() {
 
         val application = application as MainApplication
         val configuration = RequestConfiguration.Builder()
-            .setTestDeviceIds(listOf("E7A9F3BBB3C5E83EF456E81DD1CC6053"))
+            .setTestDeviceIds(listOf(""))
             .build()
 
         MobileAds.setRequestConfiguration(configuration)
@@ -56,7 +55,7 @@ class MainActivity : ComponentActivity() {
         application.consentManager.requestConsent(this) {
             if (application.consentManager.canRequestAds()) {
                 MobileAds.initialize(this) {
-                    adsRepository.loadInterstitial()
+                    adsRepository.loadInterstitial(this)
                 }
             }
         }

@@ -9,8 +9,7 @@ data class ChatMessageUiState(
     val bot: ChatElements? = null,
     val time: LocalDateTime = LocalDateTime(2023, 1, 1, 0, 0),
     val locationFor500m: LocationUiState = LocationUiState(0.0, 0.0, 0),
-    val feedback: FeedbackState = FeedbackState(),
-    val isItemLoading: Boolean = false
+    val feedback: FeedbackState = FeedbackState()
 )
 
 @Serializable

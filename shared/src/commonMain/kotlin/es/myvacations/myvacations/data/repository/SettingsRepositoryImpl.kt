@@ -4,6 +4,7 @@ import es.myvacations.myvacations.data.datasource.local.SettingsLocalDataSource
 import es.myvacations.myvacations.domain.mapper.toDomainModel
 import es.myvacations.myvacations.domain.model.SettingsDomain
 import es.myvacations.myvacations.domain.repository.SettingsRepository
+import es.myvacations.myvacations.presentation.utils.Currency
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -12,7 +13,14 @@ class SettingsRepositoryImpl(private val localDataSource: SettingsLocalDataSourc
 
     override fun getSettings(): Flow<SettingsDomain> {
         return localDataSource.getSettings().map { entity ->
-            entity.toDomainModel()
+            entity?.toDomainModel() ?: SettingsDomain(
+                username = "",
+                preferredCurrency = Currency.EURO,
+                welcomeShow = true,
+                iaTutorial = true,
+                firstLogin = true,
+                modelStage = null
+            )
         }
     }
 

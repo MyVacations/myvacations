@@ -1,7 +1,7 @@
 package es.myvacations.myvacations.data.datasource.local
 
 import app.cash.sqldelight.coroutines.asFlow
-import app.cash.sqldelight.coroutines.mapToOne
+import app.cash.sqldelight.coroutines.mapToOneOrNull
 import es.myvacations.myvacations.data.database.MyVacationsDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -12,12 +12,19 @@ class SettingsLocalDataSource(
     private val queries = database.vacationsEntityQueries
 
     fun getSettings() =
-        queries.selectSettings().asFlow().mapToOne(Dispatchers.IO)
+        queries.selectSettings().asFlow().mapToOneOrNull(Dispatchers.IO)
 
     fun insertDefaultSettings(
         name: String,
         currency: String
-    ) = queries.insertDefaultUser(name, currency, welcomeShow = true, firstLogin = true, iaTutorial = true, modelStage = null)
+    ) = queries.insertDefaultUser(
+        name,
+        currency,
+        welcomeShow = true,
+        firstLogin = true,
+        iaTutorial = true,
+        modelStage = null
+    )
 
     fun updateFirstLogin() = queries.updateFirstLogin(firstLogin = false)
 

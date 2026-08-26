@@ -8,6 +8,9 @@ import androidx.annotation.RequiresPermission
 import es.myvacations.myvacations.core.extensions.roundTo1Decimals
 import es.myvacations.myvacations.core.utils.AndroidContextHolder
 import es.myvacations.myvacations.data.datasource.local.ModelFiles.DIRECTORY
+import es.myvacations.myvacations.data.datasource.local.ModelFiles.MODEL
+import es.myvacations.myvacations.data.datasource.local.ModelFiles.TOKENIZER
+import es.myvacations.myvacations.data.datasource.local.ModelFiles.VERSION
 import es.myvacations.myvacations.data.datasource.local.ModelFiles.ZIP
 import es.myvacations.myvacations.data.datasource.remote.ModelLocalDataSource
 import es.myvacations.myvacations.data.datasource.remote.ModelRemoteDataSource
@@ -130,6 +133,10 @@ actual class ModelServiceRepositoryImpl(
                 0.9f
             )
             localDataSource.unzip()
+            println("MODEL EXISTS = ${File(aiDirectory, MODEL).exists()}")
+            println("TOKENIZER EXISTS = ${File(aiDirectory, TOKENIZER).exists()}")
+            println("VERSION EXISTS = ${File(aiDirectory, VERSION).exists()}")
+            println("AI FILES = ${aiDirectory.walkTopDown().toList()}")
             recordDownload = 0.95f
             _modelState.value = ModelState.Installing(
                 Stage.VERIFYING,
@@ -254,7 +261,10 @@ actual class ModelServiceRepositoryImpl(
                     )
 
                     localDataSource.unzip()
-
+                    println("MODEL EXISTS = ${File(aiDirectory, MODEL).exists()}")
+                    println("TOKENIZER EXISTS = ${File(aiDirectory, TOKENIZER).exists()}")
+                    println("VERSION EXISTS = ${File(aiDirectory, VERSION).exists()}")
+                    println("AI FILES = ${aiDirectory.walkTopDown().toList()}")
                     _modelState.value = ModelState.Installing(
                         Stage.VERIFYING,
                         0.95f,

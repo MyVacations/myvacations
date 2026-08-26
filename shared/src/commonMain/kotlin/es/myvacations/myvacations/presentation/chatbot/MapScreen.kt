@@ -102,7 +102,8 @@ fun MapScreen(
     uiState: ChatUiState,
     chatMessage: ChatMessageUiState,
     updateDialogRequestingLocationPermissions: () -> Unit,
-    itemSelected: (ElementsFoundUiState) -> Unit
+    itemSelected: (ElementsFoundUiState) -> Unit,
+    loadMapUpdate: () -> Unit
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     var mapKey by remember { mutableIntStateOf(0) }
@@ -133,7 +134,6 @@ fun MapScreen(
             lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
-
 
     val scope = rememberCoroutineScope()
     var openExtendedMap by rememberSaveable { mutableStateOf(false) }
@@ -307,7 +307,13 @@ fun MapScreen(
                     gestureOptions = GestureOptions.AllDisabled,
                     ornamentOptions = OrnamentOptions.OnlyLogo
                 ),
-                cameraState = cameraState
+                cameraState = cameraState,
+                onMapLoadFinished = {
+                    loadMapUpdate()
+                },
+                onMapLoadFailed = {
+                    loadMapUpdate()
+                }
             )
             {
                 LoadInsideMap(

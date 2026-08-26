@@ -14,7 +14,6 @@ import es.myvacations.myvacations.domain.usecase.chatbot.MapAndLocationUseCase
 import es.myvacations.myvacations.domain.usecase.chatbot.latestmodelrelease.EnsureModelInstalledUseCase
 import es.myvacations.myvacations.domain.usecase.chatbot.overpass.PlacesUseCase
 import es.myvacations.myvacations.presentation.utils.distanceInMeters
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -60,6 +59,7 @@ class ChatViewModel(
             if (hasPermission) {
                 getMainLocation()
                 startObservingMessages()
+                _uiState.update { it.copy(isFullScreenLoading = false) }
             }
         }
     }
@@ -103,11 +103,10 @@ class ChatViewModel(
                         if (!hasNearbyPlace) {
                             _uiState.update {
                                 it.copy(
-                                    outOfLimits = true
+                                    outOfLimits = true,
                                 )
                             }
-                        }
-                        else {
+                        } else {
                             _uiState.update {
                                 it.copy(
                                     updatedLocation = event.locationDomain.toUiMapper(),
@@ -123,7 +122,12 @@ class ChatViewModel(
 
     fun onResume() {
         viewModelScope.launch {
-            checkInit()
+            val hasPermission = checkInit()
+            if (hasPermission) {
+                getMainLocation()
+                startObservingMessages()
+                _uiState.update { it.copy(isFullScreenLoading = false) }
+            }
         }
     }
 
@@ -177,8 +181,7 @@ class ChatViewModel(
             placesUseCase.getMessages().collect { messages ->
                 _uiState.update {
                     it.copy(
-                        messages = messages,
-                        isLoading = false,
+                        messages = messages
                     )
                 }
             }
@@ -236,7 +239,7 @@ class ChatViewModel(
                 fromUser, timeNow,
                 PlacesEventResult.Error(Exception("No location found"))
             )
-            if (fromRetry) {
+            if (fromRetry || uiState.value.messages.any { it.bot?.text != "" }) {
                 _uiState.update {
                     it.copy(messages = it.messages.dropLast(1))
                 }
@@ -246,8 +249,7 @@ class ChatViewModel(
                 user = ChatElements(
                     text = fromUser
                 ),
-                time = timeNow,
-                isItemLoading = true
+                time = timeNow
             )
 
             _uiState.update {
@@ -292,7 +294,6 @@ class ChatViewModel(
                             elementsFound = elementsFound,
                             retryOn = false
                         ),
-                        isItemLoading = false,
                         feedback = FeedbackState(
                             whatAsk = fromUser,
                             label = prediction.label.value,
@@ -345,7 +346,6 @@ class ChatViewModel(
                                 elementsFound = emptyList(),
                                 retryOn = retry
                             ),
-                            isItemLoading = false,
                             time = timeNow
                         )
             )

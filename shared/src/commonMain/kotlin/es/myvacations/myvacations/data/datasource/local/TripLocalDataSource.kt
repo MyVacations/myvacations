@@ -145,8 +145,6 @@ class TripLocalDataSource(
         queries.deleteTraveler(id = id, tripId = tripId)
     }
 
-    fun getNameSettings() = queries.selectSettings().executeAsOne().name
-
     fun updateNameSettings(
         name: String
     ) = queries.updateNameSettings(name = name)

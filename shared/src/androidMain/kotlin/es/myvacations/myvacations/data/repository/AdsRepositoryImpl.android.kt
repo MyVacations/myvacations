@@ -23,28 +23,26 @@ actual class AdsRepositoryImpl actual constructor() : AdsController {
         ad.show(currentActivity)
 
         interstitialAd = null
-        loadInterstitial()
+        loadInterstitial(currentActivity)
     }
 
-    fun loadInterstitial() {
+    fun loadInterstitial(currentActivity: Activity) {
         val request = AdRequest.Builder().build()
+        //TEST - ca-app-pub-3940256099942544/1033173712
+        InterstitialAd.load(
+            currentActivity,
+            "ca-app-pub-5817611533084445/3170321299",
+            request,
+            object : InterstitialAdLoadCallback() {
 
-        activity?.let {
-            InterstitialAd.load(
-                it,
-                "ca-app-pub-5817611533084445/657877982",
-                request,
-                object : InterstitialAdLoadCallback() {
-
-                    override fun onAdLoaded(ad: InterstitialAd) {
-                        interstitialAd = ad
-                    }
-
-                    override fun onAdFailedToLoad(error: LoadAdError) {
-                        interstitialAd = null
-                    }
+                override fun onAdLoaded(ad: InterstitialAd) {
+                    interstitialAd = ad
                 }
-            )
-        }
+
+                override fun onAdFailedToLoad(error: LoadAdError) {
+                    interstitialAd = null
+                }
+            }
+        )
     }
 }

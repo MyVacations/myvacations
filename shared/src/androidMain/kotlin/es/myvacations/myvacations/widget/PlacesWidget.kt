@@ -1,15 +1,19 @@
 package es.myvacations.myvacations.widget
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.SystemClock
+import android.os.Build
 import android.provider.Settings
 import android.widget.RemoteViews
+import androidx.annotation.Keep
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.datastore.preferences.core.Preferences
 import androidx.glance.GlanceId
@@ -47,14 +51,14 @@ import androidx.glance.state.PreferencesGlanceStateDefinition
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import es.myvacations.myvacations.data.repository.BackgroundLocationPermissionActivity
 import es.myvacations.myvacations.data.repository.WidgetEventPreferencesKey
 import es.myvacations.myvacations.data.repository.WidgetEventResult
-import es.myvacations.myvacations.data.repository.WidgetNextUpdatePreferencesKey
-import es.myvacations.myvacations.domain.usecase.eventsusecase.PlacesWidgetObserverUseCase
+import es.myvacations.myvacations.data.repository.WidgetPlacesScheduler
 import es.myvacations.myvacations.shared.R
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
-import org.koin.java.KoinJavaComponent
+import java.util.Date
 
 class PlacesWidget : GlanceAppWidget(),
     KoinComponent {
@@ -66,7 +70,6 @@ class PlacesWidget : GlanceAppWidget(),
         provideContent {
             val preferences = currentState<Preferences>()
             val eventJson = preferences[WidgetEventPreferencesKey]
-            val timer = preferences[WidgetNextUpdatePreferencesKey] ?: System.currentTimeMillis()
             val widgetEventResult =
                 eventJson?.let {
                     runCatching {
@@ -78,8 +81,7 @@ class PlacesWidget : GlanceAppWidget(),
 
             WidgetContent(
                 context,
-                widgetEventResult,
-                timer
+                widgetEventResult
             )
         }
     }
@@ -88,7 +90,6 @@ class PlacesWidget : GlanceAppWidget(),
     private fun WidgetContent(
         context: Context,
         widgetEventResult: WidgetEventResult,
-        timer: Long,
     ) {
         when (widgetEventResult) {
             WidgetEventResult.Loading -> LocationLoadingWidget()
@@ -123,19 +124,9 @@ class PlacesWidget : GlanceAppWidget(),
                         )
                         Box(
                             modifier = GlanceModifier.fillMaxSize().padding(horizontal = 16.dp),
-                            contentAlignment = Alignment.TopEnd
+                            contentAlignment = Alignment.BottomEnd
                         ) {
-                            Row {
-                                UpdateTimer(timer)
-                                Spacer(GlanceModifier.width(4.dp))
-                                Text(style = TextStyle(
-                                    fontSize = 12.sp
-                                ),
-                                    text = context.getString(
-                                        R.string.ortapme
-                                    )
-                                )
-                            }
+                            UpdateTimer()
                         }
                     }
                 }
@@ -414,31 +405,15 @@ class PlacesWidget : GlanceAppWidget(),
     }
 
     @Composable
-    private fun UpdateTimer(nextUpdate: Long) {
+    private fun UpdateTimer() {
+        val context = LocalContext.current
 
         val remoteViews = RemoteViews(
-            LocalContext.current.packageName,
+            context.packageName,
             R.layout.widget_update_timer
         )
 
-        val remaining =
-            (nextUpdate - System.currentTimeMillis())
-                .coerceAtLeast(0L)
-
-        val base =
-            SystemClock.elapsedRealtime() + remaining
-
-        remoteViews.setChronometer(
-            R.id.widget_update_timer,
-            base,
-            null,
-            true
-        )
-
-        remoteViews.setChronometerCountDown(
-            R.id.widget_update_timer,
-            true
-        )
+        updateLastUpdateText(context, remoteViews)
 
         AndroidRemoteViews(
             remoteViews = remoteViews,
@@ -449,17 +424,45 @@ class PlacesWidget : GlanceAppWidget(),
     }
 }
 
+private fun updateLastUpdateText(
+    context: Context,
+    remoteViews: RemoteViews
+) {
+    remoteViews.setTextViewText(
+        R.id.widget_last_update,
+        context.getString(
+            R.string.lastUpdate,
+            Date()
+        )
+    )
+}
+
+@Keep
 class RefreshPlacesWidgetAction : ActionCallback {
+
     override suspend fun onAction(
         context: Context,
         glanceId: GlanceId,
         parameters: ActionParameters
     ) {
-        val useCase: PlacesWidgetObserverUseCase by
-        KoinJavaComponent.inject(
-            PlacesWidgetObserverUseCase::class.java
-        )
+        val hasBackgroundPermission =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            } else true
 
-        useCase.refreshWidget()
+        if (hasBackgroundPermission) {
+            WidgetPlacesScheduler.refreshNow(context)
+        } else {
+            context.startActivity(
+                Intent(
+                    context,
+                    BackgroundLocationPermissionActivity::class.java
+                ).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                })
+        }
     }
 }

@@ -45,8 +45,7 @@ fun ChatMessageData.toUiMapper(): ChatMessageUiState {
             subcategoryConfidence = subcategoryConfidence.toFloat(),
             elementsSizeFound = elementsSizeFound.toInt(),
             feedbackDone = feedbackDone
-        ),
-        isItemLoading = false
+        )
     )
 }
 

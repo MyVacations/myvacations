@@ -20,12 +20,19 @@ class PlacesWidgetObserverUseCase(
     private val locationUseCase: MapAndLocationUseCase,
     private val ensureModelInstalledUseCase: EnsureModelInstalledUseCase,
 ) {
-    suspend fun refreshWidget() {
-        if (!refreshWidgetInternal()) {
-            if (!refreshWidgetInternal()) {
-                widgetUpdater.updateLocationError()
-            }
+    suspend fun refreshWidget(): Boolean  {
+        widgetUpdater.updateLocationLoading()
+
+        if (refreshWidgetInternal()) {
+            return true
         }
+
+        if (refreshWidgetInternal()) {
+            return true
+        }
+
+        widgetUpdater.updateLocationError()
+        return false
     }
 
     private suspend fun refreshWidgetInternal(): Boolean {
@@ -33,8 +40,6 @@ class PlacesWidgetObserverUseCase(
         val result = withTimeoutOrNull(20_000L.milliseconds) {
 
             try {
-
-                widgetUpdater.updateLocationLoading()
 
                 val modelInstalled =
                     ensureModelInstalledUseCase.checkModelStatus()

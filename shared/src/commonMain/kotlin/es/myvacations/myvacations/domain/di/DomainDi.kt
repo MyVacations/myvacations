@@ -46,8 +46,8 @@ val domainModule = module {
     factory { DeleteTripUseCase(get()) }
     factory { UpdateExpenseUseCase(get()) }
     factory { DeleteExpenseUseCase(get()) }
-    factory { GetSettingsUseCase(get()) }
     factory { InitializeDatabaseSettingsUseCase(get()) }
+    factory { GetSettingsUseCase(get()) }
     factory { UpdateSettingsUseCase(get()) }
     factory { UpdateWelcomeShowUseCase(get()) }
     factory { DeleteTravelerUseCase(get()) }

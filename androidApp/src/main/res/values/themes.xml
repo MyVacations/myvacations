@@ -7,4 +7,11 @@
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
         <item name="postSplashScreenTheme">@style/Theme.MyVacations</item>
     </style>
+
+    <style name="Theme.MyVacations.PermissionDialog"
+        parent="Theme.AppCompat.DayNight.Dialog.Alert">
+
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+    </style>
 </resources>

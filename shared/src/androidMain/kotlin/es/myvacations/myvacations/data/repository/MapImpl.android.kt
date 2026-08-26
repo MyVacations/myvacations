@@ -14,15 +14,16 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.google.android.gms.tasks.CancellationTokenSource
 import es.myvacations.myvacations.core.utils.AndroidContextHolder
 import es.myvacations.myvacations.domain.model.locations.LocationDomain
 import es.myvacations.myvacations.domain.repository.LocationEventResult
 import es.myvacations.myvacations.domain.repository.MapRepository
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 actual class MapImpl actual constructor() : MapRepository {
     val context = AndroidContextHolder.context
@@ -103,7 +104,6 @@ actual class MapImpl actual constructor() : MapRepository {
 
     @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     actual override suspend fun getCurrentLocation(): LocationEventResult {
-        Napier.d(tag = "LOCATION", message = "permisos -> ${hasLocationPermission()}")
         if (!hasLocationPermission()) {
             return LocationEventResult.PermissionDenied
         }
@@ -113,30 +113,43 @@ actual class MapImpl actual constructor() : MapRepository {
 
         return suspendCancellableCoroutine { continuation ->
 
+            val cancellationTokenSource = CancellationTokenSource()
+
             client.getCurrentLocation(
                 Priority.PRIORITY_HIGH_ACCURACY,
-                null
-            ).addOnSuccessListener { location ->
-                if (location != null) {
-                    continuation.resume(
-                        LocationEventResult.Success(
-                            LocationDomain(
-                                latitude = location.latitude,
-                                longitude = location.longitude,
-                                radiusMeters = 5000
+                cancellationTokenSource.token
+            )
+                .addOnSuccessListener { location ->
+
+                    if (!continuation.isActive) return@addOnSuccessListener
+
+                    if (location != null) {
+                        continuation.resume(
+                            LocationEventResult.Success(
+                                LocationDomain(
+                                    latitude = location.latitude,
+                                    longitude = location.longitude,
+                                    radiusMeters = 5000
+                                )
                             )
                         )
-                    ) { _, _, _ -> }
-                } else {
+                    } else {
+                        continuation.resume(
+                            LocationEventResult.LocationUnavailable
+                        )
+                    }
+                }
+                .addOnFailureListener { error ->
+
+                    if (!continuation.isActive) return@addOnFailureListener
+
                     continuation.resume(
-                        LocationEventResult.LocationUnavailable
-                    ) { _, _, _ -> }
+                        LocationEventResult.Error(error)
+                    )
                 }
 
-            }.addOnFailureListener { error ->
-                continuation.resume(
-                    LocationEventResult.Error(error)
-                ) { _, _, _ -> }
+            continuation.invokeOnCancellation {
+                cancellationTokenSource.cancel()
             }
         }
     }

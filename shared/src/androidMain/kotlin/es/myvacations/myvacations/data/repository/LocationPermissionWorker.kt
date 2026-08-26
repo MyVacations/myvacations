@@ -3,10 +3,12 @@ package es.myvacations.myvacations.data.repository
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
+import android.util.Log
 import androidx.core.content.ContextCompat
-import androidx.core.content.edit
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import es.myvacations.myvacations.presentation.utils.WidgetUtils
 import es.myvacations.myvacations.presentation.utils.WidgetUtils.refreshPlacesWidget
 
 class LocationPermissionWorker(
@@ -16,18 +18,30 @@ class LocationPermissionWorker(
 
     override suspend fun doWork(): Result {
 
-        val hasPermission =
+        val hasFineLocation =
             ContextCompat.checkSelfPermission(
                 applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
 
-        if (!hasPermission) {
+        val hasBackgroundLocation =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                ContextCompat.checkSelfPermission(
+                    applicationContext,
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
+            } else {
+                true
+            }
+
+        if (!hasBackgroundLocation || !hasFineLocation) {
             return Result.success()
         }
 
-        refreshPlacesWidget()
-
-        return Result.success()
+        return if (refreshPlacesWidget()) {
+            Result.success()
+        } else {
+            Result.retry()
+        }
     }
 }

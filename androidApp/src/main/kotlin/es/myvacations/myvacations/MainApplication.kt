@@ -17,12 +17,11 @@ class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        consentManager = AdConsentManager(this)
-
         val context = applicationContext
         AndroidContextHolder.initialize(context)
         FirebaseInitializer.initialize(context)
 
         initKoin()
+        consentManager = AdConsentManager(this)
     }
 }

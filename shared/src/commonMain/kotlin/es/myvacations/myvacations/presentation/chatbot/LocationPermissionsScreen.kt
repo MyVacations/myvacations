@@ -52,7 +52,7 @@ fun LocationChat(
     openNavigationToPlace: (Double, Double, String?) -> Unit,
     mapLocationCheck: (message: ChatMessageUiState) -> Unit
 ) {
-    if (uiState.isLoading) {
+    if (uiState.isFullScreenLoading) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }

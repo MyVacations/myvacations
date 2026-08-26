@@ -162,7 +162,6 @@ actual class AppWidgetUpdaterRepositoryImpl :
                 )
                 if (mapFile != null) {
                     preferences[WidgetEventPreferencesKey] = json
-                    preferences[WidgetNextUpdatePreferencesKey] = System.currentTimeMillis() + 15 * 60 * 1000L
                 } else {
                     preferences.remove(WidgetEventPreferencesKey)
                 }

@@ -16,5 +16,3 @@ val ActiveTripCoverKey = stringPreferencesKey("active_trip_cover")
 val ActiveTripExpensesKey = stringPreferencesKey("active_trip_expenses")
 val ActiveTripFavouriteKey = booleanPreferencesKey("active_trip_favourite")
 val WidgetEventPreferencesKey = stringPreferencesKey("widgetEventPreferences")
-val WidgetNextUpdatePreferencesKey =
-    longPreferencesKey("widget_next_update")

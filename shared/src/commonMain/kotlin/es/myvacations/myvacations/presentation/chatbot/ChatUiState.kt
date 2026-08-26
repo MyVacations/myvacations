@@ -8,7 +8,7 @@ data class ChatUiState(
     val messages: List<ChatMessageUiState> = emptyList(),
     val isFineLocationOn: Boolean = false,
     val outOfLimits: Boolean = false,
-    val isLoading: Boolean = true
+    val isFullScreenLoading: Boolean = true
 )
 
 data class ChatTutorialPage(

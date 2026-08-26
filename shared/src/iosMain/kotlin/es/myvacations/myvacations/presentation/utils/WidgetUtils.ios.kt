@@ -10,6 +10,7 @@ actual object WidgetUtils {
         TODO("Not yet implemented")
     }
 
-    actual suspend fun refreshPlacesWidget() {
+    actual suspend fun refreshPlacesWidget(): Boolean {
+        TODO("Not yet implemented")
     }
 }

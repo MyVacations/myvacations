@@ -179,8 +179,11 @@ actual class PlacesImpl actual constructor() :
         }
     }
 
-    actual override suspend fun addMessage(message: ChatMessageUiState,userLocation: LocationUiState) {
-        localDataSource.addMessage(message,userLocation)
+    actual override suspend fun addMessage(
+        message: ChatMessageUiState,
+        userLocation: LocationUiState
+    ) {
+        localDataSource.addMessage(message, userLocation)
     }
 
     actual override suspend fun updateFeedback(id: Long) {

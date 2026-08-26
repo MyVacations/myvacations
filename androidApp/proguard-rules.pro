@@ -9,6 +9,9 @@
     @kotlinx.serialization.Serializable *;
 }
 
+# ONNXRuntime
+-keep class ai.onnxruntime.** { *; }
+
 # No mostrar advertencias
 -dontwarn kotlinx.serialization.**
 -dontwarn org.jetbrains.annotations.**
