@@ -122,24 +122,25 @@ shared
 
 ### Versión 1.0
 
-* [ ] Dashboard
-* [ ] Lista de viajes
-* [ ] Crear viaje
-* [ ] Detalle de viaje
-* [ ] Gestión de gastos
-* [ ] Gestión de presupuestos
-* [ ] Persistencia local
-* [ ] Android
-* [ ] iOS
+* [✅] Dashboard
+* [✅] Lista de viajes
+* [✅] Crear viaje
+* [✅] Detalle de viaje
+* [✅] Gestión de gastos
+* [✅] Gestión de presupuestos
+* [✅] Persistencia local
+* [✅] Asistente inteligente de viajes
+* [✅] Múltiples monedas
+* [✅] Loging
+* [✅] Android
+* [✅] Google Play
+* [❌] iOS
 
 ### Futuras versiones
 
-* [ ] Estadísticas avanzadas
-* [ ] Exportación de datos
-* [ ] Múltiples monedas
-* [ ] Sincronización en la nube
-* [ ] Asistente inteligente de viajes
-
+* [❌] Estadísticas avanzadas
+* [❌] Exportación de datos
+* [❌] Sincronización en la nube
 ---
 
 # 🇬🇧 English
@@ -220,22 +221,24 @@ Custom categories:
 ### Version 1.0
 
 * [✅] Dashboard
-* [✅] Trips list
-* [✅] Create vacation
-* [✅] Vacation details
-* [✅] Expense management
+* [✅] Travel list
+* [✅] Create a travel
+* [✅] Travel detail
+* [✅] Spend management
 * [✅] Budget management
-* [✅] Local persistence
-* [✅] Android support
-* [ ] iOS support
+* [✅] Local persistance
+* [✅] Smart travel assistant
+* [✅] Multiple currency
+* [✅] Loging
+* [✅] Android
+* [✅] Google Play
+* [❌] iOS
 
-### Future Versions
+### Futuras versiones
 
-* [ ] Advanced statistics
-* [ ] Data export
-* [ ] Multi-currency support
-* [ ] Cloud synchronization
-* [ ] Smart travel assistant
+* [❌] Andvance management
+* [❌] Fact export
+* [❌] Cloud sync
 
 ---
 
