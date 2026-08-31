@@ -54,13 +54,10 @@ CREATE TABLE NotificationData (
 CREATE TABLE ChatMessageData (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     userText TEXT NOT NULL,
-    userElementsFound TEXT NOT NULL,
-    userRetryOn INTEGER AS kotlin.Boolean NOT NULL,
-    mainLocationLongitude REAL NOT NULL,
-    mainLocationLatitude REAL NOT NULL,
+    mainLocationLongitude REAL,
+    mainLocationLatitude REAL,
     botText TEXT,
     botElementsFound TEXT,
-    botRetryOn INTEGER AS kotlin.Boolean,
     whatAsk TEXT NOT NULL,
     label TEXT NOT NULL,
     subcategory TEXT NOT NULL,
@@ -292,16 +289,17 @@ WHERE id = ? AND tripId = ?;
 selectAllMessages:
 SELECT * FROM ChatMessageData;
 
+selectMessagesFromId:
+SELECT * FROM ChatMessageData
+WHERE id = ?;
+
 insertMessage:
 INSERT INTO ChatMessageData(
     userText,
-    userElementsFound,
-    userRetryOn,
     mainLocationLongitude,
     mainLocationLatitude,
     botText,
     botElementsFound,
-    botRetryOn,
     whatAsk,
     label,
     subcategory,
@@ -324,11 +322,45 @@ VALUES (
 ?,
 ?,
 ?,
+?
+);
+
+insertErrorMessage:
+INSERT INTO ChatMessageData(
+    userText,
+    botText,
+    botElementsFound,
+    whatAsk,
+    label,
+    subcategory,
+    labelConfidence,
+    subcategoryConfidence,
+    elementsSizeFound,
+    time,
+    feedbackDone
+)
+VALUES (
+?,
+?,
+?,
+?,
+?,
+?,
+?,
 ?,
 ?,
 ?,
 ?
 );
+
+updateErrorToSuccessMessage:
+UPDATE ChatMessageData
+SET
+    mainLocationLongitude = ?,
+    mainLocationLatitude = ?,
+    botText = ?,
+    botElementsFound = ?
+WHERE id = ?;
 
 updateFeedback:
 UPDATE ChatMessageData

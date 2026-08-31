@@ -22,6 +22,6 @@ class MainApplication : Application() {
         FirebaseInitializer.initialize(context)
 
         initKoin()
-        consentManager = AdConsentManager(this)
+        consentManager = AdConsentManager(context)
     }
 }

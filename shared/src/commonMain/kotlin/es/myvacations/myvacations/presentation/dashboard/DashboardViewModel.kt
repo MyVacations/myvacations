@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import es.myvacations.myvacations.core.extensions.transformInInitials
 import es.myvacations.myvacations.domain.mapper.toUiModel
+import es.myvacations.myvacations.domain.repository.FirebaseAuthRepository
 import es.myvacations.myvacations.domain.usecase.GetDayPeriodUseCase
 import es.myvacations.myvacations.domain.usecase.eventsusecase.SelectAllNotificationsUseCase
 import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseCase
@@ -29,11 +30,13 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
+
 class DashboardViewModel(
     private val selectAllNotificationsUseCase: SelectAllNotificationsUseCase,
     private val getSettingsUseCase: GetSettingsUseCase,
     private val getDayPeriod: GetDayPeriodUseCase,
     private val getTripsUseCase: GetTripsUseCase,
+    private val firebaseAuthServices: FirebaseAuthRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(
@@ -52,10 +55,20 @@ class DashboardViewModel(
                 refreshGreetings()
             }
         }
-
+        observeIfFirebaseIsLoggedIn()
         observeTrips()
         observeSettings()
         observeNotifications()
+    }
+
+    private fun observeIfFirebaseIsLoggedIn() {
+        viewModelScope.launch {
+            firebaseAuthServices.getUserInfo().collect { user ->
+                _uiState.update {
+                    it.copy(userInfo = user)
+                }
+            }
+        }
     }
 
     private fun observeNotifications() {
@@ -161,6 +174,15 @@ class DashboardViewModel(
                         isLoading = false
                     )
                 }
+            }
+        }
+    }
+
+    fun logout() {
+        viewModelScope.launch {
+            firebaseAuthServices.signOut()
+            _uiState.update {
+                it.copy(userInfo = UserInfo())
             }
         }
     }

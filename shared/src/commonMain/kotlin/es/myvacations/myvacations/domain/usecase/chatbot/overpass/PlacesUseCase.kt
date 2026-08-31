@@ -19,8 +19,20 @@ class PlacesUseCase(
         return placesRepository.getMessages()
     }
 
+    fun getMessageId(id: Long): ChatMessageUiState? {
+        return placesRepository.getMessageId(id)
+    }
+
     suspend fun addMessages(message: ChatMessageUiState,userLocation: LocationUiState) {
         placesRepository.addMessage(message,userLocation)
+    }
+
+    suspend fun addErrorMessage(message: ChatMessageUiState) {
+        placesRepository.addMessageError(message)
+    }
+
+    suspend fun updateAnErrorMessageForaSuccess(message: ChatMessageUiState,userLocation: LocationUiState){
+        placesRepository.updateErrorToSuccessMessage(message,userLocation)
     }
 
     suspend fun updateFeedback(id: Long) {

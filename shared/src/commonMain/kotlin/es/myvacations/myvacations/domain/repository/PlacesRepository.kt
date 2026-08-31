@@ -13,7 +13,10 @@ sealed interface PlacesEventResult {
 
 interface PlacesRepository {
     fun getMessages(): Flow<List<ChatMessageUiState>>
+    fun getMessageId(id: Long): ChatMessageUiState?
     suspend fun addMessage(message: ChatMessageUiState,userLocation: LocationUiState)
+    suspend fun addMessageError(message: ChatMessageUiState)
+    suspend fun updateErrorToSuccessMessage(message: ChatMessageUiState,userLocation: LocationUiState)
     suspend fun updateFeedback(id: Long)
     suspend fun deleteMessage(id: Long)
     suspend fun deleteAllMessages()

@@ -1,5 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <!--Login-->
+    <string name="login_skip">Omitir</string>
+    <string name="login_welcome">Bienvenido a MyVacations</string>
+    <string name="login_subtitle">Tu compañero para planificar viajes inolvidables.</string>
+
+    <string name="login_registration_optional">No es obligatorio registrarse actualmente. En futuras funcionalidades puede que haga falta.</string>
+
+    <string name="login_continue_with">Inicia sesión o regístrate</string>
+
+    <string name="login_google">Continuar con Google</string>
+    <string name="login_phone">Continuar con teléfono</string>
+    <string name="login_email">Continuar con correo</string>
+
+    <string name="login_register_later">Puedes registrarte en cualquier momento.</string>
+    <string name="register_no_account">Registrate</string>
+    <string name="login_header">Iniciar sesión</string>
+    <string name="login_myaccount">Mi cuenta</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
+    <string name="repeat_password">Repetir contraseña</string>
+    <string name="forgot_password">Olvido de contraseña</string>
+
+    <string name="error_nologing">Error: No se ha podido iniciar sesión, comprueba los datos</string>
+    <string name="error_account_already">Error: La cuenta ya existe</string>
+    <string name="error_email_reset_send">Email mal formado, escribe un email valido</string>
+    <string name="email_reset_send">Email enviado correctamente(Revisa la carpeta de spam)</string>
+    <string name="error_generic_loging">Error: No se ha podido iniciar sesión</string>
+
     <!--IA-->
     <string name="download_interrupted">La descarga se interrumpió</string>
     <string name="installation_interrupted_extraction">La instalación se interrumpió durante la extracción.</string>
@@ -56,53 +85,53 @@
     <string name="analytics_cinema">Cine</string>
     <string name="analytics_theatre">Teatro</string>
     <string name="analytics_none">No aparece</string>
-        <!-- Tutorial del chat IA -->
-        <string name="ai_tutorial_skip">Saltar</string>
-        <string name="ai_tutorial_continue">Continuar</string>
-        <string name="ai_tutorial_back">Atrás</string>
-        <string name="ai_tutorial_start">Empezar</string>
+    <!-- Tutorial del chat IA -->
+    <string name="ai_tutorial_skip">Saltar</string>
+    <string name="ai_tutorial_continue">Continuar</string>
+    <string name="ai_tutorial_back">Atrás</string>
+    <string name="ai_tutorial_start">Empezar</string>
 
-        <string name="ai_tutorial_intro_title">Tu asistente de viaje</string>
-        <string name="ai_tutorial_intro_description">Cuéntale qué necesitas y buscará lugares que puedan interesarte cerca de ti.</string>
-        <string name="ai_tutorial_intro_user_message">¿Qué puedo hacer esta tarde?</string>
-        <string name="ai_tutorial_intro_bot_message">He encontrado algunos lugares que podrían interesarte.</string>
+    <string name="ai_tutorial_intro_title">Tu asistente de viaje</string>
+    <string name="ai_tutorial_intro_description">Cuéntale qué necesitas y buscará lugares que puedan interesarte cerca de ti.</string>
+    <string name="ai_tutorial_intro_user_message">¿Qué puedo hacer esta tarde?</string>
+    <string name="ai_tutorial_intro_bot_message">He encontrado algunos lugares que podrían interesarte.</string>
 
-        <string name="ai_tutorial_examples_title">Escribe lo que buscas</string>
-        <string name="ai_tutorial_examples_description">No necesitas utilizar categorías. Escribe tu petición con tus propias palabras.</string>
-        <string name="ai_tutorial_example_pizza">Quiero comer pizza</string>
-        <string name="ai_tutorial_example_coffee">Quiero tomar un café</string>
-        <string name="ai_tutorial_example_japanese">Quiero comida japonesa</string>
-        <string name="ai_tutorial_example_hungry">Tengo hambre</string>
+    <string name="ai_tutorial_examples_title">Escribe lo que buscas</string>
+    <string name="ai_tutorial_examples_description">No necesitas utilizar categorías. Escribe tu petición con tus propias palabras.</string>
+    <string name="ai_tutorial_example_pizza">Quiero comer pizza</string>
+    <string name="ai_tutorial_example_coffee">Quiero tomar un café</string>
+    <string name="ai_tutorial_example_japanese">Quiero comida japonesa</string>
+    <string name="ai_tutorial_example_hungry">Tengo hambre</string>
 
-        <string name="ai_tutorial_results_title">Encuentra lugares cerca de ti</string>
-        <string name="ai_tutorial_results_description">El asistente busca lugares relacionados con tu petición y muestra los resultados más próximos.</string>
+    <string name="ai_tutorial_results_title">Encuentra lugares cerca de ti</string>
+    <string name="ai_tutorial_results_description">El asistente busca lugares relacionados con tu petición y muestra los resultados más próximos.</string>
 
-        <string name="ai_tutorial_map_title">Explora el mapa</string>
-        <string name="ai_tutorial_map_description">Explora los lugares directamente sobre el mapa, muévelo, haz zoom y selecciona cualquiera de ellos.</string>
+    <string name="ai_tutorial_map_title">Explora el mapa</string>
+    <string name="ai_tutorial_map_description">Explora los lugares directamente sobre el mapa, muévelo, haz zoom y selecciona cualquiera de ellos.</string>
 
-        <string name="ai_tutorial_details_title">Conoce cada lugar</string>
-        <string name="ai_tutorial_details_description">Consulta la información disponible del lugar, como su dirección, distancia, teléfono o página web.</string>
+    <string name="ai_tutorial_details_title">Conoce cada lugar</string>
+    <string name="ai_tutorial_details_description">Consulta la información disponible del lugar, como su dirección, distancia, teléfono o página web.</string>
 
-        <string name="ai_tutorial_navigation_title">Llega a tu destino</string>
-        <string name="ai_tutorial_navigation_description">Pulsa «Cómo llegar» para abrir el lugar en tu aplicación de mapas.</string>
+    <string name="ai_tutorial_navigation_title">Llega a tu destino</string>
+    <string name="ai_tutorial_navigation_description">Pulsa «Cómo llegar» para abrir el lugar en tu aplicación de mapas.</string>
 
-        <string name="ai_tutorial_restaurant_flati">Restaurante Flati</string>
-        <string name="ai_tutorial_abades_loja">Abades Loja</string>
-        <string name="ai_tutorial_bar_andalucia">Bar Andalucía</string>
+    <string name="ai_tutorial_restaurant_flati">Restaurante Flati</string>
+    <string name="ai_tutorial_abades_loja">Abades Loja</string>
+    <string name="ai_tutorial_bar_andalucia">Bar Andalucía</string>
 
-        <string name="ai_tutorial_restaurant">Restaurante</string>
-        <string name="ai_tutorial_bar">Bar</string>
-        <string name="ai_tutorial_regional">Regional</string>
+    <string name="ai_tutorial_restaurant">Restaurante</string>
+    <string name="ai_tutorial_bar">Bar</string>
+    <string name="ai_tutorial_regional">Regional</string>
 
-        <string name="ai_tutorial_address">Avenida de Andalucía</string>
-        <string name="ai_tutorial_phone">+34 958 000 000</string>
-        <string name="ai_tutorial_website">restauranteflati.com</string>
+    <string name="ai_tutorial_address">Avenida de Andalucía</string>
+    <string name="ai_tutorial_phone">+34 958 000 000</string>
+    <string name="ai_tutorial_website">restauranteflati.com</string>
 
-        <string name="ai_tutorial_distance_350m">350 m</string>
-        <string name="ai_tutorial_distance_720m">720 m</string>
-        <string name="ai_tutorial_distance_1_1km">1,1 km</string>
+    <string name="ai_tutorial_distance_350m">350 m</string>
+    <string name="ai_tutorial_distance_720m">720 m</string>
+    <string name="ai_tutorial_distance_1_1km">1,1 km</string>
 
-        <string name="ai_tutorial_get_directions">Cómo llegar</string>
+    <string name="ai_tutorial_get_directions">Cómo llegar</string>
     <!--Colors-->
     <string name="nocolors">Sin colores para este calendario</string>
     <!--Formulary-->

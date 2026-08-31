@@ -3,6 +3,7 @@ package es.myvacations.myvacations.core.di
 import android.annotation.SuppressLint
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.functions.FirebaseFunctions
 import es.myvacations.myvacations.core.firebase.AnalyticsReporter
@@ -41,6 +42,8 @@ actual fun dataBaseModule(): List<Module> = listOf(
         single { FirebaseFunctions.getInstance("europe-southwest1") }
 
         single { FirebaseCrashlytics.getInstance() }
+
+        single { FirebaseAuth.getInstance() }
 
         single<AnalyticsReporter>
         {

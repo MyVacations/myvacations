@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <!--Login-->
+    <string name="login_skip">Skip</string>
+    <string name="login_welcome">Welcome to MyVacations</string>
+    <string name="login_subtitle">Your companion for planning unforgettable trips.</string>
+
+    <string name="login_registration_optional">Registration is not currently required. Future features may require it.</string>
+    <string name="login_continue_with">Sign in or sign up</string>
+
+    <string name="login_google">Continue with Google</string>
+    <string name="login_phone">Continue with phone</string>
+    <string name="login_email">Continue with email</string>
+
+    <string name="login_register_later">You can sign up at any time.</string>
+    <string name="register_no_account">Register</string>
+    <string name="login_header">Login</string>
+    <string name="login_myaccount">My account</string>
+    <string name="logout">Logout</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="forgot_password">Forgot password</string>
+
+    <string name="error_nologing">Error: It couldn’t log in, check the data</string>
+    <string name="error_account_already">Error: The account already exists</string>
+    <string name="error_email_reset_send">Email badly formatted, write a valid email</string>
+    <string name="email_reset_send">Email send correctly(Check spam folder)</string>
+    <string name="error_generic_loging">Error: It couldn’t log in, try again</string>
+
     <!--IA-->
     <string name="download_interrupted">Download interrupted</string>
     <string name="installation_interrupted_extraction">Installation was interrupted during extraction.</string>

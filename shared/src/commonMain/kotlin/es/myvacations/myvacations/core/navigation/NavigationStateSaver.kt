@@ -6,6 +6,8 @@ fun ScreenDestination.toSavedValue(): String =
     when (this) {
         ScreenDestination.Splash -> "splash"
         ScreenDestination.Onboarding -> "onboarding"
+        ScreenDestination.Login -> "login"
+        ScreenDestination.EmailRegister -> "emailRegister"
         ScreenDestination.Dashboard -> "dashboard"
         ScreenDestination.Trips -> "trips"
         ScreenDestination.Statistics -> "statistics"
@@ -22,6 +24,8 @@ fun String.toScreenDestination(): ScreenDestination =
     when {
         this == "splash" -> ScreenDestination.Splash
         this == "onboarding" -> ScreenDestination.Onboarding
+        this == "login" -> ScreenDestination.Login
+        this == "emailRegister" -> ScreenDestination.EmailRegister
         this == "dashboard" -> ScreenDestination.Dashboard
         this == "trips" -> ScreenDestination.Trips
         this == "statistics" -> ScreenDestination.Statistics

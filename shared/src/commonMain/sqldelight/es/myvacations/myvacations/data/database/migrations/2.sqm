@@ -1,2 +1,0 @@
-ALTER TABLE TripData
-ADD COLUMN favourite INTEGER AS kotlin.Boolean NOT NULL DEFAULT 0;

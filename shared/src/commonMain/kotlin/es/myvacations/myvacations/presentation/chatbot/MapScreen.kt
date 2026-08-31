@@ -85,7 +85,8 @@ import org.maplibre.compose.layers.SymbolLayer
 import org.maplibre.compose.map.GestureOptions
 import org.maplibre.compose.map.MapOptions
 import org.maplibre.compose.map.MaplibreMap
-import org.maplibre.compose.map.OrnamentOptions
+import org.maplibre.compose.overlay.MapOverlay
+import org.maplibre.compose.overlay.MaplibreLogo
 import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.rememberGeoJsonSource
 import org.maplibre.compose.style.BaseStyle
@@ -137,9 +138,11 @@ fun MapScreen(
 
     val scope = rememberCoroutineScope()
     var openExtendedMap by rememberSaveable { mutableStateOf(false) }
-    val places = chatMessage.bot?.elementsFound ?: return
+    val places = chatMessage.bot.elementsFound
     val firstLocation = chatMessage.locationFor500m
-    val location = (if (uiState.outOfLimits) firstLocation else uiState.updatedLocation) ?: return
+    val location =
+        (if (uiState.outOfLimits) firstLocation else uiState.updatedLocation)
+            ?: return loadMapUpdate()
 
     val geoJson = remember(places) {
         placesToGeoJson(places)
@@ -224,9 +227,13 @@ fun MapScreen(
                             "https://tiles.openfreemap.org/styles/liberty"
                         ),
                         options = MapOptions(
-                            gestureOptions = GestureOptions.RotationLocked,
-                            ornamentOptions = OrnamentOptions.OnlyLogo
+                            gestureOptions = GestureOptions.RotationLocked
                         ),
+                        overlay = MapOverlay {
+                            MaplibreLogo(
+                                Modifier.align(Alignment.BottomStart)
+                            )
+                        },
                         cameraState = extendedCameraState
                     )
                     {
@@ -305,8 +312,13 @@ fun MapScreen(
                 ),
                 options = MapOptions(
                     gestureOptions = GestureOptions.AllDisabled,
-                    ornamentOptions = OrnamentOptions.OnlyLogo
+                    //ornamentOptions = OrnamentOptions.OnlyLogo
                 ),
+                overlay = MapOverlay {
+                    MaplibreLogo(
+                        Modifier.align(Alignment.BottomStart)
+                    )
+                },
                 cameraState = cameraState,
                 onMapLoadFinished = {
                     loadMapUpdate()

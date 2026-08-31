@@ -38,6 +38,12 @@ import myvacations.shared.generated.resources.analytics_restaurant
 import myvacations.shared.generated.resources.analytics_supermarket
 import myvacations.shared.generated.resources.analytics_theatre
 import myvacations.shared.generated.resources.analytics_viewpoint
+import myvacations.shared.generated.resources.email_reset_send
+import myvacations.shared.generated.resources.error_account_already
+import myvacations.shared.generated.resources.error_email_reset_send
+import myvacations.shared.generated.resources.error_generic_loging
+import myvacations.shared.generated.resources.error_nologing
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 
 fun TripUiState.toDomainModel() = TripDomain(
@@ -194,4 +200,12 @@ fun AIRepository.toNameLabel() = this.load().idToLabel.map { label ->
         "VIEWPOINT" -> stringResource(Res.string.analytics_viewpoint)
         else -> stringResource(Res.string.analytics_none)
     }
+}
+
+suspend fun String.toUserMessage() = when (this) {
+    "The supplied auth credential is incorrect, malformed or has expired." -> getString(Res.string.error_nologing)
+    "The email address is already in use by another account." -> getString(Res.string.error_account_already)
+    "Enviado" ->  getString(Res.string.email_reset_send)
+    "The email address is badly formatted." -> getString(Res.string.error_email_reset_send)
+    else -> getString(Res.string.error_generic_loging)
 }

@@ -11,6 +11,7 @@ import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseC
 import es.myvacations.myvacations.domain.usecase.tripusecase.GetTripByIdUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.SaveTripUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.UpdateTripUseCase
+import es.myvacations.myvacations.presentation.chatbot.ChatUiState
 import es.myvacations.myvacations.presentation.mapper.toDomainModel
 import es.myvacations.myvacations.presentation.mapper.toUiState
 import es.myvacations.myvacations.presentation.utils.Currency
@@ -29,8 +30,6 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.uuid.Uuid
 
 private const val MAX_NUMBER = 100_000.0
-private const val MAX_EXPENSE = 100_0.0
-
 
 class CreateEditTripsViewModel(
     private val saveTrip: SaveTripUseCase,
@@ -236,7 +235,9 @@ class CreateEditTripsViewModel(
     }
 
     fun clearUi() {
-        _uiState.value = TripUiState()
+        _uiState.update {
+            TripUiState()
+        }
     }
 
     fun saveTrip() {

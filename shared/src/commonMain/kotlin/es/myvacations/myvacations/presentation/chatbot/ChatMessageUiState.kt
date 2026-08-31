@@ -3,10 +3,11 @@ package es.myvacations.myvacations.presentation.chatbot
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 
+@Serializable
 data class ChatMessageUiState(
     val id: Long = 0,
     val user: ChatElements,
-    val bot: ChatElements? = null,
+    val bot: ChatElements,
     val time: LocalDateTime = LocalDateTime(2023, 1, 1, 0, 0),
     val locationFor500m: LocationUiState = LocationUiState(0.0, 0.0, 0),
     val feedback: FeedbackState = FeedbackState()
@@ -36,8 +37,7 @@ data class ElementsFoundUiState(
 @Serializable
 data class ChatElements(
     val text: String,
-    val elementsFound: List<ElementsFoundUiState> = emptyList(),
-    val retryOn: Boolean = false
+    val elementsFound: List<ElementsFoundUiState> = emptyList()
 )
 
 @Serializable

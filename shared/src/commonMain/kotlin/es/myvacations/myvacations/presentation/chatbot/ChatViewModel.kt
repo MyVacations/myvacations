@@ -59,8 +59,9 @@ class ChatViewModel(
             if (hasPermission) {
                 getMainLocation()
                 startObservingMessages()
-                _uiState.update { it.copy(isFullScreenLoading = false) }
             }
+            ensureModelInstalledUseCase.refreshState()
+            _uiState.update { it.copy(isFullScreenLoading = false) }
         }
     }
 
@@ -85,48 +86,34 @@ class ChatViewModel(
     fun getMapLocation(
         message: ChatMessageUiState
     ) {
-        viewModelScope.launch {
-            if (locationObserverJob?.isActive == true || !checkInit()) return@launch
+        locationObserverJob?.cancel()
 
-            locationObserverJob = viewModelScope.launch {
-                locationUseCase().collect { event ->
-                    if (event is LocationEventResult.Success) {
-                        val hasNearbyPlace = message.bot?.elementsFound?.any { place ->
-                            distanceInMeters(
-                                userLatitude = event.locationDomain.latitude,
-                                userLongitude = event.locationDomain.longitude,
-                                latitude = place.latitude,
-                                longitude = place.longitude
-                            ) <= 500
-                        } == true
+        locationObserverJob = viewModelScope.launch {
+            if (!checkInit()) return@launch
 
-                        if (!hasNearbyPlace) {
-                            _uiState.update {
-                                it.copy(
-                                    outOfLimits = true,
-                                )
+            locationUseCase().collect { event ->
+                if (event is LocationEventResult.Success) {
+
+                    val hasNearbyPlace = message.bot.elementsFound.any { place ->
+                        distanceInMeters(
+                            userLatitude = event.locationDomain.latitude,
+                            userLongitude = event.locationDomain.longitude,
+                            latitude = place.latitude,
+                            longitude = place.longitude
+                        ) <= 500
+                    }
+
+                    _uiState.update {
+                        it.copy(
+                            outOfLimits = !hasNearbyPlace,
+                            updatedLocation = if (hasNearbyPlace) {
+                                event.locationDomain.toUiMapper()
+                            } else {
+                                it.updatedLocation
                             }
-                        } else {
-                            _uiState.update {
-                                it.copy(
-                                    updatedLocation = event.locationDomain.toUiMapper(),
-                                    outOfLimits = false
-                                )
-                            }
-                        }
+                        )
                     }
                 }
-            }
-        }
-    }
-
-    fun onResume() {
-        viewModelScope.launch {
-            val hasPermission = checkInit()
-            if (hasPermission) {
-                getMainLocation()
-                startObservingMessages()
-                _uiState.update { it.copy(isFullScreenLoading = false) }
             }
         }
     }
@@ -171,8 +158,6 @@ class ChatViewModel(
                     tutorial = settingsDomain?.iaTutorial ?: false
                 )
             }
-
-            ensureModelInstalledUseCase.refreshState()
         }
     }
 
@@ -229,36 +214,36 @@ class ChatViewModel(
     }
 
     fun sendASearch(
-        fromUser: String,
-        fromRetry: Boolean
+        retryId: Long? = null,
+        fromUser: String
     ) {
         val timeNow = Clock.System.now()
             .toLocalDateTime(TimeZone.currentSystemDefault())
         viewModelScope.launch {
             val location = uiState.value.updatedLocation ?: return@launch errorPlacesEvent(
-                fromUser, timeNow,
+                retryId,
+                placesUseCase, fromUser,
+                timeNow,
                 PlacesEventResult.Error(Exception("No location found"))
             )
-            if (fromRetry || uiState.value.messages.any { it.bot?.text != "" }) {
+
+            if (retryId != null && placesUseCase.getMessageId(retryId) == null) {
+                val newUserMessage = ChatMessageUiState(
+                    id = retryId,
+                    user = ChatElements(
+                        text = fromUser
+                    ),
+                    bot = ChatElements(text = ""),
+                    time = timeNow
+                )
+
                 _uiState.update {
-                    it.copy(messages = it.messages.dropLast(1))
+                    it.copy(
+                        messages = it.messages + newUserMessage
+                    )
                 }
             }
 
-            val newMessage = ChatMessageUiState(
-                user = ChatElements(
-                    text = fromUser
-                ),
-                time = timeNow
-            )
-
-            _uiState.update {
-                it.copy(
-                    messages = it.messages + newMessage
-                )
-            }
-
-            var text: String
             val prediction = classifyIntentUseCase(fromUser).prediction
             when (
                 val event = placesUseCase(
@@ -268,9 +253,7 @@ class ChatViewModel(
                     prediction = prediction
                 )
             ) {
-
                 is PlacesEventResult.Success -> {
-                    text = ""
                     val elementsFound = event.placesDomain.map {
                         it.toUiMapper().copy(
                             distance = distanceInMeters(
@@ -285,14 +268,13 @@ class ChatViewModel(
                             it.distance
                         }
                         .take(50)
-                    val message = ChatMessageUiState(
+                    val message = if (retryId == null) ChatMessageUiState(
                         user = ChatElements(
                             text = fromUser
                         ),
                         bot = ChatElements(
-                            text = text,
-                            elementsFound = elementsFound,
-                            retryOn = false
+                            text = "",
+                            elementsFound = elementsFound
                         ),
                         feedback = FeedbackState(
                             whatAsk = fromUser,
@@ -305,50 +287,102 @@ class ChatViewModel(
                         ),
                         time = timeNow
                     )
-                    placesUseCase.addMessages(message, location)
+                    else ChatMessageUiState(
+                        id = retryId,
+                        user = ChatElements(
+                            text = fromUser
+                        ),
+                        bot = ChatElements(
+                            text = "",
+                            elementsFound = elementsFound
+                        ),
+                        feedback = FeedbackState(
+                            whatAsk = fromUser,
+                            label = prediction.label.value,
+                            subcategory = prediction.subcategory.value,
+                            labelConfidence = prediction.label.confidence,
+                            subcategoryConfidence = prediction.subcategory.confidence,
+                            elementsSizeFound = elementsFound.size,
+                            feedbackDone = false
+                        ),
+                        time = timeNow
+                    )
+
+                    if (retryId != null && placesUseCase.getMessageId(retryId) != null) placesUseCase.updateAnErrorMessageForaSuccess(
+                        message,
+                        location
+                    ) else placesUseCase.addMessages(
+                        message,
+                        location
+                    )
+
                     _uiState.update {
+                        val updatedList = it.messages.map { messageUiState ->
+                            if (messageUiState.id == retryId) message else messageUiState
+                        }
+
                         it.copy(
-                            messages = it.messages.dropLast(1) + message
+                            messages = updatedList
                         )
                     }
                     adsUseCase.showInterstitial()
                 }
 
                 is PlacesEventResult.Error -> {
-                    errorPlacesEvent(fromUser, timeNow, event)
+                    errorPlacesEvent(retryId, placesUseCase, fromUser, timeNow, event)
                 }
             }
         }
     }
 
     private suspend fun errorPlacesEvent(
+        retryId: Long?,
+        placesUseCase: PlacesUseCase,
         fromUser: String,
         timeNow: LocalDateTime,
         event: PlacesEventResult.Error,
     ) {
-        var retry = false
         val text = if (event.exception.message == "No places find") {
             getString(Res.string.boterror1)
         } else {
-            retry = true
             getString(Res.string.boterror2)
         }
 
-        _uiState.update {
-            it.copy(
-                messages = it.messages.dropLast(1) +
-                        ChatMessageUiState(
-                            user = ChatElements(
-                                text = fromUser
-                            ),
-                            bot = ChatElements(
-                                text = text,
-                                elementsFound = emptyList(),
-                                retryOn = retry
-                            ),
-                            time = timeNow
-                        )
+        val errorMessage = if (retryId == null) ChatMessageUiState(
+            user = ChatElements(
+                text = fromUser
+            ),
+            bot = ChatElements(
+                text = text,
+                elementsFound = emptyList()
+            ),
+            time = timeNow
+        )
+        else ChatMessageUiState(
+            id = retryId,
+            user = ChatElements(
+                text = fromUser
+            ),
+            bot = ChatElements(
+                text = text,
+                elementsFound = emptyList()
+            ),
+            time = timeNow
+        )
+
+        if (placesUseCase.getMessageId(errorMessage.id) == null) {
+            placesUseCase.addErrorMessage(
+                errorMessage
             )
+            _uiState.update {
+                val updatedList = it.messages.map { messageUiState ->
+                    if (messageUiState.id == errorMessage.id) errorMessage else messageUiState
+                }
+
+                it.copy(
+                    messages = updatedList
+                )
+            }
         }
     }
 

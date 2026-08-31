@@ -13,7 +13,22 @@ actual class PlacesImpl actual constructor() :
         TODO("Not yet implemented")
     }
 
+    actual override fun getMessageId(id: Long): ChatMessageUiState? {
+        TODO("Not yet implemented")
+    }
+
     actual override suspend fun addMessage(
+        message: ChatMessageUiState,
+        userLocation: LocationUiState
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    actual override suspend fun addMessageError(message: ChatMessageUiState) {
+        TODO("Not yet implemented")
+    }
+
+    actual override suspend fun updateErrorToSuccessMessage(
         message: ChatMessageUiState,
         userLocation: LocationUiState
     ) {

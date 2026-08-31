@@ -51,7 +51,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -71,9 +70,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import es.myvacations.myvacations.data.repository.LocationPermissionHandler
 import es.myvacations.myvacations.domain.repository.LocationEventResult
 import es.myvacations.myvacations.domain.repository.LocationEventResult.PermissionOk
@@ -106,24 +102,10 @@ fun ChatScreen() {
     val state by viewModel.state.collectAsState()
     val dialogRequestingLocationPermissions =
         remember { mutableStateOf(stateLocation == LocationEventResult.PermissionDenied) }
-    val lifecycleOwner = LocalLifecycleOwner.current
     LaunchedEffect(stateLocation)
     {
         if (stateLocation == LocationEventResult.PermissionDenied) {
             dialogRequestingLocationPermissions.value = true
-        }
-    }
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                viewModel.onResume()
-            }
-        }
-
-        lifecycleOwner.lifecycle.addObserver(observer)
-
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
 
@@ -170,15 +152,15 @@ fun ChatbotorTutorial(
     )
     else ChatBotScreen(
         uiState,
-        onSearch = { fromUser, isRetry ->
-            viewModel.sendASearch(fromUser, isRetry)
+        onSearch = { messageId, fromUser ->
+            viewModel.getMainLocation()
+            viewModel.sendASearch(retryId = messageId, fromUser = fromUser)
         },
         retryLocation = {
             viewModel.getMainLocation()
         },
         getNearestPlaces = viewModel::getNearestPlaces,
         openTutorial = viewModel::enableTutorial,
-        messageList = uiState.messages,
         updateDialogRequestingLocationPermissions = updateDialogRequestingLocationPermissions,
         onTextChange = onTextChange,
         openNavigationToPlace = openNavigationToPlace,
@@ -214,11 +196,10 @@ fun ChatBotScreenInfo(onContinue: () -> Unit) {
 @Composable
 fun ChatBotScreen(
     uiState: ChatUiState,
-    onSearch: (String, Boolean) -> Unit,
+    onSearch: (Long?, String) -> Unit,
     retryLocation: () -> Unit,
     getNearestPlaces: (List<ElementsFoundUiState>) -> List<ElementsFoundUiState>,
     openTutorial: () -> Unit,
-    messageList: List<ChatMessageUiState>,
     updateDialogRequestingLocationPermissions: () -> Unit,
     onTextChange: (String) -> Unit,
     openNavigationToPlace: (Double, Double, String?) -> Unit,
@@ -228,8 +209,8 @@ fun ChatBotScreen(
     negativeFeedback: (ChatMessageUiState) -> Unit,
     mapLocationCheck: (ChatMessageUiState) -> Unit
 ) {
-    val sortedMessages = remember(messageList) {
-        messageList.sortedByDescending { it.time }
+    val sortedMessages = remember(uiState.messages) {
+        uiState.messages.sortedByDescending { it.time }
     }
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -248,11 +229,11 @@ fun ChatBotScreen(
             }
         },
         bottomBar = {
-            if (messageList.isNotEmpty()) ChatElement(
+            if (sortedMessages.isNotEmpty()) ChatElement(
                 uiState,
-                sendText = { fromUser, isRetry ->
+                sendText = { _, fromUser ->
                     pagerState.requestScrollToPage(0)
-                    onSearch(fromUser, isRetry)
+                    onSearch(null, fromUser)
                 },
                 onTextChange = onTextChange
             )
@@ -273,7 +254,7 @@ fun ChatBotScreen(
             )
         }
 
-        if (messageList.isEmpty()) {
+        if (sortedMessages.isEmpty()) {
             Column(
                 modifier = Modifier.fillMaxSize().padding(paddingValues),
                 verticalArrangement = Arrangement.Center,
@@ -340,22 +321,10 @@ fun ChatBotScreen(
                                 showMenu = true
                             })
                     ) { page ->
-
                         val message = sortedMessages[page]
                         var loadMap by remember { mutableStateOf(false) }
-                        LaunchedEffect(
-                            message.id, uiState.updatedLocation
-                        ) {
-                            if (message.bot != null) mapLocationCheck(message)
-                        }
-
-                        var timeoutReached by remember(message.time) {
-                            mutableStateOf(false)
-                        }
-
-                        LaunchedEffect(message.time) {
-                            delay(15_000L.milliseconds)
-                            timeoutReached = true
+                        LaunchedEffect(message.id) {
+                            mapLocationCheck(message)
                         }
 
                         LazyColumn(
@@ -391,6 +360,9 @@ fun ChatBotScreen(
                                     loadMapUpdate = { loadMap = true }
                                 )
                             }
+                            val listOfPlaces =
+                                getNearestPlaces(message.bot.elementsFound)
+
                             item {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
@@ -425,56 +397,51 @@ fun ChatBotScreen(
                                     modifier = Modifier.fillMaxWidth(),
                                     contentAlignment = Alignment.Center
                                 ) {
+
                                     BotMessage(
-                                        modifier = Modifier.alpha(if (loadMap) 1f else 0f),
+                                        modifier = Modifier.alpha(if (message.bot.text.isNotEmpty() || (loadMap && listOfPlaces.isNotEmpty())) 1f else 0f),
                                         message,
                                         retry = {
                                             retryLocation()
                                             onSearch(
+                                                message.id,
                                                 message.user.text,
-                                                message.bot?.retryOn ?: true
                                             )
                                         },
                                         map = map
                                     )
-
-                                    if (!loadMap) {
+                                    if ((message.bot.text.isNotEmpty() || (loadMap && listOfPlaces.isNotEmpty())).not()) {
                                         CircularProgressIndicator()
                                     }
                                 }
                             }
-                            if (message.bot != null && loadMap) {
-                                item {
-                                    Spacer(Modifier.height(16.dp))
-                                    if (!message.bot.retryOn && message.bot.text == "") {
-                                        Text(
-                                            modifier = Modifier.padding(8.dp),
-                                            text = stringResource(Res.string.placesheader)
-                                        )
-                                    }
-                                }
-
-                                items(
-                                    getNearestPlaces(
-                                        message.bot.elementsFound
+                            item {
+                                Spacer(Modifier.height(16.dp))
+                                if (listOfPlaces.isNotEmpty()) {
+                                    Text(
+                                        modifier = Modifier.padding(8.dp),
+                                        text = stringResource(Res.string.placesheader)
                                     )
-                                ) { place ->
-                                    ItemPlace(uiState, place, openPlaceDetails = {
-                                        elementDetail = it
-                                    })
                                 }
-                                if (!message.feedback.feedbackDone && message.bot.text == "") {
-                                    item {
-                                        Feedback(
-                                            message,
-                                            positiveFeedback = positiveFeedback,
-                                            negativeFeedback = negativeFeedback
-                                        )
-                                    }
-                                    item { Spacer(Modifier.height(62.dp)) }
-                                } else {
-                                    item { Spacer(Modifier.height(62.dp)) }
+                            }
+                            items(
+                                listOfPlaces
+                            ) { place ->
+                                ItemPlace(uiState, place, openPlaceDetails = {
+                                    elementDetail = it
+                                })
+                            }
+                            if (!message.feedback.feedbackDone && (loadMap && listOfPlaces.isNotEmpty())) {
+                                item {
+                                    Feedback(
+                                        message,
+                                        positiveFeedback = positiveFeedback,
+                                        negativeFeedback = negativeFeedback
+                                    )
                                 }
+                                item { Spacer(Modifier.height(62.dp)) }
+                            } else {
+                                item { Spacer(Modifier.height(62.dp)) }
                             }
                         }
                     }
@@ -822,13 +789,12 @@ fun BotMessage(
         ) {
             Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
                 Text(
-                    text = chatMessage.bot?.text ?: ""
+                    text = chatMessage.bot.text
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                if (chatMessage.bot?.text?.isEmpty() == true) {
+                if (chatMessage.bot.text.isEmpty()) {
                     map()
-                }
-                if (chatMessage.bot?.retryOn == true) {
+                } else {
                     Button(onClick = retry)
                     {
                         Text(stringResource(Res.string.buttonRetry))
@@ -869,7 +835,7 @@ fun UserMessage(message: String) {
 @Composable
 private fun ChatElement(
     uiState: ChatUiState,
-    sendText: (String, Boolean) -> Unit,
+    sendText: (Long?, String) -> Unit,
     onTextChange: (String) -> Unit
 ) {
     Column {
@@ -910,7 +876,7 @@ private fun ChatElement(
                 IconButton(onClick = {
                     val message = uiState.chatText.trim()
                     if (message.isNotEmpty() && message.length <= 30) {
-                        sendText(message, false)
+                        sendText(null, message)
                         onTextChange("")
                         error.value = false
                     } else error.value = true

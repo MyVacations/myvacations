@@ -35,10 +35,6 @@ object FirebaseInitializer {
             )
         }
 
-        if (Firebase.auth.currentUser == null) {
-            Firebase.auth.signInAnonymously()
-        }
-
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val token = appCheck

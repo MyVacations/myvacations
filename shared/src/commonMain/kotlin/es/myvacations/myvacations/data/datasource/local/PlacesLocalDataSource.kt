@@ -20,18 +20,19 @@ class PlacesLocalDataSource(
         return queries.selectAllMessages().asFlow().mapToList(Dispatchers.IO)
     }
 
-    fun addMessage(message: ChatMessageUiState,userLocation: LocationUiState) {
+    fun getMessageId(id: Long): ChatMessageData? {
+        return queries.selectMessagesFromId(id).executeAsOneOrNull()
+    }
+
+    fun addMessage(message: ChatMessageUiState, userLocation: LocationUiState) {
         queries.insertMessage(
             userText = message.user.text,
-            userElementsFound = json.encodeToString(message.user.elementsFound),
-            userRetryOn = message.user.retryOn,
             mainLocationLongitude = userLocation.longitude,
             mainLocationLatitude = userLocation.latitude,
-            botText = message.bot?.text,
-            botElementsFound = message.bot?.let {
+            botText = message.bot.text,
+            botElementsFound = message.bot.let {
                 json.encodeToString(it.elementsFound)
             },
-            botRetryOn = message.bot?.retryOn,
             whatAsk = message.feedback.whatAsk,
             label = message.feedback.label,
             subcategory = message.feedback.subcategory,
@@ -41,6 +42,35 @@ class PlacesLocalDataSource(
             time = message.time.toString(),
             feedbackDone = message.feedback.feedbackDone
         )
+    }
+
+    fun addErrorMessage(message: ChatMessageUiState) {
+        queries.insertErrorMessage(
+            userText = message.user.text,
+            botText = message.bot.text,
+            botElementsFound = message.bot.let {
+                json.encodeToString(it.elementsFound)
+            },
+            whatAsk = message.feedback.whatAsk,
+            label = message.feedback.label,
+            subcategory = message.feedback.subcategory,
+            labelConfidence = message.feedback.labelConfidence.toDouble(),
+            subcategoryConfidence = message.feedback.subcategoryConfidence.toDouble(),
+            elementsSizeFound = message.feedback.elementsSizeFound.toLong(),
+            time = message.time.toString(),
+            feedbackDone = message.feedback.feedbackDone
+        )
+    }
+
+    fun updateErrorToSuccessMessage(message: ChatMessageUiState, userLocation: LocationUiState) {
+        queries.updateErrorToSuccessMessage(
+            id = message.id,
+            mainLocationLongitude = userLocation.longitude,
+            mainLocationLatitude = userLocation.latitude,
+            botText = message.bot.text,
+            botElementsFound = message.bot.let {
+                json.encodeToString(it.elementsFound)
+            })
     }
 
     fun updateFeedback(id: Long) {
@@ -54,5 +84,4 @@ class PlacesLocalDataSource(
     fun deleteAllMessages() {
         queries.deleteAllMessages()
     }
-
 }

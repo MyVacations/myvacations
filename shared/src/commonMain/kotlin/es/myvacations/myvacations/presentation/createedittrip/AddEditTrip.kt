@@ -166,6 +166,7 @@ fun AddEditTripScreen(
             onUpdateExpense = viewModel::updateExpense,
             onDeleteExpense = viewModel::deleteExpense,
             onSave = viewModel::saveTrip,
+            clearUI = viewModel::clearUi,
             updateFavourite = viewModel::updateFavourite,
             selectedExpenseFromWidget = selectedExpenseFromWidget,
             updateSelectedExpenseFromWidget = updateSelectedExpenseFromWidget,
@@ -733,9 +734,10 @@ fun CostAndBudgetView(
         )
 
         Spacer(modifier = Modifier.height(8.dp))
-        var textCost by rememberSaveable {
+        var textCost by remember(uiState.mainCost) {
             mutableStateOf(
-                if (uiState.mainCost == 0.0) "" else uiState.mainCost.toString()
+                if (uiState.mainCost == 0.0) ""
+                else uiState.mainCost.toString()
             )
         }
         BasicTextField(
@@ -771,7 +773,7 @@ fun CostAndBudgetView(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        var textBudget by rememberSaveable {
+        var textBudget by remember(uiState.mainBudget) {
             mutableStateOf(
                 if (uiState.mainBudget == 0.0) "" else uiState.mainBudget.toString()
             )

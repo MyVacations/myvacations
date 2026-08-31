@@ -22,7 +22,6 @@ class MainActivity : ComponentActivity() {
     val adsRepository: AdsRepositoryImpl by inject()
     private fun processWidgetIntent(intent: Intent?) {
         intent ?: return
-
         tripId.value = intent.getStringExtra("trip_id").orEmpty()
         widgetAction.value = intent.getStringExtra("widget_action").orEmpty()
     }
@@ -51,7 +50,6 @@ class MainActivity : ComponentActivity() {
             .build()
 
         MobileAds.setRequestConfiguration(configuration)
-
         application.consentManager.requestConsent(this) {
             if (application.consentManager.canRequestAds()) {
                 MobileAds.initialize(this) {

@@ -15,11 +15,11 @@ import es.myvacations.myvacations.shared.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
-import org.maplibre.android.MapLibre
 import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
 import org.maplibre.android.maps.Style
 import org.maplibre.android.snapshotter.MapSnapshotter
+import org.maplibre.compose.android.MapLibre
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.math.PI
@@ -50,8 +50,6 @@ object MapBitmapGenerator {
             ?.forEach { it.delete() }
 
         suspendCancellableCoroutine { continuation ->
-
-            MapLibre.getInstance(context)
 
             val options = MapSnapshotter.Options(
                 width,

@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,23 +27,38 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Wallet
 import androidx.compose.material3.Badge
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.LifecycleResumeEffect
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigationevent.NavigationEventInfo
+import androidx.navigationevent.compose.NavigationBackHandler
+import androidx.navigationevent.compose.rememberNavigationEventState
+import coil3.compose.AsyncImage
 import es.myvacations.myvacations.core.extensions.shortCurrency
 import es.myvacations.myvacations.core.utils.DateFormatter
 import es.myvacations.myvacations.presentation.settings.SettingsUiState
@@ -60,6 +77,9 @@ import myvacations.shared.generated.resources.greetings_evening
 import myvacations.shared.generated.resources.greetings_morning
 import myvacations.shared.generated.resources.greetings_night
 import myvacations.shared.generated.resources.guest_user
+import myvacations.shared.generated.resources.login_header
+import myvacations.shared.generated.resources.login_myaccount
+import myvacations.shared.generated.resources.logout
 import myvacations.shared.generated.resources.noTrips
 import myvacations.shared.generated.resources.past_trips
 import myvacations.shared.generated.resources.total_spent
@@ -75,10 +95,10 @@ fun DashboardScreen(
     viewModel: DashboardViewModel = koinViewModel(),
     onEditTripClick: (tripId: String) -> Unit,
     onStatisticsClick: () -> Unit,
-    onNotificationsClick: () -> Unit
+    onNotificationsClick: () -> Unit,
+    onLoginClick: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
-
     LifecycleResumeEffect(Unit) {
         viewModel.refreshGreetings()
         onPauseOrDispose { }
@@ -88,7 +108,9 @@ fun DashboardScreen(
         onEditTripClick,
         onStatisticsClick,
         viewModel::initials,
-        onNotificationsClick
+        onNotificationsClick,
+        onLoginClick,
+        viewModel::logout
     )
 }
 
@@ -98,8 +120,25 @@ fun DashboardContent(
     onEditTripClick: (tripId: String) -> Unit = {},
     onStatisticsClick: () -> Unit = {},
     initials: (userName: String) -> String = { "" },
-    onNotificationsClick: () -> Unit
+    onNotificationsClick: () -> Unit,
+    onLoginClick: () -> Unit,
+    logout: () -> Unit
 ) {
+    var showMenu by remember { mutableStateOf(false) }
+    val navigationState = rememberNavigationEventState(
+        currentInfo = NavigationEventInfo.None
+    )
+
+    NavigationBackHandler(
+        state = navigationState,
+        isBackEnabled = showMenu,
+        onBackCompleted = {
+            if (showMenu) {
+                showMenu = false
+            }
+        }
+    )
+
     if (uiState.isLoading) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
@@ -109,10 +148,21 @@ fun DashboardContent(
             modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp).padding(top = 12.dp)
         ) {
             item {
-                DashboardHeader(uiState, initials, onNotificationsClick)
+                DashboardHeader(
+                    uiState,
+                    initials,
+                    onNotificationsClick,
+                    showMenuLogin = { showMenu = true })
             }
             item {
-                ActualTripCard(uiState, onEditTripClick)
+                ActualTripCard(
+                    uiState,
+                    showMenu,
+                    onEditTripClick,
+                    onLoginClick,
+                    hideMenuLogin = { showMenu = false },
+                    logout = logout
+                )
             }
             item {
                 DashboardStatSection(uiState, onStatisticsClick)
@@ -160,7 +210,8 @@ fun DashboardContent(
 fun DashboardHeader(
     uiState: DashboardUiState = DashboardUiState(),
     initials: (userName: String) -> String = { "" },
-    onNotificationsClick: () -> Unit = {}
+    onNotificationsClick: () -> Unit = {},
+    showMenuLogin: () -> Unit = {}
 ) {
     val greetingText = when (uiState.greetings) {
         Greetings.MORNING -> stringResource(
@@ -227,7 +278,7 @@ fun DashboardHeader(
             }
         }
         Spacer(modifier = Modifier.weight(0.3f))
-        UserAvatar(uiState, initials)
+        UserAvatar(uiState, initials, showMenuLogin = showMenuLogin)
     }
 }
 
@@ -235,18 +286,32 @@ fun DashboardHeader(
 @Composable
 fun UserAvatar(
     uiState: DashboardUiState = DashboardUiState(),
-    initials: (userName: String) -> String = { "JR" }
+    initials: (userName: String) -> String = { "JR" },
+    showMenuLogin: () -> Unit = {},
 ) {
     Surface(
-        modifier = Modifier.size(48.dp),
+        modifier = Modifier.size(48.dp).clickable { showMenuLogin() },
         color = MaterialTheme.colorScheme.primary,
         shape = CircleShape
     ) {
-        Box(
-            contentAlignment = Alignment.Center
-        ) {
-            Text(initials(uiState.settings.userName.takeIf { it.isNotBlank() }
-                ?: stringResource(Res.string.guest_user)))
+        if (uiState.userInfo.userPhoto != null) {
+            Box(
+                contentAlignment = Alignment.Center
+            ) {
+                AsyncImage(
+                    model = uiState.userInfo.userPhoto,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+        } else {
+            Box(
+                contentAlignment = Alignment.Center
+            ) {
+                Text(initials(uiState.settings.userName.takeIf { it.isNotBlank() }
+                    ?: stringResource(Res.string.guest_user)))
+            }
         }
     }
 }
@@ -254,61 +319,169 @@ fun UserAvatar(
 @Preview(showBackground = true)
 @Composable
 fun ActualTripCard(
-    uiState: DashboardUiState = DashboardUiState(), onEditTripClick: (tripId: String) -> Unit = {}
+    uiState: DashboardUiState = DashboardUiState(),
+    showMenu: Boolean = false,
+    onEditTripClick: (tripId: String) -> Unit = {},
+    onLoginClick: () -> Unit = {},
+    hideMenuLogin: () -> Unit = {},
+    logout: () -> Unit = {}
 ) {
     val trip = uiState.currentTrip
-    if (uiState.currentTrip != null) {
-        Box(
-            modifier = Modifier.fillMaxWidth().height(180.dp).clip(RoundedCornerShape(24.dp))
-                .clickable(onClick = {
-                    onEditTripClick(trip.id)
-                })
-        ) {
-            Image(
-                painter = trip.cover.painter(),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
-            Column(
-                modifier = Modifier.align(Alignment.BottomStart).padding(
-                    start = 16.dp, end = 16.dp, bottom = 24.dp
+
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        if (showMenu) {
+            Dialog(
+                onDismissRequest = {
+                    hideMenuLogin()
+                },
+                properties = DialogProperties(
+                    usePlatformDefaultWidth = false,
+                    dismissOnBackPress = true,
+                    dismissOnClickOutside = false
                 )
             ) {
-                StatusChip(trip.tripStatus)
-                Spacer(Modifier.height(8.dp))
-                Text(
-                    text = trip.titleTrip,
-                    color = Color.White,
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = "${
-                        DateFormatter.formatTripDate(trip.startDate)
-                    } - ${
-                        DateFormatter.formatTripDate(trip.endDate)
-                    }",
-                    color = Color.White.copy(alpha = 0.9f),
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                Box(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+
+                    // Fondo / zona exterior del menú
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clickable {
+                                hideMenuLogin()
+                            }
+                    )
+
+                    ModalDrawerSheet(
+                        modifier = Modifier
+                            .width(300.dp)
+                            .fillMaxHeight()
+                            .align(Alignment.CenterEnd)
+                    ) {
+                        if (!uiState.userInfo.isLoggedIn) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp)
+                            ) {
+                                TextButton(
+                                    onClick = {
+                                        onLoginClick()
+                                    },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(8.dp)
+                                ) {
+                                    Text(stringResource(Res.string.login_header))
+                                }
+
+                            }
+                        } else {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp)
+                            ) {
+                                Text(
+                                    text = stringResource(Res.string.login_myaccount),
+                                    style = MaterialTheme.typography.headlineSmall
+                                )
+
+                                Spacer(Modifier.height(8.dp))
+
+                                Text(uiState.userInfo.userName)
+
+                                Spacer(Modifier.height(8.dp))
+
+                                Text(
+                                    uiState.userInfo.userEmail ?: "",
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+
+                                Spacer(Modifier.height(16.dp))
+                            }
+
+                            Spacer(
+                                modifier = Modifier.weight(1f)
+                            )
+
+                            // ===== PARTE INFERIOR =====
+                            HorizontalDivider()
+
+                            TextButton(
+                                onClick = {
+                                    logout()
+                                },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(8.dp)
+                            ) {
+                                Text(stringResource(Res.string.logout))
+                            }
+                        }
+                    }
+                }
             }
         }
-    } else {
-        Box(
-            modifier = Modifier.fillMaxWidth().height(60.dp).clip(RoundedCornerShape(24.dp))
-        ) {
-            Column(
-                modifier = Modifier.align(Alignment.BottomStart).padding(
-                    start = 16.dp, end = 16.dp, bottom = 16.dp
-                )
+
+        if (uiState.currentTrip != null) {
+            Box(
+                modifier = Modifier.fillMaxWidth().height(180.dp)
+                    .clip(RoundedCornerShape(24.dp))
+                    .clickable(onClick = {
+                        onEditTripClick(trip.id)
+                    })
             ) {
-                Text(
-                    text = stringResource(Res.string.actual_trip_addone),
-                    color = Color.White,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
+                Image(
+                    painter = trip.cover.painter(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
                 )
+                Column(
+                    modifier = Modifier.align(Alignment.BottomStart).padding(
+                        start = 16.dp, end = 16.dp, bottom = 24.dp
+                    )
+                ) {
+                    StatusChip(trip.tripStatus)
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        text = trip.titleTrip,
+                        color = Color.White,
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "${
+                            DateFormatter.formatTripDate(trip.startDate)
+                        } - ${
+                            DateFormatter.formatTripDate(trip.endDate)
+                        }",
+                        color = Color.White.copy(alpha = 0.9f),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        } else {
+            Box(
+                modifier = Modifier.fillMaxWidth().height(60.dp).clip(RoundedCornerShape(24.dp))
+            ) {
+                Column(
+                    modifier = Modifier.align(Alignment.BottomStart).padding(
+                        start = 16.dp, end = 16.dp, bottom = 16.dp
+                    )
+                ) {
+                    Text(
+                        text = stringResource(Res.string.actual_trip_addone),
+                        color = Color.White,
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
     }
@@ -398,5 +571,6 @@ private fun DashboardContentPreview() {
     DashboardContent(
         uiState = DashboardUiState(
             greetings = Greetings.MORNING, settings = SettingsUiState("Jesus")
-        ), initials = { "" }, onNotificationsClick = {})
+        ), onNotificationsClick = {}, onLoginClick = {}, logout = {}
+    )
 }

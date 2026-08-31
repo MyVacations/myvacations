@@ -179,11 +179,26 @@ actual class PlacesImpl actual constructor() :
         }
     }
 
+    actual override fun getMessageId(id: Long): ChatMessageUiState? {
+       return localDataSource.getMessageId(id)?.toUiMapper()
+    }
+
     actual override suspend fun addMessage(
         message: ChatMessageUiState,
         userLocation: LocationUiState
     ) {
         localDataSource.addMessage(message, userLocation)
+    }
+
+    actual override suspend fun addMessageError(message: ChatMessageUiState) {
+        localDataSource.addErrorMessage(message)
+    }
+
+    actual override suspend fun updateErrorToSuccessMessage(
+        message: ChatMessageUiState,
+        userLocation: LocationUiState
+    ) {
+        localDataSource.updateErrorToSuccessMessage(message, userLocation)
     }
 
     actual override suspend fun updateFeedback(id: Long) {
@@ -225,15 +240,13 @@ actual class PlacesImpl actual constructor() :
             val response = result.data as Map<String, Any?>
 
             PlacesEventResult.Success(parsePlaces(response))
-        } catch (e: FirebaseFunctionsException) {
-            when (e.code) {
-                FirebaseFunctionsException.Code.FAILED_PRECONDITION -> {
-                    PlacesEventResult.Error(Exception("No places find"))
-                }
-
-                else -> {
-                    PlacesEventResult.Error(e)
-                }
+        } catch (e: Exception) {
+            if (e is FirebaseFunctionsException && e.code == FirebaseFunctionsException.Code.FAILED_PRECONDITION) {
+                PlacesEventResult.Error(
+                    Exception("No places find")
+                )
+            } else {
+                PlacesEventResult.Error(e)
             }
         }
     }

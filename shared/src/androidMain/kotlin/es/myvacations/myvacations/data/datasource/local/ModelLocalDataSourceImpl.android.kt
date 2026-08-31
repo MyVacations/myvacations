@@ -1,7 +1,11 @@
 package es.myvacations.myvacations.data.datasource.local
 
+import ai.onnxruntime.OrtEnvironment
+import ai.onnxruntime.OrtSession
+import ai.onnxruntime.extensions.OrtxPackage
 import es.myvacations.myvacations.core.utils.AndroidContextHolder
 import es.myvacations.myvacations.data.datasource.local.ModelFiles.DIRECTORY
+import es.myvacations.myvacations.data.datasource.local.ModelFiles.METADATA
 import es.myvacations.myvacations.data.datasource.local.ModelFiles.MODEL
 import es.myvacations.myvacations.data.datasource.local.ModelFiles.TOKENIZER
 import es.myvacations.myvacations.data.datasource.local.ModelFiles.VERSION
@@ -28,6 +32,8 @@ actual class ModelLocalDataSourceImpl actual constructor(private val dispatcher:
     private val tokenizerFile = File(aiDirectory, TOKENIZER)
 
     private val versionFile = File(aiDirectory, VERSION)
+
+    private val metadataFile = File(aiDirectory, METADATA)
 
     actual override suspend fun saveZip(
         channel: ByteReadChannel, totalBytes: Long,
@@ -107,9 +113,40 @@ actual class ModelLocalDataSourceImpl actual constructor(private val dispatcher:
     }
 
     actual override suspend fun isModelInstalled(): Boolean {
-        return modelFile.exists() &&
-                tokenizerFile.exists() &&
-                versionFile.exists()
+        val allExist =
+            modelFile.exists() &&
+                    tokenizerFile.exists() &&
+                    versionFile.exists() &&
+                    metadataFile.exists()
+
+        if (!allExist) {
+            return false
+        }
+
+        return try {
+            val environment = OrtEnvironment.getEnvironment()
+
+            environment.createSession(
+                modelFile.absolutePath
+            ).use { }
+
+            val options = OrtSession.SessionOptions()
+
+            options.registerCustomOpLibrary(
+                OrtxPackage.getLibraryPath()
+            )
+
+            environment.createSession(
+                tokenizerFile.absolutePath,
+                options
+            ).use { }
+
+            true
+
+        } catch (e: Exception) {
+            println("MODEL VALIDATION ERROR: ${e.stackTraceToString()}")
+            false
+        }
     }
 
     actual override suspend fun installedVersion(): String? {

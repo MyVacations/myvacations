@@ -4,6 +4,7 @@ import es.myvacations.myvacations.core.navigation.NavigationViewModel
 import es.myvacations.myvacations.presentation.chatbot.ChatViewModel
 import es.myvacations.myvacations.presentation.createedittrip.CreateEditTripsViewModel
 import es.myvacations.myvacations.presentation.dashboard.DashboardViewModel
+import es.myvacations.myvacations.presentation.login.LoginViewModel
 import es.myvacations.myvacations.presentation.notifications.ShowNotificationsViewModel
 import es.myvacations.myvacations.presentation.onboarding.OnboardingViewModel
 import es.myvacations.myvacations.presentation.settings.SettingsViewModel
@@ -19,14 +20,15 @@ val appModule = module {
     //crashReporter = get()
 
     // ViewModels
-    viewModel { NavigationViewModel(get()) }
+    viewModel { NavigationViewModel(get(), get()) }
     viewModel { OnboardingViewModel(get()) }
     viewModel {
         DashboardViewModel(
             selectAllNotificationsUseCase = get(),
             getSettingsUseCase = get(),
             getDayPeriod = get(),
-            getTripsUseCase = get()
+            getTripsUseCase = get(),
+            firebaseAuthServices = get()
         )
     }
     viewModel { TripViewModel(getTripsUseCase = get()) }
@@ -83,5 +85,9 @@ val appModule = module {
             repository = get(),
             analytics = get()
         )
+    }
+
+    viewModel {
+        LoginViewModel(get())
     }
 }

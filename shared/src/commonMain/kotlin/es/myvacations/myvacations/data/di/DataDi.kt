@@ -10,6 +10,7 @@ import es.myvacations.myvacations.data.repository.AdsRepositoryImpl
 import es.myvacations.myvacations.data.repository.AiRepositoryImpl
 import es.myvacations.myvacations.data.repository.AppInfoRepositoryImpl
 import es.myvacations.myvacations.data.repository.AppWidgetUpdaterRepositoryImpl
+import es.myvacations.myvacations.data.repository.FirebaseAuthImpl
 import es.myvacations.myvacations.data.repository.GetDeviceCalendarRepository
 import es.myvacations.myvacations.data.repository.MapImpl
 import es.myvacations.myvacations.data.repository.NotificationRepositoryImpl
@@ -24,6 +25,7 @@ import es.myvacations.myvacations.domain.repository.AIRepository
 import es.myvacations.myvacations.domain.repository.AdsController
 import es.myvacations.myvacations.domain.repository.AppInfoRepository
 import es.myvacations.myvacations.domain.repository.DeviceCalendarRepository
+import es.myvacations.myvacations.domain.repository.FirebaseAuthRepository
 import es.myvacations.myvacations.domain.repository.MapRepository
 import es.myvacations.myvacations.domain.repository.NotificationRepository
 import es.myvacations.myvacations.domain.repository.PlacesRepository
@@ -96,5 +98,9 @@ val dataModule = module {
 
     single<AdsController> {
         get<AdsRepositoryImpl>()
+    }
+
+    single<FirebaseAuthRepository>{
+        FirebaseAuthImpl()
     }
 }

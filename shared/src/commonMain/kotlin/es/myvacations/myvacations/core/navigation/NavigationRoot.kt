@@ -32,6 +32,8 @@ import androidx.compose.ui.unit.sp
 import es.myvacations.myvacations.presentation.chatbot.ChatScreen
 import es.myvacations.myvacations.presentation.createedittrip.AddEditTripScreen
 import es.myvacations.myvacations.presentation.dashboard.DashboardScreen
+import es.myvacations.myvacations.presentation.login.EmailScreen
+import es.myvacations.myvacations.presentation.login.LoginScreen
 import es.myvacations.myvacations.presentation.notifications.ShowNotificationsScreen
 import es.myvacations.myvacations.presentation.onboarding.OnboardingScreen
 import es.myvacations.myvacations.presentation.privacyandfaq.HelpSupportScreen
@@ -84,6 +86,7 @@ fun NavigationRoot(
             widgetAction.isNotBlank()
         ) {
             loadWidgetScreenNav(
+                navigationViewModel,
                 navigationState,
                 tripIdFromWidget,
                 widgetAction
@@ -123,6 +126,7 @@ fun NavigationRoot(
                 when (currentScreen) {
                     ScreenDestination.Splash -> SplashScreen(onFinished = {
                         if (uiState.welcomeShow) navigate(ScreenDestination.Onboarding) else loadWidgetScreenNav(
+                            navigationViewModel,
                             navigationState,
                             tripIdFromWidget,
                             widgetAction
@@ -130,7 +134,21 @@ fun NavigationRoot(
                     })
 
                     ScreenDestination.Onboarding -> OnboardingScreen(onFinished = {
-                        loadWidgetScreenNav(navigationState, tripIdFromWidget, widgetAction)
+                        loadWidgetScreenNav(
+                            navigationViewModel,
+                            navigationState,
+                            tripIdFromWidget,
+                            widgetAction
+                        )
+                    })
+
+                    ScreenDestination.Login -> LoginScreen(snackbarHostState = snackbarHostState, onFinished = {
+                        navigate(ScreenDestination.Dashboard)
+                    }, emailScreen = {
+                        navigate(ScreenDestination.EmailRegister)
+                    })
+                    ScreenDestination.EmailRegister -> EmailScreen(snackbarHostState = snackbarHostState,onBack = {
+                        popBackStack()
                     })
 
                     ScreenDestination.Dashboard -> DashboardScreen(
@@ -142,6 +160,9 @@ fun NavigationRoot(
                         },
                         onStatisticsClick = {
                             navigate(ScreenDestination.Statistics)
+                        },
+                        onLoginClick = {
+                            navigate(ScreenDestination.Login)
                         })
 
                     ScreenDestination.Trips -> TripsScreen(openTripDetail = {
@@ -215,7 +236,9 @@ fun NavigationRoot(
     }
 }
 
+
 fun loadWidgetScreenNav(
+    navigationViewModel: NavigationViewModel,
     navigationState: NavigationState,
     tripIdFromWidget: String,
     widgetAction: String
@@ -256,7 +279,7 @@ fun loadWidgetScreenNav(
         }
 
         else -> {
-            navigationState.navigate(ScreenDestination.Dashboard)
+            navigationState.navigate(if (navigationViewModel.shouldLoginShow()) ScreenDestination.Login else ScreenDestination.Dashboard)
         }
     }
 }

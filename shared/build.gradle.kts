@@ -45,6 +45,7 @@ kotlin {
             implementation(libs.firebase.crashlytics)
             implementation(libs.firebase.functions)
             implementation(libs.firebase.ads)
+            implementation(libs.firebase.auth)
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.sqldelight.android.driver)
             implementation(libs.koin.android)
@@ -53,6 +54,13 @@ kotlin {
             implementation(libs.ktor.okhttp)
             implementation(libs.onnxruntime.android)
             implementation(libs.onnxruntime.extensions.android)
+            implementation(libs.android.maplibre)
+            implementation(libs.androidx.credentials)
+            implementation(libs.androidx.credentials.play.services.auth)
+            implementation(libs.googleid)
+            runtimeOnly(
+                "org.maplibre.compose:maplibre-compose-runtime-vulkan-android:0.15.0"
+            )
         }
         iosMain.dependencies {
             implementation(libs.sqldelight.native.driver)
@@ -81,6 +89,8 @@ kotlin {
             implementation(libs.ktor.serialization)
             implementation(libs.ktor.negotiation)
             implementation(libs.maplibre.compose)
+            implementation(libs.androidx.navigationevent.compose)
+            implementation(libs.coil.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

@@ -20,23 +20,20 @@ fun ChatMessageData.toUiMapper(): ChatMessageUiState {
     return ChatMessageUiState(
         id = id,
         user = ChatElements(
-            text = userText,
-            elementsFound = json.decodeFromString(
-                userElementsFound
-            ),
-            retryOn = userRetryOn
+            text = userText
         ),
-        bot = botText?.let {
-            ChatElements(
-                text = it,
-                elementsFound = botElementsFound?.let { jsonString ->
-                    json.decodeFromString(jsonString)
-                } ?: emptyList(),
-                retryOn = botRetryOn ?: false
-            )
-        },
+        bot = ChatElements(
+            text = botText ?: "",
+            elementsFound = botElementsFound?.let { jsonString ->
+                json.decodeFromString(jsonString)
+            } ?: emptyList()
+        ),
         time = LocalDateTime.parse(time),
-        locationFor500m = LocationUiState(mainLocationLatitude, mainLocationLongitude, 5000),
+        locationFor500m = LocationUiState(
+            mainLocationLatitude ?: 0.0,
+            mainLocationLongitude ?: 0.0,
+            5000
+        ),
         feedback = FeedbackState(
             whatAsk = whatAsk,
             label = label,
