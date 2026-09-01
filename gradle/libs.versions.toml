@@ -30,8 +30,7 @@ material3 = "1.9.0"
 koin = "4.2.2"
 coroutines = "1.11.0"
 navigationeventCompose = "1.1.2"
-onnxruntimeAndroid = "1.20.0" #No actualizar , incompatible con extensions
-onnxruntimeextensionAndroid = "0.13.0"
+onnxruntimeAndroid = "1.29.0"
 serialization = "1.11.0"
 sqldelight = "2.3.2"
 datetime = "0.8.0-0.6.x-compat"
@@ -44,7 +43,6 @@ playServicesLocation = "21.4.0"
 ktor = "3.5.2"
 maplibre = "0.15.0"
 workRuntimeKtx = "2.11.2"
-runtimeVulkan = "0.15.0"
 
 [libraries]
 # Firebase
@@ -123,7 +121,6 @@ ktor-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version
 ktor-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 #ONNX
 onnxruntime-android = { module = "com.microsoft.onnxruntime:onnxruntime-android", version.ref = "onnxruntimeAndroid" }
-onnxruntime-extensions-android = { module = "com.microsoft.onnxruntime:onnxruntime-extensions-android", version.ref = "onnxruntimeextensionAndroid" }
 #MAP
 maplibre-compose = { module = "org.maplibre.compose:maplibre-compose", version.ref = "maplibre" }
 android-maplibre = { module = "org.maplibre.gl:android-sdk", version.ref = "androidSdk" }

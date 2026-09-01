@@ -53,7 +53,7 @@ kotlin {
             implementation(libs.play.services.location)
             implementation(libs.ktor.okhttp)
             implementation(libs.onnxruntime.android)
-            implementation(libs.onnxruntime.extensions.android)
+            implementation(files("libs/onnxruntime-extensions-release.aar"))
             implementation(libs.android.maplibre)
             implementation(libs.androidx.credentials)
             implementation(libs.androidx.credentials.play.services.auth)
