@@ -33,7 +33,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,20 +62,30 @@ fun LoginScreen(
     onFinished: () -> Unit,
     emailScreen: () -> Unit
 ) {
-    val uiState by viewmodel.uiState.collectAsState()
-    LaunchedEffect(uiState.isSuccess, uiState.error) {
+    var showLoading by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        viewmodel.events.collect { event ->
 
-        when {
-            uiState.isSuccess -> onFinished()
+            when (event) {
+                is LoginViewModel.UiEvent.ShowError -> {
+                    showLoading = false
+                    snackbarHostState.showSnackbar(
+                        message = event.message ?: ""
+                    )
+                }
 
-            uiState.error != null -> {
-                snackbarHostState.showSnackbar(
-                    message = uiState.error!!
-                )
+                LoginViewModel.UiEvent.Success -> {
+                    showLoading = false
+                    onFinished()
+                }
+
+                LoginViewModel.UiEvent.Loading -> {
+                    showLoading = true
+                }
             }
         }
     }
-    if(uiState.isLoading) Box(Modifier.fillMaxSize()){
+    if(showLoading) Box(Modifier.fillMaxSize()){
         CircularProgressIndicator(
             modifier = Modifier.align(Alignment.Center)
         )

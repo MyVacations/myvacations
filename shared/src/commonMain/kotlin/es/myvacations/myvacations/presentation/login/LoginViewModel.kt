@@ -4,18 +4,24 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import es.myvacations.myvacations.domain.repository.FirebaseAuthRepository
 import es.myvacations.myvacations.presentation.mapper.toUserMessage
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
     val firebaseAuthServices: FirebaseAuthRepository
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(
-        LoginUiState()
-    )
-    val uiState = _uiState.asStateFlow()
+
+    private val _events = MutableSharedFlow<UiEvent>()
+    val events = _events.asSharedFlow()
+
+    sealed interface UiEvent {
+        data class ShowError(val message: String?) : UiEvent
+        data object Success : UiEvent
+        data object Loading : UiEvent
+    }
 
     init {
         firebaseAuthServices.signInWithAnonymously()
@@ -23,96 +29,44 @@ class LoginViewModel(
 
     fun googleClick() {
         viewModelScope.launch {
+            _events.emit(UiEvent.Loading)
             firebaseAuthServices.signInWithGoogle().onSuccess {
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        isSuccess = true,
-                        error = null
-                    )
-                }
+                _events.emit(UiEvent.Success)
             }.onFailure { exception ->
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        isSuccess = false,
-                        error = exception.message?.toUserMessage()
-                    )
-                }
+                _events.emit(UiEvent.ShowError(exception.message?.toUserMessage()))
             }
         }
     }
 
     fun registerWithEmail(email: String, password: String) {
         viewModelScope.launch {
+            _events.emit(UiEvent.Loading)
             firebaseAuthServices.signUpWithEmaiAndPassword(email, password).onSuccess {
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        isSuccess = true,
-                        error = null
-                    )
-                }
+                _events.emit(UiEvent.Success)
             }.onFailure { exception ->
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        isSuccess = false,
-                        error = exception.message?.toUserMessage()
-                    )
-                }
+                _events.emit(UiEvent.ShowError(exception.message?.toUserMessage()))
             }
         }
     }
 
     fun loginWithEmail(email: String, password: String) {
         viewModelScope.launch {
-            _uiState.update {
-                it.copy(
-                    isLoading = true,
-                    isSuccess = false,
-                    error = null
-                )
-            }
+            _events.emit(UiEvent.Loading)
             firebaseAuthServices.signInWithEmaiAndPassword(email, password).onSuccess {
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        isSuccess = true,
-                        error = null
-                    )
-                }
+                _events.emit(UiEvent.Success)
+            }.onFailure { exception ->
+                _events.emit(UiEvent.ShowError(exception.message?.toUserMessage()))
             }
-                .onFailure { exception ->
-                    _uiState.update {
-                        it.copy(
-                            isLoading = false,
-                            isSuccess = false,
-                            error = exception.message?.toUserMessage()
-                        )
-                    }
-                }
         }
     }
 
-    fun resetPassword(email: String)
-    {
+    fun resetPassword(email: String) {
         viewModelScope.launch {
+            _events.emit(UiEvent.Loading)
             firebaseAuthServices.resetPassword(email).onSuccess {
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        error = "Enviado".toUserMessage()
-                    )
-                }
+                _events.emit(UiEvent.ShowError("Enviado".toUserMessage()))
             }.onFailure { exception ->
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        isSuccess = false,
-                        error = exception.message?.toUserMessage()
-                    )
-                }
+                _events.emit(UiEvent.ShowError(exception.message?.toUserMessage()))
             }
         }
     }

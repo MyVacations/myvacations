@@ -15,6 +15,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -58,21 +59,27 @@ fun EmailScreen(
     onBack: () -> Unit,
     snackbarHostState: SnackbarHostState
 ) {
-    val uiState by viewmodel.uiState.collectAsState()
     var register by remember { mutableStateOf(false) }
 
     val navigationState = rememberNavigationEventState(
         currentInfo = NavigationEventInfo.None
     )
-    LaunchedEffect(uiState.isSuccess, uiState.error) {
+    LaunchedEffect(Unit) {
+        viewmodel.events.collect { event ->
 
-        when {
-            uiState.isSuccess -> onBack()
+            when (event) {
+                is LoginViewModel.UiEvent.ShowError -> {
+                    snackbarHostState.showSnackbar(
+                        message = event.message ?: ""
+                    )
+                }
 
-            uiState.error != null -> {
-                snackbarHostState.showSnackbar(
-                    message = uiState.error!!
-                )
+                LoginViewModel.UiEvent.Success -> {
+                    onBack()
+                }
+
+                LoginViewModel.UiEvent.Loading -> {
+                }
             }
         }
     }
