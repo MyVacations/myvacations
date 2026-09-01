@@ -8,9 +8,11 @@ import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.prepareGet
 import io.ktor.client.statement.bodyAsChannel
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpHeaders
 import io.ktor.http.contentLength
 import io.ktor.utils.io.ByteReadChannel
+import kotlinx.serialization.json.Json
 
 class ModelRemoteDataSourceImpl(
     private val client: HttpClient

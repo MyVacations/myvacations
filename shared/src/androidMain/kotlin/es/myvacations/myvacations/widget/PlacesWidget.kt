@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
 import android.widget.RemoteViews
 import androidx.annotation.Keep
 import androidx.compose.runtime.Composable
@@ -78,7 +79,7 @@ class PlacesWidget : GlanceAppWidget(),
                         WidgetEventResult.Error
                     }
                 } ?: WidgetEventResult.Error
-
+            Log.d("PlacesWidget", "provideGlance: $widgetEventResult")
             WidgetContent(
                 context,
                 widgetEventResult

@@ -9,6 +9,7 @@ import es.myvacations.myvacations.domain.usecase.chatbot.latestmodelrelease.Ensu
 import es.myvacations.myvacations.domain.usecase.chatbot.overpass.PlacesUseCase
 import es.myvacations.myvacations.presentation.chatbot.WidgetPlace
 import es.myvacations.myvacations.presentation.utils.distanceInMeters
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlin.coroutines.cancellation.CancellationException
@@ -53,10 +54,10 @@ class PlacesWidgetObserverUseCase(
 
                     return@withTimeoutOrNull true
                 }
-
+                val locationEvent =
+                    locationUseCase.getCurrentLocation()
                 when (
-                    val locationEvent =
-                        locationUseCase.getCurrentLocation()
+                    locationEvent
                 ) {
 
                     is LocationEventResult.PermissionDenied -> {
@@ -65,7 +66,7 @@ class PlacesWidgetObserverUseCase(
                     }
 
                     is LocationEventResult.Success -> {
-
+                        Napier.d(tag = "PlacesWidgetObserverUseCase", message = "refreshWidgetInternal: ${locationEvent.locationDomain}")
                         widgetUpdater.updateLocationPermission(true)
 
                         val widgetPlace =
@@ -96,6 +97,10 @@ class PlacesWidgetObserverUseCase(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
+                println("refreshWidgetInternal ERROR: ${e::class.simpleName}")
+                println("message: ${e.message}")
+                println("cause: ${e.cause}")
+                e.printStackTrace()
 
                 widgetUpdater.updateLocationError()
 
@@ -142,7 +147,7 @@ class PlacesWidgetObserverUseCase(
             )
         } else {
             widgetUpdater.outOfLimits()
-            lastMessage.bot?.elementsFound?.let { elementsFound ->
+            lastMessage.bot.elementsFound.let { elementsFound ->
                 WidgetPlace(
                     mainLocation = lastMessage.locationFor500m,
                     elementsFound = elementsFound

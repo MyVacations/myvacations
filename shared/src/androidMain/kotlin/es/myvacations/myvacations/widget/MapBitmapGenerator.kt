@@ -15,11 +15,13 @@ import es.myvacations.myvacations.shared.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import org.maplibre.android.MapLibre
+import org.maplibre.android.WellKnownTileServer
 import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
 import org.maplibre.android.maps.Style
 import org.maplibre.android.snapshotter.MapSnapshotter
-import org.maplibre.compose.android.MapLibre
+import org.maplibre.android.utils.ThreadUtils
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.math.PI
@@ -41,6 +43,13 @@ object MapBitmapGenerator {
         width: Int,
         height: Int
     ): File? = withContext(Dispatchers.Main.immediate) {
+
+
+        MapLibre.getInstance(
+            context,
+            null,
+            WellKnownTileServer.MapLibre
+        )
 
         context.cacheDir
             .listFiles { file ->

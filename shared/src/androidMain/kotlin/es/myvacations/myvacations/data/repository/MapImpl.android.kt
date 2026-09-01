@@ -116,7 +116,7 @@ actual class MapImpl actual constructor() : MapRepository {
             val cancellationTokenSource = CancellationTokenSource()
 
             client.getCurrentLocation(
-                Priority.PRIORITY_HIGH_ACCURACY,
+                Priority.PRIORITY_BALANCED_POWER_ACCURACY,
                 cancellationTokenSource.token
             )
                 .addOnSuccessListener { location ->
