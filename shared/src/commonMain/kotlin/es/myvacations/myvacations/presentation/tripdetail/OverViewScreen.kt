@@ -27,13 +27,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import es.myvacations.myvacations.core.extensions.shortCurrency
 import es.myvacations.myvacations.presentation.utils.SummaryRow
 import es.myvacations.myvacations.presentation.utils.toCurrencySymbol
 import myvacations.shared.generated.resources.Res
+import myvacations.shared.generated.resources.cost_summary
 import myvacations.shared.generated.resources.trip_detail_overview_aditionalexpenses
 import myvacations.shared.generated.resources.trip_detail_overview_day
 import myvacations.shared.generated.resources.trip_detail_overview_person
 import myvacations.shared.generated.resources.trip_detail_overview_total
+import myvacations.shared.generated.resources.trip_detail_overview_total_expenses
 import myvacations.shared.generated.resources.trip_detail_overview_total_low
 import myvacations.shared.generated.resources.trip_detail_overview_travelers
 import myvacations.shared.generated.resources.trip_detail_overview_tripcost
@@ -132,7 +135,7 @@ private fun CostSummaryCard(
         ) {
 
             Text(
-                text = "Cost Summary",
+                text = stringResource(Res.string.cost_summary),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -156,8 +159,8 @@ private fun CostSummaryCard(
             )
 
             SummaryRow(
-                title = stringResource(Res.string.trip_detail_overview_total_low),
-                value = uiState.tripUiState.mainCost.toString() + " " + uiState.currency.toCurrencySymbol(),
+                title = stringResource(Res.string.trip_detail_overview_total_expenses),
+                value = uiState.tripUiState.individualCost.shortCurrency() + " " + uiState.currency.toCurrencySymbol(),
                 highlight = true,
                 bold = true
             )

@@ -289,7 +289,7 @@
     <string name="actual_trip_addone">Write your own adventure 😉</string>
     <string name="upcoming_trips">Upcoming Trips</string>
     <string name="past_trips">Past Trips</string>
-    <string name="subtitle_dashboard">%1$s · %1$dd · %2$d pax</string>
+    <string name="subtitle_dashboard">%1$s · %1$d · %2$d pax</string>
     <string name="in_x_days">in %1$dd</string>
     <string name="x_days_ago">%1$dd ago</string>
     <string name="notification_title">Notifications</string>
@@ -427,9 +427,11 @@ Museums, tours, attractions and entertainment.
     <string name="trip_detail_overview_travelers">TRAVELERS</string>
     <string name="trip_detail_overview_person">person/s</string>
     <string name="trip_detail_overview_day">day/s</string>
+    <string name="cost_summary">Cost Summary</string>
     <string name="trip_detail_overview_tripcost">Trip cost</string>
     <string name="trip_detail_overview_aditionalexpenses">Additional expenses</string>
     <string name="trip_detail_overview_total_low">Total</string>
+    <string name="trip_detail_overview_total_expenses">Total + Expenses</string>
     <string name="trip_detail_overview_perperson">Per person</string>
     <string name="trip_detail_overview_perday">Per day</string>
     <string name="trip_detail_expenses_maincost">Flights and hotel</string>

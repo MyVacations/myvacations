@@ -427,11 +427,13 @@ Museos, excursiones, atracciones y actividades de ocio.
     <string name="trip_detail_overview_traveldays">DIAS VIAJANDO</string>
     <string name="trip_detail_overview_stayday">ESTANCIA</string>
     <string name="trip_detail_overview_travelers">VIAJEROS</string>
+    <string name="cost_summary">Descripción de Costes</string>
     <string name="trip_detail_overview_person">persona/s</string>
     <string name="trip_detail_overview_day">dia/s</string>
     <string name="trip_detail_overview_tripcost">Coste del viaje</string>
     <string name="trip_detail_overview_aditionalexpenses">Coste adicional</string>
     <string name="trip_detail_overview_total_low">Total</string>
+    <string name="trip_detail_overview_total_expenses">Total + Costes</string>
     <string name="trip_detail_overview_perperson">Por persona</string>
     <string name="trip_detail_overview_perday">Por dia</string>
     <string name="trip_detail_expenses_distribution">Distribución</string>
