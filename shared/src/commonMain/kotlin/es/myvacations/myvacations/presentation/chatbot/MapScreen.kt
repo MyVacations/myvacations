@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -71,7 +72,6 @@ import myvacations.shared.generated.resources.outoflimits
 import myvacations.shared.generated.resources.preciseubication
 import org.jetbrains.compose.resources.stringResource
 import org.maplibre.compose.camera.CameraPosition
-import org.maplibre.compose.camera.rememberCameraState
 import org.maplibre.compose.expressions.dsl.asString
 import org.maplibre.compose.expressions.dsl.case
 import org.maplibre.compose.expressions.dsl.const
@@ -79,24 +79,25 @@ import org.maplibre.compose.expressions.dsl.feature
 import org.maplibre.compose.expressions.dsl.image
 import org.maplibre.compose.expressions.dsl.switch
 import org.maplibre.compose.expressions.value.SymbolAnchor
+import org.maplibre.compose.interaction.ClickResult
+import org.maplibre.compose.interaction.MapInteractions
 import org.maplibre.compose.layers.FillLayer
 import org.maplibre.compose.layers.LineLayer
 import org.maplibre.compose.layers.SymbolLayer
-import org.maplibre.compose.map.GestureOptions
-import org.maplibre.compose.map.MapOptions
 import org.maplibre.compose.map.MaplibreMap
-import org.maplibre.compose.overlay.MapOverlay
+import org.maplibre.compose.map.rememberMapState
 import org.maplibre.compose.overlay.MaplibreLogo
 import org.maplibre.compose.sources.GeoJsonData
 import org.maplibre.compose.sources.rememberGeoJsonSource
 import org.maplibre.compose.style.BaseStyle
-import org.maplibre.compose.util.ClickResult
 import org.maplibre.spatialk.geojson.Feature.Companion.getStringProperty
 import org.maplibre.spatialk.geojson.Position
 
 data class RadiusGeometry(
     val contours: List<List<Pair<Double, Double>>>
 )
+
+private val STYLE = "https://tiles.openfreemap.org/styles/liberty"
 
 @Composable
 fun MapScreen(
@@ -147,9 +148,11 @@ fun MapScreen(
     val geoJson = remember(places) {
         placesToGeoJson(places)
     }
-
-    val cameraState = rememberCameraState(
-        firstPosition = CameraPosition(
+    val cameraState = rememberMapState(
+        baseStyle = BaseStyle.Uri(
+            STYLE
+        ),
+        initialCameraPosition = CameraPosition(
             target = Position(
                 latitude = location.latitude.roundTo4Decimals(),
                 longitude = location.longitude.roundTo4Decimals()
@@ -158,8 +161,17 @@ fun MapScreen(
         )
     )
 
-    val extendedCameraState = rememberCameraState(
-        firstPosition = CameraPosition(
+    LaunchedEffect(cameraState) {
+        cameraState.awaitViewport()
+
+        loadMapUpdate()
+    }
+
+    val extendedCameraState = rememberMapState(
+        baseStyle = BaseStyle.Uri(
+            STYLE
+        ),
+        initialCameraPosition = CameraPosition(
             target = Position(
                 latitude = location.latitude.roundTo4Decimals(),
                 longitude = location.longitude.roundTo4Decimals()
@@ -177,38 +189,38 @@ fun MapScreen(
                 latitude = location.latitude.roundTo4Decimals(),
                 longitude = location.longitude.roundTo4Decimals()
             ),
-            zoom = cameraState.position.zoom
+            zoom = cameraState.cameraPosition.zoom
         )
 
-        cameraState.position = newPosition
-        extendedCameraState.position = newPosition
+        cameraState.setCameraPosition(newPosition)
+        extendedCameraState.setCameraPosition(newPosition)
     }
 
     LaunchedEffect(openExtendedMap) {
 
         if (openExtendedMap) {
 
-            extendedCameraState.position = cameraState.position
+            extendedCameraState.setCameraPosition(cameraState.cameraPosition)
 
             snapshotFlow {
-                extendedCameraState.position
+                extendedCameraState.cameraPosition
             }.collect { position ->
 
-                if (cameraState.position != position) {
-                    cameraState.position = position
+                if (cameraState.cameraPosition != position) {
+                    cameraState.setCameraPosition(position)
                 }
             }
 
         } else {
 
-            cameraState.position = extendedCameraState.position
+            cameraState.setCameraPosition(extendedCameraState.cameraPosition)
 
             snapshotFlow {
-                cameraState.position
+                cameraState.cameraPosition
             }.collect { position ->
 
-                if (extendedCameraState.position != position) {
-                    extendedCameraState.position = position
+                if (extendedCameraState.cameraPosition != position) {
+                    extendedCameraState.setCameraPosition(position)
                 }
             }
         }
@@ -223,27 +235,27 @@ fun MapScreen(
                 key(mapKey) {
                     MaplibreMap(
                         modifier = Modifier.fillMaxSize(),
-                        baseStyle = BaseStyle.Uri(
-                            "https://tiles.openfreemap.org/styles/liberty"
-                        ),
-                        options = MapOptions(
-                            gestureOptions = GestureOptions.RotationLocked
-                        ),
-                        overlay = MapOverlay {
+                        interactions = MapInteractions {
+                            camera {
+                                rotate { enabled = false }
+                            }
+                        },
+                        state = extendedCameraState
+                    )
+                    {
+                        Box(Modifier.fillMaxSize().safeDrawingPadding().padding(8.dp)) {
                             MaplibreLogo(
                                 Modifier.align(Alignment.BottomStart)
                             )
-                        },
-                        cameraState = extendedCameraState
-                    )
-                    {
-                        LoadInsideMap(
-                            uiState, geoJson, location,
-                            itemSelected = { idSelected ->
-                                places.find { it.id == idSelected }?.let { itemSelected(it) }
-                            },
-                            places = places,
-                        )
+
+                            LoadInsideMap(
+                                uiState, geoJson, location,
+                                itemSelected = { idSelected ->
+                                    places.find { it.id == idSelected }?.let { itemSelected(it) }
+                                },
+                                places = places,
+                            )
+                        }
                     }
                 }
                 IconButton(
@@ -305,36 +317,27 @@ fun MapScreen(
                 .fillMaxWidth()
                 .height(250.dp)
         ) {
+
+
             MaplibreMap(
                 modifier = Modifier.fillMaxSize(),
-                baseStyle = BaseStyle.Uri(
-                    "https://tiles.openfreemap.org/styles/liberty"
-                ),
-                options = MapOptions(
-                    gestureOptions = GestureOptions.AllDisabled,
-                    //ornamentOptions = OrnamentOptions.OnlyLogo
-                ),
-                overlay = MapOverlay {
+                interactions = MapInteractions.None,
+                state = cameraState
+            )
+            {
+                Box(Modifier.fillMaxSize().safeDrawingPadding().padding(8.dp)) {
                     MaplibreLogo(
                         Modifier.align(Alignment.BottomStart)
                     )
-                },
-                cameraState = cameraState,
-                onMapLoadFinished = {
-                    loadMapUpdate()
-                },
-                onMapLoadFailed = {
-                    loadMapUpdate()
+
+                    LoadInsideMap(
+                        uiState, geoJson, location,
+                        itemSelected = { idSelected ->
+                            places.find { it.id == idSelected }?.let { itemSelected(it) }
+                        },
+                        places = places,
+                    )
                 }
-            )
-            {
-                LoadInsideMap(
-                    uiState, geoJson, location,
-                    itemSelected = { idSelected ->
-                        places.find { it.id == idSelected }?.let { itemSelected(it) }
-                    },
-                    places = places,
-                )
             }
 
             Column(
@@ -350,10 +353,10 @@ fun MapScreen(
                         ).size(32.dp),
                     onClick = {
                         scope.launch {
-                            cameraState.animateTo(
+                            cameraState.animateCameraPosition(
                                 CameraPosition(
-                                    target = cameraState.position.target,
-                                    zoom = cameraState.position.zoom + 1
+                                    target = cameraState.cameraPosition.target,
+                                    zoom = cameraState.cameraPosition.zoom + 1
                                 )
                             )
                         }
@@ -373,10 +376,10 @@ fun MapScreen(
                         ).size(32.dp),
                     onClick = {
                         scope.launch {
-                            cameraState.animateTo(
+                            cameraState.animateCameraPosition(
                                 CameraPosition(
-                                    target = cameraState.position.target,
-                                    zoom = cameraState.position.zoom - 1
+                                    target = cameraState.cameraPosition.target,
+                                    zoom = cameraState.cameraPosition.zoom - 1
                                 )
                             )
                         }
@@ -401,14 +404,14 @@ fun MapScreen(
                             shape = RoundedCornerShape(8.dp)
                         ).size(32.dp), onClick = {
                         scope.launch {
-                            val position = cameraState.position
-                            cameraState.animateTo(
+                            val position = cameraState.cameraPosition
+                            cameraState.animateCameraPosition(
                                 CameraPosition(
                                     target = Position(
                                         latitude = position.target.latitude + 0.004,
                                         longitude = position.target.longitude
                                     ),
-                                    zoom = cameraState.position.zoom
+                                    zoom = cameraState.cameraPosition.zoom
                                 )
                             )
                         }
@@ -433,14 +436,14 @@ fun MapScreen(
                                 shape = RoundedCornerShape(8.dp)
                             ).size(32.dp), onClick = {
                             scope.launch {
-                                val position = cameraState.position
-                                cameraState.animateTo(
+                                val position = cameraState.cameraPosition
+                                cameraState.animateCameraPosition(
                                     CameraPosition(
                                         target = Position(
                                             latitude = position.target.latitude,
                                             longitude = position.target.longitude - 0.004
                                         ),
-                                        zoom = cameraState.position.zoom
+                                        zoom = cameraState.cameraPosition.zoom
                                     )
                                 )
                             }
@@ -459,14 +462,14 @@ fun MapScreen(
                                 shape = RoundedCornerShape(8.dp)
                             ).size(32.dp), onClick = {
                             scope.launch {
-                                val position = cameraState.position
-                                cameraState.animateTo(
+                                val position = cameraState.cameraPosition
+                                cameraState.animateCameraPosition(
                                     CameraPosition(
                                         target = Position(
                                             latitude = position.target.latitude,
                                             longitude = position.target.longitude + 0.004
                                         ),
-                                        zoom = cameraState.position.zoom
+                                        zoom = cameraState.cameraPosition.zoom
                                     )
                                 )
                             }
@@ -486,14 +489,14 @@ fun MapScreen(
                             shape = RoundedCornerShape(8.dp)
                         ).size(32.dp), onClick = {
                         scope.launch {
-                            val position = cameraState.position
-                            cameraState.animateTo(
+                            val position = cameraState.cameraPosition
+                            cameraState.animateCameraPosition(
                                 CameraPosition(
                                     target = Position(
                                         latitude = position.target.latitude - 0.004,
                                         longitude = position.target.longitude
                                     ),
-                                    zoom = cameraState.position.zoom
+                                    zoom = cameraState.cameraPosition.zoom
                                 )
                             )
                         }
@@ -598,6 +601,7 @@ fun MapScreen(
         }
     }
 }
+
 
 private fun closeContours(
     contours: List<List<Pair<Double, Double>>>

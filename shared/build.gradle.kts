@@ -59,7 +59,7 @@ kotlin {
             implementation(libs.androidx.credentials.play.services.auth)
             implementation(libs.googleid)
             runtimeOnly(
-                "org.maplibre.compose:maplibre-compose-runtime-vulkan-android:0.15.0"
+                "org.maplibre.compose:maplibre-compose-runtime-vulkan-android:0.17.0"
             )
         }
         iosMain.dependencies {
