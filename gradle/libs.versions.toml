@@ -1,5 +1,5 @@
 [versions]
-agp = "9.3.2"
+agp = "9.4.0"
 androidSdk = "13.6.0"
 coilCompose = "3.6.0"
 coreSplashscreen = "1.2.0"

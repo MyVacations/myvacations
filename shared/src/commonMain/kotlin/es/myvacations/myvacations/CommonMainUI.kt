@@ -21,7 +21,6 @@ import es.myvacations.myvacations.core.firebase.AnalyticsReporter
 import es.myvacations.myvacations.core.navigation.NavigationRoot
 import es.myvacations.myvacations.domain.manager.DatabaseInitializer
 import es.myvacations.myvacations.domain.manager.NotificationObserverManager
-import es.myvacations.myvacations.domain.manager.TripsWidgetObserverManager
 import es.myvacations.myvacations.presentation.utils.WidgetUtils
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
@@ -43,7 +42,6 @@ fun App(
     }
     val initializer: DatabaseInitializer = koinInject()
     val manager: NotificationObserverManager = koinInject()
-    val tripsWidgetObserverManager: TripsWidgetObserverManager = koinInject()
     val analytics: AnalyticsReporter = koinInject()
     LaunchedEffect(Unit)
     {
@@ -51,11 +49,6 @@ fun App(
             initializer.initialize()
             launch {
                 manager.start()
-            }
-            if (WidgetUtils.hasActiveTripsWidget()) {
-                launch {
-                    tripsWidgetObserverManager.start()
-                }
             }
             InitializationState.READY
         } catch (e: Exception) {

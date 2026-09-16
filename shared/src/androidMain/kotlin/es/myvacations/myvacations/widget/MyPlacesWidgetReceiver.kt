@@ -3,6 +3,7 @@ package es.myvacations.myvacations.widget
 import android.content.Context
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import es.myvacations.myvacations.data.repository.KindOfWidget
 import es.myvacations.myvacations.data.repository.WidgetMidnightScheduler
 import es.myvacations.myvacations.data.repository.WidgetPlacesScheduler
 import es.myvacations.myvacations.presentation.utils.WidgetUtils.hasActivePlacesWidget
@@ -16,8 +17,7 @@ class MyPlacesWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
 
     override fun onEnabled(context: Context) {
         super.onEnabled(context)
-
-        WidgetMidnightScheduler.schedule(context)
+        WidgetMidnightScheduler.schedule(context, KindOfWidget.PLACES)
         WidgetPlacesScheduler.refreshNow(context)
     }
 

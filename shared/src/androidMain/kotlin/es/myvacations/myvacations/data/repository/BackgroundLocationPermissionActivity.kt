@@ -24,7 +24,6 @@ class BackgroundLocationPermissionActivity : ComponentActivity() {
         if (!openedSettings) return
 
         if (hasBackgroundLocationPermission()) {
-            Log.d("pruebas", "BackgroundLocationPermissionActivity")
             WidgetPlacesScheduler.refreshNow(this)
             finish()
         }

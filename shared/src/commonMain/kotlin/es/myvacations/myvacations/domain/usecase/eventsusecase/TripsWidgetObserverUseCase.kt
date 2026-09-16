@@ -31,16 +31,21 @@ class TripsWidgetObserverUseCase(
         }
     }
 
-    suspend fun updateTrips() {
-        val trips = getActiveTripUseCase().first()
-        val settings = getSettingsUseCase().first()
+    suspend fun updateTrips(): Boolean {
+        try {
+            val trips = getActiveTripUseCase().first()
+            val settings = getSettingsUseCase().first()
 
-        val tripsUi = trips.map { trip ->
-            trip.toUiState().copy(
-                currency = settings?.preferredCurrency ?: Currency.EURO
-            )
+            val tripsUi = trips.map { trip ->
+                trip.toUiState().copy(
+                    currency = settings?.preferredCurrency ?: Currency.EURO
+                )
+            }
+
+            widgetUpdater.updateTripWidget(tripsUi)
+            return true
+        } catch (e: Exception) {
+            return false
         }
-
-        widgetUpdater.updateTripWidget(tripsUi)
     }
 }

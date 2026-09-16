@@ -267,7 +267,6 @@ actual class AppWidgetUpdaterRepositoryImpl :
                 val json = Json.encodeToString<WidgetEventResult>(
                     WidgetEventResult.EmptyModel
                 )
-                Napier.d(tag = "pruebas", message = json)
                 preferences[WidgetEventPreferencesKey] = json
             }
             PlacesWidget().update(

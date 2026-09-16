@@ -26,7 +26,6 @@ class MyPlacesWidgetConfigurationActivity : ComponentActivity() {
         }
 
         lifecycleScope.launch {
-
             val appWidgetManager =
                 AppWidgetManager.getInstance(
                     this@MyPlacesWidgetConfigurationActivity

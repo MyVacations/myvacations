@@ -9,7 +9,6 @@ import es.myvacations.myvacations.domain.usecase.chatbot.latestmodelrelease.Ensu
 import es.myvacations.myvacations.domain.usecase.chatbot.overpass.PlacesUseCase
 import es.myvacations.myvacations.presentation.chatbot.WidgetPlace
 import es.myvacations.myvacations.presentation.utils.distanceInMeters
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlin.coroutines.cancellation.CancellationException
@@ -21,7 +20,8 @@ class PlacesWidgetObserverUseCase(
     private val locationUseCase: MapAndLocationUseCase,
     private val ensureModelInstalledUseCase: EnsureModelInstalledUseCase,
 ) {
-    suspend fun refreshWidget(): Boolean  {
+
+    suspend fun refreshWidget(): Boolean {
         widgetUpdater.updateLocationLoading()
 
         if (refreshWidgetInternal()) {
@@ -66,7 +66,6 @@ class PlacesWidgetObserverUseCase(
                     }
 
                     is LocationEventResult.Success -> {
-                        Napier.d(tag = "PlacesWidgetObserverUseCase", message = "refreshWidgetInternal: ${locationEvent.locationDomain}")
                         widgetUpdater.updateLocationPermission(true)
 
                         val widgetPlace =
@@ -79,10 +78,6 @@ class PlacesWidgetObserverUseCase(
                             widgetUpdater.updatePlacesWidget(
                                 widgetPlace
                             )
-
-                        } else {
-
-                            widgetUpdater.noMessagesLoad()
                         }
                     }
 
@@ -97,13 +92,7 @@ class PlacesWidgetObserverUseCase(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                println("refreshWidgetInternal ERROR: ${e::class.simpleName}")
-                println("message: ${e.message}")
-                println("cause: ${e.cause}")
-                e.printStackTrace()
-
                 widgetUpdater.updateLocationError()
-
                 false
             }
         }
@@ -131,14 +120,14 @@ class PlacesWidgetObserverUseCase(
             messages.maxByOrNull { it.time } ?: return null
 
         val hasNearbyPlace =
-            lastMessage.bot?.elementsFound?.any { place ->
+            lastMessage.bot.elementsFound.any { place ->
                 distanceInMeters(
                     userLatitude = currentLocation.latitude,
                     userLongitude = currentLocation.longitude,
                     latitude = place.latitude,
                     longitude = place.longitude
                 ) <= 500
-            } == true
+            }
 
         return if (hasNearbyPlace) {
             WidgetPlace(
@@ -146,13 +135,10 @@ class PlacesWidgetObserverUseCase(
                 elementsFound = lastMessage.bot.elementsFound
             )
         } else {
+
             widgetUpdater.outOfLimits()
-            lastMessage.bot.elementsFound.let { elementsFound ->
-                WidgetPlace(
-                    mainLocation = lastMessage.locationFor500m,
-                    elementsFound = elementsFound
-                )
-            }
+
+            null
         }
     }
 }

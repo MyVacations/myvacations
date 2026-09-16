@@ -13,6 +13,7 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import es.myvacations.myvacations.data.repository.AdsRepositoryImpl
 import es.myvacations.myvacations.presentation.utils.WidgetUtils.refreshPlacesWidget
+import es.myvacations.myvacations.presentation.utils.WidgetUtils.refreshObserveTripsWidget
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
@@ -58,7 +59,6 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-
         setContent {
             App(tripId.value, widgetAction.value)
         }
@@ -69,6 +69,7 @@ class MainActivity : ComponentActivity() {
 
         lifecycleScope.launch {
             refreshPlacesWidget()
+            refreshObserveTripsWidget()
         }
     }
 
