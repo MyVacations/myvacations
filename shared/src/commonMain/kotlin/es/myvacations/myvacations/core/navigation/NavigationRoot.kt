@@ -104,7 +104,9 @@ fun NavigationRoot(
                     FloatingActionButton(
                         containerColor = Color(0xFF00A884),
                         onClick = {
-                            navigate(ScreenDestination.AddEdit())
+                            navigate(
+                                destination = ScreenDestination.AddEdit(startCreatingTrip = true)
+                            )
                         }
                     ) {
                         Icon(
@@ -209,8 +211,9 @@ fun NavigationRoot(
                         val tripid = (currentScreen as ScreenDestination.AddEdit).tripId
                         val selectedExpenseFromWidget =
                             remember { mutableStateOf((currentScreen as ScreenDestination.AddEdit).selectedExpenseFromWidget) }
+                        val createNewTrip = (currentScreen as ScreenDestination.AddEdit).startCreatingTrip
 
-                        AddEditTripScreen(tripid, selectedExpenseFromWidget.value, onDismiss = {
+                        AddEditTripScreen(tripid, selectedExpenseFromWidget.value,createNewTrip, onDismiss = {
                             popBackStack()
                         }, updateSelectedExpenseFromWidget = {
                             selectedExpenseFromWidget.value = it

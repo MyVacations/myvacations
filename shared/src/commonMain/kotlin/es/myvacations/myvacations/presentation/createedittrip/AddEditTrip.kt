@@ -79,6 +79,7 @@ import es.myvacations.myvacations.presentation.utils.TripExpenseUiState
 import es.myvacations.myvacations.presentation.utils.painter
 import es.myvacations.myvacations.presentation.utils.toCurrencySymbol
 import es.myvacations.myvacations.presentation.utils.toImageVector
+import io.github.aakira.napier.Napier
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.number
 import myvacations.shared.generated.resources.Res
@@ -126,6 +127,7 @@ const val maxTextLength = 30
 fun AddEditTripScreen(
     tripId: String,
     selectedExpenseFromWidget: Boolean = false,
+    createNewTrip: Boolean = false,
     onDismiss: () -> Unit,
     viewModel: CreateEditTripsViewModel = koinViewModel(),
     updateSelectedExpenseFromWidget: (Boolean) -> Unit
@@ -139,8 +141,12 @@ fun AddEditTripScreen(
     LaunchedEffect(tripId) {
         if (tripId.isEmpty()) return@LaunchedEffect
         viewModel.setLoading(true)
-        viewModel.updateEditMode(tripId)
+        viewModel.startEditingTrip(tripId)
         viewModel.getTripById(tripId)
+    }
+
+    LaunchedEffect(createNewTrip) {
+        if(createNewTrip) viewModel.startCreatingTrip()
     }
 
     if (uiState.isLoading) {

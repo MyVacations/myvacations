@@ -160,6 +160,15 @@ fun MapScreen(
             zoom = 14.0
         )
     )
+    {
+        LoadInsideMap(
+            uiState, geoJson, location,
+            itemSelected = { idSelected ->
+                places.find { it.id == idSelected }?.let { itemSelected(it) }
+            },
+            places = places
+        )
+    }
 
     LaunchedEffect(cameraState) {
         cameraState.awaitViewport()
@@ -179,6 +188,15 @@ fun MapScreen(
             zoom = 14.0
         )
     )
+    {
+        LoadInsideMap(
+            uiState, geoJson, location,
+            itemSelected = { idSelected ->
+                places.find { it.id == idSelected }?.let { itemSelected(it) }
+            },
+            places = places
+        )
+    }
 
     LaunchedEffect(
         location.latitude,
@@ -247,14 +265,6 @@ fun MapScreen(
                             MaplibreLogo(
                                 Modifier.align(Alignment.BottomStart)
                             )
-
-                            LoadInsideMap(
-                                uiState, geoJson, location,
-                                itemSelected = { idSelected ->
-                                    places.find { it.id == idSelected }?.let { itemSelected(it) }
-                                },
-                                places = places,
-                            )
                         }
                     }
                 }
@@ -317,8 +327,6 @@ fun MapScreen(
                 .fillMaxWidth()
                 .height(250.dp)
         ) {
-
-
             MaplibreMap(
                 modifier = Modifier.fillMaxSize(),
                 interactions = MapInteractions.None,
@@ -328,14 +336,6 @@ fun MapScreen(
                 Box(Modifier.fillMaxSize().safeDrawingPadding().padding(8.dp)) {
                     MaplibreLogo(
                         Modifier.align(Alignment.BottomStart)
-                    )
-
-                    LoadInsideMap(
-                        uiState, geoJson, location,
-                        itemSelected = { idSelected ->
-                            places.find { it.id == idSelected }?.let { itemSelected(it) }
-                        },
-                        places = places,
                     )
                 }
             }

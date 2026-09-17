@@ -16,7 +16,7 @@ fun ScreenDestination.toSavedValue(): String =
         ScreenDestination.ShowPrivacyPolitic -> "showPrivacyPolitic"
         ScreenDestination.ShowHelpAndSupport -> "showHelpAndSupport"
         ScreenDestination.ShowNotifications -> "showNotifications"
-        is ScreenDestination.AddEdit ->  "addEditTrip:${tripId}:${selectedExpenseFromWidget}"
+        is ScreenDestination.AddEdit ->  "addEditTrip:${tripId}:${selectedExpenseFromWidget}:${startCreatingTrip}"
         is ScreenDestination.TripDetail -> "tripDetail:$tripId"
     }
 
@@ -42,6 +42,10 @@ fun String.toScreenDestination(): ScreenDestination =
                 tripId = parts.getOrNull(1).orEmpty(),
                 selectedExpenseFromWidget = parts
                     .getOrNull(2)
+                    ?.toBooleanStrictOrNull()
+                    ?: false,
+                startCreatingTrip = parts
+                    .getOrNull(3)
                     ?.toBooleanStrictOrNull()
                     ?: false
             )

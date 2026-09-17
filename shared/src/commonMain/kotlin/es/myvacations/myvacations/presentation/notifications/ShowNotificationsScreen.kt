@@ -79,7 +79,6 @@ fun ShowNotificationsScreen(
 
     SystemBackHandler()
     {
-        showNotificationsViewModel.cleanUi()
         onDismiss()
     }
 

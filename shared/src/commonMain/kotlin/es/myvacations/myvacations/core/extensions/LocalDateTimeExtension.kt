@@ -4,6 +4,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format.char
+import kotlinx.datetime.number
 import kotlinx.datetime.toInstant
 import kotlin.time.Clock
 
@@ -34,7 +35,7 @@ fun LocalDateTime.toRelativeTime(
         days == 1L -> yesterday
         days < 7 -> daysAgo(days)
         else -> "${day.toString().padStart(2, '0')}/" +
-                "${month.toString().padStart(2, '0')}/" +
+                "${month.number.toString().padStart(2, '0')}/" +
                 year
     }
 }

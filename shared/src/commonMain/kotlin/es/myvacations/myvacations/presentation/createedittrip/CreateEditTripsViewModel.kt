@@ -2,6 +2,7 @@ package es.myvacations.myvacations.presentation.createedittrip
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kizitonwose.calendar.core.now
 import es.myvacations.myvacations.core.extensions.toSafeDouble
 import es.myvacations.myvacations.domain.model.Country
 import es.myvacations.myvacations.domain.model.TripCover
@@ -11,7 +12,6 @@ import es.myvacations.myvacations.domain.usecase.settingsusecase.GetSettingsUseC
 import es.myvacations.myvacations.domain.usecase.tripusecase.GetTripByIdUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.SaveTripUseCase
 import es.myvacations.myvacations.domain.usecase.tripusecase.UpdateTripUseCase
-import es.myvacations.myvacations.presentation.chatbot.ChatUiState
 import es.myvacations.myvacations.presentation.mapper.toDomainModel
 import es.myvacations.myvacations.presentation.mapper.toUiState
 import es.myvacations.myvacations.presentation.utils.Currency
@@ -19,6 +19,7 @@ import es.myvacations.myvacations.presentation.utils.TravelIcon
 import es.myvacations.myvacations.presentation.utils.TripExpenseUiState
 import es.myvacations.myvacations.presentation.utils.calendar.CalendarStatus
 import es.myvacations.myvacations.presentation.utils.calendar.CalendarUiState
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -53,6 +54,16 @@ class CreateEditTripsViewModel(
                     )
                 }
             }
+        }
+    }
+
+    fun startCreatingTrip() {
+        _uiState.value = createInitialState()
+    }
+
+    fun startEditingTrip(tripId: String) {
+        _uiState.update {
+            it.copy(editMode = tripId.isNotEmpty())
         }
     }
 
@@ -107,11 +118,6 @@ class CreateEditTripsViewModel(
         }
     }
 
-    fun updateEditMode(tripId: String) {
-        _uiState.update {
-            it.copy(editMode = tripId.isNotEmpty())
-        }
-    }
 
     fun updateTripTitle(title: String) {
         _uiState.update {
@@ -235,9 +241,7 @@ class CreateEditTripsViewModel(
     }
 
     fun clearUi() {
-        _uiState.update {
-            TripUiState()
-        }
+        _uiState.value = createInitialState()
     }
 
     fun saveTrip() {
@@ -249,6 +253,24 @@ class CreateEditTripsViewModel(
                 uiState.value.toDomainModel().copy(id = Uuid.random().toHexString())
             )
             clearUi()
+            Napier.d(tag = "limpio", message = uiState.value.toString())
         }
     }
+
+    private fun createInitialState(): TripUiState {
+        return TripUiState(
+            errorInScreen = false,
+            id = "",
+            titleTrip = "",
+            placeTrip = Country.SPAIN,
+            startDate = LocalDate.now(),
+            endDate = LocalDate.now(),
+            travelers = 1,
+            mainCost = 0.0,
+            mainBudget = 0.0,
+            optionalExpenses = emptyList(),
+            editMode = false
+        )
+    }
+
 }

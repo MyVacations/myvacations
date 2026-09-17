@@ -4,8 +4,10 @@ import androidx.compose.runtime.Composable
 import es.myvacations.myvacations.core.extensions.roundTo2Decimals
 import es.myvacations.myvacations.domain.events.AppNotificationDomain
 import es.myvacations.myvacations.domain.mapper.calculateStatus
+import es.myvacations.myvacations.domain.model.Country
 import es.myvacations.myvacations.domain.model.SettingsDomain
 import es.myvacations.myvacations.domain.model.TravelersDomain
+import es.myvacations.myvacations.domain.model.TripCover
 import es.myvacations.myvacations.domain.model.TripDomain
 import es.myvacations.myvacations.domain.model.TripExpensesDomain
 import es.myvacations.myvacations.domain.model.TripStatus
@@ -15,7 +17,10 @@ import es.myvacations.myvacations.presentation.dashboard.DashboardStats
 import es.myvacations.myvacations.presentation.events.AppNotificationUiState
 import es.myvacations.myvacations.presentation.settings.SettingsUiState
 import es.myvacations.myvacations.presentation.tripdetail.TravelerUiState
+import es.myvacations.myvacations.presentation.utils.Currency
 import es.myvacations.myvacations.presentation.utils.TripExpenseUiState
+import es.myvacations.myvacations.presentation.utils.calendar.CalendarUiState
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.number
 import myvacations.shared.generated.resources.Res
@@ -45,6 +50,7 @@ import myvacations.shared.generated.resources.error_generic_loging
 import myvacations.shared.generated.resources.error_nologing
 import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
+import kotlin.String
 
 fun TripUiState.toDomainModel() = TripDomain(
     id = id,

@@ -64,7 +64,7 @@ sealed interface ScreenDestination {
         override val showFloatingButton = false
     }
 
-    data class AddEdit(val tripId: String = "",val selectedExpenseFromWidget: Boolean = false) : ScreenDestination {
+    data class AddEdit(val tripId: String = "",val selectedExpenseFromWidget: Boolean = false, val startCreatingTrip: Boolean = false) : ScreenDestination {
         override val showBottomBarUi: Boolean = false
         override val showFloatingButton = false
     }
