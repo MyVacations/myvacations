@@ -21,6 +21,9 @@ dependencies {
     implementation(libs.firebase.appcheck)
     implementation(libs.firebase.appcheck.playintegrity)
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.functions)
+    implementation(libs.app.update)
+    implementation(libs.app.update.ktx)
     implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.firebase.ads)
     implementation(libs.koin.core)
@@ -44,7 +47,7 @@ android {
         applicationId = "es.myvacations.myvacations"
         minSdk = libs.versions.android.minSdk.get().toInt()
         versionCode = (LocalDate.now()
-            .format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "1")
+            .format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "0")
             .toInt()
         versionName = "1.0.2"
         multiDexEnabled = true

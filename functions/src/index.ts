@@ -769,6 +769,41 @@ export const testBackend = onCall(
   }
 );
 
+export const getMinimumVersion = onCall(
+  {
+    enforceAppCheck: true,
+  },
+  async () => {
+    const globalRef = db
+      .collection("usageGlobal")
+      .doc("params");
+
+    const snapshot = await globalRef.get();
+
+    if (!snapshot.exists) {
+      throw new HttpsError(
+        "not-found",
+        "Minimum version configuration not found"
+      );
+    }
+
+    const data = snapshot.data();
+
+    const minimumVersion = data?.minimumVersion;
+
+    if (typeof minimumVersion !== "string") {
+      throw new HttpsError(
+        "failed-precondition",
+        "Invalid minimum version configuration"
+      );
+    }
+
+    return {
+      minimumVersion,
+    };
+  }
+);
+
 export const cleanupInactiveUsersV2 = onSchedule(
   {
     schedule: "0 3 * * *",
